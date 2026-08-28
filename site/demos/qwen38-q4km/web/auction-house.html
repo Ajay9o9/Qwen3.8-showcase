@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUCTION / HOUSE — Lot 047 · Spring Evening Sale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bone:#F3EDE1;
+  --bone-2:#EAE2D2;
+  --ink:#1C1712;
+  --ink-2:#2A221A;
+  --ox:#A0331F;
+  --ox-deep:#7E2415;
+  --ochre:#C99A3E;
+  --olive:#7C7A58;
+  --line:rgba(28,23,18,.22);
+  --line-strong:rgba(28,23,18,.55);
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Archivo',Helvetica,Arial,sans-serif;
+  --mono:'Space Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bone);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+body::after{ /* paper grain */
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.5;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.44 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap{max-width:1360px;margin:0 auto;padding:0 44px}
+a{color:inherit}
+button{font-family:inherit;cursor:pointer}
+
+/* ============ TOP TICKER ============ */
+.ticker{background:var(--ink);color:var(--bone);overflow:hidden;border-bottom:1px solid rgba(243,237,225,.15)}
+.ticker-track{display:flex;gap:0;white-space:nowrap;animation:tick 38s linear infinite;will-change:transform}
+.ticker-track span{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  padding:9px 0;display:inline-flex;align-items:center;
+}
+.ticker-track span::after{content:"◆";margin:0 28px;color:var(--ox);font-size:8px}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ============ HEADER ============ */
+header{
+  position:sticky;top:0;z-index:50;background:rgba(243,237,225,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.hdr{display:flex;align-items:center;justify-content:space-between;height:72px;gap:32px}
+.mark{display:flex;align-items:baseline;gap:2px;text-decoration:none;line-height:1}
+.mark b{font-family:var(--serif);font-weight:600;font-size:23px;letter-spacing:.02em}
+.mark i{font-style:normal;font-family:var(--mono);color:var(--ox);font-size:22px;padding:0 1px}
+.mark small{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.34em;text-transform:uppercase;margin-top:4px;color:var(--ink-2);opacity:.75}
+nav.main{display:flex;gap:34px}
+nav.main a{
+  text-decoration:none;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  padding:6px 0;position:relative;color:var(--ink-2)
+}
+nav.main a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--ox);transition:width .25s ease}
+nav.main a:hover::after{width:100%}
+.hdr-right{display:flex;align-items:center;gap:14px;position:relative}
+.paddle-chip{font-family:var(--mono);font-size:11px;letter-spacing:.08em;border:1px solid var(--line);padding:7px 12px;border-radius:2px;background:var(--bone-2)}
+.btn{
+  border:1.5px solid var(--ink);background:var(--ink);color:var(--bone);
+  font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  padding:11px 20px;border-radius:2px;transition:background .2s,color .2s,transform .1s
+}
+.btn:hover{background:var(--ox);border-color:var(--ox)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--bone)}
+.btn.primary{background:var(--ox);border-color:var(--ox);flex:1}
+.btn.primary:hover{background:var(--ox-deep)}
+
+/* bidder popover */
+.popover{
+  position:absolute;top:calc(100% + 14px);right:0;width:330px;background:var(--ink);color:var(--bone);
+  border:1px solid rgba(243,237,225,.18);padding:26px;border-radius:3px;
+  box-shadow:0 24px 60px rgba(28,23,18,.35);
+  opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .22s,transform .22s
+}
+.popover.open{opacity:1;transform:translateY(0);pointer-events:auto}
+.popover h4{font-family:var(--serif);font-size:21px;font-weight:500;margin-bottom:6px}
+.popover p{font-size:12.5px;color:rgba(243,237,225,.65);margin-bottom:16px}
+.popover label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ochre);margin:12px 0 5px}
+.popover input{
+  width:100%;background:rgba(243,237,225,.06);border:1px solid rgba(243,237,225,.25);color:var(--bone);
+  font-family:var(--mono);font-size:13px;padding:10px 12px;border-radius:2px;outline:none
+}
+.popover input:focus{border-color:var(--ochre)}
+.popover .pop-msg{font-family:var(--mono);font-size:11px;color:var(--ochre);margin-top:12px;min-height:15px}
+.popover .btn{width:100%;margin-top:18px;background:var(--ox);border-color:var(--ox);color:#fff}
+.popover .btn:hover{background:var(--ox-deep)}
+.pop-div{display:flex;align-items:center;gap:10px;margin:18px 0 4px;font-family:var(--mono);font-size:9px;letter-spacing:.25em;color:rgba(243,237,225,.4)}
+.pop-div::before,.pop-div::after{content:"";flex:1;height:1px;background:rgba(243,237,225,.2)}
+
+/* ============ HERO ============ */
+.hero{padding:52px 0 64px}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:72px;align-items:center}
+.eyebrow{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;margin-bottom:26px;flex-wrap:wrap}
+.live{display:inline-flex;align-items:center;gap:8px;color:var(--ox);font-weight:700}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ox);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(160,51,31,.5)}50%{box-shadow:0 0 0 7px rgba(160,51,31,0)}}
+.eyebrow .sep{width:34px;height:1px;background:var(--line-strong)}
+.hero h1{
+  font-family:var(--serif);font-weight:400;font-size:clamp(38px,4.2vw,58px);line-height:1.04;letter-spacing:-.01em;
+  margin-bottom:16px
+}
+.hero h1 em{font-style:italic;color:var(--ox)}
+.artist{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink-2);margin-bottom:8px}
+.meta{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--ink-2);opacity:.85;margin-bottom:34px}
+
+/* timer */
+.timer{display:flex;align-items:flex-end;gap:26px;margin-bottom:34px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:22px 0}
+.timer .label{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-2);opacity:.7;padding-bottom:14px}
+.clock{display:flex;gap:8px;font-family:var(--mono);font-weight:700;font-size:clamp(34px,3.2vw,46px);line-height:1;align-items:baseline}
+.clock .unit{font-size:10px;letter-spacing:.2em;opacity:.55;padding-bottom:6px;font-weight:400}
+.clock .colon{color:var(--ox);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:.25}}
+.timer.urgent .clock{color:var(--ox)}
+.timer .sale-info{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-align:right;color:var(--ink-2);line-height:1.9;text-transform:uppercase}
+
+/* bidding panel */
+.bid-panel{
+  border:1.5px solid var(--ink);background:var(--bone-2);border-radius:3px;padding:26px 28px 28px;
+  box-shadow:8px 8px 0 rgba(28,23,18,.12);max-width:560px
+}
+.bid-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px}
+.bid-row .k{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-2);opacity:.75}
+.bid-amount{font-family:var(--serif);font-weight:600;font-size:44px;line-height:1;letter-spacing:-.01em;transition:color .3s}
+.bid-amount.flash{color:var(--ox)}
+.bid-count{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:6px}
+.bid-stats{display:flex;gap:0;border:1px solid var(--line);border-bottom:none;margin:-4px 0 20px;border-radius:2px 2px 0 0}
+.bid-stats div{flex:1;padding:12px 16px;border-right:1px solid var(--line)}
+.bid-stats div:last-child{border-right:none}
+.bid-stats .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2);opacity:.7;display:block;margin-bottom:3px}
+.bid-stats .v{font-family:var(--mono);font-size:14px;font-weight:700}
+.bid-input-row{display:flex;gap:10px}
+.amt-field{
+  flex:1;display:flex;align-items:center;border:1.5px solid var(--ink);background:var(--bone);border-radius:2px;
+  transition:box-shadow .2s,transform .15s
+}
+.amt-field:focus-within{box-shadow:0 0 0 3px rgba(160,51,31,.18)}
+.amt-field .cur{font-family:var(--mono);font-size:15px;padding:0 0 0 14px;color:var(--ink-2)}
+.amt-field input{
+  flex:1;border:none;outline:none;background:transparent;font-family:var(--mono);font-size:18px;font-weight:700;
+  padding:13px 12px 13px 8px;color:var(--ink)
+}
+.amt-field input::placeholder{color:var(--line-strong);font-weight:400}
+.amt-field.error{animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.chip-row{display:flex;gap:8px;margin-top:10px}
+.chip{
+  font-family:var(--mono);font-size:11px;border:1px solid var(--line-strong);background:transparent;border-radius:2px;
+  padding:6px 12px;color:var(--ink-2);transition:all .15s
+}
+.chip:hover{border-color:var(--ox);color:var(--ox)}
+.bid-msg{font-family:var(--mono);font-size:12px;margin-top:16px;min-height:18px;letter-spacing:.02em}
+.bid-msg.ok{color:var(--ox)}
+.bid-msg.err{color:var(--ink-2);opacity:.85}
+.bid-msg.rival{color:var(--olive)}
+.bid-note{font-size:11px;color:var(--ink-2);opacity:.75;margin-top:12px;font-style:italic;font-family:var(--serif);font-size:12.5px}
+
+/* featured artwork */
+.art-stage{position:relative;display:flex;justify-content:center}
+.artwork{
+  width:100%;max-width:520px;background:var(--bone);border:1px solid var(--line-strong);
+  padding:26px;box-shadow:0 30px 70px rgba(28,23,18,.28), 0 2px 0 rgba(255,255,255,.6) inset;
+  position:relative
+}
+.artwork .mat{border:1px solid var(--line);padding:14px;background:var(--bone-2)}
+.artwork svg{display:block;width:100%;height:auto}
+.lot-tag{
+  position:absolute;top:34px;left:34px;font-family:var(--mono);font-size:10px;letter-spacing:.26em;
+  background:var(--ink);color:var(--bone);padding:6px 12px
+}
+.stamp{
+  position:absolute;bottom:30px;right:30px;border:2px solid var(--ox);color:var(--ox);
+  font-family:var(--mono);font-size:9px;letter-spacing:.28em;text-transform:uppercase;
+  padding:7px 11px;transform:rotate(-8deg);opacity:.85;background:rgba(243,237,225,.5)
+}
+.badge{
+  position:absolute;top:-38px;right:-30px;width:118px;height:118px;animation:spin 26s linear infinite;z-index:2
+}
+.badge svg{width:100%;height:100%}
+.badge text{font-family:var(--mono);font-size:11.5px;letter-spacing:3.4px;fill:var(--ink)}
+.badge .dot{fill:var(--ox)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============ PROVENANCE ============ */
+.prov{background:var(--ink);color:var(--bone);padding:84px 0 92px;position:relative;overflow:hidden}
+.prov::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 380px at 85% 0%,rgba(160,51,31,.18),transparent 65%)}
+.prov-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:52px;position:relative;flex-wrap:wrap;gap:16px}
+.prov-head .k{font-family:var(--mono);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--ochre);margin-bottom:14px}
+.prov-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3vw,44px);line-height:1.1;max-width:560px}
+.prov-head h2 em{font-style:italic;color:var(--ochre)}
+.prov-head .ref{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:rgba(243,237,225,.5);line-height:2;text-align:right;text-transform:uppercase}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);position:relative;gap:36px}
+.timeline::before{content:"";position:absolute;top:9px;left:0;right:0;height:1px;background:rgba(243,237,225,.25)}
+.tl-item{position:relative;padding-top:34px}
+.tl-item::before{content:"";position:absolute;top:4px;left:0;width:11px;height:11px;border-radius:50%;background:var(--bone);border:2px solid var(--ox)}
+.tl-item .yr{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.16em;color:var(--ochre);margin-bottom:10px}
+.tl-item h3{font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.25;margin-bottom:8px}
+.tl-item p{font-size:13.5px;color:rgba(243,237,225,.62);line-height:1.6}
+
+/* ============ UPCOMING LOTS ============ */
+.upcoming{padding:88px 0 40px}
+.up-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:44px;flex-wrap:wrap;gap:14px}
+.up-head h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3vw,44px)}
+.up-head h2 span{color:var(--ox)}
+.up-head a{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-bottom:1.5px solid var(--ox);padding-bottom:3px;color:var(--ox);transition:opacity .2s}
+.up-head a:hover{opacity:.65}
+.lots{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.lot-card{
+  background:var(--bone-2);border:1px solid var(--line);border-radius:3px;padding:16px;
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s;position:relative;cursor:pointer
+}
+.lot-card:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(28,23,18,.16);border-color:var(--line-strong)}
+.lot-card .thumb{aspect-ratio:4/5;border:1px solid var(--line);position:relative;overflow:hidden;margin-bottom:16px}
+.lot-card .thumb svg{position:absolute;inset:0;width:100%;height:100%}
+.lot-card .no{position:absolute;top:10px;left:10px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;background:var(--ink);color:var(--bone);padding:5px 9px}
+.lot-card .closes{position:absolute;bottom:10px;right:10px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;background:var(--bone);color:var(--ink);padding:5px 9px;border:1px solid var(--line)}
+.lot-card h3{font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.2;margin-bottom:4px}
+.lot-card .by{font-family:var(--serif);font-style:italic;font-size:13.5px;color:var(--ink-2);opacity:.8;margin-bottom:14px}
+.lot-card .est{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:12px;font-family:var(--mono);font-size:11.5px}
+.lot-card .est b{font-weight:700}
+.lot-card .est .k{color:var(--ink-2);opacity:.6;letter-spacing:.14em;text-transform:uppercase;font-size:9.5px;padding-top:2px}
+
+/* ============ CTA BAND ============ */
+.cta{margin:70px 0 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bone-2)}
+.cta-in{display:flex;align-items:center;justify-content:space-between;gap:32px;padding:44px 0;flex-wrap:wrap}
+.cta-in h3{font-family:var(--serif);font-weight:400;font-size:clamp(24px,2.4vw,34px)}
+.cta-in h3 em{font-style:italic;color:var(--ox)}
+.cta-in p{font-size:14px;color:var(--ink-2);max-width:440px;margin-top:8px}
+.cta-in .actions{display:flex;gap:14px;flex-wrap:wrap}
+
+/* ============ FOOTER ============ */
+footer{background:var(--ink);color:rgba(243,237,225,.7);padding:64px 0 34px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:44px;margin-bottom:52px}
+footer h5{font-family:var(--mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--ochre);margin-bottom:18px}
+footer .fmark{font-family:var(--serif);font-size:28px;color:var(--bone);font-weight:500;margin-bottom:14px}
+footer .fmark i{font-style:normal;color:var(--ox)}
+footer p{font-size:13.5px;line-height:1.8}
+footer ul{list-style:none}
+footer ul li{margin-bottom:10px}
+footer ul a{font-size:13.5px;text-decoration:none;color:rgba(243,237,225,.7);transition:color .2s}
+footer ul a:hover{color:var(--ochre)}
+.news{display:flex;margin-top:4px;border:1px solid rgba(243,237,225,.3)}
+.news input{flex:1;background:transparent;border:none;outline:none;color:var(--bone);font-family:var(--mono);font-size:12px;padding:11px 12px}
+.news input::placeholder{color:rgba(243,237,225,.4)}
+.news button{background:var(--ox);border:none;color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:.14em;padding:0 16px;transition:background .2s}
+.news button:hover{background:var(--ox-deep)}
+.foot-bottom{border-top:1px solid rgba(243,237,225,.15);padding-top:24px;display:flex;justify-content:space-between;gap:16px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(243,237,225,.4);flex-wrap:wrap}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1180px){
+  .lots{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .hero-grid{gap:48px}
+}
+@media (max-width:960px){
+  .wrap{padding:0 28px}
+  nav.main{display:none}
+  .hero-grid{grid-template-columns:1fr;gap:56px}
+  .art-stage{order:-1}
+  .badge{top:-30px;right:6px;width:96px;height:96px}
+  .timeline{grid-template-columns:repeat(2,1fr);gap:40px 28px}
+  .timeline::before{display:none}
+  .paddle-chip{display:none}
+}
+@media (max-width:640px){
+  .wrap{padding:0 20px}
+  .lots{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .timer{flex-wrap:wrap;gap:16px}
+  .timer .sale-info{margin-left:0;text-align:left}
+  .bid-input-row{flex-direction:column}
+  .bid-stats{flex-direction:column}
+  .bid-stats div{border-right:none;border-bottom:1px solid var(--line)}
+  .bid-stats div:last-child{border-bottom:none}
+  .bid-row{align-items:flex-start}
+  .mark b{font-size:19px}
+  .hdr{height:64px}
+  .btn{padding:10px 14px}
+  .popover{width:calc(100vw - 40px);right:-60px}
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <span>Spring Evening Sale — 21 May 2025, 19:00 CET</span>
+    <span>142 lots offered · 118 paddle holders registered</span>
+    <span>Viewing: 12–20 May · Hovedgaden 14, Copenhagen K</span>
+    <span>Buyer's premium 24% · Online &amp; telephone bidding open</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="wrap hdr">
+    <a class="mark" href="#">
+      <b>AUCTION</b><i>/</i><b>HOUSE</b>
+      <small>Copenhagen · Est. 1962</small>
+    </a>
+    <nav class="main" aria-label="Primary">
+      <a href="#">Sales</a>
+      <a href="#">Catalogue</a>
+      <a href="#provenance">Provenance</a>
+      <a href="#upcoming">Catalogue Raisonné</a>
+      <a href="#">Journal</a>
+    </nav>
+    <div class="hdr-right">
+      <span class="paddle-chip">PADDLE 114 · E. NORD</span>
+      <button class="btn ghost" id="acctBtn" aria-expanded="false" aria-haspopup="true">Bidder Account</button>
+      <div class="popover" id="acctPop" role="dialog" aria-label="Bidder account">
+        <h4>Your paddle</h4>
+        <p>Sign in to place bids, save lots and settle invoices in real time.</p>
+        <form id="acctForm">
+          <label for="aEmail">Email</label>
+          <input id="aEmail" type="email" placeholder="elke@nord.dk" required>
+          <label for="aPad">Paddle number</label>
+          <input id="aPad" type="text" placeholder="114" required>
+          <button class="btn" type="submit">Access Account</button>
+          <div class="pop-msg" id="acctMsg"></div>
+        </form>
+        <div class="pop-div">NEW BIDDER?</div>
+        <form id="padForm">
+          <label for="pName">Full name</label>
+          <input id="pName" type="text" placeholder="Elke Nord" required>
+          <button class="btn" type="submit">Request a Paddle</button>
+          <div class="pop-msg" id="padMsg"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <!-- LEFT: lot info + bid panel -->
+    <div>
+      <div class="eyebrow">
+        <span class="live">Live</span>
+        <span>Spring Evening Sale</span>
+        <span class="sep"></span>
+        <span>Lot 047</span>
+      </div>
+      <h1>Still Life with Quinces &amp; <em>Bronze Ewer</em></h1>
+      <div class="artist">Mara Ilves (b. 1968), oil on linen, 112 × 89 cm, 2019</div>
+      <div class="meta">Signed and dated lower right · Unlined, original frame · Condition report on request</div>
+
+      <div class="timer" id="timer">
+        <span class="label">Hammer<br>closes in</span>
+        <div class="clock" aria-live="off">
+          <span id="tH">02</span><span class="colon">:</span><span id="tM">14</span><span class="colon">:</span><span id="tS">32</span>
+          <span class="unit">H&nbsp;M&nbsp;S</span>
+        </div>
+        <div class="sale-info">Room 1 · The Salon<br>Online + telephone line open<br>Cat. p. 112, ill. in colour</div>
+      </div>
+
+      <div class="bid-panel">
+        <div class="bid-row">
+          <div>
+            <div class="k">Current bid</div>
+            <div class="bid-amount" id="curBid">€21,500</div>
+            <div class="bid-count" id="bidCount">12 bids · leading paddle 087</div>
+          </div>
+          <button class="btn ghost" style="border-color:var(--line-strong)" id="watchBtn">◎ Watch lot</button>
+        </div>
+        <div class="bid-stats">
+          <div><span class="k">Estimate</span><span class="v">€18,000 – 24,000</span></div>
+          <div><span class="k">Reserve</span><span class="v">— confidential —</span></div>
+          <div><span class="k">Min. next bid</span><span class="v" id="minBid">€22,000</span></div>
+        </div>
+        <div class="bid-input-row">
+          <div class="amt-field" id="amtField">
+            <span class="cur">€</span>
+            <input id="bidInput" type="text" inputmode="numeric" placeholder="22,000" aria-label="Bid amount in euros">
+          </div>
+          <button class="btn primary" id="bidBtn">Place Bid</button>
+        </div>
+        <div class="chip-row">
+          <button class="chip" data-add="500">+ €500</button>
+          <button class="chip" data-add="1000">+ €1,000</button>
+          <button class="chip" data-add="2500">+ €2,500</button>
+          <button class="chip" id="chipMax">At estimate top</button>
+        </div>
+        <div class="bid-msg" id="bidMsg" role="status"></div>
+        <div class="bid-note">Bids are binding. Maximum telephone bids accepted until the gavel — buyer's premium 24% added to the hammer price.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: the lot -->
+    <div class="art-stage">
+      <div class="artwork">
+        <span class="lot-tag">LOT 047</span>
+        <span class="stamp">Catalogued · 2025</span>
+        <div class="mat">
+          <svg viewBox="0 0 600 740" role="img" aria-label="Still Life with Quinces and Bronze Ewer by Mara Ilves — painted reproduction">
+            <defs>
+              <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#DDCBAA"/><stop offset=".55" stop-color="#CBB28A"/><stop offset="1" stop-color="#AE9268"/>
+              </linearGradient>
+              <linearGradient id="table" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#5E4128"/><stop offset=".12" stop-color="#6E4C30"/><stop offset="1" stop-color="#402B1B"/>
+              </linearGradient>
+              <radialGradient id="vig" cx=".5" cy=".42" r=".85">
+                <stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#241206" stop-opacity=".42"/>
+              </radialGradient>
+              <linearGradient id="bronze" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#8C5A28"/><stop offset=".45" stop-color="#D9A55C"/><stop offset=".75" stop-color="#7A4A1F"/><stop offset="1" stop-color="#4E3012"/>
+              </linearGradient>
+              <radialGradient id="quince" cx=".38" cy=".32" r=".95">
+                <stop offset="0" stop-color="#F0D57A"/><stop offset=".55" stop-color="#C9973B"/><stop offset="1" stop-color="#8A6420"/>
+              </radialGradient>
+              <radialGradient id="quince2" cx=".38" cy=".32" r=".95">
+                <stop offset="0" stop-color="#EBCB6E"/><stop offset=".55" stop-color="#B98C33"/><stop offset="1" stop-color="#7C5A1D"/>
+              </radialGradient>
+              <radialGradient id="bowlg" cx=".5" cy=".3" r="1">
+                <stop offset="0" stop-color="#4A443C"/><stop offset="1" stop-color="#241F1A"/>
+              </radialGradient>
+              <filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="14"/></filter>
+              <filter id="soft2" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="7"/></filter>
+            </defs>
+
+            <rect width="600" height="740" fill="url(#wall)"/>
+            <!-- faint window light -->
+            <rect x="380" y="-40" width="150" height="480" fill="#F2E3BE" opacity=".22" filter="url(#soft)"/>
+            <line x1="0" y1="524" x2="600" y2="524" stroke="#3A2716" stroke-width="3" opacity=".6"/>
+            <rect y="524" width="600" height="216" fill="url(#table)"/>
+
+            <!-- shadows -->
+            <ellipse cx="215" cy="608" rx="128" ry="26" fill="#140C05" opacity=".42" filter="url(#soft)"/>
+            <ellipse cx="440" cy="600" rx="118" ry="22" fill="#140C05" opacity=".38" filter="url(#soft)"/>
+
+            <!-- bronze ewer -->
+            <g>
+              <ellipse cx="212" cy="600" rx="52" ry="12" fill="#2E1D0E" opacity=".55" filter="url(#soft2)"/>
+              <path d="M158 306 Q212 282 266 306 L248 560 Q212 578 176 560 Z" fill="url(#bronze)"/>
+              <path d="M248 320 L248 545 Q224 560 208 556 L222 308 Z" fill="#3D2510" opacity=".35"/>
+              <path d="M170 340 Q164 440 178 545" stroke="#F2CF8E" stroke-width="7" fill="none" opacity=".55" stroke-linecap="round"/>
+              <path d="M186 292 L238 292 L246 316 L178 316 Z" fill="url(#bronze)"/>
+              <ellipse cx="212" cy="290" rx="30" ry="9" fill="#3C2510"/>
+              <ellipse cx="212" cy="289" rx="24" ry="6" fill="#1E1206"/>
+              <path d="M178 318 Q138 314 122 272 L148 264 Q160 296 190 298 Z" fill="url(#bronze)"/>
+              <path d="M262 330 Q318 366 276 480" fill="none" stroke="url(#bronze)" stroke-width="17" stroke-linecap="round"/>
+              <rect x="188" y="572" width="48" height="12" rx="4" fill="#5A3716"/>
+              <ellipse cx="212" cy="592" rx="42" ry="9" fill="#3A2310"/>
+              <!-- patina flecks -->
+              <circle cx="196" cy="380" r="3" fill="#9FBF9A" opacity=".5"/><circle cx="236" cy="450" r="2.4" fill="#9FBF9A" opacity=".4"/><circle cx="205" cy="500" r="2" fill="#B5A15C" opacity=".5"/>
+            </g>
+
+            <!-- bowl + quinces -->
+            <g>
+              <ellipse cx="440" cy="586" rx="46" ry="10" fill="#1B130C" opacity=".6"/>
+              <circle cx="398" cy="472" r="46" fill="url(#quince2)"/>
+              <circle cx="472" cy="452" r="50" fill="url(#quince)"/>
+              <circle cx="540" cy="486" r="38" fill="url(#quince2)"/>
+              <path d="M472 402 Q476 384 488 376" stroke="#5A3E16" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <path d="M398 426 Q400 412 410 404" stroke="#5A3E16" stroke-width="4" fill="none" stroke-linecap="round"/>
+              <ellipse cx="458" cy="512" rx="118" ry="16" fill="#120D08" opacity=".55"/>
+              <path d="M330 506 Q338 578 440 588 Q542 578 550 506 Q496 530 440 530 Q384 530 330 506 Z" fill="url(#bowlg)"/>
+              <ellipse cx="440" cy="506" rx="110" ry="15" fill="#0F0B07"/>
+              <ellipse cx="440" cy="503" rx="104" ry="12" fill="#2C261F"/>
+              <path d="M352 530 Q360 566 400 576" stroke="#6E6558" stroke-width="4" fill="none" opacity=".45" stroke-linecap="round"/>
+            </g>
+
+            <rect width="600" height="740" fill="url(#vig)"/>
+            <text x="512" y="712" font-family="Georgia,serif" font-style="italic" font-size="21" fill="#2E2012" opacity=".8">M. Ilves · 2019</text>
+          </svg>
+        </div>
+      </div>
+      <div class="badge" aria-hidden="true">
+        <svg viewBox="0 0 120 120">
+          <defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+          <text><textPath href="#circ">AUCTION · HOUSE · CPH · EST. 1962 ·</textPath></text>
+          <circle class="dot" cx="60" cy="60" r="4"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVENANCE -->
+<section class="prov" id="provenance">
+  <div class="wrap">
+    <div class="prov-head">
+      <div>
+        <div class="k">Provenance · Lot 047</div>
+        <h2>A documented path from the artist's studio to <em>the Salon</em></h2>
+      </div>
+      <div class="ref">Ref. AH/2025/047<br>Cert. no. 88-A · Dossier available<br>Insurance value €24,000</div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="yr">2019</div>
+        <h3>Painted &amp; acquired</h3>
+        <p>Completed in Ilves's studio, Kastrup, and acquired directly from the artist's family in the same year.</p>
+      </div>
+      <div class="tl-item">
+        <div class="yr">2021</div>
+        <h3>Private collection</h3>
+        <p>Held in a private collection, Copenhagen, displayed in a north-lit gallery room; never relined or re-framed.</p>
+      </div>
+      <div class="tl-item">
+        <div class="yr">2024</div>
+        <h3>Exhibited</h3>
+        <p>Lent to <em>Quiet Modernity</em>, Galerie Meridian, autumn 2024 (cat. no. 31). Condition examined before and after the loan.</p>
+      </div>
+      <div class="tl-item">
+        <div class="yr">2025</div>
+        <h3>Consignment</h3>
+        <p>Offered at auction for the first time. Full condition report and certificate of authenticity accompany the lot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPCOMING LOTS -->
+<section class="upcoming" id="upcoming">
+  <div class="wrap">
+    <div class="up-head">
+      <h2>Upcoming in <span>the catalogue</span></h2>
+      <a href="#">View all 142 lots →</a>
+    </div>
+    <div class="lots">
+
+      <article class="lot-card">
+        <div class="thumb">
+          <span class="no">LOT 048</span><span class="closes">FRI · 19:05</span>
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="u1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E3A6B"/><stop offset="1" stop-color="#0E1E3D"/></linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="url(#u1)"/>
+            <rect x="0" y="210" width="400" height="34" fill="#C0562E"/>
+            <rect x="0" y="266" width="400" height="12" fill="#D8B45A"/>
+            <circle cx="310" cy="110" r="52" fill="#E8DCC4" opacity=".9"/>
+            <rect x="0" y="470" width="400" height="30" fill="#0A1528"/>
+          </svg>
+        </div>
+        <h3>Ultramarine Field</h3>
+        <div class="by">Henrik Voss, acrylic on panel, 2016</div>
+        <div class="est"><span class="k">Estimate</span><b>€9,000 – 12,000</b></div>
+      </article>
+
+      <article class="lot-card">
+        <div class="thumb">
+          <span class="no">LOT 049</span><span class="closes">FRI · 19:10</span>
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="u2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#C99A3E"/><stop offset="1" stop-color="#8A5F1E"/></linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="url(#u2)"/>
+            <circle cx="200" cy="190" r="110" fill="#E9D9B6"/>
+            <circle cx="158" cy="176" r="10" fill="#3A2A12"/>
+            <circle cx="242" cy="176" r="10" fill="#3A2A12"/>
+            <path d="M150 238 Q200 268 250 238" stroke="#3A2A12" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <rect x="90" y="300" width="220" height="14" fill="#5A3E16" opacity=".6"/>
+          </svg>
+        </div>
+        <h3>Portrait of E. in Ochre</h3>
+        <div class="by">Mara Ilves, tempera on board, 2014</div>
+        <div class="est"><span class="k">Estimate</span><b>€14,000 – 18,000</b></div>
+      </article>
+
+      <article class="lot-card">
+        <div class="thumb">
+          <span class="no">LOT 050</span><span class="closes">FRI · 19:15</span>
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="u3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#AEBF9E"/><stop offset="1" stop-color="#5E7150"/></linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="url(#u3)"/>
+            <rect x="0" y="90" width="400" height="26" fill="#F0EBDD"/>
+            <rect x="0" y="160" width="400" height="10" fill="#E2DAC2"/>
+            <rect x="0" y="330" width="400" height="60" fill="#37462E"/>
+            <rect x="0" y="404" width="400" height="20" fill="#F0EBDD"/>
+            <circle cx="120" cy="260" r="30" fill="#D8B45A" opacity=".8"/>
+          </svg>
+        </div>
+        <h3>Tide Study No. 9</h3>
+        <div class="by">Sofie Lang, ink &amp; wash on paper, 2021</div>
+        <div class="est"><span class="k">Estimate</span><b>€4,500 – 6,000</b></div>
+      </article>
+
+      <article class="lot-card">
+        <div class="thumb">
+          <span class="no">LOT 051</span><span class="closes">FRI · 19:20</span>
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="u4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C1712"/><stop offset="1" stop-color="#0D0A07"/></linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="url(#u4)"/>
+            <path d="M110 420 L110 210 A90 90 0 0 1 290 210 L290 420 Z" fill="#E9DFC9"/>
+            <path d="M150 420 L150 230 A50 50 0 0 1 250 230 L250 420 Z" fill="#1C1712"/>
+            <circle cx="200" cy="120" r="34" fill="#A0331F"/>
+            <rect x="80" y="420" width="240" height="10" fill="#E9DFC9"/>
+          </svg>
+        </div>
+        <h3>Bronze &amp; Bone</h3>
+        <div class="by">Henrik Voss, mixed media on canvas, 2019</div>
+        <div class="est"><span class="k">Estimate</span><b>€22,000 – 30,000</b></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta">
+  <div class="wrap cta-in">
+    <div>
+      <h3>Bidding is <em>open</em> in the room, by telephone and online.</h3>
+      <p>Register a paddle by 12:00 on the day of sale. Maximum bids are held in confidence and only deployed when outbid.</p>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="ctaBid" style="flex:0">Place an absentee bid</button>
+      <a class="btn ghost" href="#" style="text-decoration:none">Download catalogue (PDF, 84 MB)</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="fmark">AUCTION<i>/</i>HOUSE</div>
+        <p>Hovedgaden 14, 1209 København K<br>Viewings 10:00 – 18:00, 12–20 May<br>Evening sale, 21 May 2025, 19:00</p>
+      </div>
+      <div>
+        <h5>Departments</h5>
+        <ul>
+          <li><a href="#">Modern &amp; Contemporary</a></li>
+          <li><a href="#">Paintings &amp; Works on Paper</a></li>
+          <li><a href="#">Sculpture &amp; Object</a></li>
+          <li><a href="#">Books &amp; Manuscripts</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Bidder services</h5>
+        <ul>
+          <li><a href="#">Paddle registration</a></li>
+          <li><a href="#">Telephone bidding</a></li>
+          <li><a href="#">Condition reports</a></li>
+          <li><a href="#">Settlement &amp; shipping</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Sale announcements</h5>
+        <p style="margin-bottom:14px">One letter per sale, on condition and market notes. No noise.</p>
+        <form class="news" id="newsForm">
+          <input type="email" placeholder="you@studio.com" required aria-label="Email address">
+          <button type="submit">Join</button>
+        </form>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 Auction/House A/S · CVR 12 34 56 78</span>
+      <span>Licensed under Danish Auction Trade Act</span>
+      <span>Privacy · Terms · Auction regulations</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- ticker duplication for seamless loop ---------- */
+  var track = document.getElementById('tickerTrack');
+  track.innerHTML += track.innerHTML;
+
+  /* ---------- countdown ---------- */
+  var target = Date.now() + ((2*3600 + 14*60 + 32) * 1000);
+  var tH = document.getElementById('tH'), tM = document.getElementById('tM'),
+      tS = document.getElementById('tS'), timerEl = document.getElementById('timer');
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    var d = Math.max(0, Math.floor((target - Date.now())/1000));
+    var h = Math.floor(d/3600), m = Math.floor((d%3600)/60), s = d%60;
+    tH.textContent = pad(h); tM.textContent = pad(m); tS.textContent = pad(s);
+    timerEl.classList.toggle('urgent', d > 0 && d < 300);
+    if(d === 0){ setMsg('Hammer time — the lot is up for the room.','ok'); }
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* ---------- bidding ---------- */
+  var STEP = 500;
+  var currentBid = 21500, minBid = 22000, bidCount = 12, leading = '087';
+  var rivals = ['Paddle 042','Paddle 103','Paddle 061','Paddle 207'];
+  var curEl = document.getElementById('curBid'), minEl = document.getElementById('minBid'),
+      cntEl = document.getElementById('bidCount'), input = document.getElementById('bidInput'),
+      field = document.getElementById('amtField'), msgEl = document.getElementById('bidMsg'),
+      bidBtn = document.getElementById('bidBtn');
+  var fmt = new Intl.NumberFormat('en-IE',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+  var msgTimer;
+
+  function setMsg(text, type){
+    msgEl.textContent = text; msgEl.className = 'bid-msg ' + (type||'');
+    clearTimeout(msgTimer);
+    if(type !== 'rival') msgTimer = setTimeout(function(){ msgEl.textContent=''; msgEl.className='bid-msg'; }, 6500);
+  }
+  function render(flash){
+    curEl.textContent = fmt.format(currentBid);
+    minEl.textContent = fmt.format(minBid);
+    cntEl.textContent = bidCount + ' bids · leading paddle ' + leading;
+    if(flash){
+      curEl.classList.add('flash');
+      setTimeout(function(){ curEl.classList.remove('flash'); }, 700);
+    }
+  }
+  function bump(amount, who){
+    currentBid = amount; minBid = amount + STEP; bidCount++;
+    render(true);
+    if(who){ setMsg(who + ' has bid ' + fmt.format(amount) + '. You are now outbid.','rival'); }
+  }
+  function parseAmount(raw){
+    var n = parseInt(String(raw).replace(/[^\d]/g,''), 10);
+    return isNaN(n) ? null : n;
+  }
+  bidBtn.addEventListener('click', function(){
+    var v = parseAmount(input.value);
+    if(v === null){ fail('Enter an amount — e.g. 22,000.'); return; }
+    if(v < minBid){ fail('Must be at least ' + fmt.format(minBid) + ' (min. next bid).'); return; }
+    if(v % STEP !== 0){ fail('Bids move in increments of ' + fmt.format(STEP) + '.'); return; }
+    currentBid = v; minBid = v + STEP; bidCount++; leading = '114';
+    render(true);
+    setMsg('Bid confirmed — lot 047 is yours at ' + fmt.format(v) + ' (paddle 114).','ok');
+    input.value = '';
+    /* a rival may answer */
+    if(Math.random() < 0.45 && target - Date.now() > 30000){
+      setTimeout(function(){
+        var who = rivals[Math.floor(Math.random()*rivals.length)];
+        bump(currentBid + STEP*2, who);
+      }, 2600 + Math.random()*2600);
+    }
+  });
+  function fail(text){
+    field.classList.remove('error'); void field.offsetWidth; field.classList.add('error');
+    setMsg(text,'err');
+  }
+  input.addEventListener('keydown', function(e){ if(e.key === 'Enter') bidBtn.click(); });
+  input.addEventListener('input', function(){
+    input.value = input.value.replace(/[^\d,]/g,'');
+  });
+  document.querySelectorAll('.chip[data-add]').forEach(function(c){
+    c.addEventListener('click', function(){
+      var base = currentBid + STEP;
+      input.value = (base + parseInt(c.dataset.add,10)).toLocaleString('en-IE');
+      input.focus();
+    });
+  });
+  document.getElementById('chipMax').addEventListener('click', function(){
+    input.value = (24000 - (24000 % STEP)).toLocaleString('en-IE');
+    input.focus();
+  });
+  document.getElementById('watchBtn').addEventListener('click', function(){
+    this.textContent = '◉ Watching lot 047';
+    setMsg('You will be notified by email if this lot is outbid.','ok');
+  });
+
+  /* ambient rival bidding */
+  function rivalLoop(){
+    setTimeout(function(){
+      if(target - Date.now() > 45000){
+        var who = rivals[Math.floor(Math.random()*rivals.length)];
+        bump(minBid, who);
+      }
+      rivalLoop();
+    }, 18000 + Math.random()*16000);
+  }
+  rivalLoop();
+
+  /* ---------- bidder account popover ---------- */
+  var acctBtn = document.getElementById('acctBtn'), pop = document.getElementById('acctPop');
+  acctBtn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = pop.classList.toggle('open');
+    acctBtn.setAttribute('aria-expanded', open);
+  });
+  document.addEventListener('click', function(e){
+    if(!pop.contains(e.target) && e.target !== acctBtn){
+      pop.classList.remove('open'); acctBtn.setAttribute('aria-expanded','false');
+    }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ pop.classList.remove('open'); acctBtn.setAttribute('aria-expanded','false'); }
+  });
+  document.getElementById('acctForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('acctMsg').textContent = 'Paddle ' + (document.getElementById('aPad').value||'—') + ' verified. Bid line connected to the Salon.';
+  });
+  document.getElementById('padForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('padMsg').textContent = 'Paddle reserved for ' + (document.getElementById('pName').value||'you') + '. Confirmation sent by email.';
+  });
+  document.getElementById('newsForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var b = this.querySelector('button'); b.textContent = 'Joined ✓';
+    this.querySelector('input').value = '';
+    setTimeout(function(){ b.textContent = 'Join'; }, 3500);
+  });
+  document.getElementById('ctaBid').addEventListener('click', function(){
+    input.focus();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+})();
+</script>
+</body>
+</html>

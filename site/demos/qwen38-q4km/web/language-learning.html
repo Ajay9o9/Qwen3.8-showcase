@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parlo — Say it out loud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=Space+Grotesk:wght@300..700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2ECDC;
+  --paper-2:#E9E1CB;
+  --card:#FBF8F0;
+  --ink:#152119;
+  --ink-2:#2A3B32;
+  --ink-soft:#586B60;
+  --line:#D7CDB4;
+  --mango:#FF6B35;
+  --mango-d:#E44F1E;
+  --sun:#FFC53D;
+  --teal:#1E9E86;
+  --coral:#FF4D6D;
+  --sky:#3D7BC4;
+  --sage:#CBD6B4;
+  --shadow: 0 18px 40px -18px rgba(21,33,25,.35);
+  --r:22px;
+  --maxw:1240px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Space Grotesk",system-ui,sans-serif;
+  color:var(--ink);
+  background:var(--paper);
+  background-image:
+    radial-gradient(1200px 700px at 85% -10%, rgba(255,197,61,.22), transparent 60%),
+    radial-gradient(1000px 600px at -5% 15%, rgba(30,158,134,.14), transparent 55%),
+    radial-gradient(900px 700px at 110% 70%, rgba(255,107,53,.12), transparent 60%);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  line-height:1.5;
+}
+/* grain overlay */
+.grain{
+  position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.5;mix-blend-mode:multiply;
+}
+.grain svg{width:100%;height:100%}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;position:relative;z-index:2}
+.eyebrow{
+  font-family:"Space Mono",monospace;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ink-soft);display:inline-flex;align-items:center;gap:.55em;
+}
+.eyebrow .dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(30,158,134,.2)}
+h1,h2,h3{font-family:"Fraunces",serif;font-weight:600;line-height:1.02;letter-spacing:-.015em}
+.ital{font-style:italic}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* ---------- NAV ---------- */
+header.nav{position:sticky;top:0;z-index:50;transition:background .3s,box-shadow .3s,padding .3s;padding:20px 0}
+header.nav.scrolled{background:rgba(242,236,220,.86);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line);padding:12px 0}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{display:flex;align-items:center;gap:11px;font-family:"Fraunces",serif;font-weight:700;font-size:1.5rem;letter-spacing:-.02em}
+.logo svg{width:34px;height:34px;flex:none}
+.nav-links{display:flex;gap:6px}
+.nav-links a{font-size:.94rem;font-weight:500;padding:9px 15px;border-radius:11px;color:var(--ink-2);transition:.2s}
+.nav-links a:hover{background:var(--paper-2);color:var(--ink)}
+.nav-right{display:flex;align-items:center;gap:12px}
+.streak-chip{
+  display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,#FFF3D6,#FFE7B0);
+  border:1.5px solid #F3C862;padding:8px 14px 8px 12px;border-radius:999px;font-weight:700;font-size:.9rem;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6);
+}
+.streak-chip .flame{width:18px;height:18px}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:.95rem;
+  padding:12px 20px;border-radius:14px;transition:transform .18s,box-shadow .18s,background .2s;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--mango);color:#fff;box-shadow:0 10px 22px -10px rgba(255,107,53,.7)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 28px -12px rgba(255,107,53,.8)}
+.btn-ghost{background:transparent;border:1.5px solid var(--ink-soft);color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.avatar{width:40px;height:40px;border-radius:50%;overflow:hidden;border:2px solid var(--ink);flex:none;box-shadow:0 4px 10px -4px rgba(0,0,0,.3)}
+.hamb{display:none;width:42px;height:42px;border-radius:12px;border:1.5px solid var(--line)}
+
+/* ---------- HERO ---------- */
+.hero{padding:34px 0 66px}
+.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.7rem,5.2vw,4.7rem);margin:22px 0 20px;max-width:15ch}
+.hero h1 .hl{color:var(--mango);position:relative;white-space:nowrap}
+.hero h1 .hl svg{position:absolute;left:0;bottom:-.18em;width:100%;height:.42em;overflow:visible}
+.lead{font-size:1.12rem;color:var(--ink-soft);max-width:44ch;margin-bottom:30px}
+.cta-row{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:34px}
+.hero-stats{display:flex;gap:30px;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat b{font-family:"Fraunces",serif;font-size:1.55rem;font-weight:600;line-height:1}
+.stat span{font-family:"Space Mono",monospace;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.stat .flame{width:20px;height:20px}
+.stat .num{color:var(--mango);display:inline-flex;align-items:center;gap:5px}
+.sep{width:1px;height:34px;background:var(--line);align-self:center}
+
+/* hero visual cluster */
+.hero-visual{position:relative;height:560px}
+.blob{position:absolute;border-radius:50%;filter:blur(2px);z-index:0}
+.blob.b1{width:360px;height:360px;top:10px;right:20px;background:radial-gradient(circle at 30% 30%, #FFD98A, var(--sun));opacity:.85}
+.blob.b2{width:250px;height:250px;bottom:10px;left:-20px;background:radial-gradient(circle at 60% 40%, #6FD3BD, var(--teal));opacity:.7}
+.hv-card{position:absolute;background:var(--card);border:1.5px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);z-index:3}
+.floaty{animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* main lesson card */
+.lesson{top:44px;right:0;width:360px;padding:22px}
+.lesson .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.tag{font-family:"Space Mono",monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);background:rgba(30,158,134,.12);padding:5px 10px;border-radius:8px}
+.greet{font-size:.85rem;color:var(--ink-soft)}
+.ring-row{display:flex;align-items:center;gap:20px;margin:14px 0 16px}
+.ring{position:relative;width:132px;height:132px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring .track{fill:none;stroke:var(--paper-2);stroke-width:12}
+.ring .fill{fill:none;stroke:url(#rg);stroke-width:12;stroke-linecap:round;stroke-dasharray:326.7;stroke-dashoffset:326.7;transition:stroke-dashoffset 1.6s cubic-bezier(.2,.7,.2,1)}
+.ring .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .center b{font-family:"Fraunces",serif;font-size:2rem;font-weight:600;line-height:1}
+.ring .center span{font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.lesson .ltitle{font-family:"Fraunces",serif;font-size:1.28rem;font-weight:600}
+.lesson .lsub{font-size:.9rem;color:var(--ink-soft);margin-top:3px}
+.lesson .cont{margin-top:16px;width:100%;justify-content:center;background:var(--ink);color:var(--paper)}
+.lesson .cont:hover{background:var(--mango)}
+.lesson .foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-family:"Space Mono",monospace;font-size:.7rem;color:var(--ink-soft)}
+.lesson .foot .xp{color:var(--mango);font-weight:700}
+
+/* vocab card (flip) */
+.vocab{top:0;left:0;width:230px;height:180px;perspective:900px;padding:0;overflow:hidden;z-index:4}
+.vocab .vf{position:relative;width:100%;height:100%;transition:transform .65s cubic-bezier(.3,.9,.3,1);transform-style:preserve-3d}
+.vocab.flip .vf{transform:rotateY(180deg)}
+.vface{position:absolute;inset:0;backface-visibility:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:18px;border-radius:var(--r)}
+.vface.front{background:linear-gradient(150deg,#fff,#F3EBD6)}
+.vface.back{background:var(--ink);color:var(--paper);transform:rotateY(180deg)}
+.vface .lang{font-family:"Space Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--coral)}
+.vface.back .lang{color:var(--sun)}
+.vword{font-family:"Fraunces",serif;font-size:2rem;font-weight:600;line-height:1}
+.vtrans{font-size:.9rem;color:var(--ink-soft)}
+.vface.back .vtrans{color:var(--paper)}
+.vbtn{display:flex;align-items:center;gap:9px;font-size:.82rem;font-weight:600}
+.vbtn .spk{width:30px;height:30px;border-radius:50%;background:var(--mango);color:#fff;display:grid;place-items:center;flex:none}
+.vflip-hint{position:absolute;right:14px;bottom:14px;font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+
+/* streak mini card */
+.streakcard{bottom:36px;left:20px;width:230px;padding:18px;z-index:4}
+.streakcard .row{display:flex;align-items:center;gap:12px}
+.streakcard .flame{width:40px;height:40px;filter:drop-shadow(0 4px 6px rgba(255,107,53,.5));animation:flick 1.4s ease-in-out infinite}
+@keyframes flick{0%,100%{transform:scale(1)}50%{transform:scale(1.06) rotate(-2deg)}}
+.streakcard b{font-family:"Fraunces",serif;font-size:1.7rem;font-weight:600;line-height:1}
+.streakcard p{font-size:.8rem;color:var(--ink-soft);margin-top:8px}
+.mini-bar{height:8px;border-radius:6px;background:var(--paper-2);margin-top:12px;overflow:hidden}
+.mini-bar i{display:block;height:100%;width:53%;background:linear-gradient(90deg,var(--sun),var(--mango));border-radius:6px}
+
+/* ---------- TICKER ---------- */
+.ticker{border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);background:var(--ink);color:var(--paper);overflow:hidden;padding:14px 0;position:relative;z-index:2}
+.ticker-track{display:flex;gap:44px;white-space:nowrap;width:max-content;animation:scroll 34s linear infinite}
+.ticker span{font-family:"Fraunces",serif;font-style:italic;font-size:1.35rem;opacity:.9;display:inline-flex;gap:44px;align-items:center}
+.ticker em{font-style:normal;color:var(--sun)}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- SECTION HEAD ---------- */
+section{position:relative;z-index:2}
+.shead{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:40px}
+.shead h2{font-size:clamp(2.1rem,4vw,3.3rem);max-width:16ch;margin-top:14px}
+.shead p{color:var(--ink-soft);max-width:40ch;font-size:1.02rem}
+.pad{padding:88px 0}
+
+/* ---------- LEVEL MAP ---------- */
+.map-sec{padding:90px 0}
+.map-stage{position:relative;background:linear-gradient(180deg,#F6F0E1,#EFE7D2);border:1.5px solid var(--line);border-radius:30px;padding:40px;overflow:hidden}
+.map-stage::before{content:"";position:absolute;inset:0;background-image:radial-gradient(var(--line) 1.2px,transparent 1.2px);background-size:26px 26px;opacity:.5}
+.map-legend{position:relative;display:flex;gap:18px;flex-wrap:wrap;margin-bottom:8px;font-family:"Space Mono",monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.map-legend span{display:inline-flex;align-items:center;gap:7px}
+.map-legend i{width:12px;height:12px;border-radius:50%;display:inline-block}
+.path-svg{position:relative;width:100%;height:400px;display:block}
+.path-line{fill:none;stroke:var(--line);stroke-width:4;stroke-dasharray:2 14;stroke-linecap:round}
+.node{position:absolute;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;transform:translate(-50%,-50%);background:var(--card);border:2.5px solid var(--ink);box-shadow:var(--shadow);transition:transform .2s;cursor:pointer;z-index:2}
+.node svg{width:26px;height:26px}
+.node:hover{transform:translate(-50%,-50%) scale(1.08)}
+.node.done{background:var(--teal);border-color:var(--teal);color:#fff}
+.node.current{width:82px;height:82px;background:var(--mango);border-color:var(--ink);z-index:3;animation:pulse 2.2s ease-in-out infinite}
+.node.locked{background:var(--paper-2);border-color:var(--line);border-style:dashed;color:var(--ink-soft);cursor:default;box-shadow:none}
+.node.locked:hover{transform:translate(-50%,-50%)}
+.node .label{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:"Space Mono",monospace;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);background:var(--paper);padding:2px 8px;border-radius:6px;border:1px solid var(--line)}
+.node.current .label{color:var(--mango);font-weight:700}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,53,.5),var(--shadow)}50%{box-shadow:0 0 0 16px rgba(255,107,53,0),var(--shadow)}}
+.map-detail{position:relative;margin-top:64px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:20px 24px}
+.map-detail .micon{width:48px;height:48px;border-radius:14px;background:rgba(255,107,53,.14);display:grid;place-items:center;flex:none}
+.map-detail .micon svg{width:24px;height:24px;color:var(--mango)}
+.map-detail h3{font-size:1.35rem}
+.map-detail p{color:var(--ink-soft);font-size:.94rem;margin-top:2px}
+.map-detail .grow{margin-left:auto;display:flex;gap:12px;align-items:center}
+.chip{font-family:"Space Mono",monospace;font-size:.72rem;padding:8px 12px;border-radius:10px;background:var(--paper-2);letter-spacing:.05em}
+.chip.hot{background:rgba(30,158,134,.14);color:var(--teal);font-weight:700}
+
+/* ---------- VOCAB GRID ---------- */
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.vcard{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:24px;position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s}
+.vcard:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.vcard .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:22px}
+.vcard .num{font-family:"Fraunces",serif;font-size:2.4rem;font-weight:700;line-height:.8;color:var(--paper-2);-webkit-text-stroke:1px var(--line)}
+.vcard .spk{width:40px;height:40px;border-radius:12px;background:var(--mango);color:#fff;display:grid;place-items:center;transition:transform .2s,background .2s}
+.vcard .spk:hover{transform:rotate(-8deg) scale(1.08);background:var(--mango-d)}
+.vcard .spk svg{width:20px;height:20px}
+.vcard .word{font-family:"Fraunces",serif;font-size:1.75rem;font-weight:600;line-height:1.05}
+.vcard .phon{font-family:"Space Mono",monospace;font-size:.74rem;color:var(--ink-soft);margin-top:4px}
+.vcard .trans{font-size:.95rem;color:var(--ink-soft);margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+.vcard .trans b{color:var(--ink);font-weight:600}
+.vcard .ex{font-size:.82rem;color:var(--ink-soft);font-style:italic;margin-top:10px;line-height:1.45}
+.vcard .bar{height:5px;border-radius:4px;background:var(--paper-2);margin-top:18px;overflow:hidden}
+.vcard .bar i{display:block;height:100%;background:var(--teal);border-radius:4px}
+.vcard .cat{position:absolute;top:20px;right:20px}
+.vcard .flame-mini{color:var(--sun)}
+
+/* ---------- GOALS ---------- */
+.goals-sec{background:var(--ink);color:var(--paper);border-radius:44px;margin:20px 0;padding:80px 60px;
+  background-image:radial-gradient(700px 400px at 90% 0%, rgba(255,197,61,.14),transparent 60%),radial-gradient(600px 500px at 0% 100%, rgba(30,158,134,.16),transparent 60%)}
+.goals-sec .shead h2{color:var(--paper)}
+.goals-sec .shead p{color:#B9C4BB}
+.goals-sec .eyebrow{color:var(--sun)}
+.goals-sec .eyebrow .dot{background:var(--sun);box-shadow:0 0 0 4px rgba(255,197,61,.2)}
+.goals-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:44px;align-items:start}
+.goal{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+.goal:first-child{padding-top:0}
+.goal .gicon{width:46px;height:46px;border-radius:14px;flex:none;display:grid;place-items:center;font-size:1.4rem}
+.goal .gbody{flex:1;min-width:0}
+.goal h4{font-family:"Fraunces",serif;font-size:1.2rem;font-weight:600}
+.goal .gsub{font-size:.86rem;color:#AEB9B0;margin-top:2px}
+.goal .gbar{height:9px;border-radius:6px;background:rgba(255,255,255,.1);margin-top:12px;overflow:hidden}
+.goal .gbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--sun),var(--mango))}
+.goal .pct{font-family:"Space Mono",monospace;font-size:.78rem;color:var(--sun);font-weight:700;flex:none;align-self:center}
+.partner{background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.12);border-radius:24px;padding:26px;position:relative;overflow:hidden}
+.partner .badge{position:absolute;top:20px;right:20px;font-family:"Space Mono",monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);background:rgba(30,158,134,.2);padding:5px 10px;border-radius:8px}
+.pavatar{width:70px;height:70px;border-radius:20px;margin-bottom:18px;border:2px solid var(--sun)}
+.partner h4{font-family:"Fraunces",serif;font-size:1.5rem;font-weight:600}
+.partner .pname{color:#AEB9B0;font-size:.9rem;margin-top:2px}
+.matchbar{margin:22px 0 6px}
+.matchbar .lbl{display:flex;justify-content:space-between;font-family:"Space Mono",monospace;font-size:.7rem;color:#AEB9B0;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.matchbar .bar{height:11px;border-radius:8px;background:rgba(255,255,255,.1);overflow:hidden}
+.matchbar .bar i{display:block;height:100%;width:72%;background:linear-gradient(90deg,var(--teal),var(--sun));border-radius:8px;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.partner .pnote{font-size:.86rem;color:#C7D0C9;margin-top:16px}
+.partner .pnote b{color:var(--sun)}
+.partner .pbtn{width:100%;justify-content:center;margin-top:20px;background:var(--sun);color:var(--ink);font-weight:700}
+.partner .pbtn:hover{background:#FFD36A;transform:translateY(-2px)}
+
+/* ---------- CTA BAND ---------- */
+.cta{padding:20px 0 90px}
+.cta-in{background:linear-gradient(135deg,#FF7A3D,#FF4D6D);border-radius:36px;padding:64px 56px;display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:center;position:relative;overflow:hidden;color:#fff}
+.cta-in::after{content:"";position:absolute;right:-40px;bottom:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.28),transparent 70%)}
+.cta-in h2{color:#fff;font-size:clamp(2rem,3.8vw,3.2rem);max-width:16ch}
+.cta-in h2 em{color:var(--sun)}
+.cta-in p{color:rgba(255,255,255,.9);margin-top:16px;font-size:1.05rem;max-width:40ch}
+.cta-actions{display:flex;flex-direction:column;gap:14px;position:relative;z-index:2}
+.cta-actions .btn{justify-content:center}
+.cta .go{background:#fff;color:var(--mango-d);box-shadow:0 12px 30px -10px rgba(0,0,0,.4)}
+.cta .go:hover{transform:translateY(-2px)}
+.cta .alt{background:rgba(255,255,255,.14);color:#fff;border:1.5px solid rgba(255,255,255,.5)}
+.cta .alt:hover{background:rgba(255,255,255,.24)}
+.cta .fine{text-align:center;font-family:"Space Mono",monospace;font-size:.72rem;color:rgba(255,255,255,.85);margin-top:14px}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink);color:#B9C4BB;padding:60px 0 30px;position:relative;z-index:2}
+.f-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:36px}
+.f-brand .logo{color:var(--paper);margin-bottom:16px}
+.f-brand p{max-width:32ch;font-size:.92rem;line-height:1.6}
+.f-news{display:flex;gap:8px;margin-top:20px;max-width:320px}
+.f-news input{flex:1;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.16);border-radius:12px;padding:11px 14px;color:var(--paper);font-family:inherit;font-size:.9rem}
+.f-news input::placeholder{color:#8A968D}
+.f-news input:focus{outline:none;border-color:var(--sun)}
+.f-news button{background:var(--sun);color:var(--ink);border-radius:12px;padding:0 16px;font-weight:700}
+.f-col h5{color:var(--paper);font-family:"Space Mono",monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+.f-col a{display:block;font-size:.92rem;margin-bottom:11px;color:#9FAA9F;transition:color .2s}
+.f-col a:hover{color:var(--sun)}
+.f-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:48px;padding-top:26px;border-top:1px solid rgba(255,255,255,.12);font-family:"Space Mono",monospace;font-size:.72rem;color:#7C877E;flex-wrap:wrap;gap:14px}
+.f-bottom .langs{display:flex;gap:14px}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:1080px){
+  .hero-grid{grid-template-columns:1fr;gap:40px}
+  .hero-visual{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:640px}
+  .hv-card,.blob{position:static;animation:none}
+  .blob{display:none}
+  .lesson,.vocab,.streakcard{width:100%;height:auto}
+  .vocab{height:180px}
+  .goals-sec{padding:56px 30px;border-radius:32px}
+  .goals-grid{grid-template-columns:1fr;gap:30px}
+  .cta-in{grid-template-columns:1fr;padding:44px 34px}
+}
+@media(max-width:760px){
+  .wrap{padding:0 20px}
+  .nav-links{display:none}
+  .hamb{display:grid;place-items:center}
+  .hero{padding:20px 0 50px}
+  .hero-visual{grid-template-columns:1fr}
+  .vgrid{grid-template-columns:1fr}
+  .map-stage{padding:24px 16px}
+  .path-svg{height:360px}
+  .map-detail{flex-direction:column;align-items:flex-start}
+  .map-detail .grow{margin-left:0}
+  .f-grid{grid-template-columns:1fr 1fr}
+  .f-brand{grid-column:1/-1}
+  .shead{margin-bottom:30px}
+  .pad{padding:60px 0}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- grain -->
+<div class="grain" aria-hidden="true">
+  <svg><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)" opacity="0.05"/></svg>
+</div>
+
+<!-- shared svg defs -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFC53D"/><stop offset="1" stop-color="#FF6B35"/>
+    </linearGradient>
+    <symbol id="flame" viewBox="0 0 24 24"><path fill="#FF6B35" d="M12 2c.6 3.4-2.6 5-2.6 8.2a2.6 2.6 0 0 0 5.2 0c0-1-.5-1.9-.5-1.9 2 .9 3.4 3 3.4 5.7A5.5 5.5 0 0 1 6 14c0-4.6 5-6.6 6-12z"/><path fill="#FFC53D" d="M12 14.5c-1.5 0-2.4 1-2.4 2.5A2.4 2.4 0 0 0 14.4 17c0-1.5-.9-2.5-2.4-2.5z"/></symbol>
+    <symbol id="spk" viewBox="0 0 24 24"><path fill="currentColor" d="M4 9v6h4l5 5V4L8 9H4z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></symbol>
+    <symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" fill="currentColor"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 3 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.3l5.9-.9z"/></symbol>
+    <symbol id="check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></symbol>
+    <symbol id="chat" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4V5a1 1 0 0 1 1-1z"/></symbol>
+    <symbol id="play" viewBox="0 0 24 24"><path fill="currentColor" d="M7 5v14l12-7z"/></symbol>
+    <symbol id="book" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h7v16H4zm5 2h-2.5M13 4h7v16h-7zm2 2h2.5"/></symbol>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#">
+      <svg viewBox="0 0 34 34"><path fill="#FF6B35" d="M2 6a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H10l-6 5V14a3 3 0 0 1-2 0z"/><circle cx="9" cy="10" r="1.6" fill="#fff"/><circle cx="14" cy="10" r="1.6" fill="#FFC53D"/><circle cx="19" cy="10" r="1.6" fill="#fff"/><path fill="#1E9E86" d="M16 22a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H24l-5 4V25a3 3 0 0 1-3 0z" opacity=".9"/></svg>
+      Parlo
+    </a>
+    <nav class="nav-links">
+      <a href="#map">Lesson map</a>
+      <a href="#vocab">Vocabulary</a>
+      <a href="#goals">Goals</a>
+      <a href="#">Community</a>
+      <a href="#">Pricing</a>
+    </nav>
+    <div class="nav-right">
+      <div class="streak-chip"><svg class="flame"><use href="#flame"/></svg><span data-streak>128</span></div>
+      <button class="btn btn-primary" style="padding:11px 18px">Continue</button>
+      <div class="avatar" title="Maya">
+        <svg viewBox="0 0 40 40" width="100%" height="100%"><rect width="40" height="40" fill="#FFC53D"/><circle cx="20" cy="16" r="8" fill="#152119"/><path d="M6 40c0-9 6-14 14-14s14 5 14 14z" fill="#152119"/></svg>
+      </div>
+    </div>
+    <button class="hamb" aria-label="menu"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="dot"></span> Live now · Unit 4 · Phrasal verbs</span>
+      <h1>Ten minutes a day is all it takes to start <span class="hl">speaking<svg viewBox="0 0 200 20" preserveAspectRatio="none"><path d="M2 14C40 4 120 4 198 12" stroke="#FFC53D" stroke-width="6" fill="none" stroke-linecap="round"/></svg></span>.</h1>
+      <p class="lead">Parlo turns tiny daily habits into real conversations. Bite-sized lessons, flashcards you'll actually remember, and a live partner to practise with — no grammar worksheets, no dread.</p>
+      <div class="cta-row">
+        <button class="btn btn-primary" style="padding:15px 26px;font-size:1rem"><svg style="width:18px;height:18px"><use href="#play"/></svg> Start today's lesson</button>
+        <button class="btn btn-ghost" style="padding:15px 24px;font-size:1rem">Browse the map</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b class="num"><svg class="flame"><use href="#flame"/></svg><span data-streak>128</span></b><span>Day streak</span></div>
+        <div class="sep"></div>
+        <div class="stat"><b>2,480</b><span>XP earned</span></div>
+        <div class="sep"></div>
+        <div class="stat"><b>642</b><span>Words known</span></div>
+        <div class="sep"></div>
+        <div class="stat"><b style="color:var(--teal)">Gold</b><span>Level 6</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+
+      <!-- vocab card -->
+      <div class="hv-card vocab floaty" id="heroVocab" style="animation-delay:-2s">
+        <div class="vf">
+          <div class="vface front">
+            <div>
+              <div class="lang">Español · Word #643</div>
+              <div class="vword">delicioso</div>
+              <div class="vtrans">delicious · tasty</div>
+            </div>
+            <button class="vbtn" data-speak="delicioso" data-lang="es-ES" data-phon="deh-lee-see-OH">
+              <span class="spk"><svg><use href="#spk"/></svg></span> Hear it
+            </button>
+            <span class="vflip-hint">tap to flip ↺</span>
+          </div>
+          <div class="vface back">
+            <div>
+              <div class="lang">Usage</div>
+              <div class="vtrans">«El arroz está <b>delicioso</b>»</div>
+              <div class="vtrans" style="color:#B9C4BB;margin-top:6px">The rice is delicious.</div>
+            </div>
+            <span class="vflip-hint" style="color:#8A968D">tap to flip ↻</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- main lesson -->
+      <div class="hv-card lesson">
+        <div class="top">
+          <span class="tag">Today · 10 min</span>
+          <span class="greet">Buenos días, Maya ☀</span>
+        </div>
+        <div class="ring-row">
+          <div class="ring">
+            <svg width="132" height="132" viewBox="0 0 132 132">
+              <circle class="track" cx="66" cy="66" r="52"/>
+              <circle class="fill" id="ringFill" cx="66" cy="66" r="52"/>
+            </svg>
+            <div class="center"><b>68%</b><span>Unit 4</span></div>
+          </div>
+          <div>
+            <div class="ltitle">Phrasal verbs for travel</div>
+            <div class="lsub">3 of 4 lessons complete</div>
+          </div>
+        </div>
+        <button class="btn cont" data-open-lesson><svg style="width:18px;height:18px"><use href="#play"/></svg> Continue · Lesson 4</button>
+        <div class="foot"><span class="xp">+40 XP</span><span>◆ 12 gems</span></div>
+      </div>
+
+      <!-- streak card -->
+      <div class="hv-card streakcard floaty" style="animation-delay:-3.5s">
+        <div class="row">
+          <svg class="flame"><use href="#flame"/></svg>
+          <div><b data-streak>128</b> days in a row</div>
+        </div>
+        <p>Best yet! You're 12 days from the longest streak this class has ever hit.</p>
+        <div class="mini-bar"><i></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker">
+    <span>hola <em>·</em> hello <em>·</em> bonjour <em>·</em> ciao <em>·</em> hallo <em>·</em> 안녕 <em>·</em> 你好 <em>·</em> olá <em>·</em> こんにちは <em>·</em>你好 <em>·</em> hallo <em>·</em></span>
+    <span>hola <em>·</em> hello <em>·</em> bonjour <em>·</em> ciao <em>·</em> hallo <em>·</em> 안녕 <em>·</em> 你好 <em>·</em> olá <em>·</em> こんにちは <em>·</em>你好 <em>·</em> hallo <em>·</em></span>
+  </div>
+</div>
+
+<!-- LEVEL MAP -->
+<section class="map-sec" id="map">
+  <div class="wrap">
+    <div class="shead">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> Your path · Course B</span>
+        <h2>The map of the next 30 days</h2>
+      </div>
+      <p>Every node is a short step: a lesson, a review, a listening drill or a live chat. Keep the flame alive and the path keeps opening.</p>
+    </div>
+
+    <div class="map-stage">
+      <div class="map-legend">
+        <span><i style="background:var(--teal)"></i> Done</span>
+        <span><i style="background:var(--mango);border:2px solid var(--ink)"></i> Up next</span>
+        <span><i style="background:var(--card);border:2px solid var(--ink)"></i> Open</span>
+        <span><i style="background:var(--paper-2);border:1px dashed var(--ink-soft)"></i> Locked</span>
+      </div>
+      <svg class="path-svg" id="pathSvg" viewBox="0 0 1000 400" preserveAspectRatio="none">
+        <path class="path-line" id="pathLine" d="M40 320 C180 120 260 360 420 200 S 620 40 740 190 S 940 320 970 130"/>
+      </svg>
+    </div>
+
+    <div class="map-detail" id="mapDetail">
+      <div class="micon"><svg><use id="detailIcon" href="#play"/></svg></div>
+      <div>
+        <h3 id="detailTitle">Order at the café</h3>
+        <p id="detailDesc">Practice the phrases you'll actually use: asking, ordering, and paying. 7 minutes, 5 short tasks.</p>
+      </div>
+      <div class="grow">
+        <span class="chip" id="detailChip">12 XP</span>
+        <span class="chip hot">Ready to start</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOCAB -->
+<section class="pad" id="vocab">
+  <div class="wrap">
+    <div class="shead">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> Your deck · 642 cards</span>
+        <h2>Flashcards that stick</h2>
+      </div>
+      <p>Tap the speaker to hear the word out loud, then tap again in a week — Parlo schedules every card so it resurfaces right before you'd forget it.</p>
+    </div>
+
+    <div class="vgrid">
+      <div class="vcard">
+        <div class="top"><div class="num">01</div><button class="spk" data-speak="buenos días" data-lang="es-ES" data-phon="BWEH-nohs DEE-as" aria-label="hear word"><svg><use href="#spk"/></svg></button></div>
+        <div class="word">buenos días</div>
+        <div class="phon">/ BWEH-nohs DEE-as /</div>
+        <div class="trans"><b>Good morning</b> · greeting</div>
+        <div class="ex">«¡Buenos días! ¿Cómo estás?» — morning small talk that works everywhere.</div>
+        <div class="bar"><i style="width:82%"></i></div>
+      </div>
+
+      <div class="vcard">
+        <div class="top"><div class="num">02</div><button class="spk" data-speak="la playa" data-lang="es-ES" data-phon="LAH PLAH-ya" aria-label="hear word"><svg><use href="#spk"/></svg></button></div>
+        <div class="word">la playa</div>
+        <div class="phon">/ LAH PLAH-ya /</div>
+        <div class="trans"><b>The beach</b> · place</div>
+        <div class="ex">«Nos vemos en la playa» — "see you at the beach" — the go-to weekend plan.</div>
+        <div class="bar"><i style="width:64%"></i></div>
+      </div>
+
+      <div class="vcard">
+        <div class="top"><div class="num">03</div><button class="spk" data-speak="¿dónde está?" data-lang="es-ES" data-phon="DON-deh ES-tah" aria-label="hear word"><svg><use href="#spk"/></svg></button></div>
+        <div class="word">¿dónde está?</div>
+        <div class="phon">/ DON-deh ES-tah /</div>
+        <div class="trans"><b>Where is it?</b> · question</div>
+        <div class="ex">«¿Dónde está la estación?» — saves you when the map app is useless.</div>
+        <div class="bar"><i style="width:47%"></i></div>
+      </div>
+
+      <div class="vcard">
+        <div class="top"><div class="num">04</div><button class="spk" data-speak="hablar" data-lang="es-ES" data-phon="a-BAHR-lahr" aria-label="hear word"><svg><use href="#spk"/></svg></button></div>
+        <div class="word">hablar</div>
+        <div class="phon">/ a-BAHR-lahr /</div>
+        <div class="trans"><b>To speak</b> · verb</div>
+        <div class="ex">«Me gusta hablar con nativos» — the exact goal you set this month.</div>
+        <div class="bar"><i style="width:73%"></i></div>
+      </div>
+
+      <div class="vcard">
+        <div class="top"><div class="num">05</div><button class="spk" data-speak="gracias" data-lang="es-ES" data-phon="GRAH-syahs" aria-label="hear word"><svg><use href="#spk"/></svg></button></div>
+        <div class="word">gracias</div>
+        <div class="phon">/ GRAH-syahs /</div>
+        <div class="trans"><b>Thank you</b> · phrase</div>
+        <div class="ex">«Muchas gracias» — always sounds a little warmer with the <b>muchas</b>.</div>
+        <div class="bar"><i style="width:91%"></i></div>
+      </div>
+
+      <div class="vcard">
+        <div class="top"><div class="num">06</div><button class="spk" data-speak="después" data-lang="es-ES" data-phon="dew-EH-spews" aria-label="hear word"><svg><use href="#spk"/></svg></button></div>
+        <div class="word">después</div>
+        <div class="phon">/ dew-EH-spews /</div>
+        <div class="trans"><b>After / later</b> · time</div>
+        <div class="ex">«¿Nos llamamos después?» — "shall we call later?" — great for ending a chat.</div>
+        <div class="bar"><i style="width:38%"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOALS -->
+<section class="goals-sec" id="goals">
+  <div class="wrap">
+    <div class="shead">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> Conversation goals · This month</span>
+        <h2>Practise toward a real conversation</h2>
+      </div>
+      <p>Goals keep the abstract honest. Each one tracks the specific moments you want to survive — and thrive — in Spanish.</p>
+    </div>
+
+    <div class="goals-grid">
+      <div class="goal-list">
+        <div class="goal">
+          <div class="gicon" style="background:rgba(255,197,61,.18)">☕</div>
+          <div class="gbody">
+            <h4>Order coffee like a local</h4>
+            <div class="gsub">Menus, sizes, and that tricky "sin azúcar" — you're nearly there.</div>
+            <div class="gbar"><i style="width:72%"></i></div>
+          </div>
+          <div class="pct">72%</div>
+        </div>
+        <div class="goal">
+          <div class="gicon" style="background:rgba(30,158,134,.2)">💬</div>
+          <div class="gbody">
+            <h4>Hold 3 minutes of small talk</h4>
+            <div class="gsub">Weekend plans, weather, and one polite follow-up question.</div>
+            <div class="gbar"><i style="width:54%"></i></div>
+          </div>
+          <div class="pct">54%</div>
+        </div>
+        <div class="goal">
+          <div class="gicon" style="background:rgba(255,77,109,.16)">🧭</div>
+          <div class="gbody">
+            <h4>Ask for and understand directions</h4>
+            <div class="gsub">Left, right, straight on — plus the phrase that gets you home.</div>
+            <div class="gbar"><i style="width:40%"></i></div>
+          </div>
+          <div class="pct">40%</div>
+        </div>
+        <div class="goal">
+          <div class="gicon" style="background:rgba(61,123,196,.2)">📞</div>
+          <div class="gbody">
+            <h4>Take one phone call in Spanish</h4>
+            <div class="gsub">The big one. Your match has agreed to a 5-minute voice call.</div>
+            <div class="gbar"><i style="width:22%"></i></div>
+          </div>
+          <div class="pct">22%</div>
+        </div>
+      </div>
+
+      <div class="partner">
+        <span class="badge">Matched 82%</span>
+        <div class="pavatar">
+          <svg viewBox="0 0 70 70" width="100%" height="100%"><rect width="70" height="70" fill="#1E9E86"/><circle cx="35" cy="27" r="15" fill="#F2ECDC"/><path d="M10 70c0-17 11-26 25-26s25 9 25 26z" fill="#F2ECDC"/><path d="M20 30c0-12 7-19 15-19s15 7 15 19c-4-6-9-8-15-8s-11 2-15 8z" fill="#152119"/></svg>
+        </div>
+        <h4>Rosa · Sevilla</h4>
+        <div class="pname">Native speaker · Wants: 30 min voice this week</div>
+        <div class="matchbar">
+          <div class="lbl"><span>Practise progress</span><span>72%</span></div>
+          <div class="bar"><i id="matchFill"></i></div>
+        </div>
+        <p class="pnote">You two have practised the <b>café goal</b> together 4 times. Ready for your first voice call?</p>
+        <button class="btn pbtn">📞 Schedule a call</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <div class="cta-in">
+      <div>
+        <h2>Your streak is <em>128 days</em>. Don't let it end tonight.</h2>
+        <p>Nine minutes, one lesson, and you're through. Set the reminder now and we'll have tomorrow's lesson waiting before you even think about it.</p>
+      </div>
+      <div class="cta-actions">
+        <button class="btn go" data-open-lesson><svg style="width:20px;height:20px"><use href="#play"/></svg> Start the 9-minute lesson</button>
+        <button class="btn alt">Remind me at 7pm</button>
+        <div class="fine">No ads · Pause any time · Free to start</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div class="f-brand">
+        <a class="logo" href="#">
+          <svg viewBox="0 0 34 34"><path fill="#FF6B35" d="M2 6a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H10l-6 5V14a3 3 0 0 1-2 0z"/><circle cx="9" cy="10" r="1.6" fill="#fff"/><circle cx="14" cy="10" r="1.6" fill="#FFC53D"/><circle cx="19" cy="10" r="1.6" fill="#fff"/><path fill="#1E9E86" d="M16 22a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3H24l-5 4V25a3 3 0 0 1-3 0z" opacity=".9"/></svg>
+          Parlo
+        </a>
+        <p>Little habits, real conversations. Learn a language in ten focused minutes a day, in a way that actually feels like talking.</p>
+        <form class="f-news" onsubmit="return false">
+          <input type="email" placeholder="you@email.com" aria-label="email">
+          <button type="submit">Join</button>
+        </form>
+      </div>
+      <div class="f-col">
+        <h5>Learn</h5>
+        <a href="#map">Lesson map</a>
+        <a href="#vocab">Vocabulary</a>
+        <a href="#goals">Conversation goals</a>
+        <a href="#">Listening drills</a>
+        <a href="#">Grammar, gently</a>
+      </div>
+      <div class="f-col">
+        <h5>Company</h5>
+        <a href="#">Our method</a>
+        <a href="#">Native partners</a>
+        <a href="#">Pricing</a>
+        <a href="#">For teams</a>
+        <a href="#">Careers</a>
+      </div>
+      <div class="f-col">
+        <h5>Support</h5>
+        <a href="#">Help centre</a>
+        <a href="#">Community</a>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© 2024 Parlo Labs · Made for daily speakers</span>
+      <div class="langs"><span>Español</span><span>Français</span><span>Deutsch</span><span>日本語</span><span>Português</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* nav scroll state */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>10));
+
+/* animate progress ring */
+const ring=document.getElementById('ringFill');
+const C=2*Math.PI*52; // r=52
+ring.style.strokeDasharray=C;
+ring.style.strokeDashoffset=C;
+requestAnimationFrame(()=>setTimeout(()=>{ring.style.strokeDashoffset=C*(1-0.68)},300));
+
+/* match bar fill on view */
+const mf=document.getElementById('matchFill');
+const io=new IntersectionObserver(e=>{if(e[0].isIntersecting){mf.style.width='72%';io.disconnect();}},{threshold:.3});
+io.observe(mf);
+
+/* streak count-up */
+document.querySelectorAll('[data-streak]').forEach(el=>{
+  const target=128;let cur=96;const id=setInterval(()=>{cur+=2;if(cur>=target){cur=target;clearInterval(id);}el.textContent=cur;},40);
+});
+
+/* hero vocab flip */
+const hv=document.getElementById('heroVocab');
+hv.addEventListener('click',e=>{if(!e.target.closest('[data-speak]'))hv.classList.toggle('flip');});
+
+/* speech synthesis */
+function speak(text,lang){
+  if(!('speechSynthesis' in window))return;
+  const u=new SpeechSynthesisUtterance(text);u.lang=lang;u.rate=.82;
+  const v=speechSynthesis.getVoices().find(v=>v.lang.toLowerCase().startsWith(lang.split('-')[0]));
+  if(v)u.voice=v;
+  speechSynthesis.cancel();speechSynthesis.speak(u);
+}
+document.querySelectorAll('[data-speak]').forEach(b=>{
+  b.addEventListener('click',e=>{
+    e.stopPropagation();
+    speak(b.dataset.speak,b.dataset.lang||'es-ES');
+    const s=b.querySelector('svg')||b;
+    s.style.transition='transform .15s';s.style.transform='scale(1.3)';
+    setTimeout(()=>s.style.transform='scale(1)',180);
+  });
+});
+if('speechSynthesis' in window)speechSynthesis.getVoices();
+
+/* level map nodes */
+const stage=document.querySelector('.path-stage')||document.querySelector('.map-stage');
+const svg=document.getElementById('pathSvg');
+const line=document.getElementById('pathLine');
+const nodes=[
+  {t:.03,type:'done',label:'Lesson 1',icon:'check',title:'Greetings & basics',desc:'Where every journey starts — hi, bye, and the confidence to use them out loud.',chip:'Done'},
+  {t:.14,type:'done',label:'Review',icon:'star',title:'Review · Unit 3',desc:'A quick 3-minute sweep of last week's vocabulary before it fades.',chip:'5 XP'},
+  {t:.27,type:'done',label:'Lesson 2',icon:'play',title:'At the café',desc:'Order, take a seat, and handle the bill without reaching for your phone.',chip:'Done'},
+  {t:.40,type:'current',label:'Lesson 3',icon:'play',title:'Order at the café',desc:'Practice the phrases you\'ll actually use: asking, ordering, and paying. 7 minutes, 5 short tasks.',chip:'12 XP'},
+  {t:.53,type:'open',label:'Listen',icon:'chat',title:'Listening · street sounds',desc:'Short audio clips from a real Seville market. Guess, then check, then repeat.',chip:'8 XP'},
+  {t:.66,type:'open',label:'Lesson 4',icon:'play',title:'Asking directions',desc:'Left, right, "the one next to it" — navigate a 20-minute walk.',chip:'14 XP'},
+  {t:.79,type:'open',label:'Chat',icon:'chat',title:'Live chat with Rosa',desc:'A guided 5-minute conversation around your café goal. She\'s waiting.',chip:'20 XP'},
+  {t:.92,type:'locked',label:'Boss',icon:'lock',title:'The big test',desc:'Finish the open nodes above to unlock the end-of-unit conversation.',chip:'Locked'}
+];
+function pos(t){
+  const len=line.getTotalLength();
+  const p=line.getPointAtLength(len*t);
+  const r=svg.getBoundingClientRect();
+  return {x:p.x/1000*100, y:p.y/400*100};
+}
+nodes.forEach((n,i)=>{
+  const p=pos(n.t);
+  const d=document.createElement('div');
+  d.className='node '+n.type;
+  d.style.left=p.x+'%';d.style.top=p.y+'%';
+  d.innerHTML=`<svg><use href="#${n.icon}"/></svg>${n.type==='current'?'':'<span class="label">'+n.label+'</span>'}`;
+  if(n.type==='current')d.innerHTML+=`<span class="label">Up next</span>`;
+  d.addEventListener('click',()=>{
+    if(n.type==='locked'){d.animate([{transform:'translate(-50%,-50%)'},{transform:'translate(-46%,-50%)'},{transform:'translate(-54%,-50%)'},{transform:'translate(-50%,-50%)'}],{duration:400});return;}
+    document.getElementById('detailTitle').textContent=n.title;
+    document.getElementById('detailDesc').textContent=n.desc;
+    const c=document.getElementById('detailChip');c.textContent=n.chip;
+    document.getElementById('detailIcon').setAttribute('href','#'+n.icon);
+    document.querySelectorAll('.node').forEach(x=>x.style.outline='none');
+    d.style.outline=n.type==='current'?'':'3px solid rgba(30,158,134,.4)';
+    document.getElementById('mapDetail').scrollIntoView({behavior:'smooth',block:'nearest'});
+  });
+  stage.appendChild(d);
+});
+
+/* generic open-lesson CTAs */
+document.querySelectorAll('[data-open-lesson]').forEach(b=>b.addEventListener('click',()=>{
+  document.getElementById('mapDetail').scrollIntoView({behavior:'smooth',block:'center'});
+}));
+</script>
+</body>
+</html>

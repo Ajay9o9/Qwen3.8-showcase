@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Showcase picker</title>
+<style>
+:root {
+  --bg: #0b151b;
+  --panel: #14232c;
+  --line: #2a3a44;
+  --ink: #eaf0f2;
+  --muted: #9baab2;
+  --accent: #f08a50;
+  --teal: #69d6d0;
+  --ok: #8ee0a8;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--ink);
+  font: 14px/1.45 Inter, ui-sans-serif, system-ui, sans-serif; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; }
+
+.top {
+  position: sticky; top: 0; z-index: 8;
+  display: flex; gap: 16px; align-items: center; justify-content: space-between;
+  padding: 14px 22px; border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(12px);
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 750; }
+.mark {
+  width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center;
+  background: linear-gradient(135deg, #f08a50, #d95887); color: #101920; font-weight: 800;
+}
+.lede { color: var(--muted); font-size: 13px; margin: 2px 0 0; }
+.actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.count { color: var(--teal); font-variant-numeric: tabular-nums; }
+.button {
+  border: 1px solid var(--line); background: #172a33; color: var(--ink);
+  border-radius: 999px; padding: 8px 14px;
+}
+.button.primary { background: var(--accent); color: #101820; border-color: var(--accent); }
+.button:disabled { opacity: .5; cursor: wait; }
+.status { color: var(--muted); font-size: 12px; min-height: 1.2em; }
+
+.layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); min-height: calc(100vh - 74px); }
+.side {
+  border-right: 1px solid var(--line); padding: 16px; overflow: auto;
+  background: #101c23;
+}
+.side h2 { margin: 0 0 10px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.tag {
+  display: block; width: 100%; text-align: left; background: transparent; color: var(--ink);
+  border: 1px solid transparent; border-radius: 10px; padding: 9px 10px; margin-bottom: 4px;
+}
+.tag small { display: block; color: var(--muted); font-size: 12px; }
+.tag.active { background: #20313a; border-color: var(--accent); }
+.tag .n { float: right; color: var(--teal); font-size: 12px; }
+
+.main { padding: 18px 22px 90px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px; }
+.search {
+  flex: 1; min-width: 180px; background: var(--panel); border: 1px solid var(--line);
+  color: var(--ink); border-radius: 999px; padding: 8px 14px;
+}
+.pill { border: 1px solid var(--line); background: #172a33; color: #c7d2d7; border-radius: 999px; padding: 7px 12px; }
+.pill.active { background: #edf5f4; color: #0d1a20; border-color: #edf5f4; }
+.group-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin: 22px 0 10px; gap: 12px;
+}
+.group-head h3 { margin: 0; font-size: 18px; letter-spacing: -.03em; }
+.quiet { color: var(--muted); font-size: 12px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.card {
+  position: relative; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 14px; overflow: hidden; cursor: pointer; text-align: left; color: inherit;
+  padding: 0; display: flex; flex-direction: column;
+}
+.card.on { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.thumb { aspect-ratio: 16/9; background: #0e1a20; overflow: hidden; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb.empty { display: grid; place-items: center; color: var(--muted); font-size: 12px; }
+.body { padding: 10px 12px 12px; }
+.eyebrow { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.card h4 { margin: 3px 0 0; font-size: 15px; font-weight: 650; }
+.check {
+  position: absolute; top: 8px; right: 8px; width: 22px; height: 22px; border-radius: 50%;
+  border: 1px solid #fff8; background: #0006; color: #fff; display: grid; place-items: center; font-size: 12px;
+}
+.card.on .check { background: var(--accent); color: #101820; border-color: var(--accent); }
+.open {
+  position: absolute; top: 8px; left: 8px; font-size: 11px; padding: 4px 8px;
+  border-radius: 999px; background: #0007; color: #fff; text-decoration: none; border: 1px solid #fff3;
+}
+.empty { color: var(--muted); padding: 40px 8px; }
+@media (max-width: 820px) {
+  .layout { grid-template-columns: 1fr; }
+  .side { border-right: 0; border-bottom: 1px solid var(--line); max-height: 220px; }
+  .top { flex-wrap: wrap; align-items: flex-start; }
+  .actions { width: 100%; }
+}
+</style>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="mark">Q</span>
+      <div>
+        Showcase picker
+        <p class="lede">Click a screenshot to include it. Save writes catalog.json. Export copies into site/.</p>
+      </div>
+    </div>
+    <div class="actions">
+      <span class="count" id="count">0 selected</span>
+      <button class="button" id="select-visible">Select visible</button>
+      <button class="button" id="clear-visible">Clear visible</button>
+      <button class="button" id="save">Save catalog</button>
+      <button class="button primary" id="export">Save &amp; export</button>
+    </div>
+  </header>
+  <p class="status" id="status" style="margin:0;padding:8px 22px"></p>
+  <div class="layout">
+    <aside class="side">
+      <h2>Result tags</h2>
+      <button class="tag active" data-tag="">All tags</button>
+      <div id="tags"></div>
+    </aside>
+    <main class="main">
+      <div class="toolbar">
+        <input class="search" id="q" placeholder="Search title or id">
+        <button class="pill" data-only="selected">Selected only</button>
+      </div>
+      <div id="board"></div>
+    </main>
+  </div>
+<script>
+const state = { items: [], selected: new Set(), tag: "", track: "web", onlySelected: false, q: "" };
+const $ = (id) => document.getElementById(id);
+const keyOf = (item) => item.tag + "|" + item.track + "|" + item.id;
+function setStatus(text, ok) {
+  $("status").textContent = text || "";
+  $("status").style.color = ok === false ? "#ff8b8b" : ok ? "var(--ok)" : "var(--muted)";
+}
+function parseKey(key) {
+  const [tag, track, id] = key.split("|");
+  return { tag, track, id };
+}
+function visible() {
+  const q = state.q.trim().toLowerCase();
+  return state.items.filter((item) => {
+    if (state.tag && item.tag !== state.tag) return false;
+    if (state.track !== "all" && item.track !== state.track) return false;
+    if (state.onlySelected && !state.selected.has(keyOf(item))) return false;
+    if (q && !(item.title + " " + item.id + " " + item.tag).toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+function grouped(items) {
+  const map = new Map();
+  items.forEach((item) => {
+    if (!map.has(item.tag)) map.set(item.tag, []);
+    map.get(item.tag).push(item);
+  });
+  return map;
+}
+function renderTags() {
+  const counts = new Map();
+  state.items.forEach((item) => {
+    const rec = counts.get(item.tag) || { web: 0, on: 0 };
+    rec.web += 1;
+    if (state.selected.has(keyOf(item))) rec.on += 1;
+    counts.set(item.tag, rec);
+  });
+  $("tags").innerHTML = [...counts.entries()].map(([tag, rec]) => {
+    return `<button class="tag ${state.tag === tag ? "active" : ""}" data-tag="${tag}">
+      <span class="n">${rec.on}/${rec.web}</span>
+      ${tag}
+      <small>${rec.web} websites</small>
+    </button>`;
+  }).join("");
+  document.querySelectorAll(".tag").forEach((btn) => {
+    btn.onclick = () => { state.tag = btn.dataset.tag || ""; render(); };
+  });
+  document.querySelector(".tag[data-tag='']").classList.toggle("active", !state.tag);
+}
+function renderBoard() {
+  const items = visible();
+  $("count").textContent = state.selected.size + " selected";
+  if (!items.length) {
+    $("board").innerHTML = '<p class="empty">Nothing matches this filter.</p>';
+    return;
+  }
+  const groups = grouped(items);
+  $("board").innerHTML = [...groups.entries()].map(([tag, rows]) => {
+    const cards = rows.map((item) => {
+      const on = state.selected.has(keyOf(item));
+      const img = item.shot
+        ? `<img loading="lazy" src="${item.shot}" alt="">`
+        : `<div class="thumb empty">no screenshot</div>`;
+      return `<button class="card ${on ? "on" : ""}" data-key="${keyOf(item)}">
+        <span class="check">${on ? "✓" : ""}</span>
+        <a class="open" href="${item.preview}" target="_blank" rel="noreferrer" data-open="1">open</a>
+        <div class="thumb">${item.shot ? img : '<div class="thumb empty">no screenshot</div>'}</div>
+        <div class="body">
+          <div class="eyebrow">${item.status || "saved"}</div>
+          <h4>${item.title}</h4>
+        </div>
+      </button>`;
+    }).join("");
+    return `<div class="group-head"><h3>${tag}</h3><span class="quiet">${rows.length} shown</span></div>
+      <section class="grid">${cards}</section>`;
+  }).join("");
+  $("board").querySelectorAll(".card").forEach((card) => {
+    card.onclick = (event) => {
+      if (event.target.closest("[data-open]")) return;
+      const key = card.dataset.key;
+      if (state.selected.has(key)) state.selected.delete(key);
+      else state.selected.add(key);
+      render();
+    };
+  });
+}
+function render() { renderTags(); renderBoard(); }
+
+async function load() {
+  const [lib, cat] = await Promise.all([
+    fetch("/api/library").then((r) => r.json()),
+    fetch("/api/catalog").then((r) => r.json()),
+  ]);
+  state.items = lib.items || [];
+  state.selected = new Set((cat.selected || []).map((item) => item.tag + "|" + item.track + "|" + item.id));
+  render();
+  setStatus("Loaded " + state.items.length + " pages from compare results.");
+}
+async function save(thenExport) {
+  const selected = [...state.selected].map(parseKey);
+  $("save").disabled = $("export").disabled = true;
+  setStatus(thenExport ? "Saving and exporting…" : "Saving catalog…");
+  try {
+    const saved = await fetch("/api/catalog", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ selected }),
+    }).then((r) => r.json());
+    if (!saved.ok) throw new Error(saved.error || "save failed");
+    if (!thenExport) {
+      setStatus("Saved " + selected.length + " pages to catalog.json", true);
+      return;
+    }
+    const exported = await fetch("/api/export", { method: "POST" }).then((r) => r.json());
+    if (!exported.ok) throw new Error(exported.output || "export failed");
+    setStatus(exported.output.trim() || "Exported.", true);
+  } catch (err) {
+    setStatus(String(err.message || err), false);
+  } finally {
+    $("save").disabled = $("export").disabled = false;
+  }
+}
+
+$("q").oninput = (event) => { state.q = event.target.value; render(); };
+document.querySelector(".pill[data-only]").onclick = (event) => {
+  state.onlySelected = !state.onlySelected;
+  event.currentTarget.classList.toggle("active", state.onlySelected);
+  render();
+};
+$("select-visible").onclick = () => { visible().forEach((item) => state.selected.add(keyOf(item))); render(); };
+$("clear-visible").onclick = () => { visible().forEach((item) => state.selected.delete(keyOf(item))); render(); };
+$("save").onclick = () => save(false);
+$("export").onclick = () => save(true);
+load().catch((err) => setStatus(String(err), false));
+</script>
+</body>
+</html>

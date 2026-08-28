@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "title": "Qwen One-Shot",
+  "description": "50 websites, one sample each, generated locally on a single RTX 3090 with Qwen 3.8 27B.",
+  "entries": [
+    {
+      "id": "qwen38-q4km",
+      "name": "Qwen 3.8 27B",
+      "version": "3.8",
+      "quant": "Q4_K_M",
+      "label": "Qwen 3.8 27B",
+      "notes": "One sample per site. Qwen3.8-27B Q4_K_M with thinking, generated locally on a single RTX 3090.",
+      "sources": {
+        "web": {
+          "tag": "qwen38-27b-q4_k_m-thinking",
+          "tasks": [
+            "web_ai_product_launch",
+            "web_airline_lounge",
+            "web_architecture_studio",
+            "web_auction_house",
+            "web_automotive",
+            "web_bookstore",
+            "web_cinema_streaming",
+            "web_civic_services",
+            "web_climate_lab",
+            "web_community_center",
+            "web_creative_gallery",
+            "web_crm_dashboard",
+            "web_developer_tool",
+            "web_digital_newsroom",
+            "web_education_course",
+            "web_email_client",
+            "web_fashion_editorial",
+            "web_financial_advisor",
+            "web_fintech_dashboard",
+            "web_fleet_logistics",
+            "web_furniture_showroom",
+            "web_game_launcher",
+            "web_grocery_market",
+            "web_healthcare_portal",
+            "web_hiking_guide",
+            "web_hotel_booking",
+            "web_incident_response",
+            "web_insurance_claims",
+            "web_inventory_manager",
+            "web_job_board",
+            "web_language_learning",
+            "web_legal_consulting",
+            "web_meal_planner",
+            "web_museum_exhibition",
+            "web_music_player",
+            "web_nonprofit_campaign",
+            "web_password_manager",
+            "web_pet_care",
+            "web_podcast_studio",
+            "web_productivity_app",
+            "web_real_estate",
+            "web_research_conference",
+            "web_restaurant",
+            "web_ski_resort",
+            "web_sleep_tracker",
+            "web_sports_club",
+            "web_travel_editor",
+            "web_weather_atlas",
+            "web_wedding_planner",
+            "web_wellness_studio"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SONORA — Music, composed for the dark</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0a0f;
+    --bg-2:#121018;
+    --panel:#16131d;
+    --panel-2:#1c1826;
+    --line:rgba(255,255,255,.07);
+    --txt:#ece8e2;
+    --txt-dim:#9a93a6;
+    --txt-faint:#5f5969;
+    --accent:#ff7847;
+    --accent-2:#ffb15c;
+    --violet:#8b7cf6;
+    --bar-h:92px;
+    --radius:14px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--txt);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:rgba(255,120,71,.35)}
+
+  /* ---------- App shell ---------- */
+  .app{
+    height:100vh;
+    display:grid;
+    grid-template-rows:1fr var(--bar-h);
+    grid-template-columns:268px 1fr;
+    grid-template-areas:"side main" "bar bar";
+  }
+  .sidebar{grid-area:side;overflow-y:auto;border-right:1px solid var(--line);background:linear-gradient(180deg,#100e16,#0c0b11)}
+  .main{grid-area:main;overflow-y:auto;scroll-behavior:smooth;position:relative}
+  .playerbar{grid-area:bar}
+
+  .main::-webkit-scrollbar,.sidebar::-webkit-scrollbar{width:10px}
+  .main::-webkit-scrollbar-thumb,.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:99px;border:3px solid transparent;background-clip:content-box}
+
+  /* ---------- Sidebar ---------- */
+  .logo{
+    font-family:'Space Grotesk';
+    font-weight:700;font-size:22px;letter-spacing:.14em;
+    padding:26px 24px 22px;display:flex;align-items:center;gap:10px;
+  }
+  .logo-mark{
+    width:30px;height:30px;border-radius:9px;
+    background:conic-gradient(from 210deg,var(--accent),var(--accent-2),var(--violet),var(--accent));
+    display:grid;place-items:center;box-shadow:0 6px 18px rgba(255,120,71,.35);
+  }
+  .logo-mark svg{width:15px;height:15px}
+  .nav{padding:8px 14px}
+  .nav a{
+    display:flex;align-items:center;gap:13px;
+    padding:11px 12px;border-radius:10px;
+    color:var(--txt-dim);text-decoration:none;font-size:14px;font-weight:500;
+    transition:color .15s,background .15s;
+  }
+  .nav a svg{width:18px;height:18px;flex:none}
+  .nav a:hover{color:var(--txt);background:rgba(255,255,255,.04)}
+  .nav a.active{color:var(--txt);background:linear-gradient(90deg,rgba(255,120,71,.14),rgba(255,120,71,.03));position:relative}
+  .nav a.active::before{
+    content:"";position:absolute;left:0;top:22%;bottom:22%;width:3px;border-radius:99px;
+    background:linear-gradient(180deg,var(--accent),var(--accent-2));
+  }
+  .side-label{
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--txt-faint);padding:22px 26px 10px;font-weight:600;
+  }
+  .side-lists{padding:0 14px 24px}
+  .side-lists a{
+    display:block;padding:9px 12px;border-radius:8px;
+    color:var(--txt-dim);text-decoration:none;font-size:13.5px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.15s;
+  }
+  .side-lists a:hover{color:var(--txt);background:rgba(255,255,255,.04)}
+  .side-card{
+    margin:8px 14px 26px;padding:16px;border-radius:14px;
+    background:linear-gradient(150deg,#241b2e,#171320);
+    border:1px solid var(--line);
+  }
+  .side-card h4{font-family:'Space Grotesk';font-size:14px;margin-bottom:4px}
+  .side-card p{font-size:12px;color:var(--txt-dim);line-height:1.55}
+  .side-card button{
+    margin-top:12px;width:100%;padding:9px;border-radius:9px;border:0;cursor:pointer;
+    font-family:'Space Grotesk';font-weight:600;font-size:12.5px;letter-spacing:.04em;
+    color:#14100e;background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transition:transform .15s,box-shadow .15s;
+  }
+  .side-card button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(255,120,71,.35)}
+
+  /* ---------- Main content ---------- */
+  .content{max-width:1240px;margin:0 auto;padding:34px 40px 90px;position:relative}
+
+  /* Hero */
+  .hero{
+    position:relative;border-radius:22px;overflow:hidden;
+    padding:44px;display:grid;grid-template-columns:300px 1fr;gap:44px;align-items:center;
+    background:
+      radial-gradient(900px 480px at 85% -10%,rgba(255,120,71,.22),transparent 60%),
+      radial-gradient(700px 500px at -10% 110%,rgba(139,124,246,.16),transparent 60%),
+      linear-gradient(155deg,#1a1424 0%,#120e1a 55%,#0e0b14 100%);
+    border:1px solid var(--line);
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;
+  }
+  .hero-art{position:relative}
+  .hero-art .art{
+    width:300px;height:300px;border-radius:18px;
+    box-shadow:0 30px 70px -20px rgba(0,0,0,.75),0 0 0 1px rgba(255,255,255,.08);
+    transform:rotate(-1.2deg);
+    transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .hero-art:hover .art{transform:rotate(0deg) scale(1.015)}
+  .art{
+    position:relative;overflow:hidden;border-radius:inherit;
+    display:grid;place-items:center;width:100%;height:100%;
+  }
+  .art svg{position:absolute;inset:0;width:100%;height:100%}
+  .art .sheen{
+    position:absolute;inset:0;
+    background:linear-gradient(115deg,rgba(255,255,255,.14) 0%,transparent 34%);
+    pointer-events:none;
+  }
+  .hero-copy .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--accent-2);margin-bottom:16px;
+  }
+  .kicker::before{content:"";width:22px;height:1px;background:var(--accent)}
+  .hero-copy h1{
+    font-family:'Space Grotesk';font-weight:700;font-size:52px;line-height:1.02;
+    letter-spacing:-.02em;margin-bottom:6px;
+  }
+  .hero-copy .artist{
+    font-family:'Space Grotesk';font-size:19px;color:var(--txt-dim);margin-bottom:18px;
+  }
+  .hero-copy .desc{font-size:14.5px;line-height:1.65;color:var(--txt-dim);max-width:44ch;margin-bottom:26px}
+  .hero-meta{display:flex;gap:18px;font-size:12px;color:var(--txt-faint);margin-bottom:28px}
+  .hero-meta span b{color:var(--txt-dim);font-weight:600}
+  .hero-actions{display:flex;gap:14px;align-items:center}
+  .btn-play{
+    display:inline-flex;align-items:center;gap:10px;cursor:pointer;border:0;
+    padding:14px 28px;border-radius:99px;
+    font-family:'Space Grotesk';font-weight:600;font-size:14.5px;letter-spacing:.02em;
+    color:#14100e;background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    box-shadow:0 12px 30px -8px rgba(255,120,71,.55);
+    transition:transform .15s,box-shadow .15s;
+  }
+  .btn-play:hover{transform:translateY(-2px);box-shadow:0 16px 36px -8px rgba(255,120,71,.7)}
+  .btn-play svg{width:16px;height:16px}
+  .btn-ghost{
+    cursor:pointer;border:1px solid rgba(255,255,255,.16);background:transparent;
+    color:var(--txt);padding:13px 22px;border-radius:99px;font-size:13.5px;font-weight:500;
+    transition:.15s;
+  }
+  .btn-ghost:hover{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.05)}
+
+  /* Sections */
+  .section{margin-top:52px}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px}
+  .section-head h2{font-family:'Space Grotesk';font-size:22px;font-weight:600;letter-spacing:-.01em}
+  .section-head a{font-size:12.5px;color:var(--txt-faint);text-decoration:none;font-weight:500;transition:.15s}
+  .section-head a:hover{color:var(--accent-2)}
+
+  /* Card rows */
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .row.two{grid-template-columns:repeat(3,1fr)}
+  .card{
+    background:linear-gradient(160deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:14px;position:relative;cursor:pointer;
+    transition:transform .25s cubic-bezier(.2,.8,.2,1),border-color .2s,box-shadow .25s;
+  }
+  .card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(255,255,255,.14);
+    box-shadow:0 24px 44px -18px rgba(0,0,0,.7);
+  }
+  .card .art{aspect-ratio:1;width:100%;border-radius:9px;margin-bottom:13px;
+    box-shadow:0 14px 30px -14px rgba(0,0,0,.7);transition:transform .3s}
+  .card:hover .art{transform:scale(1.02)}
+  .card h3{font-family:'Space Grotesk';font-size:15px;font-weight:600;margin-bottom:3px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card p{font-size:12.5px;color:var(--txt-dim)}
+  .card .play-fab{
+    position:absolute;right:22px;bottom:72px;width:44px;height:44px;border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:grid;place-items:center;opacity:0;transform:translateY(8px);
+    transition:.25s cubic-bezier(.2,.8,.2,1);
+    box-shadow:0 10px 24px -6px rgba(255,120,71,.6);border:0;cursor:pointer;
+  }
+  .card:hover .play-fab{opacity:1;transform:translateY(0)}
+  .card .play-fab svg{width:15px;height:15px;fill:#14100e}
+  .card .tag{
+    position:absolute;top:24px;left:24px;
+    font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    padding:5px 9px;border-radius:99px;color:#fff;
+    background:rgba(10,8,14,.55);backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,.18);
+  }
+
+  /* Track list */
+  .tracklist{
+    border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+    background:linear-gradient(180deg,rgba(255,255,255,.025),transparent 30%);
+  }
+  .t-row{
+    display:grid;grid-template-columns:36px 52px 1.6fr 1.2fr 1fr 68px;
+    gap:16px;align-items:center;
+    padding:10px 20px;font-size:13.5px;cursor:pointer;
+    border-bottom:1px solid rgba(255,255,255,.04);
+    transition:background .15s;
+  }
+  .t-row:last-child{border-bottom:0}
+  .t-row:hover{background:rgba(255,255,255,.045)}
+  .t-row .num{color:var(--txt-faint);font-variant-numeric:tabular-nums;font-size:13px;text-align:center}
+  .t-row .play-on-hover{display:none;width:15px;height:15px;margin:0 auto;fill:#fff}
+  .t-row:hover .num span{display:none}
+  .t-row:hover .play-on-hover{display:block}
+  .t-row .t-art{width:44px;height:44px;border-radius:8px;box-shadow:0 6px 14px -6px rgba(0,0,0,.6)}
+  .t-title{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .t-artist{color:var(--txt-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .t-album{color:var(--txt-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .t-dur{color:var(--txt-dim);font-variant-numeric:tabular-nums;text-align:right;font-size:12.5px}
+  .t-head{
+    display:grid;grid-template-columns:36px 52px 1.6fr 1.2fr 1fr 68px;gap:16px;
+    padding:12px 20px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--txt-faint);font-weight:600;
+    background:rgba(255,255,255,.03);border-bottom:1px solid var(--line);
+  }
+  .t-head .h-dur{text-align:right}
+  .t-row.active .t-title{color:var(--accent-2)}
+  .t-row.active .num{color:var(--accent)}
+  .t-row.active .num span{display:none}
+  .t-row.active .play-on-hover{display:block;fill:var(--accent)}
+  .eq{display:none;gap:2.5px;height:14px;align-items:flex-end;justify-content:center;width:15px}
+  .t-row.active .num .eq{display:flex}
+  .eq i{width:3px;border-radius:2px;background:var(--accent);animation:eq 1s ease-in-out infinite}
+  .eq i:nth-child(1){animation-delay:0s;height:60%}
+  .eq i:nth-child(2){animation-delay:.25s;height:100%}
+  .eq i:nth-child(3){animation-delay:.5s;height:45%}
+  @keyframes eq{0%,100%{transform:scaleY(.4)}50%{transform:scaleY(1)}}
+
+  /* ---------- Player bar ---------- */
+  .playerbar{
+    background:rgba(14,12,19,.82);backdrop-filter:blur(20px);
+    border-top:1px solid var(--line);
+    display:grid;grid-template-columns:1fr 1.6fr 1fr;align-items:center;
+    padding:0 26px;gap:20px;position:relative;z-index:5;
+  }
+  .playerbar::before{
+    content:"";position:absolute;top:-1px;left:0;right:0;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(255,120,71,.5) 30%,rgba(139,124,246,.4) 70%,transparent);
+  }
+  .np{display:flex;align-items:center;gap:14px;min-width:0}
+  .np .art{width:56px;height:56px;border-radius:10px;flex:none;box-shadow:0 8px 20px -8px rgba(0,0,0,.7)}
+  .np .np-title{font-family:'Space Grotesk';font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .np .np-artist{font-size:12px;color:var(--txt-dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .np-like{border:0;background:none;cursor:pointer;padding:6px;border-radius:50%;display:grid;place-items:center;transition:.15s}
+  .np-like svg{width:16px;height:16px;fill:none;stroke:var(--txt-dim);stroke-width:1.8}
+  .np-like.liked svg{fill:var(--accent);stroke:var(--accent)}
+  .np-like:hover{background:rgba(255,255,255,.06)}
+
+  .center{display:flex;flex-direction:column;align-items:center;gap:9px;min-width:0}
+  .controls{display:flex;align-items:center;gap:22px}
+  .c-btn{background:none;border:0;cursor:pointer;padding:5px;display:grid;place-items:center;transition:.15s;color:var(--txt-dim)}
+  .c-btn svg{width:17px;height:17px;fill:currentColor}
+  .c-btn:hover{color:var(--txt);transform:scale(1.1)}
+  .c-btn.toggled{color:var(--accent)}
+  .c-btn.toggled svg{filter:drop-shadow(0 0 6px rgba(255,120,71,.6))}
+  .c-play{
+    width:42px;height:42px;border-radius:50%;border:0;cursor:pointer;
+    background:linear-gradient(135deg,#fff,#d9d4e2);
+    display:grid;place-items:center;
+    box-shadow:0 8px 22px -6px rgba(255,255,255,.25);
+    transition:transform .15s;
+  }
+  .c-play:hover{transform:scale(1.07)}
+  .c-play svg{width:16px;height:16px;fill:#14100e}
+  .progress{display:flex;align-items:center;gap:12px;width:100%;max-width:560px}
+  .time{font-size:11px;color:var(--txt-faint);font-variant-numeric:tabular-nums;width:34px}
+  .time.r{text-align:right}
+  .bar{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.1);position:relative;cursor:pointer}
+  .bar .fill{
+    position:absolute;inset:0 auto 0 0;width:0%;border-radius:99px;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    box-shadow:0 0 10px rgba(255,120,71,.5);
+  }
+  .bar .knob{
+    position:absolute;top:50%;width:11px;height:11px;border-radius:50%;
+    background:#fff;transform:translate(-50%,-50%);left:0%;
+    box-shadow:0 0 8px rgba(255,120,71,.8);opacity:0;transition:opacity .15s;
+  }
+  .bar:hover .knob{opacity:1}
+
+  .right{display:flex;align-items:center;justify-content:flex-end;gap:16px}
+  .vol svg{width:17px;height:17px;fill:var(--txt-dim)}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;width:96px;height:4px;border-radius:99px;
+    background:linear-gradient(90deg,var(--txt-dim) var(--v,70%),rgba(255,255,255,.12) var(--v,70%));
+    cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;width:11px;height:11px;border-radius:50%;background:#fff;
+    box-shadow:0 2px 6px rgba(0,0,0,.5);
+  }
+
+  @media (max-width:1100px){
+    .row{grid-template-columns:repeat(2,1fr)}
+    .row.two{grid-template-columns:repeat(2,1fr)}
+    .hero{grid-template-columns:1fr;text-align:left}
+    .hero-art .art{width:240px;height:240px}
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 14 L8 14 L11 8 L14 18 L17 12 L21 12" stroke="#14100e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      SONORA
+    </div>
+
+    <nav class="nav">
+      <a href="#" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1Z"/></svg>Home</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>Search</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M9 4v16M14 5l5 15"/></svg>Library</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="2.4"/><path d="M7.5 7.5a6.4 6.4 0 0 0 0 9M16.5 7.5a6.4 6.4 0 0 1 0 9M4.7 4.7a10.3 10.3 0 0 0 0 14.6M19.3 4.7a10.3 10.3 0 0 1 0 14.6"/></svg>Radio</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5S4 15.3 4 9.8A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.8c0 5.5-8 10.7-8 10.7Z"/></svg>Liked Songs</a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h12M4 10h12M4 14h8M4 18h16M20 6v12M17 9l3 3-3 3" transform="translate(0 -1)"/></svg>Playlists</a>
+    </nav>
+
+    <div class="side-label">Your Playlists</div>
+    <div class="side-lists">
+      <a>Late Night Frequencies</a>
+      <a>Desert Air</a>
+      <a>Focus Tides</a>
+      <a>Sunrise Drive</a>
+      <a>Low Orbit Loops</a>
+      <a>Analog Nostalgia</a>
+      <a>Deep Cartography</a>
+      <a>Tape Warmth</a>
+    </div>
+
+    <div class="side-card">
+      <h4>SONORA Studio</h4>
+      <p>Hi-fidelity audio, smart mixes and lossless ringtones.</p>
+      <button>Upgrade plan</button>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <div class="content">
+
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-art" id="heroArt"></div>
+        <div class="hero-copy">
+          <span class="kicker">Featured Album · New This Week</span>
+          <h1>Solar Cartography</h1>
+          <div class="artist">Meridian Coast</div>
+          <p class="desc">Twelve recordings charted from the salt flats and sandstone coasts. Meridian Coast maps a slow, sun-bleached sound — analog tape, desert wind and a piano that never quite settles.</p>
+          <div class="hero-meta">
+            <span><b>2024</b> · Analog / Ambient</span>
+            <span><b>12</b> tracks</span>
+            <span><b>47:12</b> total</span>
+          </div>
+          <div class="hero-actions">
+            <button class="btn-play" id="heroPlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Play Album</button>
+            <button class="btn-ghost">+ Save to Library</button>
+            <button class="btn-ghost">Share</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recently played -->
+      <section class="section">
+        <div class="section-head">
+          <h2>Recently Played</h2>
+          <a href="#">View all</a>
+        </div>
+        <div class="row" id="recentRow"></div>
+      </section>
+
+      <!-- Curated playlists -->
+      <section class="section">
+        <div class="section-head">
+          <h2>Curated for You</h2>
+          <a href="#">Refresh mix</a>
+        </div>
+        <div class="row two" id="playlistRow"></div>
+      </section>
+
+      <!-- Track list -->
+      <section class="section">
+        <div class="section-head">
+          <h2>On the Turntable</h2>
+          <a href="#">Full queue</a>
+        </div>
+        <div class="tracklist" id="tracklist">
+          <div class="t-head">
+            <span>#</span><span></span><span>Title</span><span>Artist</span><span>Album</span><span class="h-dur">Duration</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============ PLAYER BAR ============ -->
+  <footer class="playerbar">
+    <div class="np">
+      <div class="art" id="npArt"></div>
+      <div style="min-width:0">
+        <div class="np-title" id="npTitle">Helios Path</div>
+        <div class="np-artist" id="npArtist">Meridian Coast · Solar Cartography</div>
+      </div>
+      <button class="np-like" id="npLike" title="Save to Liked">
+        <svg viewBox="0 0 24 24"><path d="M12 20.5S4 15.3 4 9.8A4.4 4.4 0 0 1 12 7a4.4 4.4 0 0 1 8 2.8c0 5.5-8 10.7-8 10.7Z"/></svg>
+      </button>
+    </div>
+
+    <div class="center">
+      <div class="controls">
+        <button class="c-btn" id="shuffleBtn" title="Shuffle"><svg viewBox="0 0 24 24"><path d="M16 4h5v5h-2V7.4l-4.3 4.3-1.4-1.4L17.6 6H16V4zM3 6h4.6l3 3-1.4 1.4L6.4 8H3V6zm12.6 10 4.3 4.3V16h2v5h-5v-2h1.6L14.4 14.7 15.6 13z"/></svg></button>
+        <button class="c-btn" id="prevBtn" title="Previous"><svg viewBox="0 0 24 24"><path d="M6 5h2v14H6zM20 5v14l-10-7z"/></svg></button>
+        <button class="c-play" id="playBtn" title="Play / Pause">
+          <svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="c-btn" id="nextBtn" title="Next"><svg viewBox="0 0 24 24"><path d="M16 5h2v14h-2zM4 5l10 7-10 7z"/></svg></button>
+        <button class="c-btn" id="repeatBtn" title="Repeat"><svg viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg></button>
+      </div>
+      <div class="progress">
+        <span class="time" id="curTime">0:00</span>
+        <div class="bar" id="bar"><div class="fill" id="fill"></div><div class="knob" id="knob"></div></div>
+        <span class="time r" id="totTime">3:42</span>
+      </div>
+    </div>
+
+    <div class="right">
+      <svg class="vol" viewBox="0 0 24 24"><path d="M4 9v6h4l5 5V4L8 9H4zm12.5 3a3.5 3.5 0 0 0-2-3.2v6.4a3.5 3.5 0 0 0 2-3.2zM14.5 4.6v2.1a5.5 5.5 0 0 1 0 10.6v2.1a7.6 7.6 0 0 0 0-14.8z"/></svg>
+      <input type="range" id="vol" min="0" max="100" value="70">
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ============ Local artwork generation (gradients + SVG) ============ */
+const ART = [
+  { /* 0 — solar sunset */
+    bg:'linear-gradient(160deg,#3a1230 0%,#8a2a3d 38%,#e06a35 68%,#ffb15c 100%)',
+    svg:`<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><circle cx="60" cy="52" r="30" fill="rgba(255,236,200,.95)"/><circle cx="60" cy="52" r="42" fill="none" stroke="rgba(255,220,170,.35)" stroke-width="1.5"/><rect x="0" y="86" width="120" height="34" fill="rgba(30,8,26,.45)"/><rect x="14" y="80" width="92" height="3" rx="1.5" fill="rgba(255,220,170,.6)"/><path d="M18 96 L44 78 L60 90 L78 80 L102 96 Z" fill="rgba(25,6,22,.55)"/></svg>`
+  },
+  { /* 1 — teal waves */
+    bg:'linear-gradient(150deg,#062a33 0%,#0b5560 55%,#2fa9a0 100%)',
+    svg:`<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><circle cx="88" cy="26" r="12" fill="rgba(214,255,244,.85)"/><path d="M-6 62 Q14 52 34 62 T74 62 T114 62 T154 62" fill="none" stroke="rgba(220,255,248,.75)" stroke-width="3" stroke-linecap="round"/><path d="M-6 78 Q14 68 34 78 T74 78 T114 78 T154 78" fill="none" stroke="rgba(220,255,248,.45)" stroke-width="3" stroke-linecap="round"/><path d="M-6 94 Q14 84 34 94 T74 94 T114 94 T154 94" fill="none" stroke="rgba(220,255,248,.22)" stroke-width="3" stroke-linecap="round"/></svg>`
+  },
+  { /* 2 — polar diagonal */
+    bg:'linear-gradient(155deg,#0a1420 0%,#1c3a55 60%,#7fb4d6 100%)',
+    svg:`<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><g stroke="rgba(220,240,255,.5)" stroke-width="2"><line x1="-10" y1="110" x2="70" y2="30"/><line x1="10" y1="120" x2="90" y2="40"/><line x1="30" y1="130" x2="110" y2="50"/></g><circle cx="88" cy="34" r="16" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2"/><circle cx="88" cy="34" r="4" fill="rgba(255,255,255,.9)"/></svg>`
+  },
+  { /* 3 — velvet arcs */
+    bg:'linear-gradient(150deg,#2a0a14 0%,#6e1230 55%,#c73e5c 100%)',
+    svg:`<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="rgba(255,200,205,.55)" stroke-width="2.5"><circle cx="26" cy="98" r="16"/><circle cx="26" cy="98" r="32"/><circle cx="26" cy="98" r="48"/><circle cx="26" cy="98" r="64"/></g><circle cx="26" cy="98" r="7" fill="rgba(255,220,220,.9)"/></svg>`
+  },
+  { /* 4 — neon grid */
+    bg:'linear-gradient(155deg,#160826 0%,#43136b 55%,#a12fd0 100%)',
+    svg:`<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><g stroke="rgba(255,150,255,.35)" stroke-width="1.5"><line x1="0" y1="70" x2="120" y2="70"/><line x1="0" y1="70" x2="20" y2="120"/><line x1="30" y1="70" x2="38" y2="120"/><line x1="60" y1="70" x2="60" y2="120"/><line x1="90" y1="70" x2="82" y2="120"/><line x1="120" y1="70" x2="100" y2="120"/><line x1="0" y1="84" x2="120" y2="84"/><line x1="0" y1="102" x2="120" y2="102"/></g><circle cx="60" cy="40" r="18" fill="rgba(255,120,230,.9)"/><circle cx="60" cy="40" r="26" fill="none" stroke="rgba(255,180,245,.5)" stroke-width="2"/></svg>`
+  },
+  { /* 5 — dune typographic */
+    bg:'linear-gradient(160deg,#241017 0%,#7a3b2a 55%,#d98a4e 100%)',
+    svg:`<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><path d="M0 84 Q34 60 64 78 T120 72 V120 H0 Z" fill="rgba(40,15,12,.5)"/><path d="M0 96 Q40 78 78 92 T120 88 V120 H0 Z" fill="rgba(28,9,10,.55)"/><circle cx="92" cy="30" r="13" fill="rgba(255,226,180,.9)"/></svg>`
+  },
+  { /* 6 — aurora typographic */
+    bg:'linear-gradient(150deg,#08101f 0%,#123558 45%,#1f8a70 85%,#8be0b0 100%)',
+    svg:`<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><path d="M-8 34 Q30 10 62 32 T130 26" fill="none" stroke="rgba(140,255,210,.65)" stroke-width="5" stroke-linecap="round"/><path d="M-8 52 Q34 30 66 50 T130 44" fill="none" stroke="rgba(120,210,255,.45)" stroke-width="4" stroke-linecap="round"/><path d="M-8 70 Q38 50 70 68 T130 62" fill="none" stroke="rgba(190,140,255,.35)" stroke-width="4" stroke-linecap="round"/><g fill="rgba(255,255,255,.8)"><circle cx="24" cy="94" r="1.4"/><circle cx="52" cy="104" r="1.1"/><circle cx="84" cy="96" r="1.6"/><circle cx="104" cy="108" r="1.2"/></g></svg>`
+  },
+  { /* 7 — monogram Ø */
+    bg:'linear-gradient(140deg,#101018 0%,#232338 60%,#3d3a5c 100%)',
+    svg:`<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice"><circle cx="60" cy="58" r="30" fill="none" stroke="rgba(230,228,255,.85)" stroke-width="3"/><line x1="38" y1="80" x2="82" y2="36" stroke="rgba(255,150,110,.9)" stroke-width="3" stroke-linecap="round"/><circle cx="60" cy="58" r="44" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/></svg>`
+  }
+];
+
+const monogram = (letter, color='rgba(255,255,255,.92)') =>
+  `<svg viewBox="0 0 120 120"><text x="60" y="86" text-anchor="middle" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="76" letter-spacing="-4" fill="${color}">${letter}</text></svg>`;
+
+function artHTML(i, mono){
+  const a = mono ? {bg:ART[i%ART.length].bg, svg:monogram(mono, 'rgba(10,8,14,.75)')} : ART[i%ART.length];
+  return `<div class="art" style="background:${a.bg}">${a.svg}<div class="sheen"></div></div>`;
+}
+
+/* ============ Data ============ */
+const ALBUMS = [
+  {title:'Solar Cartography', artist:'Meridian Coast', art:0, tag:'New'},
+  {title:'Glass Harbor',      artist:'Tidal Bloom',    art:1, tag:'Reissue'},
+  {title:'Polar Static',      artist:'Aurora Drift',   art:2},
+  {title:'Velvet Meridian',   artist:'Lumen Fields',   art:3},
+  {title:'Neon Orchard',      artist:'Lumen Fields',   art:4, tag:'48k'},
+  {title:'Dune Echoes',       artist:'Sable & Sons',   art:5},
+  {title:'Aurora Drift',      artist:'Aurora Drift',   art:6},
+  {title:'Null Meridian',     artist:'The Cartographers', art:7},
+];
+
+const PLAYLISTS = [
+  {title:'Late Night Frequencies', sub:'42 tracks · 2h 48m', art:4, mono:'L'},
+  {title:'Desert Air',             sub:'28 tracks · 1h 51m', art:5, mono:'D'},
+  {title:'Focus Tides',            sub:'36 tracks · 2h 24m', art:1, mono:'F'},
+  {title:'Sunrise Drive',          sub:'24 tracks · 1h 32m', art:0, mono:'S'},
+  {title:'Low Orbit Loops',        sub:'31 tracks · 2h 06m', art:2, mono:'O'},
+  {title:'Analog Nostalgia',       sub:'39 tracks · 2h 55m', art:3, mono:'A'},
+];
+
+const TRACKS = [
+  {t:'Helios Path',      a:'Meridian Coast',    al:'Solar Cartography', d:222, art:0},
+  {t:'Amber Meridian',   a:'Meridian Coast',    al:'Solar Cartography', d:245, art:0},
+  {t:'Salt Flat Hymn',   a:'Meridian Coast',    al:'Solar Cartography', d:311, art:0},
+  {t:'Glass Harbor',     a:'Tidal Bloom',       al:'Glass Harbor',      d:198, art:1},
+  {t:'Polar Static',     a:'Aurora Drift',      al:'Polar Static',      d:177, art:2},
+  {t:'Velvet Meridian',  a:'Lumen Fields',      al:'Velvet Meridian',   d:213, art:3},
+  {t:'Neon Orchard',     a:'Lumen Fields',      al:'Neon Orchard',      d:252, art:4},
+  {t:'Dune Echoes',      a:'Sable & Sons',      al:'Dune Echoes',       d:228, art:5},
+  {t:'Aurora Drift',     a:'Aurora Drift',      al:'Aurora Drift',      d:301, art:6},
+  {t:'Null Meridian',    a:'The Cartographers', al:'Null Meridian',     d:264, art:7},
+];
+
+const fmt = s => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+
+/* ============ Render ============ */
+document.getElementById('heroArt').innerHTML = artHTML(0);
+
+const recent = document.getElementById('recentRow');
+recent.innerHTML = ALBUMS.slice(0,4).map((al,i)=>`
+  <div class="card" data-track="${i<=3?i:(i===4?3:i)}" data-track="${i>=3?i:i}" onclick="selectTrack(${i<=6?i:i%TRACKS.length})">
+    ${al.tag?`<span class="tag">${al.tag}</span>`:''}
+    ${artHTML(al.art)}
+    <h3>${al.title}</h3><p>${al.artist}</p>
+    <button class="play-fab" onclick="event.stopPropagation();selectTrack(${i<=6?i:i%TRACKS.length})"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+  </div>`).join('');
+
+document.getElementById('playlistRow').innerHTML = PLAYLISTS.slice(0,3).map(p=>`
+  <div class="card" onclick="selectTrack(0)">
+    ${artHTML(p.art, p.mono)}
+    <h3>${p.title}</h3><p>${p.sub}</p>
+    <button class="play-fab" onclick="event.stopPropagation();selectTrack(0)"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+  </div>`).join('');
+
+const tl = document.getElementById('tracklist');
+TRACKS.forEach((tr,i)=>{
+  const row = document.createElement('div');
+  row.className = 't-row';
+  row.id = 'row'+i;
+  row.innerHTML = `
+    <span class="num"><span>${String(i+1).padStart(2,'0')}</span>
+      <svg class="play-on-hover" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      <span class="eq"><i></i><i></i><i></i></span>
+    </span>
+    ${artHTML(tr.art)}
+    <span class="t-title">${tr.t}</span>
+    <span class="t-artist">${tr.a}</span>
+    <span class="t-album">${tr.al}</span>
+    <span class="t-dur">${fmt(tr.d)}</span>`;
+  row.onclick = ()=>selectTrack(i);
+  tl.appendChild(row);
+});
+
+/* ============ Playback engine ============ */
+let cur = 0, playing = false, pos = 0, raf = null, lastTs = 0;
+
+const $ = id => document.getElementById(id);
+const playIcon = $('playIcon');
+const ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
+const ICON_PAUSE = '<path d="M7 5h3.6v14H7zM13.4 5H17v14h-3.6z"/>';
+
+function paintNP(){
+  const tr = TRACKS[cur];
+  $('npTitle').textContent = tr.t;
+  $('npArtist').textContent = `${tr.a} · ${tr.al}`;
+  $('npArt').innerHTML = artHTML(tr.art).replace('<div class="art"','<div class="art" style2'); // keep wrapper styling
+  $('npArt').outerHTML = artHTML(tr.art).replace('class="art"', 'class="art" id="npArt"');
+  $('totTime').textContent = fmt(tr.d);
+}
+
+function setPlaying(p){
+  playing = p;
+  playIcon.innerHTML = p ? ICON_PAUSE : ICON_PLAY;
+  document.querySelectorAll('.t-row').forEach(r=>r.classList.remove('active'));
+  const row = $('row'+cur);
+  row.classList.toggle('active', p);
+  if(p){ lastTs = performance.now(); raf = requestAnimationFrame(tick); }
+  else if(raf) cancelAnimationFrame(raf);
+}
+
+function tick(ts){
+  if(!playing) return;
+  pos += (ts - lastTs)/1000;
+  lastTs = ts;
+  if(pos >= TRACKS[cur].d){ nextTrack(true); return; }
+  const pct = (pos/TRACKS[cur].d)*100;
+  $('fill').style.width = pct+'%';
+  $('knob').style.left = pct+'%';
+  $('curTime').textContent = fmt(pos);
+  raf = requestAnimationFrame(tick);
+}
+
+function selectTrack(i){
+  cur = i; pos = 0;
+  paintNP();
+  setPlaying(true);
+  $('fill').style.width='0%'; $('knob').style.left='0%'; $('curTime').textContent='0:00';
+}
+
+function nextTrack(auto){
+  cur = (cur+1) % TRACKS.length; pos = 0;
+  paintNP();
+  if(auto) setPlaying(true);
+  $('fill').style.width='0%'; $('knob').style.left='0%'; $('curTime').textContent='0:00';
+}
+function prevTrack(){
+  if(pos > 4){ pos = 0; $('fill').style.width='0%'; $('curTime').textContent='0:00'; return; }
+  cur = (cur-1+TRACKS.length) % TRACKS.length; pos = 0;
+  paintNP();
+  $('fill').style.width='0%'; $('knob').style.left='0%'; $('curTime').textContent='0:00';
+}
+
+$('playBtn').onclick = ()=> setPlaying(!playing);
+$('nextBtn').onclick = ()=> nextTrack(false);
+$('prevBtn').onclick = prevTrack;
+$('heroPlay').onclick = ()=> selectTrack(0);
+$('shuffleBtn').onclick = e => e.currentTarget.classList.toggle('toggled');
+$('repeatBtn').onclick  = e => e.currentTarget.classList.toggle('toggled');
+$('npLike').onclick     = e => e.currentTarget.classList.toggle('liked');
+
+/* seek */
+$('bar').addEventListener('click', e=>{
+  const r = e.currentTarget.getBoundingClientRect();
+  const p = Math.min(1, Math.max(0, (e.clientX - r.left)/r.width));
+  pos = p * TRACKS[cur].d;
+  const pct = p*100;
+  $('fill').style.width = pct+'%'; $('knob').style.left = pct+'%';
+  $('curTime').textContent = fmt(pos);
+});
+
+/* volume */
+const vol = $('vol');
+vol.addEventListener('input', ()=> vol.style.setProperty('--v', vol.value+'%'));
+vol.style.setProperty('--v','70%');
+
+/* keyboard */
+document.addEventListener('keydown', e=>{
+  if(e.code==='Space' && e.target.tagName!=='INPUT'){ e.preventDefault(); setPlaying(!playing); }
+  if(e.code==='ArrowRight') nextTrack(false);
+  if(e.code==='ArrowLeft')  prevTrack();
+});
+
+/* init */
+paintNP();
+setPlaying(false);
+selectTrack(0);           // start on Helios Path
+setPlaying(true);         // auto-play for the demo
+</script>
+</body>
+</html>

@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLUXTRACE — Distributed tracing that runs in the nanosecond lane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #07090d;
+    --bg-2: #0b0e14;
+    --panel: #0e1219;
+    --panel-2: #11161f;
+    --line: #1c2330;
+    --line-soft: #151b26;
+    --text: #e6ebf2;
+    --text-2: #9aa5b5;
+    --text-3: #5f6b7d;
+    --cyan: #22d3ee;
+    --cyan-dim: #0e7490;
+    --emerald: #34d399;
+    --amber: #f5a524;
+    --slate-bar: #3b4657;
+    --accent-glow: rgba(34,211,238,.14);
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --sans: 'Inter', system-ui, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  ::selection{background:rgba(34,211,238,.25);color:#fff}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 32px}
+  .mono{font-family:var(--mono)}
+
+  /* ---------- ambient background ---------- */
+  .bg-grid{
+    position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:56px 56px;
+    mask-image:radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 75%);
+    opacity:.5;
+  }
+  .bg-glow{
+    position:fixed;z-index:-1;pointer-events:none;
+    width:900px;height:520px;left:50%;top:-260px;transform:translateX(-50%);
+    background:radial-gradient(ellipse at center, var(--accent-glow), transparent 70%);
+  }
+
+  /* ---------- nav ---------- */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(7,9,13,.78);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{
+    max-width:1160px;margin:0 auto;padding:0 32px;
+    height:64px;display:flex;align-items:center;gap:40px;
+  }
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.02em;font-size:15px}
+  .logo svg{display:block}
+  .logo em{font-style:normal;color:var(--cyan)}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--text-2);font-weight:500}
+  .nav-links a{transition:color .15s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+  .gh{font-family:var(--mono);font-size:13px;color:var(--text-2);display:flex;align-items:center;gap:7px;transition:color .15s}
+  .gh:hover{color:var(--text)}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--sans);font-weight:600;font-size:14px;
+    padding:10px 18px;border-radius:8px;cursor:pointer;
+    border:1px solid transparent;transition:all .15s;
+  }
+  .btn-primary{
+    background:var(--cyan);color:#04262b;
+    box-shadow:0 0 0 1px rgba(34,211,238,.3), 0 8px 24px -8px rgba(34,211,238,.35);
+  }
+  .btn-primary:hover{background:#4fdded;transform:translateY(-1px)}
+  .btn-ghost{
+    background:transparent;color:var(--text-2);border-color:var(--line);
+  }
+  .btn-ghost:hover{color:var(--text);border-color:#2a3547;background:var(--panel)}
+  .btn-sm{padding:7px 14px;font-size:13px}
+
+  /* ---------- hero ---------- */
+  .hero{padding:88px 0 24px;text-align:center}
+  .badge{
+    display:inline-flex;align-items:center;gap:9px;
+    font-family:var(--mono);font-size:12.5px;color:var(--text-2);
+    border:1px solid var(--line);border-radius:99px;
+    padding:6px 14px;background:var(--panel);margin-bottom:28px;
+  }
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 8px var(--emerald)}
+  .badge b{color:var(--cyan);font-weight:600}
+  h1{
+    font-size:clamp(40px,5.4vw,64px);
+    font-weight:800;letter-spacing:-.03em;line-height:1.06;
+    max-width:820px;margin:0 auto 22px;
+  }
+  h1 .hl{
+    background:linear-gradient(180deg,#7de9f8 0%, var(--cyan) 55%, #0e7490 130%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{
+    max-width:640px;margin:0 auto 36px;
+    color:var(--text-2);font-size:18px;line-height:1.65;
+  }
+  .sub code{
+    font-family:var(--mono);font-size:15px;color:var(--cyan);
+    background:rgba(34,211,238,.08);padding:1px 6px;border-radius:5px;
+  }
+  .cta-row{display:flex;justify-content:center;gap:14px;margin-bottom:16px}
+  .cta-row .btn{padding:12px 24px;font-size:15px}
+  .fineprint{font-size:12.5px;color:var(--text-3);font-family:var(--mono)}
+
+  /* ---------- terminal / trace ---------- */
+  .terminal{
+    margin:56px auto 0;max-width:940px;text-align:left;
+    background:linear-gradient(180deg,#0d1118 0%, #0a0e14 100%);
+    border:1px solid var(--line);border-radius:14px;
+    box-shadow:0 40px 100px -30px rgba(0,0,0,.8), 0 0 0 1px rgba(34,211,238,.05), 0 0 90px -40px var(--accent-glow);
+    overflow:hidden;
+  }
+  .term-bar{
+    display:flex;align-items:center;gap:14px;
+    padding:12px 18px;border-bottom:1px solid var(--line-soft);
+    background:rgba(255,255,255,.015);
+  }
+  .dots{display:flex;gap:7px}
+  .dots i{width:11px;height:11px;border-radius:50%;background:#2a3342}
+  .dots i:nth-child(1){background:#f76b6b}
+  .dots i:nth-child(2){background:#f5a524}
+  .dots i:nth-child(3){background:#34d399}
+  .term-title{font-family:var(--mono);font-size:12.5px;color:var(--text-3)}
+  .term-tabs{margin-left:auto;display:flex;gap:2px}
+  .term-tabs span{
+    font-family:var(--mono);font-size:12px;color:var(--text-3);
+    padding:4px 12px;border-radius:6px;
+  }
+  .term-tabs span.active{color:var(--text);background:#141b26}
+
+  .trace-head{
+    display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;
+    padding:16px 22px 12px;font-family:var(--mono);font-size:12px;
+    color:var(--text-3);border-bottom:1px solid var(--line-soft);
+  }
+  .trace-head b{color:var(--text-2);font-weight:500}
+  .chip{
+    font-family:var(--mono);font-size:11px;padding:2px 9px;border-radius:5px;
+    border:1px solid var(--line);color:var(--text-2);background:var(--panel);
+  }
+  .chip.ok{color:var(--emerald);border-color:rgba(52,211,153,.25)}
+  .chip.warn{color:var(--amber);border-color:rgba(245,165,36,.3)}
+  .chip span{color:var(--cyan)}
+
+  .ruler{
+    display:flex;justify-content:space-between;
+    padding:8px 22px 6px 246px;
+    font-family:var(--mono);font-size:10.5px;color:var(--text-3);
+    border-bottom:1px dashed var(--line-soft);
+  }
+  .trace-body{padding:6px 22px 18px;position:relative}
+  .trace-body::after{
+    content:"";position:absolute;top:0;bottom:0;right:22px;width:1px;
+    background:var(--line-soft);
+  }
+  .span{
+    display:flex;align-items:center;height:30px;
+    font-family:var(--mono);font-size:12px;
+  }
+  .span-name{
+    width:222px;flex-shrink:0;display:flex;align-items:center;gap:8px;
+    white-space:nowrap;overflow:hidden;padding-right:12px;
+  }
+  .span-name .svc{color:var(--text-3);font-size:11px}
+  .span-name .op{color:var(--text-2);overflow:hidden;text-overflow:ellipsis}
+  .span-name .op.cyan{color:#7de9f8}
+  .span-name .op.emerald{color:#7ce8bc}
+  .span-name .op.amber{color:#fbc46b}
+  .span-tag{
+    font-size:9px;font-weight:600;letter-spacing:.06em;
+    padding:1px 5px;border-radius:3px;flex-shrink:0;
+  }
+  .tag-http{color:var(--cyan);background:rgba(34,211,238,.1)}
+  .tag-db{color:var(--emerald);background:rgba(52,211,153,.1)}
+  .tag-ext{color:var(--amber);background:rgba(245,165,36,.1)}
+  .tag-int{color:var(--text-3);background:rgba(148,163,184,.08)}
+  .track{
+    flex:1;position:relative;height:100%;
+    display:flex;align-items:center;
+  }
+  .bar{
+    position:absolute;top:7px;height:16px;border-radius:4px;
+    width:0;transition:width .9s cubic-bezier(.22,.9,.3,1);
+    display:flex;align-items:center;
+  }
+  .in .bar{width:var(--w)}
+  .b-http{background:linear-gradient(90deg,rgba(34,211,238,.9),rgba(34,211,238,.55));box-shadow:0 0 10px rgba(34,211,238,.25)}
+  .b-db{background:linear-gradient(90deg,rgba(52,211,153,.85),rgba(52,211,153,.5))}
+  .b-ext{background:linear-gradient(90deg,rgba(245,165,36,.85),rgba(245,165,36,.5));box-shadow:0 0 10px rgba(245,165,36,.2)}
+  .b-int{background:linear-gradient(90deg,#4a5668,#38424f)}
+  .b-root{height:18px;top:6px;background:linear-gradient(90deg,rgba(34,211,238,.95),rgba(34,211,238,.4));border:1px solid rgba(34,211,238,.5)}
+  .bar .err{
+    position:absolute;right:4px;width:6px;height:6px;border-radius:50%;
+    background:var(--amber);box-shadow:0 0 6px var(--amber);
+  }
+  .dur{width:64px;flex-shrink:0;text-align:right;color:var(--text-3);font-size:11.5px}
+  .dur.hot{color:var(--amber)}
+  .span.l1 .span-name{padding-left:14px}
+  .span.l2 .span-name{padding-left:34px}
+  .legend{
+    display:flex;gap:20px;padding:10px 22px;border-top:1px solid var(--line-soft);
+    font-family:var(--mono);font-size:11px;color:var(--text-3);
+  }
+  .legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:7px;vertical-align:-1px}
+  .lg-http{background:rgba(34,211,238,.8)} .lg-db{background:rgba(52,211,153,.8)}
+  .lg-ext{background:rgba(245,165,36,.8)} .lg-int{background:#3d4859}
+
+  /* ---------- metrics strip ---------- */
+  .metrics{
+    margin-top:88px;
+    border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);
+    background:linear-gradient(180deg, rgba(255,255,255,.012), transparent);
+  }
+  .metrics-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);
+  }
+  .metric{
+    padding:44px 32px;border-right:1px solid var(--line-soft);
+  }
+  .metric:last-child{border-right:none}
+  .metric .num{
+    font-family:var(--mono);font-size:38px;font-weight:700;letter-spacing:-.03em;
+    color:var(--text);line-height:1.1;
+  }
+  .metric .num em{font-style:normal;color:var(--cyan);font-size:22px}
+  .metric .lbl{margin-top:8px;font-size:13.5px;color:var(--text-2);font-weight:500}
+  .metric .sub2{font-size:12px;color:var(--text-3);font-family:var(--mono);margin-top:2px}
+
+  /* ---------- sections ---------- */
+  section{padding:104px 0 0}
+  .kicker{
+    font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--cyan);margin-bottom:16px;display:flex;align-items:center;gap:10px;
+  }
+  .kicker::before{content:"";width:24px;height:1px;background:var(--cyan-dim)}
+  h2{
+    font-size:clamp(28px,3.4vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1.15;
+    max-width:640px;margin-bottom:14px;
+  }
+  .lead{color:var(--text-2);font-size:16.5px;max-width:600px;margin-bottom:56px}
+
+  /* features */
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:14px;overflow:hidden}
+  .feat{
+    background:var(--bg-2);padding:32px 30px;
+    transition:background .2s;position:relative;
+  }
+  .feat:hover{background:#0e141d}
+  .feat .icon{
+    width:38px;height:38px;border-radius:9px;margin-bottom:20px;
+    border:1px solid var(--line);background:var(--panel);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .feat h3{font-size:16.5px;font-weight:700;letter-spacing:-.01em;margin-bottom:9px}
+  .feat p{font-size:14px;color:var(--text-2);line-height:1.65}
+  .feat .fnote{
+    margin-top:18px;font-family:var(--mono);font-size:11px;color:var(--text-3);
+    border-top:1px dashed var(--line-soft);padding-top:14px;
+  }
+  .feat .fnote b{color:var(--cyan);font-weight:500}
+
+  /* code / sdk */
+  .sdk{display:grid;grid-template-columns:1fr 1.15fr;gap:56px;align-items:center}
+  .sdk-list{margin-top:32px;display:grid;gap:18px}
+  .sdk-item{display:flex;gap:14px}
+  .sdk-item .tick{
+    flex-shrink:0;width:22px;height:22px;border-radius:6px;margin-top:2px;
+    background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.25);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .sdk-item b{display:block;font-size:14.5px;font-weight:600}
+  .sdk-item span{font-size:13.5px;color:var(--text-2)}
+  .code-card{
+    background:#0b0f15;border:1px solid var(--line);border-radius:12px;overflow:hidden;
+    box-shadow:0 30px 70px -30px rgba(0,0,0,.7);
+  }
+  .code-bar{
+    display:flex;align-items:center;gap:10px;padding:11px 16px;
+    border-bottom:1px solid var(--line-soft);
+    font-family:var(--mono);font-size:12px;color:var(--text-3);
+  }
+  .code-bar .fname{color:var(--text-2)}
+  .code-bar .lang{margin-left:auto;font-size:10.5px;padding:2px 8px;border:1px solid var(--line);border-radius:5px}
+  pre{
+    padding:22px 20px;font-family:var(--mono);font-size:13px;line-height:1.85;
+    overflow-x:auto;color:#b6c1d1;
+  }
+  .c-kw{color:#7de9f8}
+  .c-fn{color:#c9a7f5}
+  .c-str{color:#7ce8bc}
+  .c-num{color:#fbc46b}
+  .c-com{color:#4a5568;font-style:italic}
+  .c-op{color:#8fa0b8}
+
+  /* integrations row */
+  .integr{
+    margin-top:80px;border-top:1px solid var(--line-soft);padding-top:44px;
+    display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;
+  }
+  .integr .ilbl{font-family:var(--mono);font-size:12px;color:var(--text-3);letter-spacing:.08em}
+  .ilogs{display:flex;gap:32px;flex-wrap:wrap}
+  .ilogs span{font-family:var(--mono);font-size:14px;color:var(--text-2);font-weight:500;display:flex;align-items:center;gap:9px}
+  .ilogs span i{width:8px;height:8px;border-radius:2px;background:var(--cyan-dim);display:inline-block}
+
+  /* cta */
+  .cta{padding:120px 0 110px}
+  .cta-panel{
+    position:relative;border-radius:18px;overflow:hidden;text-align:center;
+    border:1px solid rgba(34,211,238,.22);
+    background:
+      radial-gradient(ellipse 70% 120% at 50% -20%, rgba(34,211,238,.14), transparent 60%),
+      linear-gradient(180deg,#0d1219,#0a0e14);
+    padding:80px 40px 74px;
+  }
+  .cta-panel::before{
+    content:"";position:absolute;inset:0;
+    background:
+      linear-gradient(rgba(34,211,238,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(34,211,238,.05) 1px, transparent 1px);
+    background-size:44px 44px;
+    mask-image:radial-gradient(ellipse at 50% 0%, #000 30%, transparent 78%);
+  }
+  .cta-panel h2{margin:0 auto 14px;max-width:560px}
+  .cta-panel p{color:var(--text-2);max-width:520px;margin:0 auto 36px;font-size:16.5px}
+  .install{
+    position:relative;z-index:1;
+    display:inline-flex;align-items:center;gap:14px;
+    font-family:var(--mono);font-size:14px;color:var(--text);
+    background:#070a0f;border:1px solid var(--line);border-radius:10px;
+    padding:14px 18px 14px 20px;margin-bottom:34px;
+  }
+  .install .pr{color:var(--cyan)}
+  .install .copy{
+    cursor:pointer;color:var(--text-2);font-family:var(--mono);font-size:12px;
+    border:1px solid var(--line);border-radius:6px;padding:5px 12px;background:var(--panel);
+    transition:all .15s;
+  }
+  .install .copy:hover{color:var(--cyan);border-color:var(--cyan-dim)}
+  .cta-actions{position:relative;z-index:1;display:flex;justify-content:center;gap:14px}
+
+  /* footer */
+  footer{border-top:1px solid var(--line-soft);padding:52px 0 44px}
+  .foot{display:flex;align-items:flex-start;justify-content:space-between;gap:40px;flex-wrap:wrap}
+  .foot-left{display:flex;align-items:center;gap:28px;color:var(--text-3);font-size:13px}
+  .foot-left a{transition:color .15s}
+  .foot-left a:hover{color:var(--text-2)}
+  .foot-status{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;color:var(--text-3)}
+  .foot-status i{width:7px;height:7px;border-radius:50%;background:var(--emerald);box-shadow:0 0 7px var(--emerald);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+  .foot-copy{width:100%;margin-top:36px;padding-top:24px;border-top:1px solid var(--line-soft);
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:12px;color:var(--text-3)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:900px){
+    .metrics-grid{grid-template-columns:repeat(2,1fr)}
+    .metric{border-bottom:1px solid var(--line-soft)}
+    .feat-grid{grid-template-columns:1fr}
+    .sdk{grid-template-columns:1fr}
+    .span-name{width:150px;font-size:11px}
+    .ruler{padding-left:170px}
+    .nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="#">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <rect x="1" y="1" width="22" height="22" rx="5" stroke="#22d3ee" stroke-width="1.5" opacity=".45"/>
+        <path d="M5 15 L9 15 L11 8 L14 18 L16 12 L19 12" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      FLUX<em>TRACE</em>
+    </a>
+    <div class="nav-links">
+      <a href="#product">Product</a>
+      <a href="#sdk">SDKs</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#">Docs</a>
+    </div>
+    <div class="nav-right">
+      <a class="gh" href="#">
+        <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        12.4k
+      </a>
+      <a class="btn btn-primary btn-sm" href="#pricing">Start tracing</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero wrap">
+  <div class="badge reveal">
+    <span class="dot"></span>
+    v2.4 shipped — <b>tail-based sampling</b> is now GA
+  </div>
+  <h1 class="reveal">Know where <span class="hl">every millisecond</span> actually goes.</h1>
+  <p class="sub reveal">
+    FLUXTRACE is an OpenTelemetry-native tracing platform built for teams who are done
+    guessing. Full-fidelity traces, tail-based sampling, and sub-second queries —
+    with <code>0.8% CPU overhead</code> measured on our reference workload.
+  </p>
+  <div class="cta-row reveal">
+    <a class="btn btn-primary" href="#pricing">Start tracing free
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a class="btn btn-ghost" href="#">Read the docs</a>
+  </div>
+  <div class="fineprint reveal">free for 5 services · no card · <span style="color:var(--cyan)">curl -sSL get.fluxtrace.dev | sh</span></div>
+
+  <!-- ===== TRACE TERMINAL ===== -->
+  <div class="terminal reveal" id="traceTerm">
+    <div class="term-bar">
+      <div class="dots"><i></i><i></i><i></i></div>
+      <span class="term-title">fluxtrace · web UI — us-east-1</span>
+      <div class="term-tabs">
+        <span class="active">Traces</span>
+        <span>Services</span>
+        <span>Search</span>
+        <span>Alerts</span>
+      </div>
+    </div>
+
+    <div class="trace-head">
+      <span>trace <b>8f3a2c91e4b7</b></span>
+      <span>service <b>checkout-api</b></span>
+      <span>region <b>us-east-1</b></span>
+      <span class="chip ok">200 OK</span>
+      <span class="chip warn">1 slow span</span>
+      <span class="chip">sampled <span>tail · p=0.004</span></span>
+    </div>
+
+    <div class="ruler">
+      <span>0ms</span><span>35ms</span><span>70ms</span><span>105ms</span><span>142ms</span>
+    </div>
+
+    <div class="trace-body">
+      <div class="span">
+        <div class="span-name"><span class="span-tag tag-http">HTTP</span><span class="op cyan">POST /v2/checkout</span><span class="svc">checkout-api</span></div>
+        <div class="track"><div class="bar b-root" style="--w:100%"></div></div>
+        <div class="dur">142ms</div>
+      </div>
+      <div class="span l1">
+        <div class="span-name"><span class="span-tag tag-int">INT</span><span class="op">auth.verify_token</span></div>
+        <div class="track"><div class="bar b-int" style="--w:8.4%;left:.4%"></div></div>
+        <div class="dur">12ms</div>
+      </div>
+      <div class="span l1">
+        <div class="span-name"><span class="span-tag tag-int">CACHE</span><span class="op">GET cart:u_9812</span></div>
+        <div class="track"><div class="bar b-int" style="--w:1%;left:9%"></div></div>
+        <div class="dur">1.4ms</div>
+      </div>
+      <div class="span l1">
+        <div class="span-name"><span class="span-tag tag-db">PG</span><span class="op emerald">SELECT * FROM orders</span></div>
+        <div class="track"><div class="bar b-db" style="--w:26.8%;left:11.3%"></div></div>
+        <div class="dur">38ms</div>
+      </div>
+      <div class="span l1">
+        <div class="span-name"><span class="span-tag tag-ext">EXT</span><span class="op amber">POST payments.api/charge</span></div>
+        <div class="track"><div class="bar b-ext" style="--w:45%;left:39.4%"><i class="err"></i></div></div>
+        <div class="dur hot">64ms ▲</div>
+      </div>
+      <div class="span l2">
+        <div class="span-name"><span class="span-tag tag-db">PG</span><span class="op emerald">INSERT INTO transactions</span></div>
+        <div class="track"><div class="bar b-db" style="--w:15.5%;left:54.9%"></div></div>
+        <div class="dur">22ms</div>
+      </div>
+      <div class="span l1">
+        <div class="span-name"><span class="span-tag tag-int">MQ</span><span class="op">kafka.publish order.created</span></div>
+        <div class="track"><div class="bar b-int" style="--w:2.8%;left:85.9%"></div></div>
+        <div class="dur">4ms</div>
+      </div>
+      <div class="span l1">
+        <div class="span-name"><span class="span-tag tag-int">CACHE</span><span class="op">SET session:u_9812</span></div>
+        <div class="track"><div class="bar b-int" style="--w:1%;left:90%"></div></div>
+        <div class="dur">1.1ms</div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><i class="lg-http"></i>HTTP / entry</span>
+      <span><i class="lg-db"></i>database</span>
+      <span><i class="lg-ext"></i>external dependency</span>
+      <span><i class="lg-int"></i>internal</span>
+      <span style="margin-left:auto">7 spans · 2 services · 1.2 KB span bytes</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ METRICS ============ -->
+<div class="metrics">
+  <div class="wrap">
+    <div class="metrics-grid">
+      <div class="metric reveal">
+        <div class="num">0.8<em>%</em></div>
+        <div class="lbl">CPU overhead at full sampling</div>
+        <div class="sub2">measured, not marketed</div>
+      </div>
+      <div class="metric reveal">
+        <div class="num">2.1<em>M</em></div>
+        <div class="lbl">spans / sec / collector node</div>
+        <div class="sub2">r5.xlarge, single tenancy</div>
+      </div>
+      <div class="metric reveal">
+        <div class="num">280<em>ms</em></div>
+        <div class="lbl">span → queryable, p99</div>
+        <div class="sub2">end to end, any region</div>
+      </div>
+      <div class="metric reveal">
+        <div class="num">36<em>×</em></div>
+        <div class="lbl">cheaper per trace than legacy</div>
+        <div class="sub2">vs. hosted all-instrumented</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FEATURES ============ -->
+<section id="product">
+  <div class="wrap">
+    <div class="kicker reveal">Why teams switch</div>
+    <h2 class="reveal">Full-fidelity traces without the full-fidelity bill.</h2>
+    <p class="lead reveal">Every feature is built around one question: when production goes bad, can you answer <em>why</em> in the next two minutes?</p>
+
+    <div class="feat-grid">
+      <div class="feat reveal">
+        <div class="icon"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M10 2v16M2 10h16M4.5 4.5l11 11M15.5 4.5l-11 11" stroke="#22d3ee" stroke-width="1.4" stroke-linecap="round" opacity=".9"/></svg></div>
+        <h3>Tail-based sampling</h3>
+        <p>Decide what to keep at the tail of the trace, not the head. Errors, high latency, and new endpoints are captured at 100%; the rest at your configured rate.</p>
+        <div class="fnote">policy = <b>latency &gt; p95 OR status != 2xx</b></div>
+      </div>
+      <div class="feat reveal">
+        <div class="icon"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M2 16h4v-5H2v5Zm5.5 0h4V4h-4v12ZM13 16h4V8h-4v8Z" stroke="#34d399" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+        <h3>Flame-graph search</h3>
+        <p>Regex over span names, attributes, and baggage. Jump from a search hit straight to the flame graph with the matching path highlighted.</p>
+        <div class="fnote"><b>~12ms</b> median search over 90d of spans</div>
+      </div>
+      <div class="feat reveal">
+        <div class="icon"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#22d3ee" stroke-width="1.4"/><path d="M10 5.5V10l3 2" stroke="#22d3ee" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+        <h3>Sub-second time-to-truth</h3>
+        <p>Span ingestion to queryable in 280ms p99. Refresh the page while the incident is still happening — the data is already there.</p>
+        <div class="fnote">no batch window · no flush wait</div>
+      </div>
+      <div class="feat reveal">
+        <div class="icon"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M3 6l5 4-5 4V6Zm8 0l5 4-5 4V6Z" stroke="#f5a524" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+        <h3>Zero-config SDKs</h3>
+        <p>Drop in one import for Go, Rust, Java, Node, Python, and .NET. Conventions, baggage propagation, and metrics export handled automatically.</p>
+        <div class="fnote">go: <b>import _ "fluxtrace.dev/otel"</b></div>
+      </div>
+      <div class="feat reveal">
+        <div class="icon"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="M4 16V9m4 7V5m4 11v-5m4 5V7" stroke="#34d399" stroke-width="1.6" stroke-linecap="round"/><path d="M2 17.5h16" stroke="#34d399" stroke-width="1.2" stroke-linecap="round" opacity=".5"/></svg></div>
+        <h3>Cost governor</h3>
+        <p>Set a monthly budget. FLUXTRACE adapts sampling rates per-service in real time to stay under it — with an audit log of every change.</p>
+        <div class="fnote">budget $400 → sampled <b>p=0.0021</b> this hour</div>
+      </div>
+      <div class="feat reveal">
+        <div class="icon"><svg width="19" height="19" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2.5" stroke="#22d3ee" stroke-width="1.4"/><path d="M7 10.5l2 2 4-4.5" stroke="#22d3ee" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>OTel in, OTel out</h3>
+        <p>We speak standard OTLP, so there is no proprietary agent and no lock-in. Import and export traces between FLUXTRACE and any OTel backend in minutes.</p>
+        <div class="fnote">otlp over http/grpc · <b>zero forks</b></div>
+      </div>
+    </div>
+
+    <div class="integr reveal">
+      <span class="ilbl">WORKS WITH</span>
+      <div class="ilogs">
+        <span><i></i>OpenTelemetry</span>
+        <span><i></i>Kubernetes</span>
+        <span><i></i>Envoy</span>
+        <span><i></i>PostgreSQL</span>
+        <span><i></i>Kafka</span>
+        <span><i></i>gRPC</span>
+        <span><i></i>DynamoDB</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SDK / CODE ============ -->
+<section id="sdk">
+  <div class="wrap">
+    <div class="sdk">
+      <div>
+        <div class="kicker reveal">Instrumentation</div>
+        <h2 class="reveal">Three lines in. Tracing on.</h2>
+        <p class="lead reveal">No agents to babysit, no endpoint YAML to memorize. The SDK auto-discovers your framework and starts exporting on first request.</p>
+        <div class="sdk-list">
+          <div class="sdk-item reveal">
+            <div class="tick"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.8 9 10 3.5" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><b>Auto-instrumented by default</b><span>HTTP servers, DB drivers, message queues, and fetch — instrumented the moment they're imported.</span></div>
+          </div>
+          <div class="sdk-item reveal">
+            <div class="tick"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.8 9 10 3.5" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><b>Local sampling, tail-based globally</b><b></b><span>Head-sample cheaply on the host. The collector makes the final keep/drop call with full trace context.</span></div>
+          </div>
+          <div class="sdk-item reveal">
+            <div class="tick"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6.5L4.8 9 10 3.5" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><b>Exports metrics too</b><span>The RED metrics your dashboards expect are generated from the same spans. One source of truth.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-card reveal">
+        <div class="code-bar">
+          <div class="dots" style="margin-right:4px"><i></i><i></i><i></i></div>
+          <span class="fname">main.go</span>
+          <span class="lang">Go</span>
+        </div>
+<pre><span class="c-com">// main.go — the entire integration</span>
+<span class="c-kw">package</span> main
+
+<span class="c-kw">import</span> (
+	<span class="c-str">"net/http"</span>
+	<span class="c-str">_ "fluxtrace.dev/otel"</span>  <span class="c-com">// auto-instrumentation</span>
+)
+
+<span class="c-kw">func</span> <span class="c-fn">main</span>() {
+	mux := http.<span class="c-fn">NewServeMux</span>()
+
+	mux.<span class="c-fn">Handle</span>(<span class="c-str">"/v2/checkout"</span>, checkoutHandler{})
+
+	<span class="c-c-com">// tail sampling policy, evaluated by the collector</span>
+	flux.<span class="c-fn">KeepIf</span>(flux.<span class="c-fn">Any</span>(
+		flux.<span class="c-fn">Error</span>(),
+		flux.<span class="c-fn">Latency</span>(<span class="c-str">"p95"</span>),
+		flux.<span class="c-fn">Attribute</span>(<span class="c-str">"checkout.tier"</span>, <span class="c-str">"enterprise"</span>),
+	))
+
+	<span class="c-fn">http.ListenAndServe</span>(<span class="c-str">":8080"</span>, mux) <span class="c-com">// tracing on ✓</span>
+}</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="pricing">
+  <div class="wrap">
+    <div class="cta-panel reveal">
+      <div class="kicker" style="justify-content:center">Get started</div>
+      <h2>Ship confidence, not dashboards.</h2>
+      <p>Free for 5 services and 50M spans a month. Upgrade when the graphs say you should — the cost governor says you probably won't.</p>
+      <div class="install">
+        <span class="pr">$</span>
+        <span>curl -sSL get.fluxtrace.dev | sh</span>
+        <button class="copy" onclick="copyCmd(this)">copy</button>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="#">Start tracing free</a>
+        <a class="btn btn-ghost" href="#">Talk to an engineer</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <a class="logo" href="#" style="font-size:14px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <rect x="1" y="1" width="22" height="22" rx="5" stroke="#22d3ee" stroke-width="1.5" opacity=".45"/>
+          <path d="M5 15 L9 15 L11 8 L14 18 L16 12 L19 12" stroke="#22d3ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        FLUX<em>TRACE</em>
+      </a>
+      <div class="foot-left">
+        <a href="#">Docs</a>
+        <a href="#">Status</a>
+        <a href="#">Changelog</a>
+        <a href="#">Security</a>
+        <a href="#">GitHub</a>
+      </div>
+      <div class="foot-status"><i></i>all systems operational</div>
+    </div>
+    <div class="foot-copy">
+      <span>© 2025 Fluxtrace Labs, Inc. · SOC 2 Type II · OTel 1.25 compatible</span>
+      <span>trace_id: 0000landing-page-0000 · span: footer</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // animate trace bars a beat after reveal for the hero terminal
+  const term = document.getElementById('traceTerm');
+  const termIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        setTimeout(() => term.classList.add('in'), 350);
+        termIO.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+  termIO.observe(term);
+
+  // stagger bars
+  term.querySelectorAll('.bar').forEach((bar, i) => {
+    bar.style.transitionDelay = (i * 90) + 'ms';
+  });
+
+  // copy button
+  function copyCmd(btn) {
+    navigator.clipboard.writeText('curl -sSL get.fluxtrace.dev | sh').then(() => {
+      btn.textContent = 'copied ✓';
+      btn.style.color = 'var(--cyan)';
+      setTimeout(() => { btn.textContent = 'copy'; btn.style.color = ''; }, 1800);
+    });
+  }
+</script>
+</body>
+</html>

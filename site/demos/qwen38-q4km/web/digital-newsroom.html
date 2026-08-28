@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIGITAL / NEWSROOM — The Wire, Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Space+Grotesk:wght@300..700&family=Spline+Sans+Mono:ital,wght@0,300..700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2EFE6;
+  --paper-2:#EAE6D9;
+  --ink:#101216;
+  --ink-2:#2A2D34;
+  --muted:#6E6A5E;
+  --accent:#FF3D00;
+  --blue:#1E3AFF;
+  --gold:#E0A400;
+  --line:rgba(16,18,22,.18);
+  --line-strong:rgba(16,18,22,.55);
+  --mono:'Spline Sans Mono',monospace;
+  --sans:'Space Grotesk',sans-serif;
+  --serif:'Fraunces',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent);color:var(--paper)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+.kicker{
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;
+  text-transform:uppercase;font-weight:500;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+/* ============ GRAIN OVERLAY ============ */
+.grain{
+  position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.05;
+  mix-blend-mode:multiply;
+}
+.grain rect{filter:url(#noiseF)}
+
+/* ============ TICKER ============ */
+.ticker{
+  background:var(--ink);color:var(--paper);
+  border-bottom:1px solid var(--ink);
+  overflow:hidden;height:34px;display:flex;align-items:center;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;
+}
+.ticker .tag{
+  background:var(--accent);color:#fff;padding:0 14px;height:100%;
+  display:flex;align-items:center;gap:8px;flex-shrink:0;
+  font-weight:600;letter-spacing:.2em;font-size:10.5px;position:relative;z-index:2;
+}
+.ticker .tag::after{
+  content:"";position:absolute;right:-12px;top:0;bottom:0;
+  border-left:12px solid var(--accent);
+}
+.ticker-track{display:flex;white-space:nowrap;animation:tick 46s linear infinite;will-change:transform}
+.ticker:hover .ticker-track{animation-play-state:paused}
+.ticker-track span{padding:0 34px;display:flex;align-items:center;gap:34px}
+.ticker-track em{font-style:normal;color:var(--accent)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ============ MASTHEAD ============ */
+.masthead{border-bottom:2px solid var(--ink)}
+.masthead .row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:20px;padding-bottom:20px;gap:24px;
+}
+.logo{display:flex;align-items:baseline;gap:2px;user-select:none}
+.logo .word{
+  font-family:var(--serif);font-weight:800;font-size:34px;
+  letter-spacing:-.02em;line-height:1;font-variation-settings:"opsz" 144;
+}
+.logo .slash{
+  font-family:var(--mono);color:var(--accent);font-weight:700;
+  font-size:30px;transform:translateY(-2px);margin:0 2px;
+}
+.logo .sub{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--muted);margin-left:14px;
+  border-left:1px solid var(--line);padding-left:14px;align-self:center;
+}
+.mast-meta{display:flex;align-items:center;gap:22px;font-family:var(--mono);font-size:11.5px}
+.mast-meta .sep{width:1px;height:14px;background:var(--line-strong)}
+.mast-meta .clock{font-weight:600;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.live-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--accent);color:var(--accent);
+  padding:5px 12px;font-size:10.5px;letter-spacing:.2em;font-weight:600;
+}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+.btn{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;font-weight:600;padding:10px 18px;
+  border:1px solid var(--ink);transition:all .18s ease;display:inline-flex;align-items:center;gap:8px;
+}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.solid{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.solid:hover{background:var(--ink);border-color:var(--ink)}
+.btn.ghost-p{background:var(--paper);border-color:var(--paper);color:var(--paper)}
+.btn.ghost-p:hover{background:var(--accent);border-color:var(--accent)}
+
+/* ============ NAV ============ */
+.nav{
+  position:sticky;top:0;z-index:50;background:var(--paper);
+  border-bottom:1px solid var(--line-strong);
+}
+.nav .row{display:flex;align-items:center;justify-content:space-between;height:52px}
+.nav-links{display:flex;gap:0;overflow:hidden}
+.nav-links a{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;
+  text-transform:uppercase;padding:16px 18px;position:relative;white-space:nowrap;
+  color:var(--ink-2);transition:color .18s;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:18px;right:18px;bottom:10px;height:2px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .22s ease;
+}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-links a.active{color:var(--ink);font-weight:600}
+.nav-links a.active::after{transform:scaleX(1)}
+.nav-search{
+  display:flex;align-items:center;gap:10px;border:1px solid var(--line);
+  padding:7px 12px;font-family:var(--mono);font-size:11px;color:var(--muted);
+  transition:border-color .18s;
+}
+.nav-search:hover{border-color:var(--ink)}
+.nav-search kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line);padding:1px 5px}
+
+/* ============ FRONT (lead + live) ============ */
+.front{
+  display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:0;
+  border-bottom:1px solid var(--line-strong);min-height:calc(100vh - 190px);
+}
+.lead{padding:36px 40px 36px 0;display:flex;flex-direction:column;min-width:0}
+.lead .kicker{color:var(--accent);display:flex;align-items:center;gap:12px}
+.lead .kicker::before{content:"";width:34px;height:1px;background:var(--accent)}
+.lead h1{
+  font-family:var(--serif);font-weight:600;font-variation-settings:"opsz" 144;
+  font-size:clamp(38px,4.6vw,64px);line-height:1.03;letter-spacing:-.015em;
+  margin:18px 0 20px;max-width:880px;
+}
+.lead h1 em{font-style:italic;color:var(--accent);font-weight:500}
+.lead .stand{
+  font-size:17.5px;line-height:1.55;color:var(--ink-2);max-width:720px;
+  font-weight:300;
+}
+.lead .stand b{font-weight:600}
+.lead .byline{
+  display:flex;align-items:center;gap:14px;margin-top:22px;
+  font-family:var(--mono);font-size:11.5px;color:var(--muted);flex-wrap:wrap;
+}
+.lead .byline .avatar{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:conic-gradient(from 200deg,var(--blue),var(--ink),var(--accent),var(--blue));
+  border:2px solid var(--paper);box-shadow:0 0 0 1px var(--ink);
+}
+.lead .byline .name{color:var(--ink);font-weight:600}
+.lead .byline .dot{width:3px;height:3px;border-radius:50%;background:var(--muted)}
+.lead-actions{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+
+/* lead visual */
+.signal{
+  margin-top:30px;position:relative;background:var(--ink);color:var(--paper);
+  overflow:hidden;min-height:230px;flex:1;display:flex;flex-direction:column;
+}
+.signal .hud{
+  position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;
+  padding:12px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+  color:rgba(242,239,230,.55);z-index:3;text-transform:uppercase;
+}
+.signal .hud b{color:var(--accent);font-weight:600}
+.signal canvas{flex:1;width:100%;display:block}
+.signal .hud-foot{
+  position:absolute;bottom:0;left:0;right:0;display:flex;gap:0;z-index:3;
+  font-family:var(--mono);font-size:10px;color:rgba(242,239,230,.5);
+}
+.signal .hud-foot span{
+  flex:1;padding:10px 16px;border-top:1px solid rgba(242,239,230,.12);
+  letter-spacing:.1em;
+}
+.signal .hud-foot b{color:var(--paper);font-weight:500;display:block;margin-top:2px;font-size:12px}
+.signal .scan{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(0,0,0,.18) 3px 4px);
+  opacity:.5;
+}
+
+/* ============ LIVE RAIL ============ */
+.rail{
+  border-left:1px solid var(--line-strong);background:var(--paper-2);
+  display:flex;flex-direction:column;
+}
+.rail-head{
+  padding:22px 26px 16px;border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.rail-head h2{
+  font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  display:flex;align-items:center;gap:10px;font-weight:600;
+}
+.rail-head .count{font-size:10px;color:var(--muted);letter-spacing:.1em}
+.feed{list-style:none;flex:1;overflow:hidden}
+.feed li{
+  padding:15px 26px;border-bottom:1px dashed var(--line);
+  display:flex;gap:14px;font-size:13.5px;line-height:1.45;
+  animation:feedIn .5s ease both;
+}
+@keyframes feedIn{from{opacity:0;transform:translateY(-8px);background:rgba(255,61,0,.08)}to{opacity:1;transform:none}}
+.feed time{
+  font-family:var(--mono);font-size:10.5px;color:var(--accent);
+  font-weight:600;letter-spacing:.05em;padding-top:2px;white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.feed .src{
+  display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:3px;
+}
+.rail-note{
+  margin-top:auto;padding:16px 26px;border-top:2px solid var(--ink);
+  background:var(--ink);color:var(--paper);font-family:var(--mono);
+  font-size:11px;letter-spacing:.06em;display:flex;justify-content:space-between;align-items:center;
+}
+.rail-note a{color:var(--accent);font-weight:600}
+
+/* ============ SECTION HEAD ============ */
+.sec-head{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  padding:44px 0 24px;gap:24px;flex-wrap:wrap;
+}
+.sec-head .left{display:flex;align-items:flex-end;gap:18px}
+.sec-head h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(26px,2.6vw,38px);
+  letter-spacing:-.01em;font-variation-settings:"opsz" 90;line-height:1;
+}
+.sec-head .idx{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.2em;padding-bottom:6px}
+.sec-head .rule{flex:1;height:1px;background:var(--line-strong);margin-bottom:10px;min-width:60px}
+.sec-head a.more{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:8px;padding-bottom:6px}
+.sec-head a.more:hover{color:var(--accent)}
+.sec-head a.more .arr{transition:transform .2s}
+.sec-head a.more:hover .arr{transform:translateX(5px)}
+
+/* ============ ARTICLE GRID ============ */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.card{
+  background:var(--paper);display:flex;flex-direction:column;min-width:0;
+  transition:background .2s;
+}
+.card:hover{background:#fff}
+.card .art{
+  height:150px;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  border-bottom:1px solid var(--line);
+}
+.card .art .gl{
+  position:absolute;inset:0;opacity:0;transition:opacity .25s;
+  background:radial-gradient(circle at 50% 120%,rgba(255,61,0,.25),transparent 60%);
+}
+.card:hover .art .gl{opacity:1}
+.card .art svg{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.card:hover .art svg{transform:scale(1.12) rotate(-2deg)}
+.art.a1{background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 16px),var(--paper-2)}
+.art.a2{background:repeating-linear-gradient(45deg,#E7E2D2 0 10px,var(--ink) 10px 12px)}
+.art.a3{background:radial-gradient(circle at 50% 140%,var(--blue) 0%,var(--ink) 55%,var(--paper-2) 56%)}
+.art.a4{background:linear-gradient(160deg,#1c1f26 0%,#3a2f4d 100%)}
+.art .badge{
+  position:absolute;top:10px;left:10px;background:var(--paper);
+  font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  padding:4px 8px;font-weight:600;z-index:2;border:1px solid var(--ink);
+}
+.card .body{padding:18px 18px 22px;display:flex;flex-direction:column;flex:1}
+.card .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:10px}
+.card h3{
+  font-family:var(--serif);font-size:19.5px;font-weight:600;line-height:1.22;
+  letter-spacing:-.01em;margin-bottom:10px;font-variation-settings:"opsz" 40;
+}
+.card p{font-size:13.5px;color:var(--muted);line-height:1.5;font-weight:300;flex:1}
+.card .meta{
+  margin-top:16px;padding-top:12px;border-top:1px dashed var(--line);
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--muted);
+  display:flex;justify-content:space-between;
+}
+.card h3 a{transition:color .15s}
+.card:hover h3 a{color:var(--accent)}
+
+/* ============ EDITOR PICKS ============ */
+.picks{
+  display:grid;grid-template-columns:300px 1fr;border:1px solid var(--ink);
+  background:var(--paper-2);
+}
+.picks .aside{
+  border-right:1px solid var(--ink);padding:32px;display:flex;flex-direction:column;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(255,61,0,.12),transparent 50%),
+    var(--paper-2);
+}
+.picks .aside .kicker{color:var(--accent);margin-bottom:14px}
+.picks .aside h2{
+  font-family:var(--serif);font-size:34px;font-weight:600;line-height:1.05;
+  letter-spacing:-.015em;font-variation-settings:"opsz" 100;margin-bottom:16px;
+}
+.picks .aside p{font-size:14px;color:var(--ink-2);font-weight:300;line-height:1.6;margin-bottom:24px}
+.picks .aside .sig{
+  margin-top:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted);
+  display:flex;align-items:center;gap:10px;
+}
+.picks .aside .sig .pen{width:26px;height:1px;background:var(--accent);position:relative}
+.picks .aside .sig .pen::after{content:"✳";position:absolute;left:-2px;top:-9px;color:var(--accent);font-size:10px}
+.picks ul{list-style:none}
+.picks li{
+  display:grid;grid-template-columns:70px 1fr auto;gap:20px;align-items:center;
+  padding:24px 30px;border-bottom:1px solid var(--line);transition:background .18s,padding-left .18s;
+}
+.picks li:last-child{border-bottom:none}
+.picks li:hover{background:#fff;padding-left:40px}
+.picks .num{
+  font-family:var(--serif);font-size:34px;font-weight:300;font-style:italic;
+  color:var(--accent);line-height:1;font-variation-settings:"opsz" 100;
+}
+.picks h3{
+  font-family:var(--serif);font-size:21px;font-weight:600;line-height:1.2;
+  letter-spacing:-.01em;margin-bottom:5px;
+}
+.picks h3 a:hover{color:var(--accent);transition:color .15s}
+.picks .note{font-size:13px;color:var(--muted);font-weight:300;max-width:640px;line-height:1.45}
+.picks .note b{color:var(--ink-2);font-weight:600}
+.picks .rt{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.1em;white-space:nowrap}
+
+/* ============ NEWSLETTER ============ */
+.news{
+  display:grid;grid-template-columns:1.1fr 1fr;border:1px solid var(--ink);
+  background:var(--ink);color:var(--paper);
+}
+.news .copy{padding:44px 44px;border-right:1px solid rgba(242,239,230,.15)}
+.news .copy .kicker{color:var(--accent)}
+.news h2{
+  font-family:var(--serif);font-size:clamp(28px,3vw,42px);font-weight:600;
+  line-height:1.08;letter-spacing:-.015em;margin:14px 0 16px;
+  font-variation-settings:"opsz" 100;
+}
+.news h2 em{font-style:italic;color:var(--gold);font-weight:400}
+.news .copy p{font-size:14.5px;color:rgba(242,239,230,.65);font-weight:300;line-height:1.6;max-width:420px}
+.news .copy .stats{display:flex;gap:32px;margin-top:26px}
+.news .copy .stats div b{font-family:var(--serif);font-size:26px;font-weight:600;display:block}
+.news .copy .stats div span{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(242,239,230,.45)}
+.news .form{padding:44px;display:flex;flex-direction:column;justify-content:center}
+.news .form label{font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,239,230,.5);margin-bottom:12px}
+.news input{
+  background:transparent;border:none;border-bottom:1px solid rgba(242,239,230,.35);
+  color:var(--paper);font-family:var(--sans);font-size:17px;padding:12px 2px;
+  transition:border-color .2s;outline:none;width:100%;
+}
+.news input::placeholder{color:rgba(242,239,230,.3)}
+.news input:focus{border-color:var(--accent)}
+.news .form .row2{display:flex;align-items:center;gap:18px;margin-top:28px;flex-wrap:wrap}
+.news .form small{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:rgba(242,239,230,.4);margin-top:16px}
+.news .success{
+  display:none;font-family:var(--mono);font-size:13px;color:var(--gold);
+  letter-spacing:.08em;margin-top:16px;
+}
+.news .success.on{display:block;animation:feedIn .4s ease}
+
+/* ============ SUBSCRIBE CTA ============ */
+.subs{
+  position:relative;overflow:hidden;border-top:1px solid var(--ink);
+  background:
+    radial-gradient(ellipse 70% 120% at 15% -20%,rgba(255,61,0,.28),transparent 55%),
+    repeating-linear-gradient(90deg,transparent 0 78px,rgba(242,239,230,.05) 78px 79px),
+    var(--paper-2);
+  border-bottom:1px solid var(--ink);
+}
+.subs .row{
+  display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;
+  padding:64px 0;
+}
+.subs h2{
+  font-family:var(--serif);font-size:clamp(34px,3.6vw,54px);font-weight:600;
+  line-height:1.04;letter-spacing:-.018em;font-variation-settings:"opsz" 144;
+}
+.subs h2 em{font-style:italic;color:var(--accent);font-weight:500}
+.subs .lead-p{margin-top:16px;font-size:15.5px;color:var(--ink-2);font-weight:300;max-width:480px;line-height:1.6}
+.subs .panel{
+  background:var(--paper);border:1px solid var(--ink);padding:32px;
+  box-shadow:8px 8px 0 var(--ink);
+}
+.subs .price-row{display:flex;align-items:baseline;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.subs .price{font-family:var(--serif);font-size:52px;font-weight:600;letter-spacing:-.02em}
+.subs .price sup{font-size:22px;font-weight:400;top:-20px;position:relative}
+.subs .per{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.subs ul{list-style:none;margin-bottom:26px}
+.subs li{
+  font-size:14px;padding:9px 0 9px 26px;position:relative;border-bottom:1px dashed var(--line);
+  font-weight:300;
+}
+.subs li:last-child{border-bottom:none}
+.subs li::before{content:"→";position:absolute;left:0;color:var(--accent);font-weight:600}
+.subs .panel .btn.solid{width:100%;justify-content:center;padding:15px}
+.subs .panel .fine{font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--muted);text-align:center;margin-top:14px}
+.subs .stamp{
+  position:absolute;right:44px;top:32px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--accent);
+  border:1px solid var(--accent);padding:8px 14px;transform:rotate(6deg);
+}
+
+/* ============ FOOTER ============ */
+footer{background:var(--ink);color:var(--paper)}
+footer .top{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:52px 0 40px;gap:32px;flex-wrap:wrap;
+}
+footer .flogo{font-family:var(--serif);font-size:28px;font-weight:800;letter-spacing:-.02em}
+footer .flogo .slash{color:var(--accent);font-family:var(--mono);margin:0 1px}
+footer .ftag{font-family:var(--mono);font-size:11px;color:rgba(242,239,230,.5);letter-spacing:.1em;margin-top:10px;max-width:300px;line-height:1.7}
+footer nav{display:flex;gap:48px;flex-wrap:wrap}
+footer nav h4{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+footer nav a{display:block;font-size:13.5px;color:rgba(242,239,230,.7);padding:5px 0;font-weight:300;transition:color .15s,padding-left .15s}
+footer nav a:hover{color:var(--paper);padding-left:6px}
+footer .base{
+  border-top:1px solid rgba(242,239,230,.15);padding:20px 0 26px;
+  display:flex;justify-content:space-between;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:.1em;color:rgba(242,239,230,.4);flex-wrap:wrap;gap:12px;
+}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1080px){
+  .front{grid-template-columns:1fr;min-height:0}
+  .lead{padding:32px 0}
+  .rail{border-left:none;border-top:1px solid var(--line-strong)}
+  .feed{max-height:340px;overflow-y:auto}
+  .grid4{grid-template-columns:repeat(2,1fr)}
+  .picks{grid-template-columns:1fr}
+  .picks .aside{border-right:none;border-bottom:1px solid var(--ink)}
+  .news{grid-template-columns:1fr}
+  .news .copy{border-right:none;border-bottom:1px solid rgba(242,239,230,.15)}
+  .subs .row{grid-template-columns:1fr}
+  .subs .stamp{display:none}
+}
+@media(max-width:700px){
+  .wrap{padding:0 18px}
+  .logo .sub{display:none}
+  .mast-meta .hide-s{display:none}
+  .nav .row{overflow-x:auto}
+  .nav-search{display:none}
+  .grid4{grid-template-columns:1fr}
+  .picks li{grid-template-columns:44px 1fr;row-gap:6px}
+  .picks .num{font-size:24px}
+  .picks .rt{grid-column:2}
+  .news .copy,.news .form{padding:28px 22px}
+  footer nav{gap:28px}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG noise for grain -->
+<svg width="0" height="0" style="position:absolute">
+  <filter id="noiseF"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2"/></filter>
+</svg>
+<svg class="grain" width="100%" height="100%"><rect width="100%" height="100%"/></svg>
+
+<!-- TICKER -->
+<div class="ticker" aria-label="Breaking headlines">
+  <div class="tag"><span class="live-dot"></span>THE WIRE</div>
+  <div class="ticker-track" id="tickerTrack">
+    <span>
+      <em>■</em> Central bank holds at 4.25% as core inflation cools to 2.9%
+      <em>■</em> Battery storage now covers 41% of evening peak demand across the continent
+      <em>■</em> Verity Systems posts record chip revenue, up 63% year over year
+      <em>■</em> Meridian FC clinch title in front of record 81,204
+      <em>■</em> Coastal grid operator restores 94% of substations overnight
+      <em>■</em> Senate schedules vote on open-data transparency act for Thursday
+    </span>
+  </span>
+  </div>
+</div>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="wrap row">
+    <a class="logo" href="#">
+      <span class="word">DIGITAL</span><span class="slash">/</span><span class="word" style="font-size:34px">NEWSROOM</span>
+      <span class="sub">Est. 2019 · Signal over noise</span>
+    </a>
+    <div class="mast-meta">
+      <span class="hide-s" id="dateline">Tuesday · —</span>
+      <span class="sep hide-s"></span>
+      <span class="clock" id="clock">--:--:--</span>
+      <span class="sep"></span>
+      <span class="live-pill"><span class="live-dot"></span>LIVE</span>
+      <button class="btn solid">Subscribe</button>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="wrap row">
+    <div class="nav-links">
+      <a href="#" class="active">Front Page</a>
+      <a href="#">Markets</a>
+      <a href="#">Climate</a>
+      <a href="#">Technology</a>
+      <a href="#">Cities</a>
+      <a href="#">Science</a>
+      <a href="#">Culture</a>
+      <a href="#">Opinion</a>
+      <a href="#">The Long Read</a>
+    </div>
+    <div class="nav-search">Search the archive <kbd>⌘K</kbd></div>
+  </div>
+</nav>
+
+<!-- FRONT PAGE -->
+<main class="wrap">
+  <section class="front">
+    <!-- LEAD STORY -->
+    <article class="lead">
+      <p class="kicker">Climate / Energy — Lead Story</p>
+      <h1>Grid Operators Quietly Rewire the Continent as <em>Battery Farms</em> Hit Grid Parity</h1>
+      <p class="stand">For the first time, storage — not peaker gas plants — is covering the evening surge across twelve of the region's largest grids. Our six-month investigation into the data rooms, interconnection queues, and the <b>$40&nbsp;billion</b> of silent infrastructure reshaping how a modern economy keeps the lights on.</p>
+      <div class="byline">
+        <span class="avatar" aria-hidden="true"></span>
+        <span class="name">By Amara Osei</span>
+        <span class="dot"></span><span>Energy Desk</span>
+        <span class="dot"></span><span>Updated 14:42 ET</span>
+        <span class="dot"></span><span>12 min read</span>
+      </div>
+      <div class="lead-actions">
+        <button class="btn solid">Read the investigation</button>
+        <button class="btn">Listen · 24 min</button>
+        <button class="btn">Save ▸</button>
+      </div>
+      <div class="signal" aria-label="Live grid load monitor">
+        <div class="hud"><span>GRID MONITOR — <b>LIVE</b> FEED</span><span id="sigLoad">LOAD 61.4 GW</span></div>
+        <canvas id="wave"></canvas>
+        <div class="scan"></div>
+        <div class="hud-foot">
+          <span>STORAGE DISCHARGE<b>41.2% of peak</b></span>
+          <span>INTERCONNECTION QUEUE<b>38.6 GW pending</b></span>
+          <span>CARBON INTENSITY<b>−22% vs. 5-yr avg</b></span>
+        </div>
+      </div>
+    </article>
+
+    <!-- LIVE RAIL -->
+    <aside class="rail">
+      <div class="rail-head">
+        <h2><span class="live-dot"></span>Live Updates</h2>
+        <span class="count" id="feedCount">6 events today</span>
+      </div>
+      <ul class="feed" id="feed">
+        <li><time>14:32</time><div><span class="src">Markets</span>Brent eases 1.8% to $81.40 as OPEC+ output talks enter final round in Vienna.</div></li>
+        <li><time>14:07</time><div><span class="src">Central Bank</span>Hold confirmed at 4.25%; governor cites "meaningful, durable" cooling in core goods.</div></li>
+        <li><time>13:51</time><div><span class="src">Technology</span>Verity Systems reports $11.2B quarterly chip revenue, beating consensus by 9%.</div></li>
+        <li><time>13:26</time><div><span class="src">Weather</span>Coastal grid restores 94% of substrokes overnight; 12,400 customers still without power.</div></li>
+        <li><time>12:58</time><div><span class="src">Politics</span>Senate schedules Thursday vote on the Open-Data Transparency Act, 51–49 expected.</div></li>
+        <li><time>12:30</time><div><span class="src">Sports</span>Meridian FC clinch the title in front of a record 81,204; parade announced for Sunday.</div></li>
+      </ul>
+      <div class="rail-note"><span>Updated <span id="feedClock">14:42</span> ET</span><a href="#">Full wire →</a></div>
+    </aside>
+  </section>
+
+  <!-- ARTICLE GRID -->
+  <div class="sec-head reveal">
+    <div class="left"><span class="idx">02</span><h2>Across the Wire</h2></div>
+    <div class="rule"></div>
+    <a class="more" href="#">All stories <span class="arr">→</span></a>
+  </div>
+  <section class="grid4">
+    <article class="card reveal d1">
+      <div class="art a1">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none"><rect x="18" y="34" width="84" height="52" rx="3" stroke="#101216" stroke-width="3"/><circle cx="34" cy="48" r="4" fill="#FF3D00"/><circle cx="60" cy="48" r="4" fill="#101216"/><circle cx="86" cy="48" r="4" fill="#1E3AFF"/><rect x="30" y="62" width="60" height="4" fill="#101216"/><rect x="30" y="72" width="38" height="4" fill="#101216" opacity=".5"/></svg>
+        <span class="gl"></span><span class="badge">Tech</span>
+      </div>
+      <div class="body">
+        <span class="tag">Technology</span>
+        <h3><a href="#">The Algorithm That Learned to Write Headlines (and Editors Are Baffled)</a></h3>
+        <p>Inside the A/B-tested newsroom experiment where a language model now drafts 30% of front-page teasers — and outperforms humans on click, not trust.</p>
+        <div class="meta"><span>K. RIVERA</span><span>8 MIN</span></div>
+      </div>
+    </article>
+    <article class="card reveal d2">
+      <div class="art a2">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none"><circle cx="60" cy="60" r="34" stroke="#F2EFE6" stroke-width="3"/><circle cx="60" cy="60" r="20" stroke="#F2EFE6" stroke-width="3" opacity=".7"/><circle cx="60" cy="60" r="8" fill="#FF3D00"/></svg>
+        <span class="gl"></span><span class="badge">City</span>
+      </div>
+      <div class="body">
+        <span class="tag">Cities</span>
+        <h3><a href="#">Harvest Moon, Concrete City: A Year on a Vertical Farm</a></h3>
+        <p>We embedded with the team growing 200,000 heads of lettuce above a freight yard. The energy bill, the pest problem, and the surprising answer about who buys it.</p>
+        <div class="meta"><span>D. OKONKWO</span><span>11 MIN</span></div>
+      </div>
+    </article>
+    <article class="card reveal d3">
+      <div class="art a3">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none"><path d="M20 88 L48 44 L68 70 L96 28" stroke="#F2EFE6" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="96" cy="28" r="6" fill="#E0A400"/></svg>
+        <span class="gl"></span><span class="badge">Science</span>
+      </div>
+      <div class="body">
+        <span class="tag">Science</span>
+        <h3><a href="#">Why the World's Oldest Map Is Probably Wrong — and That's the Point</a></h3>
+        <p>New radiocarbon results upend a 3,000-year assumption about a legendary port city. Historians aren't angry; they're rearranging the whole timeline.</p>
+        <div class="meta"><span>P. HALVORSEN</span><span>9 MIN</span></div>
+      </div>
+    </article>
+    <article class="card reveal d4">
+      <div class="art a4">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none"><rect x="30" y="30" width="60" height="78" rx="2" stroke="#F2EFE6" stroke-width="3"/><path d="M30 48 h60 M30 64 h60 M30 80 h40" stroke="#F2EFE6" stroke-width="3" opacity=".8"/><circle cx="86" cy="88" r="14" fill="#FF3D00"/><path d="M80 88 l4 4 8-9" stroke="#F2EFE6" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+        <span class="gl"></span><span class="badge">Culture</span>
+      </div>
+      <div class="body">
+        <span class="tag">Culture</span>
+        <h3><a href="#">The Return of the Late-Night Newsletter</a></h3>
+        <p>From jazz critics to quantum physicists, a new generation is publishing at 11 p.m. and building audiences by hand. What the old midnight media knew that we forgot.</p>
+        <div class="meta"><span>S. DELACROIX</span><span>7 MIN</span></div>
+      </div>
+    </article>
+  </section>
+
+  <!-- EDITOR PICKS -->
+  <div class="sec-head reveal">
+    <div class="left"><span class="idx">03</span><h2>Editors' Picks</h2></div>
+    <div class="rule"></div>
+    <a class="more" href="#">More from the desk <span class="arr">→</span></a>
+  </div>
+  <section class="picks reveal">
+    <div class="aside">
+      <p class="kicker">Hand-picked daily</p>
+      <h2>What our editors can't stop thinking about</h2>
+      <p>Three stories, argued over at breakfast, argued over again at the 4 p.m. meeting. This is the shortlist that survives the newsroom.</p>
+      <div class="sig"><span class="pen"></span>Selected by the Standards Desk</div>
+    </div>
+    <ul>
+      <li>
+        <span class="num">01</span>
+        <div>
+          <h3><a href="#">The Water Bank Nobody Will Let You Deposit In</a></h3>
+          <p class="note"><b>Opinion.</b> Municipalities are securitizing rainfall. It's the cleverest financial product of the decade — and it quietly prices out the people most likely to be thirsty.</p>
+        </div>
+        <span class="rt">4 MIN · OPINION</span>
+      </li>
+      <li>
+        <span class="num">02</span>
+        <div>
+          <h3><a href="#">Dispatch: Night Shift at the Last Newspaper Printing Plant in the Region</a></h3>
+          <p class="note"><b>Reportage.</b> The presses run until 2 a.m. for a readership of 31,000. The economics don't add up. The operator says they do, and explains why in three sentences that will stay with you.</p>
+        </div>
+        <span class="rt">14 MIN · REPORTAGE</span>
+      </li>
+      <li>
+        <span class="num">03</span>
+        <div>
+          <h3><a href="#">Explain It to Me: What "Grid Parity" Actually Means for Your Electricity Bill</a></h3>
+          <p class="note"><b>Explainer.</b> Our most-requested follow-up to the lead story. No jargon, one diagram, and a calculator you can run on your own meter. We promise it's short.</p>
+        </div>
+        <span class="rt">6 MIN · EXPLAINER</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <div class="sec-head reveal">
+    <div class="left"><span class="idx">04</span><h2>The 6AM Wire</h2></div>
+    <div class="rule"></div>
+    <a class="more" href="#">Sample issue <span class="arr">→</span></a>
+  </div>
+  <section class="news reveal">
+    <div class="copy">
+      <p class="kicker" style="color:var(--accent)">One email · No filler</p>
+      <h2>Five stories, <em>one chart,</em> and the link worth clicking — before your first coffee's done.</h2>
+      <p>Written by the people who wrote today's front page, not by a template. Every issue ends with one thing our editor is watching that you probably aren't.</p>
+      <div class="stats">
+        <div><b>212k</b><span>Readers</span></div>
+        <div><b>9:41s</b><span>Median read</span></div>
+        <div><b>0</b><span>Ads inside</span></div>
+      </div>
+    </div>
+    <form class="form" id="newsForm">
+      <label for="email">Join the wire</label>
+      <input id="email" type="email" placeholder="you@example.com" required autocomplete="email">
+      <div class="row2">
+        <button class="btn solid" type="submit">Get the 6AM Wire</button>
+        <button class="btn ghost-p" type="button">Preview a past issue</button>
+      </div>
+      <p class="success" id="newsOk">✓ You're on the wire. First issue lands tomorrow, 06:00 sharp.</p>
+      <small>Free forever. Unsubscribe in one click, no guilt trip. We never share your address.</small>
+    </form>
+  </section>
+</main>
+
+<!-- SUBSCRIBE CTA -->
+<section class="subs">
+  <div class="stamp">All Access</div>
+  <div class="wrap row">
+    <div class="reveal">
+      <h2>Read everything.<br><em>Keep the record.</em></h2>
+      <p class="lead-p">Digital / Newsroom exists so that the investigations, the data rooms, and the long threads of a story stay public. All Access funds the desk and unlocks the archive back to 2019.</p>
+    </div>
+    <div class="panel reveal d1">
+      <div class="price-row">
+        <span class="price"><sup>$</sup>4</span>
+        <span class="per">/ month · cancel anytime</span>
+      </div>
+      <ul>
+        <li>Every story, including the full investigation archive</li>
+        <li>The 6AM Wire + the Friday Long Read digest</li>
+        <li>Live wire with zero ad interruption</li>
+        <li>Quarterly open data packs from the desk</li>
+      </ul>
+      <button class="btn solid">Start 14-day free trial</button>
+      <p class="fine">STUDENT &amp; PRESS RATES 60% OFF · PRESS "STAFF" FOR VERIFICATION</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="flogo">DIGITAL<span class="slash">/</span>NEWSROOM</div>
+        <p class="ftag">Independent. Reader-funded. The record, kept in the open since 2019. HQ: 11 Cable Street, Floor 4 — the room with the big window.</p>
+      </div>
+      <nav aria-label="Footer">
+        <div>
+          <h4>Sections</h4>
+          <a href="#">Markets</a><a href="#">Climate</a><a href="#">Technology</a><a href="#">Cities</a><a href="#">Opinion</a>
+        </div>
+        <div>
+          <h4>The Newsroom</h4>
+          <a href="#">Our standards</a><a href="#">Corrections</a><a href="#">Masthead</a><a href="#">Careers</a><a href="#">Pitch us</a>
+        </div>
+        <div>
+          <h4>Product</h4>
+          <a href="#">All Access</a><a href="#">The 6AM Wire</a><a href="#">Data packs</a><a href="#">RSS &amp; API</a><a href="#">Contact</a>
+        </div>
+      </nav>
+    </div>
+    <div class="base">
+      <span>© 2025 DIGITAL/NEWSROOM MEDIA CO. — ALL RIGHTS RESERVED, MOSTLY</span>
+      <span>PRIVACY · TERMS · SITEMAP · 501(c)(3) DISCLOSURES</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- Clock & dateline ---------- */
+const clockEl = document.getElementById('clock');
+const dateEl = document.getElementById('dateline');
+const feedClockEl = document.getElementById('feedClock');
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function pad(n){return String(n).padStart(2,'0')}
+function tickClock(){
+  const d = new Date();
+  clockEl.textContent = pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
+  feedClockEl.textContent = pad(d.getHours())+':'+pad(d.getMinutes());
+  dateEl.textContent = days[d.getDay()]+' · '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear();
+}
+tickClock(); setInterval(tickClock,1000);
+
+/* ---------- Ticker: duplicate for seamless loop ---------- */
+const track = document.getElementById('tickerTrack');
+track.innerHTML = track.innerHTML + track.innerHTML;
+
+/* ---------- Live feed: rotate in new items ---------- */
+const feed = document.getElementById('feed');
+const feedCount = document.getElementById('feedCount');
+let eventNum = 6;
+const liveItems = [
+  {src:'Markets',   text:'Intracom futures edge 0.4% higher ahead of the 2:00 ET employment report.'},
+  {src:'Grid Wire', text:'Storage fleet discharge peaks at 9.1 GW — new record for a weekday 3 p.m.'},
+  {src:'Technology',text:'Verity shares jump 7.4% in extended trading after earnings beat.'},
+  {src:'Politics',  text:'Two additional senators signal support; transparency vote now at 54.'},
+  {src:'Science',   text:'Preliminary: radiocarbon lab confirms second sample — error bars tighten by 40%.'},
+  {src:'Weather',   text:'Final substrokes restored; utility thanks volunteer crews, 214 hours worked overnight.'},
+  {src:'Sports',    text:'Title parade route announced: 3.2 km, starting 1 p.m. Sunday, expect delays.'},
+  {src:'Markets',   text:'Euro steady at 1.084 as OPEC+ talks stall on final allocation language.'},
+];
+let li = 0;
+function pushLive(){
+  const item = liveItems[li % liveItems.length]; li++;
+  const d = new Date();
+  const liEl = document.createElement('li');
+  liEl.innerHTML = '<time>'+pad(d.getHours())+':'+pad(d.getMinutes())+'</time><div><span class="src">'+item.src+'</span>'+item.text+'</div>';
+  feed.prepend(liEl);
+  while(feed.children.length > 7) feed.lastElementChild.remove();
+  eventNum++;
+  feedCount.textContent = eventNum + ' events today';
+}
+setInterval(pushLive, 9000);
+
+/* ---------- Canvas grid monitor ---------- */
+const cv = document.getElementById('wave');
+const ctx = cv.getContext('2d');
+const sigLoad = document.getElementById('sigLoad');
+let W,H,t=0;
+function sizeCanvas(){
+  const r = cv.parentElement.getBoundingClientRect();
+  const dpr = window.devicePixelRatio||1;
+  W = r.width; H = r.height;
+  cv.width = W*dpr; cv.height = H*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+sizeCanvas(); window.addEventListener('resize', sizeCanvas);
+function drawWave(){
+  t += 0.022;
+  ctx.clearRect(0,0,W,H);
+  // grid
+  ctx.strokeStyle = 'rgba(242,239,230,0.07)'; ctx.lineWidth = 1;
+  for(let x=0;x<W;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<H;y+=36){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  // baseline
+  ctx.strokeStyle = 'rgba(242,239,230,0.15)';
+  ctx.setLineDash([4,6]); ctx.beginPath();
+  ctx.moveTo(0,H*0.62); ctx.lineTo(W,H*0.62); ctx.stroke(); ctx.setLineDash([]);
+  // ghost line (previous day)
+  ctx.strokeStyle = 'rgba(224,164,0,0.35)'; ctx.lineWidth = 1.25;
+  ctx.beginPath();
+  for(let x=0;x<=W;x+=3){
+    const y = H*0.62 - Math.sin(x*0.008+t*0.4)*H*0.1 - Math.sin(x*0.021)*H*0.05;
+    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+  // main signal
+  ctx.strokeStyle = '#FF3D00'; ctx.lineWidth = 2.2;
+  ctx.shadowColor = 'rgba(255,61,0,0.55)'; ctx.shadowBlur = 12;
+  ctx.beginPath();
+  for(let x=0;x<=W;x+=3){
+    const y = H*0.44
+      - Math.sin(x*0.010 + t)*H*0.16
+      - Math.sin(x*0.033 + t*1.9)*H*0.05
+      + Math.sin(x*0.005 - t*0.6)*H*0.08;
+    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke(); ctx.shadowBlur = 0;
+  // scan head
+  const sx = (t*40) % W;
+  ctx.strokeStyle = 'rgba(242,239,230,0.28)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(sx,0); ctx.lineTo(sx,H); ctx.stroke();
+  requestAnimationFrame(drawWave);
+}
+drawWave();
+setInterval(()=>{
+  const load = (58 + Math.random()*8).toFixed(1);
+  sigLoad.textContent = 'LOAD ' + load + ' GW';
+}, 2200);
+
+/* ---------- Scroll reveals ---------- */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- Newsletter form ---------- */
+document.getElementById('newsForm').addEventListener('submit', e=>{
+  e.preventDefault();
+  document.getElementById('newsOk').classList.add('on');
+  e.target.querySelector('input').value = '';
+  e.target.querySelector('input').placeholder = 'wire@digitalnewsroom.co ✓';
+});
+
+/* ---------- Nav active state ---------- */
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    document.querySelector('.nav-links a.active')?.classList.remove('active');
+    a.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

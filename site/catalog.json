@@ -1,0 +1,870 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-08-28T16:30:36.469760+00:00",
+  "title": "Qwen One-Shot",
+  "description": "50 websites, one sample each, generated locally on a single RTX 3090 with Qwen 3.8 27B.",
+  "models": [
+    {
+      "id": "qwen38-q4km",
+      "name": "Qwen 3.8 27B",
+      "version": "3.8",
+      "quant": "Q4_K_M",
+      "label": "Qwen 3.8 27B",
+      "notes": "One sample per site. Qwen3.8-27B Q4_K_M with thinking, generated locally on a single RTX 3090.",
+      "tracks": {
+        "web": [
+          {
+            "id": "web_ai_product_launch",
+            "title": "ORBIT AI — ORBIT-1 is live",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/ai-product-launch.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking-np3",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/ai-product-launch/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/ai-product-launch/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_airline_lounge",
+            "title": "AIRLINE / LOUNGE — Land softer",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/airline-lounge.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/airline-lounge/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/airline-lounge/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_architecture_studio",
+            "title": "FORM/NOIR — Architecture Studio",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/architecture-studio.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking-np3",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/architecture-studio/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/architecture-studio/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_auction_house",
+            "title": "AUCTION / HOUSE — Lot 047 · Spring Evening Sale",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/auction-house.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/auction-house/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/auction-house/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_automotive",
+            "title": "AER / 01 — Electric, Unfiltered",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/automotive.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/automotive/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/automotive/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_bookstore",
+            "title": "Margin Notes — Independent Bookshop, Portland",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/bookstore.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/bookstore/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/bookstore/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_cinema_streaming",
+            "title": "FRAME/ONE — Cinema, Delivered",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/cinema-streaming.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/cinema-streaming/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/cinema-streaming/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_civic_services",
+            "title": "Lumen City — Official City Services",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/civic-services.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/civic-services/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/civic-services/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_climate_lab",
+            "title": "CLIMATE / DASHBOARD — Global Carbon Observatory",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/climate-lab.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/climate-lab/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/climate-lab/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_community_center",
+            "title": "COMMUNITY / CENTER — 412 Aurora Avenue",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/community-center.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/community-center/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/community-center/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_creative_gallery",
+            "title": "VOID/FORM — Generative & Post-Digital Art",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/creative-gallery.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking-np3",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/creative-gallery/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/creative-gallery/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_crm_dashboard",
+            "title": "CRM / DASHBOARD — Ledger & Loop",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/crm-dashboard.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/crm-dashboard/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/crm-dashboard/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_developer_tool",
+            "title": "FLUXTRACE — Distributed tracing that runs in the nanosecond lane",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/developer-tool.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking-np3",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/developer-tool/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/developer-tool/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_digital_newsroom",
+            "title": "DIGITAL / NEWSROOM — The Wire, Live",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/digital-newsroom.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/digital-newsroom/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/digital-newsroom/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_education_course",
+            "title": "Studio Class — Your dashboard",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/education-course.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/education-course/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/education-course/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_email_client",
+            "title": "EMAIL / CLIENT — Correspondence, delivered",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/email-client.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/email-client/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/email-client/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_fashion_editorial",
+            "title": "ATELIER 09 — The Weight of Stillness",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/fashion-editorial.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking-np3",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/fashion-editorial/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/fashion-editorial/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_financial_advisor",
+            "title": "Clearwater Capital — Independent Wealth Advisory",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/financial-advisor.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/financial-advisor/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/financial-advisor/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_fintech_dashboard",
+            "title": "Northstar Wealth — Portfolio Overview",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/fintech-dashboard.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking-np3",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/fintech-dashboard/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/fintech-dashboard/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_fleet_logistics",
+            "title": "FLEET / LOGISTICS — Ops Console",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/fleet-logistics.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/fleet-logistics/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/fleet-logistics/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_furniture_showroom",
+            "title": "FURNITURE / SHOWROOM — Considered objects for considered rooms",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/furniture-showroom.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/furniture-showroom/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/furniture-showroom/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_game_launcher",
+            "title": "INDIE / GAME / LAUNCHER",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/game-launcher.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/game-launcher/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/game-launcher/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_grocery_market",
+            "title": "GOODROOT — Fresh from the soil, to your door",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/grocery-market.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/grocery-market/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/grocery-market/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_healthcare_portal",
+            "title": "Your health — Northstar Health Patient Portal",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/healthcare-portal.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/healthcare-portal/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/healthcare-portal/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_hiking_guide",
+            "title": "HIKING / GUIDE — Find your next ascent",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/hiking-guide.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/hiking-guide/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/hiking-guide/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_hotel_booking",
+            "title": "MIREN HOUSE — Coastal Sanctuary",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/hotel-booking.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/hotel-booking/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/hotel-booking/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_incident_response",
+            "title": "INCIDENT / RESPONSE — Reliability Operations",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/incident-response.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/incident-response/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/incident-response/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_insurance_claims",
+            "title": "Claim CLM-2419-8842 — Meridian Mutual Claims",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/insurance-claims.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/insurance-claims/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/insurance-claims/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_inventory_manager",
+            "title": "INVENTORY / MANAGER",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/inventory-manager.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/inventory-manager/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/inventory-manager/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_job_board",
+            "title": "WORKROOM — Find work that fits your life",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/job-board.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/job-board/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/job-board/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_language_learning",
+            "title": "Parlo — Say it out loud",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/language-learning.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/language-learning/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/language-learning/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_legal_consulting",
+            "title": "VANTAGE LAW — Counsel of Consequence",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/legal-consulting.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/legal-consulting/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/legal-consulting/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_meal_planner",
+            "title": "MEAL/PLANNER — Week 32",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/meal-planner.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/meal-planner/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/meal-planner/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_museum_exhibition",
+            "title": "HALF-LIGHT — Mirela Anand · The Meridian Museum of Modern Art",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/museum-exhibition.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/museum-exhibition/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/museum-exhibition/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_music_player",
+            "title": "SONORA — Music, composed for the dark",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/music-player.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking-np3",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/music-player/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/music-player/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_nonprofit_campaign",
+            "title": "TIDE / TURN — A Coast Restored Campaign",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/nonprofit-campaign.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/nonprofit-campaign/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/nonprofit-campaign/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_password_manager",
+            "title": "PASSWORD/MANAGER — Every credential, one encrypted vault",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/password-manager.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/password-manager/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/password-manager/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_pet_care",
+            "title": "PAWLINE — Premium Pet Care, Booked in Minutes",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/pet-care.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/pet-care/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/pet-care/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_podcast_studio",
+            "title": "AFTERGLOW — The Late-Night Podcast Network",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/podcast-studio.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/podcast-studio/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/podcast-studio/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_productivity_app",
+            "title": "DAYLINE — Today",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/productivity-app.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking-np3",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/productivity-app/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/productivity-app/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_real_estate",
+            "title": "FIELDHOUSE — Homes & Land, Found",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/real-estate.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/real-estate/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/real-estate/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_research_conference",
+            "title": "RESEARCH/CONFERENCE 2026 — Kyoto",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/research-conference.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/research-conference/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/research-conference/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_restaurant",
+            "title": "CASA ORO — Mediterranean Fine Dining · Porto Cervo",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/restaurant.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking-np3",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/restaurant/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/restaurant/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_ski_resort",
+            "title": "SKI/RESORT — Kestrel Ridge, 6,870 ft",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/ski-resort.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/ski-resort/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/ski-resort/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_sleep_tracker",
+            "title": "SLEEP / TRACKER — Tonight's Report",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/sleep-tracker.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/sleep-tracker/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/sleep-tracker/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_sports_club",
+            "title": "Northline FC — Women's Football · Northline Arena",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/sports-club.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/sports-club/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/sports-club/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_travel_editor",
+            "title": "The North Edit — Long-form travel from the far places",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/travel-editor.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking-np3",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/travel-editor/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/travel-editor/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_weather_atlas",
+            "title": "ISOBAR — Atmospheric Instrument Panel",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/weather-atlas.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/weather-atlas/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/weather-atlas/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_wedding_planner",
+            "title": "WEDDING / PLANNER — Amara & Jonas · File No. 027",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/wedding-planner.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/wedding-planner/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/wedding-planner/mobile.png"
+              }
+            ]
+          },
+          {
+            "id": "web_wellness_studio",
+            "title": "STILL / FORM — A Studio for Quiet Movement",
+            "track": "web",
+            "url": "demos/qwen38-q4km/web/wellness-studio.html",
+            "source_tag": "qwen38-27b-q4_k_m-thinking",
+            "screenshots": [
+              {
+                "kind": "desktop",
+                "url": "screenshots/qwen38-q4km/web/wellness-studio/desktop.png"
+              },
+              {
+                "kind": "mobile",
+                "url": "screenshots/qwen38-q4km/web/wellness-studio/mobile.png"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

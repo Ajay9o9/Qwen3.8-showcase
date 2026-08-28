@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COMMUNITY / CENTER — 412 Aurora Avenue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4EFE3;
+  --paper-2:#ECE5D3;
+  --ink:#182019;
+  --pine:#1E4A31;
+  --pine-deep:#153525;
+  --verm:#E4572E;
+  --ochre:#F0A61B;
+  --sage:#8FAE94;
+  --line:rgba(24,32,25,.22);
+  --shadow: 0 18px 40px -18px rgba(24,32,25,.35);
+  --serif:"Fraunces", Georgia, serif;
+  --sans:"Space Grotesk", "Helvetica Neue", sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--verm);color:var(--paper)}
+a{color:inherit}
+img{max-width:100%}
+
+.wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+.kicker{
+  font-family:var(--sans);
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  font-weight:600;color:var(--verm);
+  display:inline-flex;align-items:center;gap:10px;
+}
+.kicker::before{content:"";width:26px;height:2px;background:var(--verm);display:inline-block}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.02;letter-spacing:-.015em}
+.h-xl{font-size:clamp(56px,7.4vw,108px);font-weight:900;letter-spacing:-.03em;line-height:.92}
+.h-lg{font-size:clamp(32px,3.4vw,48px)}
+.mono-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:rgba(24,32,25,.55)}
+
+/* ---------- top bar ---------- */
+.topbar{
+  background:var(--ink);color:var(--paper);
+  font-size:12px;letter-spacing:.06em;
+}
+.topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:38px;gap:16px}
+.topbar span b{color:var(--ochre);font-weight:600}
+.topbar .left,.topbar .right{display:flex;gap:24px;align-items:center}
+.dotsep{opacity:.4}
+
+/* ---------- nav ---------- */
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(244,239,227,.92);backdrop-filter:blur(10px);
+  border-bottom:1.5px solid var(--ink);
+}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-mark{
+  width:38px;height:38px;background:var(--pine);border-radius:50%;
+  display:grid;place-items:center;position:relative;flex:none;
+}
+.brand-mark::after{content:"";position:absolute;width:14px;height:14px;background:var(--ochre);border-radius:50%;top:-2px;right:-2px}
+.brand-name{font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:-.01em}
+.brand-name em{font-style:normal;color:var(--verm)}
+.nav-links{display:flex;gap:28px;align-items:center;list-style:none}
+.nav-links a{
+  text-decoration:none;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  position:relative;padding:4px 0;
+}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--verm);transition:width .25s}
+.nav-links a:hover::after{width:100%}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--sans);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;
+  padding:13px 24px;border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);
+  cursor:pointer;text-decoration:none;transition:transform .15s, box-shadow .15s, background .15s;
+  border-radius:3px;
+}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--verm)}
+.btn:active{transform:translate(0,0);box-shadow:none}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{box-shadow:4px 4px 0 var(--pine)}
+.btn.verm{background:var(--verm);border-color:var(--ink)}
+.btn.verm:hover{box-shadow:4px 4px 0 var(--ink)}
+.btn.paper{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.btn.paper:hover{box-shadow:4px 4px 0 var(--ochre)}
+.btn svg{transition:transform .2s}
+.btn:hover svg{transform:translateX(4px)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1.5px solid var(--ink)}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(600px 600px at 88% 20%, rgba(240,166,27,.16), transparent 70%),
+    repeating-linear-gradient(90deg, transparent 0 120px, rgba(24,32,25,.035) 120px 121px);
+  pointer-events:none;
+}
+.hero .wrap{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;
+  padding-top:64px;padding-bottom:64px;min-height:640px;position:relative;
+}
+.hero-kicker-row{display:flex;align-items:center;gap:18px;margin-bottom:26px;flex-wrap:wrap}
+.date-chip{
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+  border:1.5px solid var(--ink);padding:6px 12px;border-radius:99px;background:var(--paper-2);
+}
+.open-badge{
+  display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  padding:6px 14px;border-radius:99px;background:var(--pine);color:var(--paper);
+}
+.open-badge .pulse{width:8px;height:8px;border-radius:50%;background:#7BE0A3;animation:pulse 1.8s infinite}
+.open-badge.closed .pulse{background:var(--ochre);animation:none}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(123,224,163,.6)}50%{box-shadow:0 0 0 6px rgba(123,224,163,0)}}
+.hero h1 span.slash{color:var(--verm);font-weight:300;margin:0 .04em}
+.hero p.lede{
+  max-width:520px;margin:26px 0 34px;font-size:17px;color:rgba(24,32,25,.78);
+}
+.hero-meta{display:flex;gap:0;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;background:var(--paper);max-width:640px}
+.hero-meta div{flex:1;padding:16px 18px;border-right:1.5px solid var(--ink)}
+.hero-meta div:last-child{border-right:none}
+.hero-meta .v{font-family:var(--serif);font-size:22px;font-weight:700;line-height:1.1}
+.hero-meta .v em{font-style:normal;color:var(--verm)}
+.hero-cta{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
+
+.hero-art{position:relative;height:520px}
+.sun{
+  position:absolute;top:0;right:6%;width:340px;height:340px;
+}
+.sun .rays{animation:spin 40s linear infinite;transform-origin:170px 170px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.arch-card{
+  position:absolute;bottom:0;left:0;right:24%;
+  background:var(--pine);color:var(--paper);border:1.5px solid var(--ink);border-radius:14px 14px 4px 4px;
+  padding:22px;box-shadow:var(--shadow);
+}
+.arch-card .mono-label{color:var(--ochre)}
+.arch-card .next{font-family:var(--serif);font-size:24px;font-weight:700;line-height:1.15;margin-top:6px}
+.arch-card .when{font-size:13px;opacity:.8;margin-top:8px;letter-spacing:.06em}
+.postmark{
+  position:absolute;top:22px;left:8px;width:118px;height:118px;border-radius:50%;
+  border:1.5px dashed rgba(24,32,25,.5);display:grid;place-items:center;text-align:center;
+  transform:rotate(-12deg);background:rgba(240,166,27,.14);
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;line-height:1.6;color:var(--ink);
+  animation:bob 6s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:rotate(-12deg) translateY(0)}50%{transform:rotate(-12deg) translateY(-8px)}}
+
+/* ---------- marquee ---------- */
+.marquee{background:var(--verm);border-bottom:1.5px solid var(--ink);overflow:hidden;padding:13px 0}
+.marquee-track{display:flex;gap:0;width:max-content;animation:mq 34s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+.mq-item{
+  display:inline-flex;align-items:center;gap:14px;padding:0 26px;
+  font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;color:var(--paper);
+}
+.mq-item .t{color:var(--ink)}
+.mq-item::after{content:"✳";margin-left:26px;color:var(--ochre)}
+
+/* ---------- sections ---------- */
+section{padding:88px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:48px;flex-wrap:wrap}
+.sec-head .h-lg{max-width:560px}
+.sec-num{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--verm)}
+
+/* today */
+#today{border-bottom:1.5px solid var(--ink)}
+.today-grid{display:grid;grid-template-columns:1fr 320px;gap:56px;align-items:start}
+.t-item{
+  display:grid;grid-template-columns:120px 1fr auto;gap:24px;align-items:center;
+  padding:22px 26px;border:1.5px solid var(--ink);border-radius:6px;margin-bottom:14px;background:var(--paper);
+  transition:transform .18s, box-shadow .18s, background .18s;position:relative;
+}
+.t-item:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--ochre);background:#fff}
+.t-item .time{font-family:var(--serif);font-size:26px;font-weight:700}
+.t-item .time small{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.18em;font-weight:600;color:var(--verm);text-transform:uppercase}
+.t-item h3{font-size:20px;margin-bottom:4px}
+.t-item .meta{font-size:13px;color:rgba(24,32,25,.6);display:flex;gap:14px;flex-wrap:wrap}
+.tag{
+  font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  padding:5px 10px;border-radius:99px;border:1.5px solid var(--ink);
+}
+.tag.art{background:var(--ochre)}
+.tag.fitness{background:var(--sage)}
+.tag.kids{background:#E9B8A8}
+.tag.music{background:#C9C2F0}
+.tag.community{background:var(--paper-2)}
+.tag.culinary{background:#D9C8F0}
+.t-item .seats{font-size:12px;font-weight:600;letter-spacing:.08em;color:rgba(24,32,25,.55);text-align:right}
+.t-item .seats b{display:block;font-family:var(--serif);font-size:22px;color:var(--verm)}
+.today-side{position:sticky;top:96px}
+.side-card{border:1.5px solid var(--ink);border-radius:8px;background:var(--pine);color:var(--paper);padding:26px;box-shadow:var(--shadow)}
+.side-card .mono-label{color:var(--ochre)}
+.side-card .big{font-family:var(--serif);font-size:44px;font-weight:900;line-height:1;margin:10px 0 4px}
+.side-card p{font-size:13.5px;opacity:.85;margin-bottom:18px}
+.side-card .bar{height:8px;background:rgba(244,239,227,.2);border-radius:99px;overflow:hidden;margin-bottom:18px}
+.side-card .bar i{display:block;height:100%;background:var(--ochre);border-radius:99px;width:64%;transition:width 1s ease}
+.mini-list{list-style:none;border-top:1px solid rgba(244,239,227,.25);padding-top:14px}
+.mini-list li{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px dashed rgba(244,239,227,.2)}
+.mini-list li span:last-child{font-weight:700;color:var(--ochre)}
+
+/* calendar */
+#calendar{background:var(--paper-2);border-bottom:1.5px solid var(--ink)}
+.cal-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px}
+.cal-tab{
+  font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  padding:12px 20px;border:1.5px solid var(--ink);background:var(--paper);cursor:pointer;border-radius:4px;
+  transition:all .15s;
+}
+.cal-tab:hover{transform:translateY(-2px)}
+.cal-tab.active{background:var(--ink);color:var(--paper);box-shadow:4px 4px 0 var(--verm)}
+.cal-tab .n{color:var(--verm);margin-left:6px}
+.cal-tab.active .n{color:var(--ochre)}
+.cal-panel{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cal-card{
+  border:1.5px solid var(--ink);border-radius:6px;background:var(--paper);padding:20px 22px;
+  display:flex;gap:18px;align-items:flex-start;animation:fadeUp .4s ease both;
+}
+.cal-card:nth-child(2){animation-delay:.05s}.cal-card:nth-child(3){animation-delay:.1s}
+.cal-card:nth-child(4){animation-delay:.15s}.cal-card:nth-child(5){animation-delay:.2s}.cal-card:nth-child(6){animation-delay:.25s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.cal-card .t{font-family:var(--serif);font-weight:700;font-size:19px;white-space:nowrap;padding-top:2px}
+.cal-card .t small{display:block;font-family:var(--sans);font-size:9.5px;letter-spacing:.16em;color:var(--verm);font-weight:700}
+.cal-card h4{font-family:var(--serif);font-size:17px;font-weight:600;line-height:1.2}
+.cal-card .rm{font-size:12px;color:rgba(24,32,25,.55);margin-top:5px;letter-spacing:.04em}
+
+/* volunteer */
+#volunteer{background:var(--pine);color:var(--paper);border-bottom:1.5px solid var(--ink);position:relative;overflow:hidden}
+#volunteer::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg, transparent 0 26px, rgba(244,239,227,.04) 26px 52px);
+}
+.vol-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center;position:relative}
+#volunteer .kicker{color:var(--ochre)}
+#volunteer .kicker::before{background:var(--ochre)}
+#volunteer h2{color:var(--paper);font-size:clamp(38px,4.4vw,62px);font-weight:900;margin:18px 0 20px}
+#volunteer h2 em{font-style:italic;font-weight:400;color:var(--ochre)}
+#volunteer p{max-width:480px;opacity:.85;margin-bottom:32px}
+.vol-stats{display:flex;gap:44px;flex-wrap:wrap}
+.vol-stats .v{font-family:var(--serif);font-size:38px;font-weight:900;color:var(--ochre);line-height:1}
+.vol-stats .l{font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;opacity:.7;margin-top:4px}
+.vol-form{
+  border:1.5px solid var(--paper);border-radius:10px;background:var(--paper);color:var(--ink);
+  padding:34px;box-shadow:10px 10px 0 rgba(21,53,37,.6);
+}
+.vol-form h3{font-size:26px;margin-bottom:6px}
+.vol-form .sub{font-size:13.5px;color:rgba(24,32,25,.6);margin-bottom:22px}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:7px;color:rgba(24,32,25,.65)}
+.field input,.field select,.field textarea{
+  width:100%;font-family:var(--sans);font-size:15px;padding:13px 14px;
+  border:1.5px solid var(--ink);border-radius:4px;background:#fff;color:var(--ink);transition:box-shadow .15s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;box-shadow:3px 3px 0 var(--ochre)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-note{font-size:12px;color:rgba(24,32,25,.5);margin-top:14px;text-align:center}
+.confirm{
+  display:none;border:1.5px solid var(--pine);background:rgba(143,174,148,.25);border-radius:6px;
+  padding:18px;font-size:14px;line-height:1.5;
+}
+.confirm b{color:var(--pine)}
+
+/* rooms */
+.rooms-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:56px}
+.room{
+  border:1.5px solid var(--ink);border-radius:8px;background:var(--paper);overflow:hidden;
+  transition:transform .18s, box-shadow .18s;
+}
+.room:hover{transform:translateY(-5px);box-shadow:var(--shadow)}
+.room .art{height:120px;position:relative;border-bottom:1.5px solid var(--ink);display:grid;place-items:center}
+.room .art svg{width:76px;height:76px}
+.room .body{padding:18px 20px 20px}
+.room h3{font-size:21px;margin-bottom:4px}
+.room .cap{font-size:12.5px;color:rgba(24,32,25,.6);margin-bottom:12px}
+.room .foot{display:flex;justify-content:space-between;align-items:center;border-top:1px dashed var(--line);padding-top:12px}
+.room .rate{font-family:var(--serif);font-weight:700;font-size:19px}
+.room .rate small{font-family:var(--sans);font-size:11px;font-weight:500;color:rgba(24,32,25,.55)}
+.avail{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.avail i{width:9px;height:9px;border-radius:50%}
+.avail.yes i{background:#4CBB7E;box-shadow:0 0 0 3px rgba(76,187,126,.25)}
+.avail.para i{background:var(--ochre);box-shadow:0 0 0 3px rgba(240,166,27,.25)}
+.avail.no i{background:var(--verm)}
+.booking{
+  display:grid;grid-template-columns:.85fr 1.15fr;gap:0;border:1.5px solid var(--ink);border-radius:10px;overflow:hidden;
+  background:var(--paper-2);
+}
+.booking .aside{background:var(--ink);color:var(--paper);padding:40px;display:flex;flex-direction:column;justify-content:space-between}
+.booking .aside h3{font-size:30px;line-height:1.1;margin-bottom:14px}
+.booking .aside p{font-size:14px;opacity:.75;margin-bottom:26px}
+.booking .aside ul{list-style:none;font-size:13.5px}
+.booking .aside li{display:flex;gap:12px;padding:9px 0;border-top:1px dashed rgba(244,239,227,.25)}
+.booking .aside li::before{content:"—";color:var(--ochre)}
+.booking form{padding:40px;background:var(--paper)}
+.booking form .field-row{grid-template-columns:1fr 1fr}
+
+/* announcements */
+#news{background:var(--paper);border-bottom:1.5px solid var(--ink)}
+.news-list{border-top:1.5px solid var(--ink)}
+.news-item{
+  display:grid;grid-template-columns:150px 110px 1fr auto;gap:28px;align-items:center;
+  padding:26px 10px;border-bottom:1.5px solid var(--ink);text-decoration:none;transition:background .15s, padding-left .2s;
+}
+.news-item:hover{background:#fff;padding-left:22px}
+.news-date{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--verm)}
+.news-date small{display:block;color:rgba(24,32,25,.45);font-weight:500;letter-spacing:.06em;text-transform:none;font-size:12px;margin-top:2px}
+.news-cat{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;border:1.5px solid var(--ink);border-radius:99px;justify-self:start}
+.news-item h3{font-size:22px;margin-bottom:3px}
+.news-item p{font-size:14px;color:rgba(24,32,25,.6);max-width:640px}
+.news-item .arrow{font-family:var(--serif);font-size:26px;color:var(--verm);transition:transform .2s}
+.news-item:hover .arrow{transform:translateX(8px)}
+
+/* location */
+#visit{background:var(--pine-deep);color:var(--paper);border-bottom:1.5px solid var(--ink)}
+#visit .kicker{color:var(--ochre)}
+#visit .kicker::before{background:var(--ochre)}
+#visit h2{color:var(--paper)}
+.visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:stretch}
+.addr{font-family:var(--serif);font-size:34px;font-weight:700;line-height:1.15;margin:16px 0 26px}
+.addr em{font-style:normal;color:var(--ochre)}
+.visit-cols{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:32px}
+.visit-cols h4{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--ochre);margin-bottom:10px}
+.visit-cols p, .visit-cols li{font-size:14px;opacity:.85}
+.visit-cols ul{list-style:none}
+.visit-cols li{padding:5px 0;border-bottom:1px dashed rgba(244,239,227,.18);display:flex;justify-content:space-between}
+.visit-cols li b{color:var(--paper);font-weight:600}
+.hours{width:100%;border-collapse:collapse;font-size:14px}
+.hours td{padding:8px 0;border-bottom:1px dashed rgba(244,239,227,.2)}
+.hours td:last-child{text-align:right;font-weight:700;color:var(--ochre)}
+.map-card{border:1.5px solid rgba(244,239,227,.5);border-radius:10px;overflow:hidden;background:var(--pine);position:relative}
+.map-card svg{display:block;width:100%;height:100%}
+.map-pin{animation:bob 4s ease-in-out infinite}
+
+/* footer */
+footer{background:var(--ink);color:var(--paper);padding:64px 0 40px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px;margin-bottom:52px}
+.foot-grid h5{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ochre);margin-bottom:16px;font-weight:700}
+.foot-grid ul{list-style:none}
+.foot-grid li{margin-bottom:9px;font-size:14px;opacity:.75}
+.foot-grid a{text-decoration:none;opacity:.75;transition:opacity .15s,color .15s}
+.foot-grid a:hover{opacity:1;color:var(--ochre)}
+.foot-brand{font-family:var(--serif);font-size:30px;font-weight:900;line-height:1.05;margin-bottom:14px}
+.foot-brand em{font-style:normal;color:var(--verm)}
+.foot-brand + p{font-size:14px;opacity:.65;max-width:300px}
+.foot-bar{border-top:1px solid rgba(244,239,227,.2);padding-top:24px;display:flex;justify-content:space-between;font-size:12px;opacity:.55;letter-spacing:.06em;flex-wrap:wrap;gap:10px}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* responsive */
+@media (max-width:1080px){
+  .hero .wrap{grid-template-columns:1fr;min-height:0}
+  .hero-art{height:420px;max-width:560px}
+  .rooms-grid{grid-template-columns:repeat(2,1fr)}
+  .cal-panel{grid-template-columns:repeat(2,1fr)}
+  .vol-grid,.booking,.visit-grid{grid-template-columns:1fr}
+  .today-grid{grid-template-columns:1fr}
+  .today-side{position:static}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:720px){
+  .wrap{padding:0 20px}
+  section{padding:64px 0}
+  .nav-links{display:none}
+  .topbar .right{display:none}
+  .t-item{grid-template-columns:1fr;gap:8px;padding:18px}
+  .t-item .seats{text-align:left}
+  .hero-meta{flex-direction:column}
+  .hero-meta div{border-right:none;border-bottom:1.5px solid var(--ink)}
+  .hero-meta div:last-child{border-bottom:none}
+  .cal-panel{grid-template-columns:1fr}
+  .rooms-grid{grid-template-columns:1fr}
+  .news-item{grid-template-columns:1fr;gap:8px}
+  .news-item .arrow{display:none}
+  .visit-cols{grid-template-columns:1fr}
+  .vol-form,.booking form{padding:24px}
+  .field-row{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .postmark{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- top utility bar -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="left">
+      <span><b>412 Aurora Avenue</b>, Meridian District</span>
+      <span class="dotsep">·</span>
+      <span>(555) 014-8823</span>
+    </div>
+    <div class="right">
+      <span id="topStatus">Checking hours…</span>
+      <span class="dotsep">·</span>
+      <span>Free &amp; open to neighbors</span>
+    </div>
+  </div>
+</div>
+
+<!-- nav -->
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <span class="brand-mark">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M2 15 L9 3 L16 15" stroke="#F0A61B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="12" r="2.4" fill="#E4572E"/>
+        </svg>
+      </span>
+      <span class="brand-name">COMMUNITY <em>/</em> CENTER</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#today">Today</a></li>
+      <li><a href="#calendar">Classes</a></li>
+      <li><a href="#rooms">Rooms</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+    <a class="btn verm" href="#volunteer">Volunteer
+      <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h11M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- hero -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="hero-kicker-row">
+        <span class="open-badge" id="openBadge"><span class="pulse"></span><span id="openText">…</span></span>
+        <span class="date-chip" id="dateChip">—</span>
+        <span class="kicker">Est. 1962 · Meridian District</span>
+      </div>
+      <h1 class="h-xl">COMMUNITY<span class="slash"> / </span>CENTER</h1>
+      <p class="lede">A neighborhood building where classes run at dawn, soup goes out at noon, and the mic goes open at night. Everyone's welcome — most things are free, and the kettle is always on.</p>
+      <div class="hero-meta">
+        <div><div class="v"><em id="statEvents">42</em></div><div class="mono-label">Events this week</div></div>
+        <div><div class="v">3,180</div><div class="mono-label">Registered neighbors</div></div>
+        <div><div class="v">114</div><div class="mono-label">Active volunteers</div></div>
+      </div>
+      <div class="hero-cta">
+        <a class="btn" href="#today">See today's schedule
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h11M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </a>
+        <a class="btn ghost" href="#rooms">Book a room</a>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <svg class="sun" viewBox="0 0 340 340" fill="none" aria-hidden="true">
+        <g class="rays" stroke="#E4572E" stroke-width="3" stroke-linecap="round">
+          <line x1="170" y1="8" x2="170" y2="46"/><line x1="170" y1="294" x2="170" y2="332"/>
+          <line x1="8" y1="170" x2="46" y2="170"/><line x1="294" y1="170" x2="332" y2="170"/>
+          <line x1="55" y1="55" x2="83" y2="83"/><line x1="257" y1="257" x2="285" y2="285"/>
+          <line x1="285" y1="55" x2="257" y2="83"/><line x1="83" y1="257" x2="55" y2="285"/>
+          <line x1="118" y1="20" x2="128" y2="56"/><line x1="222" y1="284" x2="212" y2="320"/>
+          <line x1="20" y1="118" x2="56" y2="128"/><line x1="284" y1="212" x2="320" y2="222"/>
+          <line x1="320" y1="118" x2="284" y2="128"/><line x1="56" y1="212" x2="20" y2="222"/>
+        </g>
+        <circle cx="170" cy="170" r="86" fill="#F0A61B"/>
+        <path d="M84 170 a86 86 0 0 1 172 0 z" fill="#E4572E"/>
+        <circle cx="170" cy="170" r="86" stroke="#182019" stroke-width="2.5"/>
+        <path d="M130 205 q40 26 80 0" stroke="#182019" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <circle cx="145" cy="150" r="6" fill="#182019"/><circle cx="195" cy="150" r="6" fill="#182019"/>
+      </svg>
+      <div class="postmark">
+        OPEN<br>DOORS<br><span style="font-size:14px;color:var(--verm)">✳</span><br>SINCE '62
+      </div>
+      <div class="arch-card">
+        <div class="mono-label">Up next at the center</div>
+        <div class="next" id="nextEvent">—</div>
+        <div class="when" id="nextWhen">—</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<!-- TODAY -->
+<section id="today">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">01 —</span>
+        <span class="kicker">Happening right now</span>
+        <h2 class="h-lg" style="margin-top:12px">Today at the center</h2>
+      </div>
+      <p style="max-width:340px;font-size:14.5px;color:rgba(24,32,25,.65)">Drop-ins are welcome for everything marked <b>open</b>. Seated classes use the same sign-up system — no app required, just a name on the sheet.</p>
+    </div>
+    <div class="today-grid">
+      <div id="todayList" class="reveal"></div>
+      <aside class="today-side reveal">
+        <div class="side-card">
+          <div class="mono-label">Kitchen status</div>
+          <div class="big" id="soupPct">64%</div>
+          <p>of this week's 200 free lunch servings have been claimed so far.</p>
+          <div class="bar"><i id="soupBar"></i></div>
+          <ul class="mini-list">
+            <li><span>Volunteer hours logged</span><span>412</span></li>
+            <li><span>Library books on loan</span><span>238</span></li>
+            <li><span>Open mic signups</span><span>9</span></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- CALENDAR -->
+<section id="calendar">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">02 —</span>
+        <span class="kicker">Class calendar</span>
+        <h2 class="h-lg" style="margin-top:12px">A week in the building</h2>
+      </div>
+      <p style="max-width:340px;font-size:14.5px;color:rgba(24,32,25,.65)">Sixty-plus recurring classes a week. Tap a day to see what's on. New to a class? Arrive ten minutes early and bring whatever you've got.</p>
+    </div>
+    <div class="cal-tabs reveal" id="calTabs"></div>
+    <div class="cal-panel reveal" id="calPanel"></div>
+  </div>
+</section>
+
+<!-- VOLUNTEER -->
+<section id="volunteer">
+  <div class="wrap">
+    <div class="vol-grid">
+      <div class="reveal">
+        <span class="kicker">Give an hour</span>
+        <h2>The center runs on <em>neighbors</em>, not staff.</h2>
+        <p>From stacking chairs before open mic to teaching a Saturday math circle, there's a role for nearly everyone. One hour a month is genuinely enough to make a difference here.</p>
+        <div class="vol-stats">
+          <div><div class="v">114</div><div class="l">Volunteers</div></div>
+          <div><div class="v">2,400</div><div class="l">Hours this year</div></div>
+          <div><div class="v">9</div><div class="l">Committees</div></div>
+        </div>
+      </div>
+      <form class="vol-form reveal" id="volForm" novalidate>
+        <h3>Join the volunteer roster</h3>
+        <p class="sub">We'll reply within two days. No commitment beyond your first shift.</p>
+        <div class="field"><label for="vName">Full name</label><input id="vName" type="text" placeholder="Rosa Delgado" required></div>
+        <div class="field"><label for="vEmail">Email</label><input id="vEmail" type="email" placeholder="rosa@example.com" required></div>
+        <div class="field">
+          <label for="vRole">What sounds good?</label>
+          <select id="vRole">
+            <option>Kitchen &amp; community lunch</option>
+            <option>Class setup &amp; chair wrangling</option>
+            <option>Tutoring &amp; homework club</option>
+            <option>Garden plots</option>
+            <option>Events &amp; soundcheck crew</option>
+            <option>Not sure yet — point me somewhere</option>
+          </select>
+        </div>
+        <button class="btn" style="width:100%;justify-content:center" type="submit">Sign me up
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h11M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <div class="confirm" id="volConfirm"></div>
+        <p class="form-note">We only use your email for scheduling. Unsubscribe any time.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ROOMS -->
+<section id="rooms">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">03 —</span>
+        <span class="kicker">Room booking</span>
+        <h2 class="h-lg" style="margin-top:12px">Five spaces, one key rack</h2>
+      </div>
+      <p style="max-width:340px;font-size:14.5px;color:rgba(24,32,25,.65)">Residents and registered clubs get 50% off. Community-benefit bookings (non-profits, schools, mutual aid groups) are free up to six hours a month.</p>
+    </div>
+
+    <div class="rooms-grid">
+      <div class="room reveal">
+        <div class="art" style="background:linear-gradient(135deg,#E4572E,#F0A61B)">
+          <svg viewBox="0 0 76 76" fill="none"><path d="M8 58 L38 14 L68 58 Z" stroke="#F4EFE3" stroke-width="3.5" stroke-linejoin="round"/><path d="M22 58 L38 34 L54 58" stroke="#F4EFE3" stroke-width="3" stroke-linejoin="round"/><circle cx="38" cy="50" r="4" fill="#F4EFE3"/></svg>
+        </div>
+        <div class="body">
+          <h3>The Great Hall</h3>
+          <div class="cap">Up to 180 seated · stage, PA &amp; kitchen access</div>
+          <div class="foot"><span class="rate">$65<small>/hr</small></span><span class="avail yes"><i></i>Available</span></div>
+        </div>
+      </div>
+      <div class="room reveal">
+        <div class="art" style="background:linear-gradient(135deg,#1E4A31,#8FAE94)">
+          <svg viewBox="0 0 76 76" fill="none"><rect x="12" y="18" width="52" height="40" rx="4" stroke="#F4EFE3" stroke-width="3.5"/><path d="M12 34 L64 34 M30 18 L30 34" stroke="#F4EFE3" stroke-width="3"/><circle cx="50" cy="46" r="5" fill="#F4EFE3"/></svg>
+        </div>
+        <div class="body">
+          <h3>Studio A</h3>
+          <div class="cap">Up to 24 · mirrors, mats, whiteboards, sound system</div>
+          <div class="foot"><span class="rate">$35<small>/hr</small></span><span class="avail yes"><i></i>Available</span></div>
+        </div>
+      </div>
+      <div class="room reveal">
+        <div class="art" style="background:linear-gradient(135deg,#F0A61B,#8FAE94)">
+          <svg viewBox="0 0 76 76" fill="none"><path d="M14 56 C14 30 62 30 62 56" stroke="#F4EFE3" stroke-width="3.5" fill="none"/><path d="M14 56 L62 56 M24 56 L24 62 L52 62 L52 56" stroke="#F4EFE3" stroke-width="3" stroke-linejoin="round"/><path d="M38 42 q-6 -10 4 -16 q8 8 -4 16z" fill="#F4EFE3"/></svg>
+        </div>
+        <div class="body">
+          <h3>The Greenhouse</h3>
+          <div class="cap">Up to 40 · light-filled, skylit, garden terrace outside</div>
+          <div class="foot"><span class="rate">$40<small>/hr</small></span><span class="avail para"><i></i>Limited</span></div>
+        </div>
+      </div>
+      <div class="room reveal">
+        <div class="art" style="background:linear-gradient(135deg,#182019,#1E4A31)">
+          <svg viewBox="0 0 76 76" fill="none"><rect x="10" y="24" width="24" height="28" stroke="#F4EFE3" stroke-width="3.5"/><rect x="42" y="24" width="24" height="28" stroke="#F0A61B" stroke-width="3.5"/><circle cx="22" cy="56" r="3.5" fill="#F4EFE3"/><circle cx="54" cy="56" r="3.5" fill="#F0A61B"/><path d="M34 40 L42 40" stroke="#F4EFE3" stroke-width="3" stroke-dasharray="3 4"/></svg>
+        </div>
+        <div class="body">
+          <h3>Kitchen Lab</h3>
+          <div class="cap">12 stations · food tech, cooking classes, catering runs</div>
+          <div class="foot"><span class="rate">$50<small>/hr</small></span><span class="avail no"><i></i>Booked today</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="booking reveal">
+      <div class="aside">
+        <div>
+          <span class="kicker" style="color:var(--ochre)">How it works</span>
+          <h3 style="margin-top:14px">Book in under two minutes</h3>
+          <p>Requests are confirmed by a human (front desk) within a business day — no bots, no card on file.</p>
+        </div>
+        <ul>
+          <li>Max six hours per room per month for residents</li>
+          <li>Deposits only for bookings over four hours</li>
+          <li>Community-benefit groups: free up to 6 hrs/month</li>
+          <li>Chairs, tables, projectors &amp; PA included</li>
+        </ul>
+      </div>
+      <form id="roomForm" novalidate>
+        <div class="field-row">
+          <div class="field"><label for="bRoom">Room</label>
+            <select id="bRoom">
+              <option>The Great Hall — $65/hr</option>
+              <option>Studio A — $35/hr</option>
+              <option>The Greenhouse — $40/hr</option>
+              <option>Kitchen Lab — $50/hr</option>
+            </select>
+          </div>
+          <div class="field"><label for="bName">Your name</label><input id="bName" type="text" placeholder="Sam Okafor" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="bDate">Date</label><input id="bDate" type="date" required></div>
+          <div class="field"><label for="bTime">Time slot</label>
+            <select id="bTime">
+              <option>Morning · 8:00 – 12:00</option>
+              <option>Midday · 12:00 – 16:00</option>
+              <option>Evening · 16:00 – 20:00</option>
+            </select>
+          </div>
+        </div>
+        <div class="field"><label for="bPurpose">What's the gathering?</label>
+          <input id="bPurpose" type="text" placeholder="Neighborhood association monthly meeting, ~60 people"></div>
+        <div style="margin-top:22px;display:flex;align-items:center;gap:18px;flex-wrap:wrap">
+          <button class="btn verm" type="submit">Request this room
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h11M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </button>
+          <span id="roomMsg" style="font-size:14px;font-weight:600;color:var(--pine);max-width:380px"></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ANNOUNCEMENTS -->
+<section id="news">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">04 —</span>
+        <span class="kicker">Bullhorn</span>
+        <h2 class="h-lg" style="margin-top:12px">Announcements</h2>
+      </div>
+      <a class="btn ghost" href="#" style="padding:10px 18px">All notices
+        <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h11M9 1l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+    <div class="news-list reveal">
+      <a class="news-item" href="#">
+        <div class="news-date">This week<small>Posted Tue</small></div>
+        <span class="news-cat" style="background:var(--ochre)">Food</span>
+        <div><h3>Community lunch expands to 200 servings</h3><p>Thanks to the new Kitchen Lab contract with Meridian Grocers, free hot lunch now runs Mon/Wed/Fri at noon. Bring a container if you want seconds.</p></div>
+        <span class="arrow">→</span>
+      </a>
+      <a class="news-item" href="#">
+        <div class="news-date">Fri · 7:00 PM<small>Posted Mon</small></div>
+        <span class="news-cat" style="background:#C9C2F0">Music</span>
+        <div><h3>Open Mic Night: 9 neighbors on the list</h3><p>Great Hall stage, all instruments, two mics and a very patient sound crew. Signups close Thursday. No audition, no genre gatekeeping.</p></div>
+        <span class="arrow">→</span>
+      </a>
+      <a class="news-item" href="#">
+        <div class="news-date">Week of the 18th<small>Posted Sun</small></div>
+        <span class="news-cat">Facilities</span>
+        <div><h3>Rooftop deck closed for repainting (Mon–Wed)</h3><p>Paint is a slow thing and the weather was good. The Greenhouse terrace will be open for outdoor meetings during the closure.</p></div>
+        <span class="arrow">→</span>
+      </a>
+      <a class="news-item" href="#">
+        <div class="news-date">Ongoing<small>Posted last month</small></div>
+        <span class="news-cat" style="background:var(--sage)">Programs</span>
+        <div><h3>Winter homework club — new volunteers wanted</h3><p>Sunday afternoons, ages 8–14, 25 kids currently registered. We need four more volunteers for math and reading corners. No teaching background required.</p></div>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="visit">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="sec-num">05 —</span>
+        <span class="kicker">Find us</span>
+        <h2 class="h-lg" style="margin-top:12px">Four blocks from the park, right by the bridge</h2>
+      </div>
+    </div>
+    <div class="visit-grid">
+      <div class="reveal">
+        <p class="addr">412 Aurora Avenue<br>Meridian District · <em>Maple 4</em></p>
+        <div class="visit-cols">
+          <div>
+            <h4>Getting here</h4>
+            <ul>
+              <li><span>Bus 12 / 30</span><b>Aurora Ave stop</b></li>
+              <li><span>Metro Line B</span><b>Bridge St, 4 min walk</b></li>
+              <li><span>Bike racks</span><b>60 spaces, front</b></li>
+              <li><span>Accessible entry</span><b>North side ramp</b></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Open hours</h4>
+            <table class="hours">
+              <tr><td>Mon – Fri</td><td>7:00 – 22:00</td></tr>
+              <tr><td>Saturday</td><td>9:00 – 18:00</td></tr>
+              <tr><td>Sunday</td><td>10:00 – 16:00</td></tr>
+              <tr><td>Community lunch</td><td>M/W/F · 12:00</td></tr>
+            </table>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <a class="btn paper" href="#" style="text-decoration:none">Front desk · (555) 014-8823</a>
+          <a class="btn" style="background:transparent;color:var(--paper);border-color:var(--paper);text-decoration:none" href="#">hello@communitycenter.org</a>
+        </div>
+      </div>
+      <div class="map-card reveal">
+        <svg viewBox="0 0 560 420" role="img" aria-label="Stylized neighborhood map showing the Community Center at 412 Aurora Avenue">
+          <rect width="560" height="420" fill="#153525"/>
+          <!-- park -->
+          <ellipse cx="430" cy="120" rx="110" ry="80" fill="#1E4A31"/>
+          <circle cx="400" cy="100" r="14" fill="#8FAE94" opacity=".7"/>
+          <circle cx="450" cy="130" r="18" fill="#8FAE94" opacity=".5"/>
+          <circle cx="480" cy="90" r="12" fill="#8FAE94" opacity=".6"/>
+          <text x="430" y="210" text-anchor="middle" fill="#8FAE94" font-family="Space Grotesk" font-size="11" letter-spacing="3">ALDER PARK</text>
+          <!-- river -->
+          <path d="M-10 340 C120 310 220 380 340 350 C440 325 520 370 580 345 L580 430 L-10 430 Z" fill="#1E4A31"/>
+          <path d="M-10 340 C120 310 220 380 340 350 C440 325 520 370 580 345" stroke="#8FAE94" stroke-width="2" fill="none" opacity=".5"/>
+          <text x="60" y="400" fill="#8FAE94" font-family="Space Grotesk" font-size="11" letter-spacing="3" opacity=".8">CEDAR CREEK</text>
+          <!-- streets -->
+          <g stroke="#F4EFE3" stroke-width="7" opacity=".25">
+            <line x1="0" y1="90" x2="560" y2="90"/>
+            <line x1="0" y1="200" x2="560" y2="200"/>
+            <line x1="90" y1="0" x2="90" y2="420"/>
+            <line x1="230" y1="0" x2="230" y2="420"/>
+            <line x1="380" y1="0" x2="380" y2="330"/>
+          </g>
+          <g fill="#F4EFE3" font-family="Space Grotesk" font-size="10" letter-spacing="2" opacity=".55">
+            <text x="120" y="84">AURORA AVE</text>
+            <text x="250" y="194">BRIDGE ST</text>
+            <text x="80" y="300" transform="rotate(-90 80 300)">WALLACE RD</text>
+          </g>
+          <!-- metro line -->
+          <path d="M230 420 C230 300 230 200 230 60" stroke="#F0A61B" stroke-width="3" stroke-dasharray="6 6" fill="none"/>
+          <circle cx="230" cy="200" r="7" fill="#F0A61B"/>
+          <text x="242" y="214" fill="#F0A61B" font-family="Space Grotesk" font-size="10" letter-spacing="1">METRO B</text>
+          <!-- the center -->
+          <g class="map-pin">
+            <path d="M160 130 C160 130 130 158 130 180 a30 30 0 0 0 60 0 C190 158 160 130 160 130 Z" fill="#E4572E" stroke="#F4EFE3" stroke-width="2.5"/>
+            <circle cx="160" cy="178" r="11" fill="#F4EFE3"/>
+            <text x="160" y="182" text-anchor="middle" fill="#182019" font-family="Space Grotesk" font-weight="700" font-size="9">CC</text>
+          </g>
+          <rect x="104" y="222" width="112" height="22" fill="#182019" stroke="#F0A61B" stroke-width="1"/>
+          <text x="160" y="237" text-anchor="middle" fill="#F0A61B" font-family="Space Grotesk" font-size="10" letter-spacing="1" font-weight="700">COMMUNITY / CENTER</text>
+          <!-- compass -->
+          <g transform="translate(510,368)"><circle r="16" fill="none" stroke="#F4EFE3" stroke-width="1.5" opacity=".5"/><path d="M0 -11 L4 4 L0 0 L-4 4 Z" fill="#F0A61B"/><text y="-22" text-anchor="middle" fill="#F4EFE3" font-size="9" font-family="Space Grotesk" opacity=".7">N</text></g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">COMMUNITY <em>/</em> CENTER</div>
+        <p>A neighborhood building since 1962. Run by the Meridian Civic Trust with 114 very persistent volunteers.</p>
+      </div>
+      <div>
+        <h5>Visit</h5>
+        <ul>
+          <li>412 Aurora Avenue</li>
+          <li>Meridian District, Maple 4</li>
+          <li><a href="tel:5550148823">(555) 014-8823</a></li>
+          <li><a href="mailto:hello@communitycenter.org">hello@communitycenter.org</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Explore</h5>
+        <ul>
+          <li><a href="#today">Today's activities</a></li>
+          <li><a href="#calendar">Class calendar</a></li>
+          <li><a href="#rooms">Room booking</a></li>
+          <li><a href="#news">Announcements</a></li>
+          <li><a href="#volunteer">Volunteer</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Hours</h5>
+        <ul>
+          <li>Mon–Fri · 7:00–22:00</li>
+          <li>Sat · 9:00–18:00</li>
+          <li>Sun · 10:00–16:00</li>
+          <li>Lunch · M/W/F 12:00</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span>© 2025 COMMUNITY / CENTER · Meridian Civic Trust</span>
+      <span>Open doors, open mic, open minds ✳</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  const DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const HOURS = [
+    null, // Sun
+    [7,22],[7,22],[7,22],[7,22],[7,22], // Mon-Fri
+    [9,18],                              // Sat
+    [10,16]                              // Sun
+  ];
+  const now = new Date();
+  const dayIdx = now.getDay();
+  const hh = now.getHours() + now.getMinutes()/60;
+
+  // date chip
+  document.getElementById("dateChip").textContent =
+    now.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+
+  // open status
+  const h = HOURS[dayIdx];
+  const isOpen = h && hh >= h[0] && hh < h[1];
+  const badge = document.getElementById("openBadge");
+  const openText = document.getElementById("openText");
+  const topStatus = document.getElementById("topStatus");
+  if (h){
+    if (isOpen){
+      openText.textContent = "Open now · until " + h[1] + ":00";
+      topStatus.innerHTML = "<b>OPEN NOW</b> — closes " + h[1] + ":00";
+    } else {
+      badge.classList.add("closed");
+      openText.textContent = "Closed · opens " + (hh < h[0] ? "today " : "tomorrow ") + h[0] + ":00";
+      topStatus.innerHTML = "CLOSED — " + (hh < h[0] ? "opens today " : "opens tomorrow ") + h[0] + ":00";
+    }
+  }
+
+  // schedule data per weekday (0=Sun)
+  const SCHEDULE = [
+    // Sunday
+    [
+      {t:"10:00",a:"AM",title:"Greenhouse Coffee & Croissants",room:"The Greenhouse",tag:"community",tagL:"Community",seats:"Walk-in"},
+      {t:"11:30",a:"AM",title:"Family Story Circle",room:"Reading Nook",tag:"kids",tagL:"Kids",seats:"Walk-in"},
+      {t:"2:00",a:"PM",title:"Homework Club (ages 8–14)",room:"Study Hall",tag:"kids",tagL:"Kids",seats:"<b>18</b> spots"},
+      {t:"5:30",a:"PM",title:"Sunday Potluck",room:"The Great Hall",tag:"community",tagL:"Community",seats:"Walk-in"}
+    ],
+    // Monday
+    [
+      {t:"7:30",a:"AM",title:"Sunrise Yoga · all levels",room:"Studio A",tag:"fitness",tagL:"Fitness",seats:"<b>6</b> spots"},
+      {t:"9:30",a:"AM",title:"Espresso 101 — bean to cup",room:"Kitchen Lab",tag:"culinary",tagL:"Culinary",seats:"<b>2</b> spots"},
+      {t:"12:00",a:"PM",title:"Free Community Lunch",room:"The Great Hall",tag:"community",tagL:"Community",seats:"Open"},
+      {t:"5:30",a:"PM",title:"Intro to Pottery (4-week)",room:"Studio A",tag:"art",tagL:"Art",seats:"<b>3</b> spots"},
+      {t:"7:00",a:"PM",title:"Open Mic Night",room:"The Great Hall",tag:"music",tagL:"Music",seats:"<b>9</b> signed up"}
+    ],
+    // Tuesday
+    [
+      {t:"8:00",a:"AM",title:"Senior Tai Chi",room:"Studio A",tag:"fitness",tagL:"Fitness",seats:"<b>4</b> spots"},
+      {t:"10:00",a:"AM",title:"Kids' Art Club · age 6–9",room:"Greenhouse Studio",tag:"kids",tagL:"Kids",seats:"<b>5</b> spots"},
+      {t:"12:00",a:"PM",title:"Lunch & Learn: Budgeting Basics",room:"The Greenhouse",tag:"community",tagL:"Community",seats:"<b>12</b> spots"},
+      {t:"5:00",a:"PM",title:"Sourdough Night",room:"Kitchen Lab",tag:"culinary",tagL:"Culinary",seats:"<b>1</b> spot"},
+      {t:"7:00",a:"PM",title:"Neighborhood Assoc. Meeting",room:"The Great Hall",tag:"community",tagL:"Community",seats:"Open"}
+    ],
+    // Wednesday
+    [
+      {t:"7:30",a:"AM",title:"5K Run Club (start: bridge)",room:"Front Steps",tag:"fitness",tagL:"Fitness",seats:"Walk-in"},
+      {t:"10:30",a:"AM",title:"Spanish Conversation Table",room:"Study Hall",tag:"community",tagL:"Community",seats:"Walk-in"},
+      {t:"12:00",a:"PM",title:"Free Community Lunch",room:"The Great Hall",tag:"community",tagL:"Community",seats:"Open"},
+      {t:"4:30",a:"PM",title:"After-School Chess",room:"Reading Nook",tag:"kids",tagL:"Kids",seats:"<b>4</b> spots"},
+      {t:"6:30",a:"PM",title:"Ceramics: Glaze Lab",room:"Studio A",tag:"art",tagL:"Art",seats:"<b>2</b> spots"}
+    ],
+    // Thursday
+    [
+      {t:"8:00",a:"AM",title:"Beginner Watercolor",room:"Studio A",tag:"art",tagL:"Art",seats:"<b>4</b> spots"},
+      {t:"10:00",a:"AM",title:"Parents' Yoga · bring the baby",room:"Studio A",tag:"fitness",tagL:"Fitness",seats:"<b>7</b> spots"},
+      {t:"12:00",a:"PM",title:"Free Community Lunch",room:"The Great Hall",tag:"community",tagL:"Community",seats:"Open"},
+      {t:"6:00",a:"PM",title:"Intro to Coding for Teens",room:"Study Hall",tag:"kids",tagL:"Kids",seats:"<b>3</b> spots"},
+      {t:"8:00",a:"PM",title:"Jazz Listening Session",room:"The Greenhouse",tag:"music",tagL:"Music",seats:"Walk-in"}
+    ],
+    // Friday
+    [
+      {t:"9:00",a:"AM",title:"Garden Plot Work Party",room:"Rooftop Deck",tag:"community",tagL:"Community",seats:"Walk-in"},
+      {t:"12:00",a:"PM",title:"Free Community Lunch",room:"The Great Hall",tag:"community",tagL:"Community",seats:"Open"},
+      {t:"3:00",a:"PM",title:"Maker Space · open shop hours",room:"Studio A",tag:"art",tagL:"Art",seats:"Walk-in"},
+      {t:"7:30",a:"PM",title:"Wine & Water Tasting",room:"The Greenhouse",tag:"culinary",tagL:"Culinary",seats:"<b>8</b> spots"}
+    ],
+    // Saturday
+    [
+      {t:"9:30",a:"AM",title:"Farmers' Market (indoor)",room:"The Great Hall",tag:"community",tagL:"Community",seats:"Open"},
+      {t:"11:00",a:"AM",title:"Kids' Science Fair Prep",room:"Study Hall",tag:"kids",tagL:"Kids",seats:"<b>6</b> spots"},
+      {t:"1:00",a:"PM",title:"Zumba in the Greenhouse",room:"The Greenhouse",tag:"fitness",tagL:"Fitness",seats:"<b>10</b> spots"},
+      {t:"4:00",a:"PM",title:"Community Cinema: 16mm shorts",room:"The Great Hall",tag:"music",tagL:"Culture",seats:"<b>31</b> seats left"}
+    ]
+  ];
+
+  const todayList = SCHEDULE[dayIdx];
+
+  // render today's list
+  const tl = document.getElementById("todayList");
+  tl.innerHTML = todayList.map(item => `
+    <div class="t-item">
+      <div class="time">${item.t}<small>${item.a}</small></div>
+      <div>
+        <h3>${item.title}</h3>
+        <div class="meta"><span class="tag ${item.tag}">${item.tagL}</span><span>📍 ${item.room}</span></div>
+      </div>
+      <div class="seats">seats left ${item.seats}</div>
+    </div>`).join("");
+
+  // next event card + marquee
+  let next = null;
+  for (const it of todayList){
+    const [H,M] = it.t.split(":").map(Number);
+    if (H + M/60 >= hh){ next = it; break; }
+  }
+  if (!next) next = todayList[0];
+  document.getElementById("nextEvent").textContent = next.title;
+  document.getElementById("nextWhen").textContent = next.t + " " + next.a + " · " + next.room;
+
+  const track = document.getElementById("marqueeTrack");
+  const mqItems = todayList.map(it => `<span class="mq-item"><span class="t">${it.t} ${it.a}</span>${it.title}</span>`).join("");
+  track.innerHTML = mqItems + mqItems;
+
+  // soup bar animation
+  setTimeout(()=>{ document.getElementById("soupBar").style.width = "64%"; }, 400);
+
+  // ---------- calendar ----------
+  const tabs = document.getElementById("calTabs");
+  const panel = document.getElementById("calPanel");
+  const startToday = dayIdx === 0 ? 6 : dayIdx - 1; // start week Monday
+  const order = [1,2,3,4,5,6,0];
+  order.forEach((d,i) => {
+    const btn = document.createElement("button");
+    btn.className = "cal-tab" + (d === dayIdx ? " active" : "");
+    btn.innerHTML = DAYS[d].slice(0,3) + `<span class="n">${i+1}</span>`;
+    btn.addEventListener("click", () => {
+      tabs.querySelectorAll(".cal-tab").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderDay(d);
+    });
+    tabs.appendChild(btn);
+  });
+  function renderDay(d){
+    panel.innerHTML = SCHEDULE[d].map(it => `
+      <div class="cal-card">
+        <div class="t">${it.t}<small>${it.a}</small></div>
+        <div><h4>${it.title}</h4><div class="rm">📍 ${it.room} · <span class="tag ${it.tag}" style="padding:2px 8px">${it.tagL}</span></div></div>
+      </div>`).join("");
+  }
+  renderDay(dayIdx);
+
+  // ---------- volunteer form ----------
+  document.getElementById("volForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const name = document.getElementById("vName").value.trim();
+    const email = document.getElementById("vEmail").value.trim();
+    const role = document.getElementById("vRole").value;
+    const box = document.getElementById("volConfirm");
+    if (!name || !email || !email.includes("@")){
+      box.style.display = "block";
+      box.innerHTML = "⚠️ Please add your <b>name</b> and a valid <b>email</b> so we can reach you.";
+      return;
+    }
+    box.style.display = "block";
+    box.innerHTML = `✔ You're on the list, <b>${name.split(" ")[0]}</b>! We'll email <b>${email}</b> within two days with times for <b>${role.toLowerCase()}</b>. Welcome to the crew.`;
+    e.target.querySelectorAll("input,select,button").forEach(el => el.disabled = true);
+  });
+
+  // ---------- room form ----------
+  const bDate = document.getElementById("bDate");
+  bDate.min = now.toISOString().split("T")[0];
+  document.getElementById("roomForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const name = document.getElementById("bName").value.trim();
+    const room = document.getElementById("bRoom").value.split(" — ")[0];
+    const date = bDate.value;
+    const msg = document.getElementById("roomMsg");
+    if (!name || !date){
+      msg.textContent = "Add your name and a date and we'll get you in there.";
+      msg.style.color = "var(--verm)";
+      return;
+    }
+    const code = "CC-" + Math.random().toString(36).slice(2,6).toUpperCase();
+    msg.style.color = "var(--pine)";
+    msg.textContent = `Request ${code} sent — front desk will confirm your ${room} booking within one business day.`;
+    e.target.querySelector("input[type=text]").value = "";
+  });
+
+  // ---------- reveal on scroll ----------
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, {threshold:.12});
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>

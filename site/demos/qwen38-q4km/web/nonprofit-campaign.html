@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIDE / TURN — A Coast Restored Campaign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f1e6;
+  --paper-2:#efe6d4;
+  --ink:#142e37;
+  --ink-soft:#3d5a63;
+  --deep:#0b2430;
+  --deep-2:#123647;
+  --tide:#2e7f8c;
+  --tide-2:#7fb5b0;
+  --foam:#dcebe4;
+  --sun:#f2a65a;
+  --coral:#e4572e;
+  --coral-dark:#c8441f;
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Work Sans",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:400;line-height:1.6;overflow-x:hidden}
+::selection{background:var(--sun);color:var(--deep)}
+
+/* ---------- NAV ---------- */
+nav{position:fixed;inset:0 0 auto 0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 42px;transition:background .35s,box-shadow .35s,padding .35s}
+nav.scrolled{background:rgba(247,241,230,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(20,46,55,.12);padding:12px 42px}
+.wordmark{font-family:var(--serif);font-weight:600;font-size:22px;letter-spacing:.04em;color:var(--paper);text-decoration:none;display:flex;align-items:center;gap:10px;transition:color .35s}
+nav.scrolled .wordmark{color:var(--ink)}
+.wordmark .slash{width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffd9a0,var(--sun) 55%,#d97e3a);display:grid;place-items:center;font-size:15px;color:var(--deep)}
+.nav-links{display:flex;gap:30px;align-items:center;list-style:none}
+.nav-links a{color:var(--paper);text-decoration:none;font-size:13.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;opacity:.85;transition:.25s}
+nav.scrolled .nav-links a{color:var(--ink)}
+.nav-links a:hover{opacity:1}
+.btn{display:inline-block;font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:.04em;padding:12px 26px;border-radius:999px;border:none;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s}
+.btn-donate{background:var(--coral);color:#fff;box-shadow:0 6px 18px rgba(228,87,46,.35)}
+.btn-donate:hover{background:var(--coral-dark);transform:translateY(-2px);box-shadow:0 10px 24px rgba(228,87,46,.45)}
+.btn-ghost{background:transparent;color:var(--paper);border:1.5px solid rgba(247,241,230,.5)}
+.btn-ghost:hover{border-color:var(--paper);background:rgba(247,241,230,.1)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;background:linear-gradient(180deg,#0a2130 0%,#123a4c 32%,#2e6d74 55%,#c98f52 72%,#f2a65a 82%);overflow:hidden}
+.hero-stars{position:absolute;inset:0 0 45% 0;background-image:radial-gradient(1.5px 1.5px at 12% 18%,rgba(255,255,255,.55),transparent 60%),radial-gradient(1px 1px at 28% 9%,rgba(255,255,255,.45),transparent 60%),radial-gradient(1.5px 1.5px at 55% 14%,rgba(255,255,255,.4),transparent 60%),radial-gradient(1px 1px at 74% 7%,rgba(255,255,255,.5),transparent 60%),radial-gradient(1px 1px at 88% 20%,rgba(255,255,255,.35),transparent 60%),radial-gradient(1.2px 1.2px at 40% 24%,rgba(255,255,255,.35),transparent 60%);opacity:.9}
+.hero-sun{position:absolute;left:62%;top:34%;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle at 40% 38%,#fff3d8,#ffd489 45%,#f2a65a 75%,rgba(242,166,90,0) 78%);filter:drop-shadow(0 0 60px rgba(255,190,110,.55));animation:sunrise 8s ease-out both}
+@keyframes sunrise{from{transform:translateY(120px);opacity:0}to{transform:translateY(0);opacity:1}}
+.hero-birds{position:absolute;left:20%;top:26%;width:120px;opacity:.8}
+.hero-inner{position:relative;z-index:5;max-width:1240px;margin:0 auto;padding:150px 42px 320px;width:100%}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--sun);margin-bottom:26px}
+.eyebrow::before{content:"";width:34px;height:1.5px;background:var(--sun)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(52px,7.2vw,96px);line-height:1.02;color:var(--paper);max-width:12ch;letter-spacing:-.01em}
+h1 em{font-style:italic;font-weight:500;color:var(--sun)}
+.hero-sub{margin-top:28px;max-width:52ch;font-size:18px;line-height:1.7;color:rgba(247,241,230,.86);font-weight:300}
+.hero-ctas{margin-top:40px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.btn-lg{padding:17px 36px;font-size:15.5px}
+.hero-note{margin-top:18px;font-size:13.5px;color:rgba(247,241,230,.62)}
+.hero-note strong{color:var(--paper);font-weight:600}
+
+/* waves */
+.waves{position:absolute;left:0;right:0;bottom:0;height:230px;z-index:4;pointer-events:none}
+.waves svg{position:absolute;bottom:0;left:0;width:200%;height:100%}
+.wave-1{animation:drift 26s linear infinite;opacity:.55}
+.wave-2{animation:drift 18s linear infinite reverse;height:82%}
+.wave-3{animation:drift 12s linear infinite;height:58%}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- TICKER ---------- */
+.ticker{background:var(--deep);color:var(--foam);overflow:hidden;padding:15px 0;border-top:1px solid rgba(220,235,228,.12)}
+.ticker-track{display:flex;gap:64px;white-space:nowrap;width:max-content;animation:slide 34s linear infinite;font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:500}
+.ticker-track span{display:flex;align-items:center;gap:14px}
+.ticker-track i{font-style:normal;color:var(--sun)}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- SECTIONS ---------- */
+section{position:relative}
+.wrap{max-width:1240px;margin:0 auto;padding:0 42px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:56px;flex-wrap:wrap}
+.kicker{font-size:12.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--tide);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.kicker::before{content:"";width:30px;height:1.5px;background:var(--tide)}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,3.6vw,52px);line-height:1.1;letter-spacing:-.01em}
+h2 em{font-style:italic;color:var(--tide)}
+.section-lede{max-width:44ch;font-size:16.5px;color:var(--ink-soft);font-weight:300}
+
+/* ---------- PROGRESS ---------- */
+.progress-section{padding:110px 0 96px;background:var(--paper)}
+.progress-card{background:#fff;border:1px solid rgba(20,46,55,.1);border-radius:22px;padding:52px 56px;display:grid;grid-template-columns:1.25fr .75fr;gap:60px;align-items:center;box-shadow:0 24px 60px rgba(18,54,71,.1)}
+.progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;gap:20px;flex-wrap:wrap}
+.raised{font-family:var(--serif);font-size:clamp(40px,4vw,58px);font-weight:500;line-height:1}
+.raised small{font-family:var(--sans);font-size:14px;color:var(--ink-soft);font-weight:500;display:block;letter-spacing:.14em;text-transform:uppercase;margin-top:10px}
+.goal{font-size:14px;color:var(--ink-soft);font-weight:500}
+.bar{height:16px;border-radius:999px;background:var(--paper-2);overflow:hidden;position:relative}
+.bar-fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--tide-2),var(--tide) 60%,#1d5a68);position:relative;transition:width 2s cubic-bezier(.22,1,.36,1)}
+.bar-fill::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);background-size:200% 100%;animation:shimmer 3s linear infinite}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+.progress-meta{display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft);margin-top:12px;font-weight:500}
+.donors{text-align:center;padding:20px 24px;background:var(--foam);border-radius:16px;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.donors .big{font-family:var(--serif);font-size:44px;font-weight:500;color:var(--deep-2);line-height:1}
+.donors .lbl{font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.donor-avatars{display:flex;justify-content:center;margin-top:14px}
+.donor-avatars span{width:38px;height:38px;border-radius:50%;border:2.5px solid var(--foam);margin-left:-10px;font-size:12px;display:grid;place-items:center;color:var(--deep);font-weight:600}
+.donor-avatars span:first-child{margin-left:0}
+.d1{background:#f2a65a}.d2{background:#7fb5b0}.d3{background:#e4572e;color:#fff}.d4{background:#c98f52}.d5{background:#2e7f8c;color:#fff}
+.progress-copy{margin-top:22px;font-size:15px;color:var(--ink-soft);font-weight:300}
+
+/* ---------- METRICS ---------- */
+.metrics{background:var(--deep);color:var(--paper);padding:100px 0}
+.metrics .kicker{color:var(--sun)}.metrics .kicker::before{background:var(--sun)}
+.metrics h2 em{color:var(--sun)}
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.metric{padding:36px 32px;border-left:1px solid rgba(220,235,228,.15)}
+.metric:first-child{border-left:none;padding-left:0}
+.metric-num{font-family:var(--serif);font-size:clamp(38px,3.4vw,54px);font-weight:500;line-height:1;color:var(--sun)}
+.metric-num .unit{font-size:.55em;color:var(--tide-2);margin-left:4px}
+.metric-lbl{margin-top:14px;font-size:14px;line-height:1.55;color:rgba(220,235,228,.75);font-weight:300}
+.metric svg{width:34px;height:34px;margin-bottom:20px;stroke:var(--tide-2)}
+.metric svg *{fill:none;stroke:var(--tide-2);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- STORIES ---------- */
+.stories{padding:110px 0;background:var(--paper)}
+.story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.story{background:#fff;border:1px solid rgba(20,46,55,.1);border-radius:20px;overflow:hidden;transition:transform .35s,box-shadow .35s;display:flex;flex-direction:column}
+.story:hover{transform:translateY(-6px);box-shadow:0 26px 54px rgba(18,54,71,.16)}
+.story-art{height:210px;position:relative;overflow:hidden}
+.story-art svg{width:100%;height:100%;display:block}
+.story-body{padding:28px 30px 32px;display:flex;flex-direction:column;flex:1}
+.story-tag{align-self:flex-start;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;border-radius:999px;margin-bottom:16px}
+.tag-active{background:var(--foam);color:var(--tide)}
+.tag-growing{background:#fdeadb;color:#b06f2a}
+.tag-open{background:#fbe4dc;color:var(--coral)}
+.story h3{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.25;margin-bottom:12px}
+.story p{font-size:14.5px;color:var(--ink-soft);font-weight:300;flex:1}
+.story-foot{margin-top:20px;padding-top:18px;border-top:1px dashed rgba(20,46,55,.18);display:flex;justify-content:space-between;font-size:13px;color:var(--ink-soft);font-weight:500}
+.story-foot a{color:var(--tide);text-decoration:none;font-weight:600}
+.story-foot a:hover{text-decoration:underline}
+
+/* ---------- VOLUNTEER ---------- */
+.volunteer{padding:110px 0;background:linear-gradient(180deg,var(--paper) 0%,var(--foam) 100%)}
+.action-list{display:grid;gap:16px;max-width:860px}
+.action{background:#fff;border:1px solid rgba(20,46,55,.1);border-radius:16px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;transition:border-color .3s,box-shadow .3s}
+.action:hover{border-color:var(--tide);box-shadow:0 10px 26px rgba(46,127,140,.12)}
+.action-ico{width:48px;height:48px;border-radius:14px;background:var(--foam);display:grid;place-items:center}
+.action-ico svg{width:26px;height:26px}
+.action-ico svg *{fill:none;stroke:var(--tide);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.action h4{font-family:var(--serif);font-size:18.5px;font-weight:500;line-height:1.3}
+.action .meta{font-size:13px;color:var(--ink-soft);margin-top:4px;font-weight:400}
+.mini-bar{height:6px;background:var(--paper-2);border-radius:99px;margin-top:10px;max-width:260px;overflow:hidden}
+.mini-fill{height:100%;background:var(--tide);border-radius:99px;transition:width .6s ease}
+.spots{font-size:12px;color:var(--ink-soft);margin-top:6px;font-weight:500;letter-spacing:.03em}
+.btn-reserve{background:var(--deep-2);color:var(--paper);font-size:13px;padding:11px 20px}
+.btn-reserve:hover{background:var(--tide)}
+.btn-reserve:disabled{background:var(--foam);color:var(--tide);cursor:default;box-shadow:none;transform:none}
+.vol-note{margin-top:28px;font-size:13.5px;color:var(--ink-soft);font-weight:300;font-style:italic}
+
+/* ---------- FIELD NOTES ---------- */
+.notes{padding:110px 0;background:var(--deep-2);color:var(--paper);background-image:radial-gradient(rgba(220,235,228,.05) 1px,transparent 1px);background-size:26px 26px}
+.notes .kicker{color:var(--sun)}.notes .kicker::before{background:var(--sun)}
+.notes h2 em{color:var(--sun)}
+.notes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;align-items:start}
+.note{background:var(--paper);color:var(--ink);border-radius:6px;padding:34px 30px 28px;box-shadow:0 20px 44px rgba(0,0,0,.32);position:relative;font-family:var(--serif)}
+.note::before{content:"";position:absolute;top:-13px;left:50%;transform:translateX(-50%) rotate(-2deg);width:96px;height:26px;background:rgba(242,166,90,.42);backdrop-filter:blur(1px)}
+.note:nth-child(1){transform:rotate(-1.6deg)}
+.note:nth-child(2){transform:rotate(1.1deg) translateY(26px)}
+.note:nth-child(3){transform:rotate(-0.7deg)}
+.note:hover{transform:rotate(0) translateY(0);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.note-date{font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--tide);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.note-stamp{font-size:9.5px;border:1.5px solid var(--coral);color:var(--coral);padding:3px 8px;border-radius:4px;transform:rotate(6deg);letter-spacing:.1em}
+.note p{font-size:15.5px;line-height:1.65;font-weight:400;color:#22434e}
+.note p em{color:var(--tide);font-style:italic}
+.note-sig{margin-top:18px;font-family:var(--sans);font-size:12.5px;font-weight:500;color:var(--ink-soft);border-top:1px dashed rgba(20,46,55,.25);padding-top:14px}
+.note-sig strong{display:block;color:var(--ink);font-size:13.5px}
+
+/* ---------- FINAL CTA ---------- */
+.cta{background:linear-gradient(180deg,#0e2d3c 0%,#154553 55%,#2e7f8c 100%);color:var(--paper);padding:120px 0 130px;text-align:center;position:relative;overflow:hidden}
+.cta .sun-glow{position:absolute;left:50%;bottom:-160px;transform:translateX(-50%);width:640px;height:640px;border-radius:50%;background:radial-gradient(circle,rgba(242,166,90,.35),transparent 65%)}
+.cta h2{max-width:20ch;margin:0 auto;font-size:clamp(38px,4.4vw,62px)}
+.cta p{max-width:52ch;margin:22px auto 0;color:rgba(247,241,230,.8);font-weight:300;font-size:16.5px}
+.donate-box{margin:44px auto 0;max-width:520px;background:rgba(11,36,48,.5);border:1px solid rgba(220,235,228,.2);backdrop-filter:blur(8px);border-radius:20px;padding:34px}
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tier{padding:14px 6px;border-radius:12px;border:1.5px solid rgba(220,235,228,.3);background:transparent;color:var(--paper);font-family:var(--serif);font-size:19px;font-weight:500;cursor:pointer;transition:.25s}
+.tier:hover{border-color:var(--sun)}
+.tier.active{background:var(--sun);color:var(--deep);border-color:var(--sun)}
+.tier-custom{display:flex;margin-top:12px;border:1.5px solid rgba(220,235,228,.3);border-radius:12px;overflow:hidden}
+.tier-custom span{display:grid;place-items:center;padding:0 6px 0 16px;font-family:var(--serif);font-size:19px;color:rgba(247,241,230,.6)}
+.tier-custom input{flex:1;background:transparent;border:none;outline:none;color:var(--paper);font-family:var(--serif);font-size:19px;padding:14px 16px 14px 4px;width:100%}
+.impact-line{margin-top:22px;font-size:14.5px;line-height:1.6;color:var(--foam);min-height:44px}
+.impact-line strong{color:var(--sun);font-weight:600}
+.btn-big{width:100%;margin-top:20px;padding:18px;font-size:16px}
+.cta-fine{margin-top:16px;font-size:12px;color:rgba(247,241,230,.5)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--deep);color:var(--foam);padding:70px 0 40px}
+.partners-lbl{font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;color:var(--tide-2);margin-bottom:28px;display:flex;align-items:center;gap:14px}
+.partners-lbl::after{content:"";flex:1;height:1px;background:rgba(220,235,228,.15)}
+.partner-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px 20px;margin-bottom:56px}
+.partner{display:grid;place-items:center;padding:18px 8px;font-family:var(--serif);font-size:16px;color:rgba(220,235,228,.55);border-left:1px solid rgba(220,235,228,.1);transition:color .3s;letter-spacing:.02em}
+.partner:hover{color:var(--sun)}
+.partner small{display:block;font-family:var(--sans);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;margin-top:4px;opacity:.6}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:30px;flex-wrap:wrap;padding-top:34px;border-top:1px solid rgba(220,235,228,.15)}
+.newsletter{display:flex;gap:0}
+.newsletter input{background:rgba(220,235,228,.08);border:1px solid rgba(220,235,228,.25);border-right:none;border-radius:999px 0 0 999px;padding:12px 20px;color:var(--paper);font-family:var(--sans);font-size:13.5px;outline:none;width:230px}
+.newsletter input:focus{border-color:var(--tide-2)}
+.newsletter button{background:var(--tide);color:#fff;border:none;border-radius:0 999px 999px 0;padding:0 22px;font-weight:600;font-size:13px;cursor:pointer;letter-spacing:.04em;transition:background .25s}
+.newsletter button:hover{background:var(--tide-2);color:var(--deep)}
+.legal{font-size:12.5px;color:rgba(220,235,228,.45);display:flex;gap:22px;flex-wrap:wrap}
+.legal a{color:inherit;text-decoration:none}
+.legal a:hover{color:var(--foam)}
+.foot-mark{font-family:var(--serif);font-size:18px;color:var(--sun);letter-spacing:.04em}
+
+/* ---------- REVEAL ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}
+
+@media(max-width:960px){
+  .metric-grid{grid-template-columns:1fr 1fr;gap:24px 0}
+  .metric{padding:20px 20px}
+  .progress-card,.story-grid,.notes-grid{grid-template-columns:1fr}
+  .progress-card{grid-template-columns:1fr}
+  .partner-grid{grid-template-columns:repeat(3,1fr)}
+  .nav-links li:not(:last-child){display:none}
+  .note:nth-child(2){transform:rotate(1.1deg)}
+  .hero-inner{padding-bottom:260px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="wordmark" href="#top"><span class="slash">☼</span>TIDE&nbsp;/&nbsp;TURN</a>
+  <ul class="nav-links">
+    <li><a href="#progress">Campaign</a></li>
+    <li><a href="#stories">Projects</a></li>
+    <li><a href="#volunteer">Volunteer</a></li>
+    <li><a href="#notes">Field Notes</a></li>
+    <li><a href="#donate" class="btn btn-donate" style="padding:10px 22px">Donate</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="hero-stars"></div>
+  <div class="hero-sun"></div>
+  <svg class="hero-birds" viewBox="0 0 120 50" fill="none" stroke="#f7f1e6" stroke-width="1.6" stroke-linecap="round" opacity=".75">
+    <path d="M8 26 Q16 18 24 26 Q32 18 40 26"/>
+    <path d="M56 14 Q62 8 68 14 Q74 8 80 14"/>
+    <path d="M84 34 Q89 29 94 34 Q99 29 104 34" stroke-opacity=".6"/>
+  </svg>
+  <div class="hero-inner">
+    <span class="eyebrow">The Coast Restored Campaign · 2025</span>
+    <h1>The tide is<br>turning <em>toward home.</em></h1>
+    <p class="hero-sub">Every year, 1 in 10 of the world's coastlines is still being lost — but right now, on forty-six shores across nine countries, communities are writing a different story. Mangroves are coming back. The herons are returning. We're asking you to fund the next chapter.</p>
+    <div class="hero-ctas">
+      <a href="#donate" class="btn btn-donate btn-lg">Give for the Coast</a>
+      <a href="#volunteer" class="btn btn-ghost btn-lg">Lend Your Hands</a>
+    </div>
+    <p class="hero-note"><strong>18,412 people</strong> have given this season · $1 = 25 cm of new shoreline protection</p>
+  </div>
+  <div class="waves" aria-hidden="true">
+    <svg class="wave-1" viewBox="0 0 2880 230" preserveAspectRatio="none"><path fill="#123a4c" d="M0 70 Q180 20 360 70 T720 70 T1080 70 T1440 70 T1800 70 T2160 70 T2520 70 T2880 70 V230 H0 Z"/></svg>
+    <svg class="wave-2" viewBox="0 0 2880 230" preserveAspectRatio="none"><path fill="#2e6d74" d="M0 90 Q180 40 360 90 T720 90 T1080 90 T1440 90 T1800 90 T2160 90 T2520 90 T2880 90 V230 H0 Z"/></svg>
+    <svg class="wave-3" viewBox="0 0 2880 230" preserveAspectRatio="none"><path fill="#f7f1e6" d="M0 120 Q180 75 360 120 T720 120 T1080 120 T1440 120 T1800 120 T2160 120 T2520 120 T2880 120 V230 H0 Z"/></svg>
+  </div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span><i>▲</i> 12,437 acres restored to date</span><span><i>▲</i> 3.8M lbs plastic pulled from the surf</span><span><i>▲</i> 46 partner coastlines</span><span><i>▲</i> 210,600 volunteers counted</span><span><i>▲</i> First heron pair back at Kelp Cove</span>
+    <span><i>▲</i> 12,437 acres restored to date</span><span><i>▲</i> 3.8M lbs plastic pulled from the surf</span><span><i>▲</i> 46 partner coastlines</span><span><i>▲</i> 210,600 volunteers counted</span><span><i>▲</i> First heron pair back at Kelp Cove</span>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<section class="progress-section" id="progress">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="kicker">Where we stand</div>
+        <h2>12,000 acres by <em>2027.</em><br>This is how close we are.</h2>
+      </div>
+      <p class="section-lede">Every dollar is tracked, every acre is mapped, and every project is verified in the field. Here's the campaign, live and honest.</p>
+    </div>
+    <div class="progress-card reveal d1">
+      <div>
+        <div class="progress-top">
+          <div class="raised"><span data-count="285400" data-prefix="$" data-sep="1">0</span><small>raised so far</small></div>
+          <div class="goal">Goal: <strong>$420,000</strong></div>
+        </div>
+        <div class="bar"><div class="bar-fill" id="barFill" data-target="67.9"></div></div>
+        <div class="progress-meta"><span><strong id="pct">0%</strong> funded</span><span>74 days to goal</span></div>
+        <p class="progress-copy">Remaining funds will launch the Oyster Wall project at Casca Bay and cover third-party monitoring for all 2025 plantings.</p>
+      </div>
+      <div class="donors">
+        <div class="big">18,412</div>
+        <div class="lbl">giving coasts</div>
+        <div class="donor-avatars">
+          <span class="d1">MR</span><span class="d2">AK</span><span class="d3">JT</span><span class="d4">SO</span><span class="d5">+18k</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section class="metrics">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="kicker">Measured, not promised</div>
+        <h2>Impact you can <em>wade into.</em></h2>
+      </div>
+    </div>
+    <div class="metric-grid">
+      <div class="metric reveal">
+        <svg viewBox="0 0 32 32"><path d="M4 26 Q10 22 16 26 T28 26"/><path d="M6 18 q4-5 8 0"/><path d="M14 8 l0 6 M14 6 l3 2 M14 6 l-3 2"/></svg>
+        <div class="metric-num"><span data-count="12437" data-sep="1">0</span><span class="unit">acres</span></div>
+        <p class="metric-lbl">of shoreline restored, re-sedimented and protected from erosion since 2019.</p>
+      </div>
+      <div class="metric reveal d1">
+        <svg viewBox="0 0 32 32"><rect x="8" y="6" width="16" height="22" rx="3"/><path d="M12 6 V4 M20 6 V4 M12 13 h8 M12 18 h8"/></svg>
+        <div class="metric-num"><span data-count="3.8" data-dec="1">0</span><span class="unit">M lbs</span></div>
+        <p class="metric-lbl">of plastic, fishing line and debris pulled from beaches and river mouths.</p>
+      </div>
+      <div class="metric reveal d2">
+        <svg viewBox="0 0 32 32"><circle cx="12" cy="10" r="4"/><path d="M4 27 q0-8 8-8"/><circle cx="22" cy="13" r="3.4"/><path d="M16 27 q2-6 9-6"/></svg>
+        <div class="metric-num"><span data-count="210600" data-sep="1">0</span></div>
+        <p class="metric-lbl">volunteers planted, swept, monitored and counted — one weekend at a time.</p>
+      </div>
+      <div class="metric reveal d3">
+        <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="11"/><path d="M5 16 h22 M16 5 q7 11 0 22 M16 5 q-7 11 0 22"/></svg>
+        <div class="metric-num"><span data-count="46">0</span><span class="unit">coasts</span></div>
+        <p class="metric-lbl">partner shorelines across nine countries, led by local communities first.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES -->
+<section class="stories" id="stories">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="kicker">From the shoreline</div>
+        <h2>Three places where the water<br>started to <em>answer back.</em></h2>
+      </div>
+      <p class="section-lede">No two coastlines are the same. Each project is designed with — never for — the people who live beside it.</p>
+    </div>
+    <div class="story-grid">
+
+      <article class="story reveal">
+        <div class="story-art">
+          <svg viewBox="0 0 400 210" preserveAspectRatio="xMidYMax slice">
+            <rect width="400" height="210" fill="#c9a468"/>
+            <circle cx="330" cy="52" r="26" fill="#ffd489"/>
+            <rect y="128" width="400" height="82" fill="#2e7f8c"/>
+            <path d="M0 128 Q100 118 200 128 T400 128 V210 H0Z" fill="#3d93a0" opacity=".7"/>
+            <path d="M70 128 q6-28 4-52 M74 76 q-18-6-24-22 M74 76 q16-10 22-26 M78 96 q-14 0-24-10" stroke="#1e4a3d" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M120 128 q4-22 2-40 M122 88 q-14-4-18-18 M122 88 q13-8 17-20" stroke="#2a5c4a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+            <ellipse cx="46" cy="56" rx="26" ry="12" fill="#2a5c4a" opacity=".9"/>
+            <ellipse cx="146" cy="66" rx="20" ry="10" fill="#1e4a3d" opacity=".85"/>
+            <path d="M250 150 q10-8 20 0 q10 8 20 0" stroke="#f7f1e6" stroke-width="2.5" fill="none" opacity=".8"/>
+            <path d="M300 170 q10-8 20 0" stroke="#f7f1e6" stroke-width="2.5" fill="none" opacity=".6"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <span class="story-tag tag-active">Active · Year 2 of 3</span>
+          <h3>Mangrove Return, Palenque Estuary</h3>
+          <p>Two years ago this estuary was a bare mud flat. This month we counted 9,200 surviving seedlings and the first fiddler crabs of the decade. The fishing co-op plants two rows for every net they haul.</p>
+          <div class="story-foot"><span>Colombia</span><a href="#donate">Fund this site →</a></div>
+        </div>
+      </article>
+
+      <article class="story reveal d1">
+        <div class="story-art">
+          <svg viewBox="0 0 400 210" preserveAspectRatio="xMidYMax slice">
+            <rect width="400" height="210" fill="#154553"/>
+            <rect y="150" width="400" height="60" fill="#0e2d3c"/>
+            <path d="M110 150 q-16-50 8-100 q18-28 6-60 M118 150 q14-46-4-92" stroke="#4fa38b" stroke-width="7" fill="none" stroke-linecap="round" opacity=".9"/>
+            <path d="M160 150 q-10-40 6-80 q10-26 0-48 M166 150 q12-36 2-72" stroke="#67b89e" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M220 150 q-14-34 4-66" stroke="#4fa38b" stroke-width="5.5" fill="none" stroke-linecap="round" opacity=".8"/>
+            <circle cx="90" cy="60" r="2.5" fill="#dcebe4" opacity=".6"/><circle cx="250" cy="40" r="2" fill="#dcebe4" opacity=".5"/><circle cx="300" cy="90" r="3" fill="#dcebe4" opacity=".4"/><circle cx="60" cy="110" r="2" fill="#dcebe4" opacity=".5"/>
+            <path d="M290 110 q8-14 24-16 q-2 16-14 22 q-8 4-10-6z" fill="#e4572e" opacity=".85"/>
+            <path d="M314 94 l14-10 M314 94 l16-4" stroke="#e4572e" stroke-width="2"/>
+            <path d="M40 160 q30 8 60 0 M120 175 q40 10 80 0" stroke="#2e7f8c" stroke-width="2" fill="none" opacity=".6"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <span class="story-tag tag-growing">Growing · Seed stage</span>
+          <h3>Kelp Cathedral, Kelp Cove</h3>
+          <p>Twelve thousand kelp holdfasts, set by hand from kayaks in the dark. Sonar now shows canopy growth at 30% of the healthy baseline — and the otters have moved back to the cove's north shelf.</p>
+          <div class="story-foot"><span>Washington, USA</span><a href="#donate">Fund this site →</a></div>
+        </div>
+      </article>
+
+      <article class="story reveal d2">
+        <div class="story-art">
+          <svg viewBox="0 0 400 210" preserveAspectRatio="xMidYMax slice">
+            <rect width="400" height="210" fill="#e8d9b8"/>
+            <circle cx="80" cy="48" r="22" fill="#f2a65a"/>
+            <path d="M0 210 Q120 150 220 185 T400 175 V210 Z" fill="#caa468"/>
+            <path d="M0 210 Q140 172 260 198 T400 195 V210 Z" fill="#b98d4e"/>
+            <path d="M0 190 Q100 160 200 182 T400 172" stroke="#8a6a3a" stroke-width="2" fill="none" opacity=".5"/>
+            <path d="M300 90 l40 0 l-12 26 l14 0 l-42 34 l8-30 l-14 0 z" fill="#1e4a3d" opacity=".9"/>
+            <path d="M340 96 q6 20 0 44" stroke="#1e4a3d" stroke-width="3"/>
+            <path d="M150 120 q2-6 8-6 M168 112 q3-8 10-8 M190 124 q4-7 12-6" stroke="#6d8a4f" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M210 195 q20-6 40 0" stroke="#f7f1e6" stroke-width="3" fill="none" opacity=".7"/>
+          </svg>
+        </div>
+        <div class="story-body">
+          <span class="story-tag tag-open">Opening · Spring 2026</span>
+          <h3>Dune Guardians, Casca Bay</h3>
+          <p>The bay's last high dunes were vanishing at a meter a year. New native grasses and buried breakwaters have cut erosion to under 10 cm a season. A lighthouse-keeper's granddaughter now runs the watch log.</p>
+          <div class="story-foot"><span>Portugal</span><a href="#donate">Fund this site →</a></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- VOLUNTEER -->
+<section class="volunteer" id="volunteer">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="kicker">This weekend, on your coast</div>
+        <h2>No experience. No special gear.<br>Just <em>wet shoes.</em></h2>
+      </div>
+      <p class="section-lede">Reserve a spot below — a field lead will send you gloves, a map, and a hot-drink order within a day.</p>
+    </div>
+    <div class="action-list">
+      <div class="action reveal">
+        <div class="action-ico"><svg viewBox="0 0 32 32"><path d="M6 24 Q12 20 16 24 T26 24"/><path d="M12 10 q0-4 4-4 t4 4 q0 5-4 8 q-4-3-4-8z"/></svg></div>
+        <div>
+          <h4>River-Mouth Sweep &amp; Weigh-In</h4>
+          <p class="meta">Sat 7:30 AM · Old Ferry Landing · gloves, bags &amp; coffee provided</p>
+          <div class="mini-bar"><div class="mini-fill" style="width:70%"></div></div>
+          <div class="spots"><span class="fill-num" data-max="60">42</span> of 60 spots filled</div>
+        </div>
+        <button class="btn btn-reserve" data-max="60">Reserve my spot</button>
+      </div>
+      <div class="action reveal d1">
+        <div class="action-ico"><svg viewBox="0 0 32 32"><path d="M16 26 V14 M16 14 q-8-2-8-10 q8 0 8 6 q0-6 8-6 q0 8-8 10z"/></svg></div>
+        <div>
+          <h4>Mangrove Nursery Morning</h4>
+          <p class="meta">Sat 9:00 AM · Palenque Estuary, site B2 · great for families 8+</p>
+          <div class="mini-bar"><div class="mini-fill" style="width:55%"></div></div>
+          <div class="spots"><span class="fill-num" data-max="40">22</span> of 40 spots filled</div>
+        </div>
+        <button class="btn btn-reserve" data-max="40">Reserve my spot</button>
+      </div>
+      <div class="action reveal d2">
+        <div class="action-ico"><svg viewBox="0 0 32 32"><path d="M4 20 q4-4 8 0 t8 0 t8 0"/><circle cx="24" cy="10" r="4"/><path d="M4 26 q4-4 8 0 t8 0"/></svg></div>
+        <div>
+          <h4>Shoreline Survey &amp; Photo Log</h4>
+          <p class="meta">Sun 8:00 AM · Casca Bay dune line · we'll show you how to count</p>
+          <div class="mini-bar"><div class="mini-fill" style="width:40%"></div></div>
+          <div class="spots"><span class="fill-num" data-max="25">10</span> of 25 spots filled</div>
+        </div>
+        <button class="btn btn-reserve" data-max="25">Reserve my spot</button>
+      </div>
+    </div>
+    <p class="vol-note reveal">Every hand counted: 210,600 volunteers and rising. If no action is near you, the “virtual tide pool” program lets you log and verify cleanups from anywhere.</p>
+  </div>
+</section>
+
+<!-- FIELD NOTES -->
+<section class="notes" id="notes">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <div class="kicker">From the field journal</div>
+        <h2>Notes written with <em>salt on the page.</em></h2>
+      </div>
+      <p class="section-lede" style="color:rgba(220,235,228,.7)">Unfiltered dispatches from our field leads. This is what recovery actually sounds like.</p>
+    </div>
+    <div class="notes-grid">
+      <div class="note reveal">
+        <div class="note-date">Mar 14 · Palenque <span class="note-stamp">Verified</span></div>
+        <p>First heron pair on the mudflat in eleven years. She stood on the exact stake we planted in row 14 and <em>didn't move for an hour.</em> The crabs came back last month, the fish are following. The estuary is voting with its feet.</p>
+        <div class="note-sig"><strong>Marina R.</strong>Field Lead · Estuary Program</div>
+      </div>
+      <div class="note reveal d1">
+        <div class="note-date">Mar 9 · Kelp Cove <span class="note-stamp">Verified</span></div>
+        <p>Survey dive at 06:40, kelp still black and cold. Canopy density 30% of baseline — up from 8% in autumn. We found <em>an otter print in the sand</em> at the north shelf on the way out. Noted, sketched, and not told to anyone for another day.</p>
+        <div class="note-sig"><strong>Dev O.</strong>Dive Technician · Kelp Program</div>
+      </div>
+      <div class="note reveal d2">
+        <div class="note-date">Mar 3 · Casca Bay <span class="note-stamp">Watch Log</span></div>
+        <p>Storm passed at 3 AM, 40 knots. The new dune grasses bent and <em>held</em>. Erosion gauge reads +4 cm gain instead of the usual half-meter loss. Old Amélia said nothing, which means everything. I'm going to write that down too.</p>
+        <div class="note-sig"><strong>Tomas C.</strong>Dune Steward · Casca Bay</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta" id="donate">
+  <div class="sun-glow"></div>
+  <div class="wrap" style="position:relative;z-index:2">
+    <div class="kicker" style="justify-content:center;color:var(--sun)">Your part in the turn</div>
+    <h2 class="reveal">The water keeps coming.<br><em>Choose what it finds.</em></h2>
+    <p class="reveal d1">94 cents of every dollar goes directly to shoreline work — planting, monitoring, and the local crews who do it. Give once, or stay with the tide every month.</p>
+    <div class="donate-box reveal d2">
+      <div class="tiers">
+        <button class="tier" data-amt="25">$25</button>
+        <button class="tier active" data-amt="100">$100</button>
+        <button class="tier" data-amt="250">$250</button>
+        <button class="tier" data-amt="500">$500</button>
+      </div>
+      <div class="tier-custom"><span>$</span><input id="customAmt" type="number" min="1" placeholder="Custom amount" aria-label="Custom donation amount"></div>
+      <p class="impact-line" id="impactLine">Your <strong>$100</strong> plants <strong>25 mangrove seedlings</strong>, funds <strong>4 lbs of plastic recovery</strong>, and keeps <strong>2 survey dives</strong> in the water.</p>
+      <button class="btn btn-donate btn-big" id="giveBtn">Give $100 to the Coast</button>
+      <p class="cta-fine">TIDE / TURN is a registered 501(c)(3) · donations are tax-deductible where applicable · cancel monthly gifts anytime</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="partners-lbl">Restoring coastlines alongside</div>
+    <div class="partner-grid">
+      <div class="partner">Blue Meridian<small>Foundation</small></div>
+      <div class="partner">Coastal Union<small>Marine Institute</small></div>
+      <div class="partner">Sárvaga<small>Trust</small></div>
+      <div class="partner">Estuary Works<small>Co-op</small></div>
+      <div class="partner">Northlight<small>Climate Fund</small></div>
+      <div class="partner">Adriatic Shore<small>Network</small></div>
+    </div>
+    <div class="foot-bottom">
+      <div class="foot-mark">TIDE / TURN</div>
+      <form class="newsletter" onsubmit="return false">
+        <input type="email" placeholder="Your email — one tide letter a month" aria-label="Email address">
+        <button type="submit">Join the tide</button>
+      </form>
+      <div class="legal">
+        <span>© 2025 Tide / Turn Coastal Alliance</span>
+        <a href="#top">Privacy</a>
+        <a href="#top">Financials</a>
+        <a href="#top">Press Kit</a>
+        <a href="#top">Contact a Field Lead</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll state
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 40), {passive:true});
+
+// Reveal on scroll
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.15});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// Number count-up
+function animateCount(el){
+  const target = parseFloat(el.dataset.count);
+  const dec = +(el.dataset.dec || 0);
+  const prefix = el.dataset.prefix || '';
+  const useSep = el.dataset.sep === '1';
+  const dur = 1800, t0 = performance.now();
+  function tick(now){
+    const p = Math.min((now - t0) / dur, 1);
+    const ease = 1 - Math.pow(1 - p, 3);
+    let v = target * ease;
+    let out = dec ? v.toFixed(dec) : Math.round(v).toString();
+    if (useSep && !dec) out = Number(Math.round(v)).toLocaleString('en-US');
+    el.textContent = prefix + out;
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+const counterIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting){
+      animateCount(e.target);
+      if (e.target.id === 'barFill') {} // handled separately
+      counterIO.unobserve(e.target);
+    }
+  });
+}, {threshold:.4});
+document.querySelectorAll('[data-count]').forEach(el => counterIO.observe(el));
+
+// Progress bar
+const barIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting){
+      const t = parseFloat(e.target.dataset.target);
+      setTimeout(() => { e.target.style.width = t + '%'; }, 250);
+      const pctEl = document.getElementById('pct');
+      const t0 = performance.now();
+      (function tick(now){
+        const p = Math.min((now - t0) / 1800, 1);
+        pctEl.textContent = (t * (1 - Math.pow(1 - p, 3))).toFixed(1) + '%';
+        if (p < 1) requestAnimationFrame(tick);
+      })(t0);
+      barIO.unobserve(e.target);
+    }
+  });
+}, {threshold:.4});
+barIO.observe(document.getElementById('barFill'));
+
+// Volunteer reservations
+document.querySelectorAll('.btn-reserve').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const card = btn.closest('.action');
+    const numEl = card.querySelector('.fill-num');
+    const max = +btn.dataset.max;
+    let filled = +numEl.textContent;
+    if (filled >= max) return;
+    filled++;
+    numEl.textContent = filled;
+    card.querySelector('.mini-fill').style.width = (filled / max * 100) + '%';
+    if (filled >= max){
+      btn.disabled = true;
+      btn.textContent = 'Fully booked ✓';
+    } else {
+      btn.textContent = 'Spot reserved ✓';
+      setTimeout(() => { if (+numEl.textContent < max) btn.textContent = 'Reserve my spot'; }, 2200);
+    }
+  });
+});
+
+// Donation tiers
+const tiers = document.querySelectorAll('.tier');
+const customAmt = document.getElementById('customAmt');
+const impactLine = document.getElementById('impactLine');
+const giveBtn = document.getElementById('giveBtn');
+let amount = 100;
+
+function fmt(n){ return '$' + Number(n).toLocaleString('en-US'); }
+function render(){
+  const seedlings = Math.max(1, Math.round(amount / 4));
+  const lbs = Math.max(1, Math.round(amount / 25));
+  const dives = Math.max(1, Math.round(amount / 50));
+  impactLine.innerHTML = `Your <strong>${fmt(amount)}</strong> plants <strong>${seedlings} mangrove seedlings</strong>, funds <strong>${lbs} lbs of plastic recovery</strong>, and keeps <strong>${dives} survey dive${dives>1?'s':''}</strong> in the water.`;
+  giveBtn.textContent = `Give ${fmt(amount)} to the Coast`;
+}
+tiers.forEach(t => t.addEventListener('click', () => {
+  tiers.forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  customAmt.value = '';
+  amount = +t.dataset.amt;
+  render();
+}));
+customAmt.addEventListener('input', () => {
+  const v = parseInt(customAmt.value);
+  if (v > 0){
+    tiers.forEach(x => x.classList.remove('active'));
+    amount = v;
+    render();
+  }
+});
+render();
+</script>
+</body>
+</html>

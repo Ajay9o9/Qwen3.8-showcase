@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMAIL / CLIENT — Correspondence, delivered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4EFE2;
+  --paper-2:#ECE5D2;
+  --paper-3:#FBF8EF;
+  --ink:#1C1A14;
+  --ink-soft:#5C574A;
+  --line:#D6CCB4;
+  --red:#DF3B2A;
+  --blue:#2743B8;
+  --mustard:#C9861B;
+  --teal:#2F7A6A;
+  --airmail:repeating-linear-gradient(-45deg,var(--red) 0 14px,#F7F3E7 14px 28px,var(--blue) 28px 42px,#F7F3E7 42px 56px);
+  --topbar-h:66px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:"Space Grotesk",sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  overflow:hidden;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea{font-family:inherit;color:inherit}
+::selection{background:var(--red);color:#FFF6E8}
+
+/* ---------- airmail strip ---------- */
+.airmail-strip{height:7px;background:var(--airmail);position:relative;z-index:60}
+
+/* ---------- topbar ---------- */
+.topbar{
+  height:var(--topbar-h);
+  display:flex;align-items:center;gap:18px;
+  padding:0 22px;
+  background:var(--paper-3);
+  border-bottom:2px solid var(--ink);
+  position:relative;z-index:50;
+}
+.menu-btn{display:none;font-size:20px;width:38px;height:38px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
+.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.stamp{
+  width:40px;height:46px;flex-shrink:0;
+  background:
+    radial-gradient(circle at 6px 6px, transparent 3px, var(--paper-3) 3.5px) -6px -6px/12px 12px,
+    radial-gradient(circle at 6px 6px, transparent 3px, var(--paper-3) 3.5px) 6px -6px/12px 12px,
+    linear-gradient(160deg,#E2472F 0%,#C9301F 100%);
+  border-radius:3px;
+  display:grid;place-items:center;
+  transform:rotate(-4deg);
+  box-shadow:0 2px 6px rgba(28,26,20,.25);
+}
+.stamp svg{width:26px;height:26px}
+.logo-text{line-height:1}
+.logo-text b{
+  font-family:"Fraunces",serif;font-weight:700;font-size:21px;letter-spacing:.5px;display:block;
+}
+.logo-text b span{color:var(--red)}
+.logo-text small{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:2.5px;color:var(--ink-soft);text-transform:uppercase}
+
+.search{
+  flex:1;max-width:520px;margin:0 auto;display:flex;align-items:center;gap:10px;
+  background:var(--paper);
+  border:2px solid var(--ink);
+  padding:0 12px;height:42px;
+  box-shadow:3px 3px 0 var(--ink);
+  transition:box-shadow .12s, transform .12s;
+}
+.search:focus-within{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--red)}
+.search svg{width:17px;height:17px;flex-shrink:0;stroke:var(--ink-soft)}
+.search input{border:none;outline:none;background:transparent;flex:1;font-size:14px;font-family:"IBM Plex Mono",monospace}
+.search input::placeholder{color:var(--ink-soft);opacity:.75}
+.search kbd{font-family:"IBM Plex Mono",monospace;font-size:10px;border:1px solid var(--line);padding:2px 6px;color:var(--ink-soft);background:var(--paper-3)}
+
+.compose-btn{
+  display:flex;align-items:center;gap:9px;
+  background:var(--red);color:#FFF6E8;
+  font-weight:700;font-size:14px;letter-spacing:.4px;
+  padding:11px 20px;border:2px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  transition:transform .12s, box-shadow .12s;
+  flex-shrink:0;
+}
+.compose-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.compose-btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+.compose-btn svg{width:16px;height:16px}
+.avatar-me{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(140deg,#2743B8,#182a7c);
+  color:#F7F3E7;display:grid;place-items:center;
+  font-weight:700;font-size:13px;border:2px solid var(--ink);
+  box-shadow:2px 2px 0 rgba(28,26,20,.25);
+}
+
+/* ---------- app grid ---------- */
+.app{
+  display:grid;
+  grid-template-columns:252px 400px 1fr;
+  height:calc(100vh - var(--topbar-h) - 7px);
+}
+
+/* ---------- sidebar ---------- */
+.sidebar{
+  background:var(--paper-2);
+  border-right:2px solid var(--ink);
+  padding:18px 14px 14px;
+  display:flex;flex-direction:column;gap:20px;
+  overflow-y:auto;
+}
+.side-scroll{display:flex;flex-direction:column;gap:20px;flex:1}
+.side-h{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--ink-soft);
+  display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:0 6px;
+}
+.side-h::after{content:"";flex:1;height:1px;background:var(--line)}
+.folder{
+  width:100%;display:flex;align-items:center;gap:10px;
+  padding:9px 10px;font-size:14px;font-weight:500;
+  border:2px solid transparent;border-radius:0;
+  transition:background .1s;
+  text-align:left;position:relative;
+}
+.folder:hover{background:var(--paper-3)}
+.folder.active{background:var(--ink);color:var(--paper-3)}
+.folder.active svg{stroke:var(--mustard)}
+.folder svg{width:16px;height:16px;stroke:var(--ink-soft);flex-shrink:0}
+.folder .count{
+  margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;
+  background:rgba(28,26,20,.08);padding:1px 8px;border-radius:20px;
+}
+.folder.active .count{background:var(--red);color:#FFF6E8}
+.folder .count.hot{background:var(--red);color:#FFF6E8}
+.folder.active .count.hot{background:var(--mustard);color:var(--ink)}
+
+.label-chip{
+  width:100%;display:flex;align-items:center;gap:10px;
+  padding:7px 10px;font-size:13.5px;font-weight:500;text-align:left;
+  border-left:3px solid transparent;transition:background .1s;
+}
+.label-chip:hover{background:var(--paper-3)}
+.label-chip.active{background:var(--ink);color:var(--paper-3)}
+.label-dot{width:11px;height:11px;border-radius:50%;border:1.5px solid rgba(28,26,20,.35);flex-shrink:0}
+.label-chip .count{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft)}
+.label-chip.active .count{color:var(--paper-2)}
+
+/* calendar teaser */
+.cal-card{
+  background:var(--paper-3);
+  border:2px solid var(--ink);
+  box-shadow:4px 4px 0 var(--ink);
+  padding:12px 12px 14px;
+}
+.cal-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+.cal-head b{font-family:"Fraunces",serif;font-size:15px;font-weight:700}
+.cal-head span{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-soft);letter-spacing:1px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-family:"IBM Plex Mono",monospace;font-size:10.5px}
+.cal-grid .dow{text-align:center;color:var(--ink-soft);padding:2px 0;font-size:9px;letter-spacing:1px}
+.cal-cell{position:relative;text-align:center;padding:4px 0;border:1px solid transparent}
+.cal-cell.has::after{
+  content:"";position:absolute;bottom:1px;left:50%;transform:translateX(-50%);
+  width:4px;height:4px;border-radius:50%;background:var(--blue);
+}
+.cal-cell.has.red::after{background:var(--red)}
+.cal-cell.today{background:var(--red);color:#FFF6E8;font-weight:700;border-radius:3px}
+.cal-cell.today::after{background:#FFF6E8}
+.cal-event{
+  margin-top:12px;padding-top:10px;border-top:1px dashed var(--line);
+  display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.35;
+}
+.cal-event .tag{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:500;
+  background:var(--mustard);color:var(--ink);padding:2px 7px;flex-shrink:0;letter-spacing:.5px;
+}
+.cal-event em{display:block;font-style:normal;color:var(--ink-soft);font-family:"IBM Plex Mono",monospace;font-size:10.5px}
+.cal-link{margin-top:10px;font-size:12px;font-weight:600;color:var(--blue);text-decoration:underline;text-underline-offset:3px;display:inline-block}
+.cal-link:hover{color:var(--red)}
+
+.storage{padding:0 4px}
+.storage .side-h{margin-bottom:10px}
+.meter{height:10px;background:var(--paper-3);border:2px solid var(--ink);position:relative;overflow:hidden}
+.meter i{position:absolute;inset:0;width:28%;background:repeating-linear-gradient(-45deg,var(--mustard) 0 6px,#E3B863 6px 12px)}
+.storage small{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-soft);display:block;margin-top:7px;letter-spacing:.5px}
+
+/* ---------- list pane ---------- */
+.listpane{
+  background:var(--paper);
+  border-right:2px solid var(--ink);
+  display:flex;flex-direction:column;min-width:0;
+}
+.list-head{
+  padding:16px 18px 12px;
+  border-bottom:2px solid var(--ink);
+  background:var(--paper-3);
+}
+.list-head-row{display:flex;align-items:baseline;gap:12px}
+.list-title{font-family:"Fraunces",serif;font-size:24px;font-weight:700;letter-spacing:.3px}
+.list-sub{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-soft);letter-spacing:1px;margin-left:auto}
+.filter-chip{
+  display:none;align-items:center;gap:8px;margin-top:10px;
+  font-size:12px;font-weight:600;
+  background:var(--ink);color:var(--paper-3);padding:5px 10px;width:fit-content;
+}
+.filter-chip.show{display:inline-flex}
+.filter-chip button{color:var(--mustard);font-weight:700;font-size:13px}
+.filter-chip .mini-dot{width:8px;height:8px;border-radius:50%}
+.msg-list{flex:1;overflow-y:auto}
+.msg-row{
+  display:grid;
+  grid-template-columns:30px 34px 1fr auto;
+  gap:10px;align-items:start;
+  padding:14px 16px 14px 12px;
+  border-bottom:1px dashed var(--line);
+  cursor:pointer;position:relative;
+  transition:background .1s;
+}
+.msg-row:hover{background:var(--paper-3)}
+.msg-row.open{background:#FFF3D8}
+.msg-row.open::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--red);
+}
+.star-btn{padding:2px 0}
+.star-btn svg{width:16px;height:16px;stroke:var(--ink-soft);fill:none;stroke-width:1.6}
+.star-btn.on svg{fill:var(--mustard);stroke:var(--mustard)}
+.avatar{
+  width:34px;height:34px;border-radius:6px;display:grid;place-items:center;
+  font-weight:700;font-size:12px;color:#F7F3E7;border:1.5px solid rgba(28,26,20,.3);
+}
+.row-main{min-width:0}
+.row-line1{display:flex;align-items:baseline;gap:8px}
+.row-from{font-weight:600;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-time{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--ink-soft);margin-left:auto;flex-shrink:0}
+.row-subject{font-size:13.5px;font-weight:600;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-preview{font-size:12.5px;color:var(--ink-soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row-tags{display:flex;gap:5px;margin-top:6px}
+.tag-dot{width:9px;height:9px;border-radius:50%;border:1px solid rgba(28,26,20,.3)}
+.empty-list{padding:60px 24px;text-align:center;color:var(--ink-soft)}
+.empty-list svg{width:64px;height:64px;opacity:.5;margin-bottom:14px}
+.empty-list b{font-family:"Fraunces",serif;font-size:18px;display:block;color:var(--ink);margin-bottom:6px}
+.empty-list p{font-size:13px;line-height:1.5}
+
+/* ---------- reading pane ---------- */
+.reading{
+  background:
+    repeating-linear-gradient(0deg,transparent 0 27px,rgba(28,26,20,.025) 27px 28px),
+    var(--paper-3);
+  display:flex;flex-direction:column;min-width:0;
+}
+.read-scroll{flex:1;overflow-y:auto;padding:30px 44px 20px}
+.read-empty{
+  height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:var(--ink-soft);text-align:center;gap:14px;
+}
+.postmark{
+  width:150px;height:150px;border:3px solid rgba(28,26,20,.18);border-radius:50%;
+  display:grid;place-items:center;transform:rotate(-12deg);position:relative;
+}
+.postmark::before{
+  content:"";position:absolute;inset:10px;border:1.5px dashed rgba(28,26,20,.18);border-radius:50%;
+}
+.postmark span{font-family:"Fraunces",serif;font-style:italic;font-size:17px;color:rgba(28,26,20,.3);line-height:1.3}
+.read-empty p{font-size:13.5px;max-width:280px;line-height:1.55}
+.read-head{display:flex;gap:16px;align-items:flex-start}
+.read-avatar{
+  width:52px;height:52px;border-radius:8px;display:grid;place-items:center;
+  font-weight:700;font-size:17px;color:#F7F3E7;border:2px solid rgba(28,26,20,.35);flex-shrink:0;
+  box-shadow:3px 3px 0 rgba(28,26,20,.12);
+}
+.read-meta{min-width:0;flex:1}
+.read-subject{font-family:"Fraunces",serif;font-size:27px;font-weight:700;line-height:1.15;letter-spacing:.2px}
+.read-subj-sub{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:9px}
+.label-pill{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 10px;color:#F7F3E7;font-weight:500;
+}
+.read-who{margin-top:12px;display:flex;align-items:center;gap:10px;font-size:13px;flex-wrap:wrap}
+.read-who b{font-size:14px}
+.read-who .addr{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft)}
+.read-who .when{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-soft);margin-left:auto;
+  border:1px solid var(--line);padding:3px 9px}
+.read-who .stamped{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:2px;
+  color:var(--red);border:2px solid var(--red);padding:3px 8px;transform:rotate(-5deg);font-weight:500;
+}
+.read-body{margin-top:24px;max-width:640px;font-size:15px;line-height:1.75;color:#2A271F}
+.read-body p{margin-bottom:16px}
+.read-body .sig{font-family:"Fraunces",serif;font-style:italic;color:var(--ink-soft);font-size:15px}
+.attach-row{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.attach{
+  display:flex;align-items:center;gap:10px;
+  background:var(--paper);border:2px solid var(--ink);
+  box-shadow:3px 3px 0 var(--ink);
+  padding:10px 14px;max-width:250px;transition:transform .1s,box-shadow .1s;cursor:pointer;
+}
+.attach:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--red)}
+.attach .ic{
+  width:34px;height:40px;background:var(--paper-3);border:1.5px solid var(--line);position:relative;flex-shrink:0;
+}
+.attach .ic::before{
+  content:"";position:absolute;top:0;right:0;border-top:12px solid var(--paper);
+  border-left:12px solid var(--line);
+}
+.attach .ic::after{content:"";position:absolute;top:12px;left:8px;right:8px;height:2px;background:var(--line);box-shadow:0 6px 0 var(--line),0 12px 0 var(--line)}
+.attach b{font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.attach small{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-soft)}
+.read-foot{
+  border-top:2px solid var(--ink);background:var(--paper);
+  padding:14px 44px 18px;display:flex;gap:10px;align-items:center;
+}
+.reply-box{
+  flex:1;height:46px;border:2px solid var(--ink);background:var(--paper-3);
+  display:flex;align-items:center;padding:0 14px;gap:10px;
+  font-size:13.5px;color:var(--ink-soft);cursor:text;
+}
+.reply-box svg{width:15px;height:15px;stroke:var(--ink-soft);flex-shrink:0}
+.action-btn{
+  padding:11px 18px;font-weight:600;font-size:13px;border:2px solid var(--ink);
+  background:var(--paper-3);box-shadow:3px 3px 0 var(--ink);
+  transition:transform .1s,box-shadow .1s;
+}
+.action-btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--ink)}
+.action-btn.primary{background:var(--red);color:#FFF6E8}
+
+/* ---------- compose ---------- */
+.overlay{
+  position:fixed;inset:0;background:rgba(28,26,20,.45);backdrop-filter:blur(2px);
+  display:none;align-items:center;justify-content:center;z-index:100;padding:20px;
+}
+.overlay.show{display:flex}
+.compose{
+  width:min(560px,100%);background:var(--paper-3);border:2px solid var(--ink);
+  box-shadow:8px 8px 0 var(--ink);
+  animation:pop .18s ease-out;
+}
+@keyframes pop{from{transform:scale(.96) translateY(8px);opacity:0}to{transform:none;opacity:1}}
+.compose-strip{height:7px;background:var(--airmail)}
+.compose-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:2px solid var(--ink)}
+.compose-bar b{font-family:"Fraunces",serif;font-size:19px;font-weight:700}
+.compose-bar button{font-size:20px;width:32px;height:32px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);transition:transform .1s}
+.compose-bar button:hover{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--red)}
+.c-field{padding:0 20px}
+.c-field label{
+  display:flex;align-items:center;gap:8px;
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink-soft);
+  border-bottom:1px solid var(--line);height:42px;
+}
+.c-field input{
+  flex:1;border:none;outline:none;background:transparent;font-size:14px;
+  font-family:"IBM Plex Mono",monospace;
+}
+.compose textarea{
+  width:calc(100% - 40px);margin:12px 20px;min-height:190px;resize:vertical;
+  border:none;outline:none;background:transparent;font-size:14.5px;line-height:1.6;
+  background-image:repeating-linear-gradient(0deg,transparent 0 27px,var(--line) 27px 28px);
+  line-height:28px;
+}
+.compose-actions{display:flex;gap:10px;padding:4px 20px 20px;align-items:center}
+.compose-actions .hint{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink-soft)}
+
+/* ---------- toast ---------- */
+.toast{
+  position:fixed;bottom:26px;left:50%;transform:translate(-50%,80px);
+  background:var(--ink);color:var(--paper-3);
+  padding:13px 22px;font-size:13.5px;font-weight:600;display:flex;gap:10px;align-items:center;
+  border:2px solid var(--paper-3);box-shadow:0 6px 24px rgba(0,0,0,.3);
+  transition:transform .25s cubic-bezier(.2,1.4,.4,1);z-index:200;
+}
+.toast.show{transform:translate(-50%,0)}
+.toast .t-stamp{width:20px;height:24px;background:var(--red);display:grid;place-items:center;font-size:11px;transform:rotate(-6deg)}
+
+/* ---------- scrollbars ---------- */
+.msg-list::-webkit-scrollbar,.read-scroll::-webkit-scrollbar,.sidebar::-webkit-scrollbar{width:9px}
+.msg-list::-webkit-scrollbar-thumb,.read-scroll::-webkit-scrollbar-thumb,.sidebar::-webkit-scrollbar-thumb{background:var(--line);border:2px solid var(--paper-3)}
+.msg-list::-webkit-scrollbar-track,.read-scroll::-webkit-scrollbar-track{background:transparent}
+
+/* ---------- responsive ---------- */
+.back-btn{display:none;font-family:"Fraunces",serif;font-size:16px;font-weight:700;margin-right:14px}
+@media (max-width:1180px){
+  .app{grid-template-columns:224px 340px 1fr}
+  .read-scroll{padding:26px 28px 20px}
+  .read-foot{padding:14px 28px 18px}
+  .search{max-width:none}
+}
+@media (max-width:980px){
+  .app{grid-template-columns:224px 1fr}
+  .reading{position:fixed;inset:calc(var(--topbar-h) + 7px) 0 0 0;z-index:40;transform:translateX(105%);transition:transform .22s ease;box-shadow:-8px 0 30px rgba(28,26,20,.2)}
+  body.reading-open .reading{transform:none}
+  .back-btn{display:block}
+  .search kbd{display:none}
+}
+@media (max-width:760px){
+  .app{grid-template-columns:1fr}
+  .sidebar{
+    position:fixed;top:calc(var(--topbar-h) + 7px);bottom:0;left:0;width:280px;z-index:60;
+    transform:translateX(-105%);transition:transform .22s ease;box-shadow:8px 0 30px rgba(28,26,20,.2);
+  }
+  body.nav-open .sidebar{transform:none}
+  .menu-btn{display:block}
+  .compose-btn span{display:none}
+  .compose-btn{padding:11px 14px}
+  .logo-text small{display:none}
+  .read-subject{font-size:22px}
+}
+@media (max-width:460px){
+  .topbar{gap:10px;padding:0 14px}
+  .search{margin:0}
+  .row-preview{display:none}
+  .avatar-me{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="airmail-strip"></div>
+
+<header class="topbar">
+  <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+  <div class="logo">
+    <div class="stamp" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#FFF6E8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <b>EMAIL<span>/</span>CLIENT</b>
+      <small>Correspondence, delivered</small>
+    </div>
+  </div>
+  <div class="search" role="search">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="searchInput" type="text" placeholder="Search mail, senders, labels…" aria-label="Search mail">
+    <kbd>⌘K</kbd>
+  </div>
+  <button class="compose-btn" id="composeBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+    <span>Compose</span>
+  </button>
+  <div class="avatar-me" title="You — jo@postbox.co">JO</div>
+</header>
+
+<main class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="side-scroll">
+      <div>
+        <div class="side-h">Folders</div>
+        <nav id="folderNav" style="display:flex;flex-direction:column;gap:2px"></nav>
+      </div>
+
+      <div>
+        <div class="side-h">Labels</div>
+        <div id="labelNav" style="display:flex;flex-direction:column;gap:1px"></div>
+      </div>
+
+      <div class="cal-card">
+        <div class="cal-head"><b>October 2025</b><span>03 events</span></div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-event">
+          <span class="tag">TUE 16</span>
+          <div>Design crit — Q4 launch pages<em>2:00 PM · with Priya &amp; Tomas</em></div>
+        </div>
+        <div class="cal-event">
+          <span class="tag" style="background:var(--red);color:#FFF6E8">WED 21</span>
+          <div>Northwind invoice due<em>#NW-2281 · $4,850.00</em></div>
+        </div>
+        <a class="cal-link" href="#" id="calLink">View full calendar →</a>
+      </div>
+
+      <div class="storage">
+        <div class="side-h">Storage</div>
+        <div class="meter"><i></i></div>
+        <small>4.2 GB of 15 GB · scanned clean ✓</small>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ LIST PANE ============ -->
+  <section class="listpane">
+    <div class="list-head">
+      <div class="list-head-row">
+        <button class="back-btn" id="backBtn">←</button>
+        <h1 class="list-title" id="listTitle">Inbox</h1>
+        <span class="list-sub" id="listSub">6 OF 6 SHOWN</span>
+      </div>
+      <span class="filter-chip" id="filterChip"><span class="mini-dot"></span><span id="filterChipText"></span><button id="filterClear" title="Clear label">✕</button></span>
+    </div>
+    <div class="msg-list" id="msgList"></div>
+  </section>
+
+  <!-- ============ READING PANE ============ -->
+  <section class="reading" id="reading"></section>
+
+</main>
+
+<!-- ============ COMPOSE ============ -->
+<div class="overlay" id="overlay">
+  <div class="compose" role="dialog" aria-label="Compose mail">
+    <div class="compose-strip"></div>
+    <div class="compose-bar"><b>New letter</b><button id="composeClose" aria-label="Close">✕</button></div>
+    <div class="c-field"><label>From <input value="jo@postbox.co" readonly style="color:var(--ink-soft)"></label></div>
+    <div class="c-field"><label>To <input id="cTo" type="text" placeholder="name@somewhere.co" autofocus></label></div>
+    <div class="c-field"><label>Subject <input id="cSubj" type="text" placeholder="A few words before the stamp dries…"></label></div>
+    <textarea id="cBody" placeholder="Dear…"></textarea>
+    <div class="compose-actions">
+      <button class="action-btn primary" id="sendBtn">
+        ✈ Post it
+      </button>
+      <button class="action-btn" id="saveDraft">Draft</button>
+      <span class="hint">ENTER to send · SHIFT+ENTER for a new line</span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="t-stamp">✈</span><span id="toastText"></span></div>
+
+<script>
+/* ================= DATA ================= */
+const LABELS = {
+  work:    {name:"Work",     color:"#2743B8"},
+  personal:{name:"Personal", color:"#C9861B"},
+  finance: {name:"Finance",  color:"#DF3B2A"},
+  travel:  {name:"Travel",   color:"#2F7A6A"}
+};
+
+const FOLDERS = [
+  {id:"inbox",  name:"Inbox",  icon:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.5 5h13l3.5 7v7H2v-7z"/>'},
+  {id:"starred",name:"Starred",icon:'<path d="m12 2 3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.5 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/>'},
+  {id:"sent",   name:"Sent",   icon:'<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/>'},
+  {id:"drafts", name:"Drafts", icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>'},
+  {id:"archive",name:"Archive",icon:'<rect x="2" y="4" width="20" height="5"/><path d="M4 9v11h16V9"/><path d="M10 13h4"/>'},
+  {id:"trash",  name:"Trash",  icon:'<path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m6 6 1 15h10l1-15"/>'}
+];
+
+let MSGS = [
+ {id:1, folder:"inbox", from:"Mirela Vass", addr:"mirela@skyward.aero", subject:"Confirmed: BUD → JFK, window seat 14C",
+  time:"09:42", when:"Today, 9:42 AM", labels:["travel"], starred:true,
+  preview:"Great news — the 06:40 departure held. You're riding in seat 14C (window, left side) with the return already matched…",
+  body:["Great news — the 06:40 departure held, and I managed to move you into seat 14C before the allocation closed. It's a window seat on the left, so you'll have the Atlantic over your shoulder for the last hour and a bit.","The return is already matched to you, so nothing to do there. One note: the connection in Budapest runs through Terminal 2, which means roughly a 20-minute walk with your bags. Don't sprint — you've got 3 h 15 m and the coffee there is, honestly, good.","Bag drop opens at 04:30. I'd suggest arriving by 05:00 to have a margin for the one gate change this week has already had.","Safe travels — ping me from the plane if the seats app ever stops behaving. It never does. — M."],
+  attach:[{n:"SKY-8842-boarding.pdf",s:"142 KB"},{n:"SKY-8842-return.pdf",s:"138 KB"}]},
+
+ {id:2, folder:"inbox", from:"Dana Okafor · Northwind Ledger", addr:"billing@northwindledger.co", subject:"October invoice #NW-2281 is ready",
+  time:"09:15", when:"Today, 9:15 AM", labels:["finance","work"], starred:false,
+  preview:"Hi Jo, attached is invoice #NW-2281 for $4,850.00 covering the September ledger close. It's due by Wednesday, October 21…",
+  body:["Hi Jo,","Attached is invoice #NW-2281 for $4,850.00, covering the September ledger close and the one-off reconciliation on the June payout batch. Line items are itemised on page 2 if anyone wants to argue with them.","It's due by Wednesday, October 21. Wire details are unchanged from last month — bank and reference are on the letterhead as usual.","If anything looks off against your records, reply to this thread and I'll re-cut the invoice before the deadline rather than chasing an adjustment after.","Thanks! — Dana Okafor, Billing","Northwind Ledger · billing@northwindledger.co"],
+  attach:[{n:"NW-2281-October.pdf",s:"86 KB"}]},
+
+ {id:3, folder:"inbox", from:"Priya Raman", addr:"priya@halcyonstudio.com", subject:"Re: Q4 launch — copy is final ✈️",
+  time:"08:51", when:"Today, 8:51 AM", labels:["work"], starred:true,
+  preview:"Locked. The hero line now reads 'Arrive before the news does' and the subhead is cut to eleven words. Files are on the drive…",
+  body:["Locked. 🎉","The hero line now reads “Arrive before the news does” and the subhead is cut to eleven words — Tomas read it aloud to a plant and said it landed, which I'm choosing to count as user research.","All files are on the drive under /q4-launch/final. If legal needs the one-sentence description for the app stores, it's paragraph 4 of the brand sheet and it has not moved all quarter.","Next up: the design crit on Tuesday at 2. I've put it in the shared calendar, and I've also asked for the good projector room because last time the lamp died mid-demo and we looked, and I quote, “dramatic.”","Talk soon — Priya"],
+  attach:[{n:"halcyon-q4-brand.pdf",s:"4.2 MB"},{n:"hero-variants.png",s:"1.8 MB"}]},
+
+ {id:4, folder:"inbox", from:"Postbox Depot", addr:"no-reply@postbox.depot", subject:"Your parcel is ready for pickup",
+  time:"Yesterday", when:"Yesterday, 4:17 PM", labels:["personal"], starred:false,
+  preview:"Package #PLT-88213 has arrived at the depot on Marsh St and can be collected any time until Friday, 6 PM…",
+  body:["Package #PLT-88213 has arrived at the Postbox depot on Marsh Street and can be collected any time until Friday, 6 PM. After that, it goes back on a truck, which we all want to avoid.","What to bring: the tracking number (it's in this subject line, no need to screenshot) or a photo ID. The queue moves fastest before 10 AM.","Have a question? Reply to this email or call the depot directly at (555) 014-2280, Monday to Saturday, 8 AM to 6 PM.","— The Postbox Depot","Marsh St. depot · 4,102 parcels found last month"],
+  attach:[]},
+
+ {id:5, folder:"inbox", from:"Tomas Lindqvist", addr:"tomas@lindqvist.dev", subject:"Lunch on Thursday?",
+  time:"Yesterday", when:"Yesterday, 1:02 PM", labels:["personal"], starred:false,
+  preview:"Still on for the ramen place? I can do 12:30 if that works. And yes, I will order the tonkotsu again despite what Priya says…",
+  body:["Still on for the ramen place? I can do 12:30 if that works, which is about the only time that isn't a meeting.","And yes, I will order the tonkotsu again despite what Priya says. She called it “a lifestyle.” I called her “a spreadsheet.” The friendship survived. Barely.","See you Thursday. — T"],
+  attach:[]},
+
+ {id:6, folder:"inbox", from:"Grace Halloran · Halloran & Voss LLP", addr:"g.halloran@halloranvoss.law", subject:"Contract draft v3 — two clauses to review",
+  time:"Mon", when:"Monday, 3:40 PM", labels:["work","finance"], starred:false,
+  preview:"We moved the indemnity clause to §7.2 and softened the auto-renewal window from 90 to 60 days. Please review before Friday…",
+  body:["Jo,","Following our call, here is draft v3. The changes are limited and deliberate: we moved the indemnity clause to §7.2 where it reads less like a threat, and we softened the auto-renewal window from 90 days to 60 — your team wanted a longer runway and that felt like the middle ground.","Everything else is unchanged from v2. The two clauses flagged in red are the only ones we'd consider non-negotiable on our side, and I'd rather flag that now than at 5:59 PM on Friday.","Please review before Friday and let me know if we can walk through it on a short call that day. Happy to work around your crit on Tuesday.","Best,","Grace Halloran","Halloran & Voss LLP · g.halloran@halloranvoss.law · (555) 019-8814"],
+  attach:[{n:"services-agreement-v3.docx",s:"214 KB"},{n:"redline-summary.pdf",s:"72 KB"}]},
+
+ {id:7, folder:"inbox", from:"The Mailbag Weekly", addr:"digest@mailbag.news", subject:"Issue #41: Why delivery times keep slipping",
+  time:"Mon", when:"Monday, 7:00 AM", labels:["travel"], starred:false,
+  preview:"This week we look at the new routing rules, the quiet return of the letterbox flag, and why Tuesday is statistically the rudest day…",
+  body:["Issue #41 — a letter from The Mailbag Weekly.","This week we look at the new routing rules that quietly reshuffled three time zones, the quiet return of the letterbox flag (it's a thing again, and we're over it), and why Tuesday is statistically the rudest day in your inbox.","Also: a reader's 1962 airmail cover sold for more than their car, and our columnist defends the paper receipt in 800 words. He was not permitted a ninth.","You're reading this because you're a subscriber. Unsubscribe anytime, no hard feelings, and we'll still wave from the platform.","— The Mailbag, every Monday, 7 AM sharp"],
+  attach:[]},
+
+ {id:8, folder:"sent", from:"You", addr:"jo@postbox.co", subject:"Re: Q4 launch — copy is final ✈️",
+  time:"Yesterday", when:"Yesterday, 11:48 AM", labels:["work"], starred:false,
+  preview:"Perfect. “A spreadsheet” is the most honest critique our team has produced all year. I'll bring the projector backup on Tuesday just in case…",
+  body:["Perfect. “A spreadsheet” is the most honest critique our team has produced all year.","I'll bring the projector backup on Tuesday just in case. We do not go dramatic. We go prepared. See you at 2.","— Jo"],
+  attach:[]},
+
+ {id:9, folder:"sent", from:"You", addr:"jo@postbox.co", subject:"v3 looks good — one note on §7.2",
+  time:"Mon", when:"Monday, 5:12 PM", labels:["work","finance"], starred:false,
+  preview:"Reviewed. The move to §7.2 works well and the 60-day window is acceptable. One small note: the cap in the last sentence should read…",
+  body:["Reviewed. The move to §7.2 works well and the 60-day window is acceptable to us.","One small note: the cap in the last sentence should read “the lesser of,” not “the greater of” — probably a typo from v2, but I'd rather we not find out at signature.","Otherwise we're good to proceed. Happy to take the call Friday at 10 AM.","— Jo"],
+  attach:[]},
+
+ {id:10, folder:"sent", from:"You", addr:"jo@postbox.co", subject:"Window seat please",
+  time:"Wed", when:"Wed, Sep 24 · 9:03 AM", labels:["travel"], starred:false,
+  preview:"Could you try for a window seat on the outbound? I like to watch the clouds until they stop being dramatic and start being clouds…",
+  body:["Could you try for a window seat on the outbound? I like to watch the clouds until they stop being dramatic and start being clouds.","No rush on this — just do it before allocation closes, whatever that means.","Thanks! Jo"],
+  attach:[]},
+
+ {id:11, folder:"drafts", from:"You", addr:"jo@postbox.co", subject:"Thank-you note (subject ideas inside)",
+  time:"Mon", when:"Monday, 9:15 AM", labels:["personal"], starred:false,
+  preview:"Option A: “Thank you for the weekend.” Option B: “A small letter about Saturday.” Option C: no subject, like the old days…",
+  body:["Option A: “Thank you for the weekend.”","Option B: “A small letter about Saturday.”","Option C: no subject, like the old days. (We're not doing that.)"],
+  attach:[]},
+
+ {id:12, folder:"archive", from:"Skyward Aero", addr:"updates@skyward.aero", subject:"Your loyalty tier moved to Amber",
+  time:"Sep", when:"Sep 12 · 10:00 AM", labels:["travel"], starred:false,
+  preview:"You've crossed 25,000 miles and your Skyward tier is now Amber. Priority boarding is active on all upcoming itineraries…",
+  body:["You've crossed 25,000 miles and your Skyward tier is now Amber.","Priority boarding is active on all upcoming itineraries, and the lounge in Budapest is now yours on layovers of 2 hours or more. We're watching that Budapest leg closely.","— Skyward Aero, Loyal Customers Team"],
+  attach:[]},
+
+ {id:13, folder:"archive", from:"Ledgerly", addr:"hello@ledgerly.app", subject:"Your September summary is ready",
+  time:"Sep", when:"Sep 30 · 8:00 AM", labels:["finance"], starred:false,
+  preview:"September wrapped at $12,400 in, $7,950 out. Your savings rate hit 36%, the highest since March. Full breakdown inside…",
+  body:["September wrapped at $12,400 in, $7,950 out.","Your savings rate hit 36%, the highest since March. The ramen line item was, as usual, non-negotiable, and we respect that.","— Ledgerly"],
+  attach:[{n:"september-summary.pdf",s:"120 KB"}]},
+
+ {id:14, folder:"trash", from:"Spam Sweep", addr:"sweep@postbox.co", subject:"37 messages auto-archived to Trash",
+  time:"Sun", when:"Sunday, 2:00 AM", labels:[], starred:false,
+  preview:"Your weekly sweep ran at 2:00 AM and moved 37 promotional messages to Trash. Nothing looked like a human wrote it to you…",
+  body:["Your weekly sweep ran at 2:00 AM and moved 37 promotional messages to Trash.","Nothing looked like a human wrote it to you. One claimed to be from Mirela but said “congratulations” twice in one sentence, so it's fine.","— Postbox Sweep"],
+  attach:[]}
+];
+
+let nextId = 100;
+
+/* ================= STATE ================= */
+let state = { folder:"inbox", query:"", labelFilter:null, selectedId:1 };
+
+/* ================= HELPERS ================= */
+const $ = s => document.querySelector(s);
+function initials(name){
+  const parts = name.replace(/[·|]/g," ").split(/\s+/).filter(Boolean);
+  return (parts[0][0] + (parts[1]?parts[1][0]:"")).toUpperCase();
+}
+const AV_COLORS = ["#2743B8","#DF3B2A","#2F7A6A","#7A4AA0","#C9861B","#1F6FB2","#8A3B5C"];
+function avColor(name){
+  let h=0; for(const c of name) h=(h*31+c.charCodeAt(0))>>>0;
+  return AV_COLORS[h%AV_COLORS.length];
+}
+function countFolder(id){
+  if(id==="starred") return MSGS.filter(m=>m.starred && m.folder!=="trash").length;
+  return MSGS.filter(m=>m.folder===id).length;
+}
+function countLabel(l){ return MSGS.filter(m=>m.labels.includes(l) && m.folder!=="trash").length; }
+function visibleMsgs(){
+  let list = MSGS.filter(m =>
+    (state.folder==="starred" ? (m.starred && m.folder!=="trash") : m.folder===state.folder));
+  if(state.labelFilter) list = list.filter(m=>m.labels.includes(state.labelFilter));
+  if(state.query){
+    const q = state.query.toLowerCase();
+    list = list.filter(m => (m.from+" "+m.subject+" "+m.preview).toLowerCase().includes(q));
+  }
+  return list;
+}
+
+/* ================= RENDER: SIDEBAR ================= */
+function renderFolders(){
+  $("#folderNav").innerHTML = FOLDERS.map(f=>{
+    const c = countFolder(f.id);
+    const hot = (f.id==="inbox" && c>0) ? "hot" : "";
+    return `<button class="folder ${state.folder===f.id?'active':''}" data-folder="${f.id}">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${f.icon}</svg>
+      ${f.name}<span class="count ${hot}">${c}</span></button>`;
+  }).join("");
+  document.querySelectorAll(".folder").forEach(b=>{
+    b.onclick = () => { state.folder=b.dataset.folder; state.selectedId=null; closeNav(); render(); };
+  });
+}
+function renderLabels(){
+  $("#labelNav").innerHTML = Object.entries(LABELS).map(([id,l])=>
+    `<button class="label-chip ${state.labelFilter===id?'active':''}" data-label="${id}">
+      <span class="label-dot" style="background:${l.color}"></span>${l.name}
+      <span class="count">${countLabel(id)}</span></button>`).join("");
+  document.querySelectorAll(".label-chip").forEach(b=>{
+    b.onclick = () => {
+      state.labelFilter = state.labelFilter===b.dataset.label ? null : b.dataset.label;
+      closeNav(); render();
+    };
+  });
+}
+function renderCal(){
+  const g = $("#calGrid");
+  let h = ["M","T","W","T","F","S","S"].map(d=>`<span class="dow">${d}</span>`).join("");
+  for(let i=0;i<2;i++) h += `<span class="cal-cell"></span>`;
+  for(let d=1; d<=31; d++){
+    const has = [7,14,16,21,22].includes(d) ? "has" : "";
+    const red = (d===16||d===21) ? "red" : "";
+    const today = d===16 ? "today" : "";
+    h += `<span class="cal-cell ${has} ${red} ${today}">${d}</span>`;
+  }
+  g.innerHTML = h;
+}
+
+/* ================= RENDER: LIST ================= */
+function renderList(){
+  const list = visibleMsgs();
+  const f = FOLDERS.find(x=>x.id===state.folder);
+  $("#listTitle").textContent = state.labelFilter ? LABELS[state.labelFilter].name : f.name;
+  const chip = $("#filterChip");
+  if(state.labelFilter){
+    chip.classList.add("show");
+    chip.querySelector(".mini-dot").style.background = LABELS[state.labelFilter].color;
+    $("#filterChipText").textContent = "Labeled: " + LABELS[state.labelFilter].name;
+  } else chip.classList.remove("show");
+
+  $("#listSub").textContent = (state.query
+    ? list.length + " RESULT" + (list.length===1?"":"S") + " FOR “" + state.query.toUpperCase() + "”"
+    : list.length + " MESSAGE" + (list.length===1?"":"S"));
+
+  if(!list.length){
+    $("#msgList").innerHTML = `<div class="empty-list">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7 10-7"/></svg>
+      <b>Nothing in this envelope</b>
+      <p>${state.query ? "No mail matches that search. Try a sender or a label." : "This folder is quiet. It'll fill up, like everything with a bottom."}</p></div>`;
+    return;
+  }
+
+  $("#msgList").innerHTML = list.map(m=>{
+    const tags = m.labels.map(l=>`<span class="tag-dot" title="${LABELS[l].name}" style="background:${LABELS[l].color}"></span>`).join("");
+    return `<div class="msg-row ${m.id===state.selectedId?'open':''}" data-id="${m.id}">
+      <button class="star-btn ${m.starred?'on':''}" data-star="${m.id}" title="Star">
+        <svg viewBox="0 0 24 24"><path d="m12 2 3 6.5 7 .8-5.2 4.7 1.4 6.9L12 17.5 5.8 20.9l1.4-6.9L2 9.3l7-.8z"/></svg></button>
+      <div class="avatar" style="background:${avColor(m.from)}">${initials(m.from)}</div>
+      <div class="row-main">
+        <div class="row-line1"><span class="row-from">${m.from}</span><span class="row-time">${m.time}</span></div>
+        <div class="row-subject">${m.subject}</div>
+        <div class="row-preview">${m.preview}</div>
+        ${tags?`<div class="row-tags">${tags}</div>`:""}
+      </div>
+    </div>`;
+  }).join("");
+
+  document.querySelectorAll(".msg-row").forEach(r=>{
+    r.onclick = e => {
+      if(e.target.closest(".star-btn")) return;
+      state.selectedId = +r.dataset.id;
+      render();
+      if(window.matchMedia("(max-width:980px)").matches) document.body.classList.add("reading-open");
+    };
+  });
+  document.querySelectorAll(".star-btn").forEach(b=>{
+    b.onclick = e => {
+      e.stopPropagation();
+      const m = MSGS.find(x=>x.id===+b.dataset.star);
+      m.starred = !m.starred;
+      render();
+    };
+  });
+}
+
+/* ================= RENDER: READING ================= */
+function renderReading(){
+  const el = $("#reading");
+  const m = MSGS.find(x=>x.id===state.selectedId);
+  if(!m){
+    el.innerHTML = `<div class="read-scroll"><div class="read-empty" style="min-height:100%">
+      <div class="postmark"><span>SELECT A<br>LETTER TO<br>READ</span></div>
+      <p>Pick a message from the list and it'll unfold here, like a postcard from someone who actually cares.</p></div></div>`;
+    return;
+  }
+  const body = m.body.map(p=>`<p class="${p.startsWith("— ")?"sig":""}">${p}</p>`).join("");
+  const labels = m.labels.map(l=>`<span class="label-pill" style="background:${LABELS[l].color}">${LABELS[l].name}</span>`).join("");
+  const attach = m.attach.map(a=>`<div class="attach"><div class="ic"></div><div><b>${a.n}</b><small>${a.s}</small></div></div>`).join("");
+  el.innerHTML = `
+    <div class="read-scroll">
+      <div class="read-head">
+        <div class="read-avatar" style="background:${avColor(m.from)}">${initials(m.from)}</div>
+        <div class="read-meta">
+          <h2 class="read-subject">${m.subject}</h2>
+          ${labels?`<div class="read-subj-sub">${labels}</div>`:""}
+          <div class="read-who">
+            <b>${m.from}</b><span class="addr">&lt;${m.addr}&gt;</span>
+            <span class="when">${m.when}</span>
+            <span class="stamped">RECEIVED</span>
+          </div>
+        </div>
+      </div>
+      <div class="read-body">${body}${attach?`<div class="attach-row">${attach}</div>`:""}</div>
+    </div>
+    <div class="read-foot">
+      <div class="reply-box" id="replyBox">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="9 17 4 12 9 7"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/></svg>
+        Reply to ${m.from.split(" ")[0]}…
+      </div>
+      <button class="action-btn" data-act="fw">Forward</button>
+      <button class="action-btn primary" data-act="reply">Reply</button>
+    </div>`;
+  const startReply = () => {
+    openCompose();
+    $("#cTo").value = m.addr;
+    const s = $("#cSubj"); s.value = (m.subject.startsWith("Re:")||m.subject.startsWith("Fwd:") ? m.subject : "Re: "+m.subject);
+  };
+  el.querySelector('[data-act="reply"]').onclick = startReply;
+  el.querySelector('#replyBox').onclick = startReply;
+  el.querySelector('[data-act="fw"]').onclick = () => { openCompose(); const s=$("#cSubj"); s.value = (m.subject.startsWith("Fwd:")?m.subject:"Fwd: "+m.subject); $("#cBody").value = "\n----- Forwarded message -----\nFrom: "+m.from+" <"+m.addr+">\nSubject: "+m.subject+"\n\n"; $("#cBody").focus(); };
+}
+
+/* ================= COMPOSE ================= */
+function openCompose(){ $("#overlay").classList.add("show"); setTimeout(()=>$("#cTo").focus(),50); }
+function closeCompose(){ $("#overlay").classList.remove("show"); }
+function showToast(t){
+  $("#toastText").textContent = t;
+  const el = $("#toast"); el.classList.add("show");
+  clearTimeout(el._t); el._t = setTimeout(()=>el.classList.remove("show"), 2800);
+}
+function sendMessage(){
+  const to = $("#cTo").value.trim(), subj = $("#cSubj").value.trim(), body = $("#cBody").value.trim();
+  if(!to || !subj){ showToast("Need a recipient and a subject before the stamp goes on."); return; }
+  const m = { id:nextId++, folder:"sent", from:"You", addr:"jo@postbox.co",
+    subject:subj, time:"Just now", when:"Just now", labels:[], starred:false,
+    preview: (body||"(no body — bold)").slice(0,110), body: (body?body.split("\n"):["(empty)"]), attach:[] };
+  MSGS.unshift(m);
+  $("#cTo").value=""; $("#cSubj").value=""; $("#cBody").value="";
+  closeCompose();
+  state.folder="sent"; state.selectedId=m.id;
+  render();
+  showToast("Posted. “"+subj+"” is on its way to "+to+".");
+}
+function saveDraft(){
+  const to = $("#cTo").value.trim(), subj = $("#cSubj").value.trim() || "(untitled draft)", body = $("#cBody").value.trim();
+  MSGS.unshift({ id:nextId++, folder:"drafts", from:"You", addr:"jo@postbox.co", subject:subj,
+    time:"Just now", when:"Just now", labels:["personal"], starred:false,
+    preview:(body||"(blank — thoughts pending)").slice(0,110), body:(body?body.split("\n"):[""]), attach:[] });
+  $("#cTo").value=""; $("#cSubj").value=""; $("#cBody").value="";
+  closeCompose(); state.folder="drafts"; state.selectedId=null;
+  render(); showToast("Tucked into Drafts. No stamp, no consequences.");
+}
+
+/* ================= WIRING ================= */
+$("#composeBtn").onclick = openCompose;
+$("#composeClose").onclick = closeCompose;
+$("#overlay").onclick = e => { if(e.target===e.currentTarget) closeCompose(); };
+$("#sendBtn").onclick = sendMessage;
+$("#saveDraft").onclick = saveDraft;
+document.addEventListener("keydown", e => {
+  if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==="k"){ e.preventDefault(); $("#searchInput").focus(); }
+  if(e.key==="Escape"){ closeCompose(); document.body.classList.remove("reading-open","nav-open"); }
+});
+$("#searchInput").addEventListener("input", e => { state.query = e.target.value; renderList(); renderReading(); });
+$("#filterClear").onclick = () => { state.labelFilter=null; render(); };
+$("#backBtn").onclick = () => document.body.classList.remove("reading-open");
+$("#menuBtn").onclick = () => document.body.classList.toggle("nav-open");
+function closeNav(){ document.body.classList.remove("nav-open"); }
+$("#calLink").onclick = e => { e.preventDefault(); showToast("Calendar teaser — the real one ships in 2.0. October 16, don't be late."); };
+
+function render(){ renderFolders(); renderLabels(); renderList(); renderReading(); }
+
+/* ================= INIT ================= */
+renderCal();
+render();
+window.matchMedia("(max-width:980px)").addEventListener("change", e => { if(!e.matches) document.body.classList.remove("reading-open"); });
+</script>
+</body>
+</html>

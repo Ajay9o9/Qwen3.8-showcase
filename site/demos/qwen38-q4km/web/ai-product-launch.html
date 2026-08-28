@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORBIT AI — ORBIT-1 is live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Instrument+Serif:ital@1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070809;
+  --bg-2:#0c0e11;
+  --surface:rgba(255,255,255,.035);
+  --surface-2:rgba(255,255,255,.06);
+  --line:rgba(255,255,255,.09);
+  --line-strong:rgba(255,255,255,.16);
+  --text:#eef0f2;
+  --muted:#8f96a0;
+  --muted-2:#5d646e;
+  --amber:#ffb454;
+  --amber-soft:#ffd9a1;
+  --ember:#ff7a3d;
+  --ice:#a8c6d8;
+  --mono:'JetBrains Mono',monospace;
+  --display:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+  --serif:'Instrument Serif',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+/* grain */
+body::before{
+  content:"";
+  position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection{background:rgba(255,180,84,.28);color:#fff}
+a{color:inherit;text-decoration:none}
+.container{width:min(1240px,92vw);margin:0 auto;position:relative;z-index:2}
+
+/* ============ NAV ============ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .35s ease,border-color .35s ease,backdrop-filter .35s ease;
+  border-bottom:1px solid transparent;
+}
+nav.scrolled{
+  background:rgba(7,8,9,.72);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom-color:var(--line);
+}
+.nav-inner{
+  width:min(1240px,92vw);margin:0 auto;
+  display:flex;align-items:center;gap:32px;height:60px;
+}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.14em}
+.logo svg{display:block}
+.nav-links{display:flex;gap:28px;margin-left:12px;font-size:13.5px;color:var(--muted)}
+.nav-links a{transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:14px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--display);font-weight:600;font-size:13.5px;letter-spacing:.02em;
+  padding:10px 18px;border-radius:10px;border:1px solid transparent;
+  cursor:pointer;transition:transform .2s ease,box-shadow .25s ease,background .25s,border-color .25s;
+  background:none;color:var(--text);
+}
+.btn:active{transform:scale(.97)}
+.btn-amber{
+  background:linear-gradient(180deg,#ffcb82,#ffb454 55%,#f39a3c);
+  color:#201205;
+  box-shadow:0 0 0 1px rgba(255,180,84,.35),0 8px 28px -8px rgba(255,150,50,.45);
+}
+.btn-amber:hover{box-shadow:0 0 0 1px rgba(255,180,84,.55),0 10px 36px -6px rgba(255,160,60,.6)}
+.btn-ghost{border-color:var(--line-strong);background:rgba(255,255,255,.03)}
+.btn-ghost:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.28)}
+.btn-sm{padding:7px 14px;font-size:12.5px;border-radius:8px}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;
+  padding:120px 0 60px;
+  background:
+    radial-gradient(1100px 640px at 78% 42%,rgba(255,140,50,.10),transparent 62%),
+    radial-gradient(700px 420px at 15% 8%,rgba(168,198,216,.05),transparent 60%),
+    linear-gradient(180deg,#0b0c0f 0%,var(--bg) 70%);
+  overflow:hidden;
+}
+.hero::after{ /* hairline horizon */
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line-strong) 30%,rgba(255,180,84,.35) 50%,var(--line-strong) 70%,transparent);
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--amber-soft);
+  border:1px solid rgba(255,180,84,.28);border-radius:100px;
+  padding:7px 16px;background:rgba(255,180,84,.06);
+  margin-bottom:28px;
+}
+.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px 2px rgba(255,180,84,.7);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1{
+  font-family:var(--display);
+  font-size:clamp(44px,5.4vw,84px);
+  line-height:1.02;font-weight:600;letter-spacing:-.025em;
+  margin-bottom:26px;
+}
+h1 .it{
+  font-family:var(--serif);font-style:italic;font-weight:400;
+  letter-spacing:0;color:var(--amber-soft);
+  text-shadow:0 0 40px rgba(255,180,84,.35);
+}
+.hero-sub{
+  font-size:17.5px;color:var(--muted);max-width:520px;margin-bottom:38px;line-height:1.7;
+}
+.hero-sub b{color:var(--text);font-weight:500}
+.hero-ctas{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.hero-meta{
+  margin-top:44px;display:flex;gap:36px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:12px;color:var(--muted-2);letter-spacing:.04em;
+}
+.hero-meta span b{display:block;color:var(--muted);font-size:13px;margin-bottom:2px}
+.viz-wrap{
+  position:relative;aspect-ratio:1/1;max-width:560px;justify-self:center;width:100%;
+}
+#orbit{position:absolute;inset:0;width:100%;height:100%}
+.viz-caption{
+  position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted-2);
+  white-space:nowrap;
+}
+/* social strip */
+.strip{
+  border-top:1px solid var(--line);
+  padding:26px 0;
+  position:relative;z-index:2;
+}
+.strip-inner{display:flex;align-items:center;gap:14px 44px;flex-wrap:wrap;justify-content:space-between}
+.strip-label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
+.strip-logos{display:flex;gap:40px;flex-wrap:wrap;align-items:center}
+.strip-logos span{
+  font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.06em;color:var(--muted-2);
+  opacity:.85;transition:color .3s,opacity .3s;
+}
+.strip-logos span:hover{color:var(--muted);opacity:1}
+
+/* ============ SECTIONS ============ */
+section{padding:110px 0;position:relative}
+.sec-head{max-width:640px;margin-bottom:56px}
+.kicker{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--amber);margin-bottom:16px;display:flex;align-items:center;gap:12px;
+}
+.kicker::before{content:"";width:28px;height:1px;background:linear-gradient(90deg,var(--amber),transparent)}
+h2{
+  font-family:var(--display);font-size:clamp(30px,3.3vw,46px);font-weight:600;
+  letter-spacing:-.02em;line-height:1.1;margin-bottom:16px;
+}
+h2 .it{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--amber-soft)}
+.sec-head p{color:var(--muted);font-size:16.5px;line-height:1.7}
+
+/* ============ BENCHMARKS ============ */
+#benchmarks{background:linear-gradient(180deg,var(--bg),var(--bg-2) 30%,var(--bg) 100%)}
+.bench-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+}
+.bench-card{
+  position:relative;border:1px solid var(--line);border-radius:16px;
+  padding:28px 26px 24px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
+  backdrop-filter:blur(6px);
+  transition:transform .35s cubic-bezier(.2,.7,.3,1),border-color .35s;
+}
+.bench-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,180,84,.6),transparent);
+  opacity:0;transition:opacity .35s;
+}
+.bench-card:hover{transform:translateY(-5px);border-color:var(--line-strong)}
+.bench-card:hover::before{opacity:1}
+.bench-tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);margin-bottom:20px}
+.bench-num{
+  font-family:var(--display);font-weight:600;font-size:46px;letter-spacing:-.03em;line-height:1;
+  background:linear-gradient(180deg,#fff 30%,#c9cdd3);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.bench-num .unit{font-size:24px;color:var(--muted-2);-webkit-text-fill-color:var(--muted-2)}
+.bench-name{font-size:14px;color:var(--muted);margin-top:14px;line-height:1.45}
+.bench-delta{
+  margin-top:18px;display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:12px;color:#7ee2b0;
+  border:1px solid rgba(126,226,176,.25);background:rgba(126,226,176,.06);
+  padding:4px 10px;border-radius:100px;
+}
+
+/* ============ CAPABILITIES ============ */
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cap-card{
+  border:1px solid var(--line);border-radius:16px;padding:30px 28px;
+  background:var(--surface);
+  transition:border-color .35s,background .35s,transform .35s cubic-bezier(.2,.7,.3,1);
+}
+.cap-card:hover{border-color:var(--line-strong);background:var(--surface-2);transform:translateY(-4px)}
+.cap-icon{
+  width:42px;height:42px;border-radius:11px;display:grid;place-items:center;margin-bottom:22px;
+  border:1px solid rgba(255,180,84,.28);
+  background:radial-gradient(120px 60px at 30% 0%,rgba(255,180,84,.14),transparent 70%),rgba(255,180,84,.04);
+  color:var(--amber);
+}
+.cap-card h3{font-family:var(--display);font-size:17.5px;font-weight:600;letter-spacing:-.01em;margin-bottom:10px}
+.cap-card p{font-size:14.5px;color:var(--muted);line-height:1.65}
+.cap-spec{
+  margin-top:18px;padding-top:16px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:11.5px;color:var(--muted-2);letter-spacing:.05em;
+}
+.cap-spec em{color:var(--amber-soft);font-style:normal}
+
+/* ============ API ============ */
+#api{background:linear-gradient(180deg,var(--bg),#0b0c10 40%,var(--bg))}
+.api-wrap{
+  display:grid;grid-template-columns:.9fr 1.35fr;gap:64px;align-items:start;
+}
+.api-side p{color:var(--muted);font-size:15.5px;line-height:1.7;margin-bottom:28px}
+.api-list{list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:34px}
+.api-list li{
+  display:flex;gap:12px;align-items:flex-start;font-size:14.5px;color:var(--muted);
+}
+.api-list svg{flex:none;margin-top:4px;color:var(--amber)}
+.code-window{
+  border:1px solid var(--line-strong);border-radius:16px;overflow:hidden;
+  background:linear-gradient(180deg,#101216,#0b0d10);
+  box-shadow:0 30px 80px -30px rgba(0,0,0,.8),0 0 0 1px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.code-bar{
+  display:flex;align-items:center;gap:12px;padding:13px 18px;
+  border-bottom:1px solid var(--line);background:rgba(255,255,255,.025);
+}
+.code-dots{display:flex;gap:6px}
+.code-dots i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.14);display:block}
+.code-dots i:first-child{background:rgba(255,122,61,.55)}
+.code-tabs{display:flex;gap:4px;margin-left:8px}
+.code-tab{
+  font-family:var(--mono);font-size:12px;color:var(--muted-2);
+  padding:5px 12px;border-radius:7px;cursor:pointer;border:1px solid transparent;
+  background:none;transition:all .2s;
+}
+.code-tab:hover{color:var(--muted)}
+.code-tab.active{color:var(--amber-soft);background:rgba(255,180,84,.08);border-color:rgba(255,180,84,.25)}
+.copy-btn{
+  margin-left:auto;font-family:var(--mono);font-size:11.5px;color:var(--muted);
+  background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:7px;
+  padding:5px 12px;cursor:pointer;transition:all .2s;
+}
+.copy-btn:hover{color:var(--text);border-color:var(--line-strong)}
+.copy-btn.done{color:#7ee2b0;border-color:rgba(126,226,176,.35)}
+.code-body{
+  padding:24px 22px;font-family:var(--mono);font-size:13px;line-height:1.75;
+  overflow-x:auto;min-height:340px;white-space:pre;tab-size:2;
+}
+.code-body .c{color:#525a66}          /* comment */
+.code-body .s{color:#9fd8b4}          /* string */
+.code-body .k{color:#ffb454}          /* keyword */
+.code-body .f{color:#a8c6d8}          /* function/key */
+.code-body .n{color:#f2c98c}          /* number */
+.code-body .p{color:#e8ebef}          /* plain */
+
+/* ============ ENTERPRISE CTA ============ */
+.enterprise{
+  position:relative;border:1px solid var(--line-strong);border-radius:24px;
+  padding:76px 64px;overflow:hidden;text-align:left;
+  background:
+    radial-gradient(700px 320px at 85% -10%,rgba(255,140,50,.14),transparent 65%),
+    radial-gradient(500px 300px at 0% 110%,rgba(168,198,216,.06),transparent 60%),
+    linear-gradient(180deg,#101216,#0a0c0f);
+}
+.enterprise::before{
+  content:"";position:absolute;top:0;left:8%;right:8%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,180,84,.7),transparent);
+}
+.ent-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center;position:relative;z-index:2}
+.enterprise h2{margin-bottom:14px}
+.enterprise .sub{color:var(--muted);font-size:16px;line-height:1.7;max-width:520px}
+.ent-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px}
+.ent-badge{
+  border:1px solid var(--line);border-radius:18px;padding:28px;
+  background:rgba(255,255,255,.03);backdrop-filter:blur(8px);
+}
+.ent-badge .row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-family:var(--mono);font-size:13px;color:var(--muted);
+  padding:12px 0;border-bottom:1px solid var(--line);
+}
+.ent-badge .row:last-child{border-bottom:none}
+.ent-badge .row b{color:var(--text);font-weight:500;letter-spacing:.02em}
+.ent-badge .row b.hl{color:var(--amber-soft)}
+
+/* ============ FOOTER ============ */
+footer{border-top:1px solid var(--line);padding:56px 0 44px;background:#060708}
+.foot-grid{display:grid;grid-template-columns:1.4fr repeat(3,.7fr);gap:40px;margin-bottom:48px}
+.foot-brand p{color:var(--muted-2);font-size:13.5px;max-width:280px;margin-top:16px;line-height:1.6}
+.foot-col h4{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2);margin-bottom:16px;font-weight:500}
+.foot-col a{display:block;font-size:14px;color:var(--muted);padding:6px 0;transition:color .2s}
+.foot-col a:hover{color:var(--text)}
+.foot-bottom{
+  border-top:1px solid var(--line);padding-top:26px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  font-family:var(--mono);font-size:11.5px;color:var(--muted-2);letter-spacing:.04em;
+}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.3,1),transform .8s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1024px){
+  .hero-grid{grid-template-columns:1fr;gap:20px}
+  .viz-wrap{max-width:420px;margin-top:20px}
+  .bench-grid{grid-template-columns:repeat(2,1fr)}
+  .cap-grid{grid-template-columns:repeat(2,1fr)}
+  .api-wrap{grid-template-columns:1fr;gap:44px}
+  .ent-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+}
+@media(max-width:600px){
+  section{padding:76px 0}
+  .bench-grid,.cap-grid{grid-template-columns:1fr}
+  .enterprise{padding:48px 28px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo" aria-label="ORBIT AI home">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="3.2" fill="#ffb454"/>
+        <ellipse cx="12" cy="12" rx="10" ry="4.4" stroke="#ffb454" stroke-opacity=".55" transform="rotate(-24 12 12)"/>
+        <circle cx="20.6" cy="8.2" r="1.5" fill="#a8c6d8"/>
+      </svg>
+      ORBIT&nbsp;AI
+    </a>
+    <div class="nav-links">
+      <a href="#benchmarks">Benchmarks</a>
+      <a href="#capabilities">Capabilities</a>
+      <a href="#api">API</a>
+      <a href="#enterprise">Enterprise</a>
+    </div>
+    <div class="nav-right">
+      <a href="#" class="btn btn-ghost btn-sm">Docs</a>
+      <a href="#api" class="btn btn-amber btn-sm">Get API key</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>ORBIT-1 · 400B reasoning model · Now generally available</span>
+      <h1>Intelligence that<br>holds its <span class="it">orbit.</span></h1>
+      <p class="hero-sub">ORBIT-1 is our frontier 400B-class reasoning model — <b>SOTA across coding, science and long-context workloads</b> — served from a single API at a fraction of the latency and cost.</p>
+      <div class="hero-ctas">
+        <a href="#api" class="btn btn-amber">Start building →</a>
+        <a href="#benchmarks" class="btn btn-ghost">See the benchmarks</a>
+      </div>
+      <div class="hero-meta">
+        <span><b>2M tokens</b>context window</span>
+        <span><b>38 ms</b>median TTFT</span>
+        <span><b>99.99%</b>uptime SLA</span>
+      </div>
+    </div>
+    <div class="viz-wrap" aria-hidden="true">
+      <canvas id="orbit"></canvas>
+      <div class="viz-caption">ORBIT-1 · attention field, live</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ SOCIAL STRIP ============ -->
+<div class="strip">
+  <div class="container strip-inner">
+    <span class="strip-label">In production at</span>
+    <div class="strip-logos">
+      <span>HELIOGRAPH</span><span>Vantage&nbsp;Labs</span><span>meridian</span><span>Northwind&nbsp;OS</span><span>parallax.io</span><span>Kepler&nbsp;Fintech</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ BENCHMARKS ============ -->
+<section id="benchmarks">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="kicker">Benchmarks</div>
+      <h2>Measured, not <span class="it">marketed.</span></h2>
+      <p>Independent, reproduced evaluation across the suites that matter for production workloads. ORBIT-1 leads every frontier class — at roughly 30% of the per-token price.</p>
+    </div>
+    <div class="bench-grid">
+      <div class="bench-card reveal d1">
+        <div class="bench-tag">MMLU-Pro</div>
+        <div class="bench-num" data-count="87.3">0</div>
+        <div class="bench-name">Broad academic knowledge with tool access, 5-shot.</div>
+        <span class="bench-delta">▲ +4.1 vs ORBIT-0</span>
+      </div>
+      <div class="bench-card reveal d2">
+        <div class="bench-tag">GPQA Diamond</div>
+        <div class="bench-num" data-count="71.9">0</div>
+        <div class="bench-name">Graduate-level science reasoning, 640 expert questions.</div>
+        <span class="bench-delta">▲ +6.8 vs ORBIT-0</span>
+      </div>
+      <div class="bench-card reveal d3">
+        <div class="bench-tag">SWE-bench Verified</div>
+        <div class="bench-num" data-count="62.4">0</div>
+        <div class="bench-name">Real GitHub issue resolution, end-to-end repo agent.</div>
+        <span class="bench-delta">▲ +9.3 vs ORBIT-0</span>
+      </div>
+      <div class="bench-card reveal d4">
+        <div class="bench-tag">LongBench-2M</div>
+        <div class="bench-num" data-count="93.7">0</div>
+        <div class="bench-name">Needle retention & synthesis across a 2M-token context.</div>
+        <span class="bench-delta">First to pass</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAPABILITIES ============ -->
+<section id="capabilities">
+  <div class="container">
+    <div class="sec-head reveal">
+      <div class="kicker">Capabilities</div>
+      <h2>One model, the whole <span class="it">stack.</span></h2>
+      <p>Every surface of a production model is engineered, not bolted on. Here's what ships in the box.</p>
+    </div>
+    <div class="cap-grid">
+      <div class="cap-card reveal d1">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2v4M10 14v4M2 10h4M14 10h4"/><circle cx="10" cy="10" r="3.2"/></svg>
+        </div>
+        <h3>Native reasoning</h3>
+        <p>Adaptive chain-of-thought with a budget dial. ORBIT-1 spends tokens on thinking only when the problem is worth it — and tells you how many.</p>
+        <div class="cap-spec">think_budget: <em>off → 64k</em> · streaming thoughts</div>
+      </div>
+      <div class="cap-card reveal d2">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="16" height="12" rx="2"/><path d="M5 12l3-3 2.5 2.5L15 7"/></svg>
+        </div>
+        <h3>Vision & multimodal</h3>
+        <p>Images, diagrams, video frames and UI screenshots in a single native stream. Grounding, OCR and chart synthesis without a second model.</p>
+        <div class="cap-spec">up to <em>4K tiles</em> · 128 frames / video</div>
+      </div>
+      <div class="cap-card reveal d3">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 4L3 10l4 6M13 4l4 6-4 6"/></svg>
+        </div>
+        <h3>Deterministic tool use</h3>
+        <p>Typed function schemas with structured outputs, parallel tool calls, and a hard contract: if the call is invalid, the model retries — it never hallucinates a signature.</p>
+        <div class="cap-spec">strict mode · <em>0%</em> schema drift in 1B calls</div>
+      </div>
+      <div class="cap-card reveal d1">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 10c2.5-5 13.5-5 16 0-2.5 5-13.5 5-16 0z"/><circle cx="10" cy="10" r="2.4"/></svg>
+        </div>
+        <h3>2M-token context</h3>
+        <p>Feed it a codebase, a contract, a year of logs. Attention is sparse-scheduled so cost and latency scale sub-linearly with length.</p>
+        <div class="cap-spec">TTFT stays &lt; <em>40 ms</em> at 1M tokens</div>
+      </div>
+      <div class="cap-card reveal d2">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16V4M4 16h12M8 13l3-4 2 2 4-6"/></svg>
+        </div>
+        <h3>Fine-tuning on demand</h3>
+        <p>Full and parameter-efficient fine-tunes on your data in under an hour. Deploy to a private shard, version them, roll back, A/B against the base model.</p>
+        <div class="cap-spec">private shards · <em>1 hr</em> median train time</div>
+      </div>
+      <div class="cap-card reveal d3">
+        <div class="cap-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2l7 3v5c0 4.5-3 7.5-7 8.5C6 17.5 3 14.5 3 10V5l7-3z"/><path d="M7 10l2.2 2.2L13.5 8"/></svg>
+        </div>
+        <h3>Safety as infrastructure</h3>
+        <p>Red-team rubrics run on every training run, a separate guardrail endpoint for live inference, and per-project policy profiles your compliance team actually reads.</p>
+        <div class="cap-spec">SOC 2 II · <em>EU</em> & regional residency</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ API ============ -->
+<section id="api">
+  <div class="container">
+    <div class="api-wrap">
+      <div class="api-side reveal">
+        <div class="kicker">API</div>
+        <h2>Ship it this <span class="it">afternoon.</span></h2>
+        <p>One endpoint, OpenAI-compatible shape, native extensions where they earn their keep. Swap a base URL and you're live — or adopt the native SDK for reasoning budgets and structured output.</p>
+        <ul class="api-list">
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7.5L5.5 11 12 3"/></svg>OpenAI-compatible <b style="color:var(--text);font-weight:500">/v1/chat/completions</b> out of the box</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7.5L5.5 11 12 3"/></svg>Streaming SSE with interleaved <b style="color:var(--text);font-weight:500">reasoning traces</b></li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7.5L5.5 11 12 3"/></svg>Structured output with JSON-schema <b style="color:var(--text);font-weight:500">enforcement</b>, not prompting</li>
+          <li><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 7.5L5.5 11 12 3"/></svg>Regional inference: <b style="color:var(--text);font-weight:500">us · eu · ap</b>, data never leaves</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Read the API reference →</a>
+      </div>
+
+      <div class="code-window reveal d2">
+        <div class="code-bar">
+          <div class="code-dots"><i></i><i></i><i></i></div>
+          <div class="code-tabs">
+            <button class="code-tab active" data-tab="curl">cURL</button>
+            <button class="code-tab" data-tab="python">Python</button>
+            <button class="code-tab" data-tab="js">TypeScript</button>
+          </div>
+          <button class="copy-btn" id="copyBtn">copy</button>
+        </div>
+        <div class="code-body" id="codeBody"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ENTERPRISE ============ -->
+<section id="enterprise">
+  <div class="container">
+    <div class="enterprise reveal">
+      <div class="ent-grid">
+        <div>
+          <div class="kicker">Enterprise</div>
+          <h2>Scale ORBIT across<br>your entire <span class="it">organization.</span></h2>
+          <p class="sub">Dedicated capacity, private fine-tune shards, single-tenant guardrails and a migration team that has moved 40+ platforms off their old stack. Production-grade from day one — or your first 30 days are on us.</p>
+          <div class="ent-actions">
+            <a href="#" class="btn btn-amber">Talk to sales</a>
+            <a href="#" class="btn btn-ghost">Read the architecture brief</a>
+          </div>
+        </div>
+        <div class="ent-badge">
+          <div class="row"><span>Throughput</span><b class="hl">1.2M tok/s, pooled</b></div>
+          <div class="row"><span>Uptime SLA</span><b>99.99% + credits</b></div>
+          <div class="row"><span>Data residency</span><b>US · EU · APAC</b></div>
+          <div class="row"><span>Onboarding</span><b class="hl">&lt; 2 weeks</b></div>
+          <div class="row"><span>Support</span><b>24/7, named engineer</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="3.2" fill="#ffb454"/>
+            <ellipse cx="12" cy="12" rx="10" ry="4.4" stroke="#ffb454" stroke-opacity=".55" transform="rotate(-24 12 12)"/>
+            <circle cx="20.6" cy="8.2" r="1.5" fill="#a8c6d8"/>
+          </svg>
+          ORBIT&nbsp;AI
+        </a>
+        <p>Frontier models, stable infrastructure. Built by Orbit Labs, 2019 — San Francisco & Zurich.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Platform</h4>
+        <a href="#">ORBIT-1</a><a href="#">Fine-tuning</a><a href="#">Guardrails</a><a href="#">Pricing</a>
+      </div>
+      <div class="foot-col">
+        <h4>Developers</h4>
+        <a href="#">API reference</a><a href="#">Cookbooks</a><a href="#">Status</a><a href="#">Changelog</a>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="#">About</a><a href="#">Research</a><a href="#">Security</a><a href="#">Careers</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 ORBIT LABS, INC. · MODEL CARD & SAFETY REPORT AVAILABLE</span>
+      <span>TERMS · PRIVACY · DPA</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- NAV scroll state ---------- */
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 24), {passive:true});
+
+/* ---------- Reveal on scroll ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      const num = e.target.querySelector ? e.target.querySelector('.bench-num') : null;
+      if (num && !num.dataset.done) countUp(num);
+      io.unobserve(e.target);
+    }
+  });
+}, {threshold:.18});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+function countUp(el){
+  el.dataset.done = '1';
+  const target = parseFloat(el.dataset.count);
+  const dur = 1400, t0 = performance.now();
+  function tick(t){
+    const p = Math.min((t - t0)/dur, 1);
+    const ease = 1 - Math.pow(1-p, 3);
+    el.textContent = (target * ease).toFixed(1);
+    if (p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* ---------- Code tabs ---------- */
+const snippets = {
+curl: `<span class="c"># One call. Streaming reasoning included.</span>
+<span class="p">curl https://api.orbit.ai/v1/chat/completions \\</span>
+<span class="p">  -H </span><span class="s">"Authorization: Bearer $ORBIT_API_KEY"</span><span class="p"> \\</span>
+<span class="p">  -d '{</span>
+<span class="p">    </span><span class="k">"model"</span><span class="p">: </span><span class="s">"orbit-1-400b"</span><span class="p">,</span>
+<span class="p">    </span><span class="k">"messages"</span><span class="p">: [{</span><span class="k">"role"</span><span class="p">: </span><span class="s">"user"</span><span class="p">,</span>
+<span class="p">             </span><span class="k">"content"</span><span class="p">: </span><span class="s">"Refactor this module and explain the tradeoffs."</span><span class="p">}],</span>
+<span class="p">    </span><span class="k">"temperature"</span><span class="p">: </span><span class="n">0.2</span><span class="p">,</span>
+<span class="p">    </span><span class="k">"reasoning"</span><span class="p">: {</span><span class="k">"budget"</span><span class="p">: </span><span class="s">"auto"</span><span class="p">},</span>
+<span class="p">    </span><span class="k">"stream"</span><span class="p">: </span><span class="n">true</span>
+<span class="p">  }'</span>`,
+python: `<span class="c"># pip install orbit-ai</span>
+<span class="k">from</span> <span class="f">orbit</span> <span class="k">import</span> <span class="f">Orbit</span>
+
+client = <span class="f">Orbit</span>(<span class="f">region</span>=<span class="s">"eu"</span>)
+
+resp = client.<span class="f">chat</span>(
+    model=<span class="s">"orbit-1-400b"</span>,
+    messages=[{
+        <span class="s">"role"</span>: <span class="s">"user"</span>,
+        <span class="s">"content"</span>: <span class="s">"Refactor this module and explain the tradeoffs."</span>,
+    }],
+    temperature=<span class="n">0.2</span>,
+    reasoning_budget=<span class="s">"auto"</span>,
+)
+
+<span class="k">for</span> chunk <span class="k">in</span> resp.<span class="f">stream</span>():
+    <span class="k">if</span> chunk.reasoning:   <span class="c"># thinking, streamed first</span>
+        <span class="f">print</span>(<span class="s">"◆ "</span>, chunk.reasoning, end=<span class="s">""</span>)
+    <span class="k">else</span>:
+        <span class="f">print</span>(chunk.text, end=<span class="s">""</span>)`,
+js: `<span class="c">// npm i @orbit/sdk</span>
+<span class="k">import</span> { <span class="f">Orbit</span> } <span class="k">from</span> <span class="s">"@orbit/sdk"</span>;
+
+<span class="k">const</span> client = <span class="k">new</span> <span class="f">Orbit</span>({ region: <span class="s">"us"</span> });
+
+<span class="k">const</span> stream = <span class="k">await</span> client.<span class="f">chat</span>({
+  model: <span class="s">"orbit-1-400b"</span>,
+  messages: [{
+    role: <span class="s">"user"</span>,
+    content: <span class="s">"Refactor this module and explain the tradeoffs."</span>,
+  }],
+  temperature: <span class="n">0.2</span>,
+  reasoning: { budget: <span class="s">"auto"</span> },
+  stream: <span class="k">true</span>,
+});
+
+<span class="k">for await</span> (<span class="k">const</span> ev <span class="k">of</span> stream) {
+  <span class="k">if</span> (ev.type === <span class="s">"reasoning"</span>) renderThought(ev.delta);
+  <span class="k">else if</span> (ev.type === <span class="s">"text"</span>) append(ev.delta);
+}`
+};
+const codeBody = document.getElementById('codeBody');
+codeBody.innerHTML = snippets.curl;
+document.querySelectorAll('.code-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    codeBody.innerHTML = snippets[tab.dataset.tab];
+  });
+});
+
+/* ---------- Copy ---------- */
+const copyBtn = document.getElementById('copyBtn');
+copyBtn.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(codeBody.innerText);
+    copyBtn.textContent = 'copied ✓';
+    copyBtn.classList.add('done');
+    setTimeout(() => { copyBtn.textContent = 'copy'; copyBtn.classList.remove('done'); }, 1600);
+  } catch(e) {}
+});
+
+/* ---------- ORBIT visualization (canvas) ---------- */
+(() => {
+  const canvas = document.getElementById('orbit');
+  const ctx = canvas.getContext('2d');
+  let W, H, cx, cy, scale;
+  const mouse = {x:.5, y:.5};
+  let t = 0;
+
+  function resize(){
+    const r = canvas.getBoundingClientRect();
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = r.width * dpr;
+    canvas.height = r.height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    W = r.width; H = r.height;
+    cx = W/2; cy = H/2;
+    scale = Math.min(W, H) / 2;
+  }
+  addEventListener('resize', resize);
+  resize();
+
+  const wrap = canvas.parentElement;
+  wrap.addEventListener('mousemove', e => {
+    const r = wrap.getBoundingClientRect();
+    mouse.x = (e.clientX - r.left) / r.width - .5;
+    mouse.y = (e.clientY - r.top) / r.height - .5;
+  });
+
+  const AMBER = [255, 180, 84];
+  const EMBER = [255, 122, 61];
+  const ICE   = [168, 198, 216];
+
+  // orbit definitions: [rx, ry, tilt, speed, particleCount, colorMix]
+  const rings = [
+    { rx:.92, ry:.30, tilt:-0.42, speed:.21, n:5,  mix:.15 },
+    { rx:.74, ry:.46, tilt: 0.55, speed:-.15, n:4, mix:.45 },
+    { rx:.58, ry:.20, tilt: 1.05, speed:.34, n:6,  mix:.05 },
+    { rx:.40, ry:.34, tilt:-0.9,  speed:-.46,n:3,  mix:.85 },
+  ];
+
+  // static starfield
+  const stars = Array.from({length:70}, () => ({
+    x: Math.random(), y: Math.random(),
+    s: Math.random()*1.1 + .3,
+    a: Math.random()*.4 + .1,
+    tw: Math.random()*2*Math.PI
+  }));
+
+  // faint constellation links between ring particles
+  function ringPoint(ring, k, time){
+    const ang = time * ring.speed + k * (Math.PI*2 / ring.n);
+    const x = Math.cos(ang) * ring.rx;
+    const y = Math.sin(ang) * ring.ry;
+    const c = Math.cos(ring.tilt + mouse.x*.12), s = Math.sin(ring.tilt + mouse.x*.12);
+    return [cx + (x*c - y*s) * scale * .92 + mouse.x*14,
+            cy + (x*s + y*c) * scale * .92 + mouse.y*14];
+  }
+  function mix(a, b, m){ return [a[0]+(b[0]-a[0])*m, a[1]+(b[1]-a[1])*m, a[2]+(b[2]-a[2])*m]; }
+  const rgba = (c, a) => `rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a})`;
+
+  function draw(){
+    t += 0.016;
+    ctx.clearRect(0, 0, W, H);
+
+    // stars
+    stars.forEach(st => {
+      const a = st.a * (0.6 + 0.4*Math.sin(t*1.2 + st.tw));
+      ctx.fillStyle = rgba(ICE, a);
+      ctx.beginPath();
+      ctx.arc(st.x*W, st.y*H, st.s, 0, 7);
+      ctx.fill();
+    });
+
+    // ring strokes
+    rings.forEach(r => {
+      ctx.save();
+      ctx.translate(cx + mouse.x*14, cy + mouse.y*14);
+      ctx.rotate(r.tilt + mouse.x*.12);
+      ctx.strokeStyle = rgba(AMBER, .13);
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, r.rx*scale*.92, r.ry*scale*.92, 0, 0, Math.PI*2);
+      ctx.stroke();
+      ctx.restore();
+    });
+
+    // links between all particles (sparse)
+    const pts = [];
+    rings.forEach(r => { for(let k=0;k<r.n;k++) pts.push(ringPoint(r, k, t)); });
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx = pts[i][0]-pts[j][0], dy = pts[i][1]-pts[j][1];
+        const d = Math.hypot(dx, dy);
+        const maxD = scale*.75;
+        if (d < maxD){
+          ctx.strokeStyle = rgba(ICE, (1 - d/maxD)*.14);
+          ctx.lineWidth = .7;
+          ctx.beginPath();
+          ctx.moveTo(pts[i][0], pts[i][1]);
+          ctx.lineTo(pts[j][0], pts[j][1]);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // core glow (pulsing)
+    const pulse = 1 + Math.sin(t*1.4)*.06;
+    let g = ctx.createRadialGradient(cx, cy, 0, cx, cy, scale*.55*pulse);
+    g.addColorStop(0,   rgba(AMBER, .5));
+    g.addColorStop(.18, rgba(EMBER, .16));
+    g.addColorStop(.5,  rgba(EMBER, .05));
+    g.addColorStop(1,   'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+
+    // core
+    g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 14*pulse);
+    g.addColorStop(0, '#fff7ea');
+    g.addColorStop(.5, rgba(AMBER, .95));
+    g.addColorStop(1, rgba(EMBER, 0));
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 14*pulse, 0, 7);
+    ctx.fill();
+
+    // particles
+    pts.forEach((p, idx) => {
+      const rDef = rings[Math.floor(idx / rings[0].n)];
+      const col = mix(ICE, EMBER, rDef ? rDef.mix : .5);
+      const g2 = ctx.createRadialGradient(p[0], p[1], 0, p[0], p[1], 11);
+      g2.addColorStop(0, rgba(col, .9));
+      g2.addColorStop(1, rgba(col, 0));
+      ctx.fillStyle = g2;
+      ctx.beginPath();
+      ctx.arc(p[0], p[1], 11, 0, 7);
+      ctx.fill();
+      ctx.fillStyle = rgba(col, 1);
+      ctx.beginPath();
+      ctx.arc(p[0], p[1], 2.1, 0, 7);
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

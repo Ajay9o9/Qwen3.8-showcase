@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM / DASHBOARD — Ledger &amp; Loop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3EDE0;
+  --card:#FBF8F0;
+  --card-2:#F6F1E5;
+  --line:#E3DCC9;
+  --line-2:#D5CDB6;
+  --ink:#14201B;
+  --ink-2:#3C4A42;
+  --muted:#77816F;
+  --pine:#0D2A22;
+  --pine-2:#123A2E;
+  --pine-3:#1A4A3B;
+  --amber:#E9A13B;
+  --coral:#E0562F;
+  --teal:#2E7D6B;
+  --plum:#7A5FA0;
+  --shadow:0 1px 2px rgba(20,32,27,.06), 0 8px 24px -12px rgba(20,32,27,.18);
+  --r:14px;
+  --disp:"Space Grotesk",sans-serif;
+  --body:"Instrument Sans",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--body);
+  background:var(--paper);
+  color:var(--ink);
+  display:grid;
+  grid-template-columns:236px 1fr;
+  overflow:hidden;
+  font-size:14px;
+  line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--amber);color:var(--ink)}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:99px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* ============ SIDEBAR ============ */
+.sidebar{
+  background:var(--pine);
+  color:#DDE8DC;
+  display:flex;flex-direction:column;
+  padding:22px 16px;
+  position:relative;
+}
+.sidebar::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(500px 260px at -10% 0%, rgba(233,161,59,.10), transparent 60%),
+    radial-gradient(420px 300px at 110% 100%, rgba(46,125,107,.22), transparent 60%);
+}
+.brand{display:flex;align-items:center;gap:11px;padding:2px 8px 20px;position:relative;z-index:1}
+.brand-mark{
+  width:38px;height:38px;border-radius:11px;flex:none;
+  background:linear-gradient(145deg,var(--amber),#c97a1e);
+  display:grid;place-items:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35), 0 4px 14px -4px rgba(233,161,59,.5);
+}
+.brand h1{font-family:var(--disp);font-size:16px;font-weight:700;color:#F5F1E6;letter-spacing:.02em;line-height:1.1}
+.brand small{display:block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#8FAF9E;font-weight:600}
+.nav-label{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#6E8B7C;font-weight:700;padding:14px 10px 8px;position:relative;z-index:1}
+.nav{display:flex;flex-direction:column;gap:2px;position:relative;z-index:1}
+.nav a{
+  display:flex;align-items:center;gap:11px;
+  padding:9px 10px;border-radius:10px;
+  color:#B7CBBB;text-decoration:none;font-weight:500;font-size:13.5px;
+  transition:background .18s,color .18s;
+  position:relative;
+}
+.nav a svg{width:18px;height:18px;flex:none;opacity:.85}
+.nav a:hover{background:rgba(255,255,255,.06);color:#EEF4EC}
+.nav a.active{background:var(--pine-3);color:#F7F3E8;font-weight:600}
+.nav a.active::before{content:"";position:absolute;left:-16px;top:8px;bottom:8px;width:3px;border-radius:99px;background:var(--amber)}
+.nav .count{margin-left:auto;font-family:var(--disp);font-size:11px;font-weight:600;background:rgba(255,255,255,.1);padding:1px 7px;border-radius:99px;color:#D8E4D8}
+.nav a.active .count{background:var(--amber);color:var(--ink)}
+.side-card{
+  margin-top:auto;background:var(--pine-2);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;padding:12px;position:relative;z-index:1;
+}
+.side-card h4{font-family:var(--disp);font-size:12px;color:#F0ECDE;font-weight:600;margin-bottom:6px}
+.meter{height:6px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden}
+.meter i{display:block;height:100%;width:68%;background:linear-gradient(90deg,var(--teal),var(--amber));border-radius:99px}
+.side-card p{font-size:11px;color:#8FAF9E;margin-top:7px}
+.side-card p b{color:#E9E4D2;font-family:var(--disp)}
+.side-user{display:flex;align-items:center;gap:10px;padding:16px 8px 4px;position:relative;z-index:1}
+.side-user .meta{line-height:1.25}
+.side-user .meta b{display:block;font-size:13px;color:#F0ECDE;font-weight:600}
+.side-user .meta span{font-size:11px;color:#8FAF9E}
+
+/* avatars */
+.av{
+  border-radius:50%;display:grid;place-items:center;
+  font-family:var(--disp);font-weight:700;color:#fff;flex:none;
+  letter-spacing:.02em;
+  box-shadow:inset 0 -3px 6px rgba(0,0,0,.18), 0 1px 2px rgba(0,0,0,.15);
+}
+.av-1{background:linear-gradient(140deg,#3C8C74,#1F5B48)}
+.av-2{background:linear-gradient(140deg,#E0562F,#A33418)}
+.av-3{background:linear-gradient(140deg,#7A5FA0,#4E3A70)}
+.av-4{background:linear-gradient(140deg,#E9A13B,#B3711A)}
+.av-5{background:linear-gradient(140deg,#2C6E8F,#174359)}
+.av-s{width:32px;height:32px;font-size:12px}
+.av-m{width:40px;height:40px;font-size:14px}
+.av-stack{display:flex}
+.av-stack .av{margin-left:-9px;border:2px solid var(--card);width:26px;height:26px;font-size:10px}
+.av-stack .av:first-child{margin-left:0}
+
+/* ============ MAIN ============ */
+.main{display:flex;flex-direction:column;overflow:hidden;background:
+  radial-gradient(900px 500px at 85% -10%, rgba(233,161,59,.10), transparent 60%),
+  var(--paper);}
+.topbar{
+  height:66px;flex:none;
+  display:flex;align-items:center;gap:18px;
+  padding:0 28px;
+  border-bottom:1px solid var(--line);
+  background:rgba(251,248,240,.75);
+  backdrop-filter:blur(8px);
+  position:relative;z-index:40;
+}
+.crumb b{font-family:var(--disp);font-size:17px;font-weight:700;display:block;line-height:1.15}
+.crumb span{font-size:12px;color:var(--muted)}
+.search{
+  position:relative;flex:1;max-width:520px;margin-left:26px;
+}
+.search input{
+  width:100%;height:42px;border-radius:12px;border:1px solid var(--line-2);
+  background:var(--card);
+  padding:0 42px 0 40px;font-family:var(--body);font-size:14px;color:var(--ink);
+  outline:none;transition:border-color .18s, box-shadow .18s;
+}
+.search input::placeholder{color:#9AA290}
+.search input:focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(46,125,107,.14)}
+.search .lens{position:absolute;left:13px;top:12px;width:18px;height:18px;color:var(--muted)}
+.search kbd{
+  position:absolute;right:11px;top:10px;font-family:var(--disp);font-size:11px;
+  background:var(--card-2);border:1px solid var(--line-2);border-bottom-width:2px;
+  border-radius:6px;padding:1px 7px;color:var(--ink-2);font-weight:600;
+}
+.search-results{
+  position:absolute;top:50px;left:0;right:0;
+  background:var(--card);border:1px solid var(--line-2);border-radius:14px;
+  box-shadow:var(--shadow);overflow:hidden;display:none;
+  max-height:340px;overflow-y:auto;
+}
+.search-results.open{display:block}
+.sr-head{padding:10px 14px 6px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.sr-item{display:flex;align-items:center;gap:11px;padding:9px 14px;cursor:pointer;border-left:3px solid transparent}
+.sr-item:hover{background:var(--card-2);border-left-color:var(--amber)}
+.sr-item .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:none;font-family:var(--disp);font-size:10px;font-weight:700}
+.ic-deal{background:#FBEAD3;color:#A66A14}
+.ic-contact{background:#DCEBE2;color:#1F5B48}
+.ic-task{background:#F7E0D6;color:#A33418}
+.sr-item b{display:block;font-size:13.5px;font-weight:600;line-height:1.2}
+.sr-item span{font-size:11.5px;color:var(--muted)}
+.sr-empty{padding:18px 14px;font-size:13px;color:var(--muted)}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:10px}
+.icon-btn{
+  width:40px;height:40px;border-radius:11px;border:1px solid var(--line-2);
+  background:var(--card);display:grid;place-items:center;color:var(--ink-2);
+  transition:transform .15s, box-shadow .15s;position:relative;
+}
+.icon-btn:hover{transform:translateY(-1px);box-shadow:var(--shadow)}
+.icon-btn .dot{position:absolute;top:9px;right:10px;width:7px;height:7px;border-radius:50%;background:var(--coral);border:2px solid var(--card)}
+.btn-primary{
+  display:flex;align-items:center;gap:8px;height:42px;padding:0 18px;border-radius:11px;
+  background:var(--pine);color:#F3EEE0;font-weight:600;font-size:13.5px;font-family:var(--disp);
+  box-shadow:0 6px 16px -6px rgba(13,42,34,.5);transition:transform .15s, box-shadow .15s;
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 10px 22px -8px rgba(13,42,34,.55)}
+.menu-toggle{display:none}
+
+/* ============ CONTENT GRID ============ */
+.content{
+  flex:1;min-height:0;
+  display:grid;grid-template-columns:1fr 336px;gap:22px;
+  padding:22px 28px;overflow:hidden;
+}
+.left{display:flex;flex-direction:column;gap:20px;min-width:0;min-height:0}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;flex:none}
+.stat{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:15px 17px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  transition:transform .18s;
+}
+.stat:hover{transform:translateY(-2px)}
+.stat h3{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;align-items:center;gap:7px}
+.stat .val{font-family:var(--disp);font-size:26px;font-weight:700;letter-spacing:-.01em;margin-top:7px;line-height:1}
+.stat .val small{font-size:15px;font-weight:600;color:var(--ink-2)}
+.stat .foot{display:flex;align-items:flex-end;justify-content:space-between;margin-top:10px;gap:8px}
+.delta{font-family:var(--disp);font-size:12px;font-weight:700;padding:2px 8px;border-radius:99px}
+.delta.up{background:#DCEBE2;color:#1F5B48}
+.delta.down{background:#F7E0D6;color:#A33418}
+.stat .sub{font-size:11px;color:var(--muted)}
+.spark{width:78px;height:34px;flex:none}
+.spark polyline{fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.stat .sparkline-fill{opacity:.14}
+.stat.amber{background:linear-gradient(150deg,#123A2E,#0D2A22);border-color:#0D2A22;color:#F1ECDD}
+.stat.amber h3{color:#8FAF9E}
+.stat.amber .sub{color:#7FA190}
+.stat.amber .spark polyline{stroke:var(--amber)}
+.bars{display:flex;align-items:flex-end;gap:4px;height:34px;flex:none}
+.bars i{width:7px;border-radius:3px 3px 1px 1px;background:linear-gradient(180deg,var(--amber),#B3711A);opacity:.9}
+
+/* ============ BOARD ============ */
+.board-wrap{flex:1;min-height:0;display:flex;flex-direction:column}
+.board-head{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex:none}
+.board-head h2{font-family:var(--disp);font-size:17px;font-weight:700}
+.board-head .pill{font-size:11px;font-weight:600;background:var(--card-2);border:1px solid var(--line-2);padding:3px 10px;border-radius:99px;color:var(--ink-2)}
+.board-head .filter{margin-left:auto;display:flex;gap:6px}
+.board-head .filter button{font-size:12px;font-weight:600;color:var(--muted);padding:5px 12px;border-radius:99px;border:1px solid transparent;transition:all .15s}
+.board-head .filter button:hover{color:var(--ink)}
+.board-head .filter button.on{background:var(--pine);color:#F1ECDD}
+.board{
+  flex:1;min-height:0;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+  overflow-x:auto;padding-bottom:4px;
+}
+.col{
+  background:var(--card-2);border:1px solid var(--line);border-radius:var(--r);
+  display:flex;flex-direction:column;min-height:0;
+  transition:box-shadow .2s, border-color .2s;
+}
+.col.drag-over{border-color:var(--teal);box-shadow:0 0 0 3px rgba(46,125,107,.18)}
+.col-head{padding:13px 14px 10px;border-bottom:1px dashed var(--line-2);flex:none}
+.col-head .row{display:flex;align-items:center;gap:8px}
+.col-head .cdot{width:9px;height:9px;border-radius:3px;flex:none}
+.col-head h3{font-family:var(--disp);font-size:13.5px;font-weight:700}
+.col-head .n{margin-left:auto;font-family:var(--disp);font-size:11px;font-weight:600;background:var(--card);border:1px solid var(--line-2);padding:1px 8px;border-radius:99px;color:var(--muted)}
+.col-head .sum{font-family:var(--disp);font-size:12px;font-weight:600;color:var(--ink-2);margin-top:5px}
+.col-body{flex:1;min-height:0;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:10px}
+.deal{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:12px 13px;box-shadow:0 1px 2px rgba(20,32,27,.05);
+  cursor:grab;transition:transform .16s, box-shadow .16s, opacity .16s;
+  position:relative;
+}
+.deal:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.deal.dragging{opacity:.45;transform:rotate(1.5deg) scale(.98);cursor:grabbing}
+.deal .top{display:flex;align-items:flex-start;gap:8px}
+.deal .name{font-weight:600;font-size:13.5px;line-height:1.25}
+.deal .co{font-size:11.5px;color:var(--muted);margin-top:1px}
+.deal .amt{margin-left:auto;font-family:var(--disp);font-size:13px;font-weight:700;white-space:nowrap}
+.deal .meta{display:flex;align-items:center;gap:8px;margin-top:10px}
+.chip{font-size:10.5px;font-weight:700;padding:2.5px 9px;border-radius:99px;letter-spacing:.02em}
+.chip.q{background:#E7EFE2;color:#4C6B3A}
+.chip.p{background:#FBEAD3;color:#A66A14}
+.chip.n{background:#E3E9F2;color:#3E5A85}
+.chip.w{background:#DCEBE2;color:#1F5B48}
+.deal .due{margin-left:auto;font-size:10.5px;color:var(--muted);font-family:var(--disp);font-weight:600}
+.deal .foot{display:flex;align-items:center;margin-top:11px;padding-top:10px;border-top:1px solid var(--line)}
+.deal .foot .av{width:24px;height:24px;font-size:9.5px}
+.deal .foot span{font-size:11px;color:var(--muted);margin-left:8px}
+.deal .foot .go{margin-left:auto;color:var(--muted);font-size:15px;opacity:0;transition:opacity .15s}
+.deal:hover .foot .go{opacity:1}
+.col.empty-hint{border-style:dashed}
+.hint{border:1.5px dashed var(--line-2);border-radius:10px;padding:16px 8px;text-align:center;font-size:12px;color:var(--muted);flex:1;display:flex;align-items:center}
+
+/* ============ RIGHT RAIL ============ */
+.rail{display:flex;flex-direction:column;gap:16px;min-height:0}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:0;
+}
+.card-head{display:flex;align-items:center;gap:9px;padding:14px 16px 10px;flex:none}
+.card-head h3{font-family:var(--disp);font-size:14.5px;font-weight:700}
+.card-head .link{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--teal)}
+.card-head .link:hover{text-decoration:underline}
+.badge{font-family:var(--disp);font-size:10.5px;font-weight:700;background:var(--pine);color:#F1ECDD;padding:2px 8px;border-radius:99px}
+
+/* contacts */
+.contacts{flex:none;max-height:280px}
+.contact-list{overflow-y:auto;padding:0 8px 8px}
+.contact{display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:10px;cursor:pointer;transition:background .15s}
+.contact:hover{background:var(--card-2)}
+.contact b{display:block;font-size:13px;font-weight:600;line-height:1.2}
+.contact span{font-size:11px;color:var(--muted)}
+.contact .tag{margin-left:auto;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.tag-cust{background:#DCEBE2;color:#1F5B48}
+.tag-lead{background:#FBEAD3;color:#A66A14}
+.tag-part{background:#E3E9F2;color:#3E5A85}
+
+/* activity */
+.activity{flex:1;min-height:150px}
+.feed{overflow-y:auto;padding:0 16px 12px}
+.event{display:flex;gap:12px;padding:9px 0;position:relative}
+.event + .event::before{content:"";position:absolute;left:14px;top:-8px;height:18px;width:1.5px;background:var(--line-2)}
+.event .ei{width:29px;height:29px;border-radius:9px;flex:none;display:grid;place-items:center}
+.ei-call{background:#E3E9F2;color:#3E5A85}
+.ei-mail{background:#FBEAD3;color:#A66A14}
+.ei-note{background:#E7EFE2;color:#4C6B3A}
+.ei-win{background:#DCEBE2;color:#1F5B48}
+.ei-doc{background:#F0E4EF;color:#7A5FA0}
+.event .ei svg{width:14px;height:14px}
+.event p{font-size:12.5px;color:var(--ink-2);line-height:1.4}
+.event p b{color:var(--ink);font-weight:600}
+.event time{display:block;font-size:10.5px;color:var(--muted);margin-top:2px;font-family:var(--disp);font-weight:500}
+
+/* tasks */
+.tasks{flex:none;max-height:280px}
+.task-list{overflow-y:auto;padding:0 8px 8px}
+.task{display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:10px;cursor:pointer;transition:background .15s}
+.task:hover{background:var(--card-2)}
+.task .box{
+  width:19px;height:19px;border-radius:6px;border:2px solid var(--line-2);flex:none;
+  display:grid;place-items:center;transition:all .15s;background:var(--card);
+}
+.task .box svg{width:11px;height:11px;opacity:0;transform:scale(.4);transition:all .15s;color:#fff}
+.task.done .box{background:var(--teal);border-color:var(--teal)}
+.task.done .box svg{opacity:1;transform:scale(1)}
+.task .t{font-size:13px;font-weight:500;line-height:1.3;transition:color .15s}
+.task.done .t{color:var(--muted);text-decoration:line-through}
+.task .t span{display:block;font-size:11px;color:var(--muted);text-decoration:none}
+.task .due-chip{margin-left:auto;font-family:var(--disp);font-size:10.5px;font-weight:700;padding:2.5px 8px;border-radius:99px;white-space:nowrap}
+.due-today{background:#F7E0D6;color:#A33418}
+.due-later{background:var(--card-2);border:1px solid var(--line-2);color:var(--muted)}
+.due-over{background:var(--coral);color:#fff}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1280px){
+  body{grid-template-columns:210px 1fr}
+  .content{grid-template-columns:1fr;overflow-y:auto}
+  .rail{flex-direction:row;flex-wrap:wrap}
+  .rail .card{flex:1 1 320px;max-height:420px}
+  .board{grid-template-columns:repeat(4,minmax(230px,1fr));overflow-x:auto}
+  .left{overflow:visible}
+}
+@media (max-width:920px){
+  body{grid-template-columns:1fr;overflow:auto}
+  .main{overflow:visible}
+  .sidebar{display:none}
+  .content{overflow:visible;padding:16px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .topbar{padding:0 16px;gap:10px}
+  .crumb span{display:none}
+  .menu-toggle{display:grid}
+  .search{max-width:none;margin-left:0}
+  .rail{flex-direction:column}
+}
+@media (max-width:560px){
+  .stats{grid-template-columns:1fr}
+  .btn-primary span{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-mark">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M3 14 L8 9 L11 12 L17 5" stroke="#14201B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="17" cy="5" r="2.2" fill="#14201B"/>
+      </svg>
+    </div>
+    <h1>Ledger&nbsp;/ Loop<small>Sales CRM</small></h1>
+  </div>
+
+  <div class="nav-label">Workspace</div>
+  <nav class="nav">
+    <a href="#" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="5" rx="2"/><rect x="13" y="10" width="8" height="11" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/></svg>Dashboard</a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 6h18M3 12h12M3 18h7"/></svg>Pipeline<span class="count">10</span></a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3.4"/><path d="M3.5 20c.8-3.4 3-5 5.5-5s4.7 1.6 5.5 5"/><path d="M16 5.2a3.4 3.4 0 0 1 0 5.9M18.5 15.4c1.6.8 2.7 2.3 3 4.6"/></svg>Contacts<span class="count">248</span></a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="m8.5 12 2.4 2.4 4.8-5"/></svg>Tasks<span class="count">6</span></a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Reports</a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.2 3h-4l-.4 2.5a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 5.4 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1c.6.5 1.3.9 2 1.2l.4 2.5h4l.4-2.5a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2Z"/></svg>Settings</a>
+  </nav>
+
+  <div class="side-card">
+    <h4>Q3 Revenue target</h4>
+    <div class="meter"><i></i></div>
+    <p><b>$202,600</b> of $300,000 · 68% closed</p>
+  </div>
+
+  <div class="side-user">
+    <div class="av av-s av-2">MK</div>
+    <div class="meta"><b>Maya Kessler</b><span>Head of Sales</span></div>
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<div class="main">
+  <header class="topbar">
+    <button class="icon-btn menu-toggle" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <div class="crumb"><b>Good morning, Maya</b><span>Wednesday, 12 June — 4 deals need follow-up today</span></div>
+
+    <div class="search">
+      <svg class="lens" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+      <input id="globalSearch" type="text" placeholder="Search deals, contacts, tasks…" autocomplete="off">
+      <kbd>/</kbd>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <div class="top-actions">
+      <button class="icon-btn" aria-label="Notifications"><span class="dot"></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7.5-2.5 7.5h17S18 15 18 9Z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg></button>
+      <button class="btn-primary"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span>New deal</span></button>
+    </div>
+  </header>
+
+  <div class="content">
+    <!-- LEFT -->
+    <section class="left">
+      <div class="stats">
+        <div class="stat">
+          <h3>MRR</h3>
+          <div class="val">$48,200</div>
+          <div class="foot">
+            <div><span class="delta up">▲ 12.4%</span> <span class="sub">vs last mo</span></div>
+            <svg class="spark" viewBox="0 0 78 34"><polygon class="sparkline-fill" fill="#2E7D6B" points="0,28 12,24 24,26 36,18 48,20 60,12 78,6 78,34 0,34"/><polyline stroke="#2E7D6B" points="0,28 12,24 24,26 36,18 48,20 60,12 78,6"/></svg>
+          </div>
+        </div>
+        <div class="stat amber">
+          <h3>Pipeline value</h3>
+          <div class="val" id="pipelineTotal">$314,300</div>
+          <div class="foot">
+            <div><span class="delta up" style="background:rgba(233,161,59,.2);color:#F5CE8F">▲ 8.1%</span> <span class="sub">9 open deals</span></div>
+            <svg class="spark" viewBox="0 0 78 34"><polygon fill="#E9A13B" opacity=".16" points="0,26 12,20 24,24 36,14 48,16 60,10 78,8 78,34 0,34"/><polyline stroke="#E9A13B" points="0,26 12,20 24,24 36,14 48,16 60,10 78,8"/></svg>
+          </div>
+        </div>
+        <div class="stat">
+          <h3>Closed this quarter</h3>
+          <div class="val">$202,600</div>
+          <div class="foot">
+            <div><span class="delta up">▲ 4 deals</span> <span class="sub">2 of 5 target</span></div>
+            <div class="bars"><i style="height:34%"></i><i style="height:52%"></i><i style="height:40%"></i><i style="height:68%"></i><i style="height:58%"></i><i style="height:86%"></i><i style="height:100%"></i></div>
+          </div>
+        </div>
+        <div class="stat">
+          <h3>Avg. deal size</h3>
+          <div class="val">$38,200</div>
+          <div class="foot">
+            <div><span class="delta down">▼ 2.3%</span> <span class="sub">36-day cycle</span></div>
+            <svg class="spark" viewBox="0 0 78 34"><polygon class="sparkline-fill" fill="#E0562F" points="0,12 12,16 24,10 36,18 48,14 60,22 78,24 78,34 0,34"/><polyline stroke="#E0562F" points="0,12 12,16 24,10 36,18 48,14 60,22 78,24"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="board-wrap">
+        <div class="board-head">
+          <h2>Pipeline board</h2>
+          <span class="pill">Q3 · FY24</span>
+          <div class="filter">
+            <button class="on">All teams</button>
+            <button>Enterprise</button>
+            <button>SMB</button>
+          </div>
+        </div>
+
+        <div class="board" id="board">
+          <!-- Qualified -->
+          <div class="col" data-stage="q">
+            <div class="col-head">
+              <div class="row"><span class="cdot" style="background:#7FA050"></span><h3>Qualified</h3><span class="n">3</span></div>
+              <div class="sum">$77,700</div>
+            </div>
+            <div class="col-body">
+              <div class="deal" draggable="true">
+                <div class="top"><div><div class="name">Atlas Freight Co.</div><div class="co">Fleet software renewal</div></div><div class="amt">$23,400</div></div>
+                <div class="meta"><span class="chip q">Logistics</span><span class="due">Due Jun 18</span></div>
+                <div class="foot"><div class="av-stack"><div class="av av-1">DT</div><div class="av av-4">RS</div></div><span>Dana Torres</span><span class="go">→</span></div>
+              </div>
+              <div class="deal" draggable="true">
+                <div class="top"><div><div class="name">Brightline Media</div><div class="co">Starter plan, 24 seats</div></div><div class="amt">$17,800</div></div>
+                <div class="meta"><span class="chip q">Media</span><span class="due">Due Jun 20</span></div>
+                <div class="foot"><div class="av-stack"><div class="av av-3">AP</div></div><span>Aaron Patel</span><span class="go">→</span></div>
+              </div>
+              <div class="deal" draggable="true">
+                <div class="top"><div><div class="name">Sable &amp; Co.</div><div class="co">Inbound · demo booked</div></div><div class="amt">$31,600</div></div>
+                <div class="meta"><span class="chip q">Retail</span><span class="due">Due Jun 24</span></div>
+                <div class="foot"><div class="av-stack"><div class="av av-5">LO</div><div class="av av-2">MK</div></div><span>Lena Ortiz</span><span class="go">→</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Proposal -->
+          <div class="col" data-stage="p">
+            <div class="col-head">
+              <div class="row"><span class="cdot" style="background:#E9A13B"></span><h3>Proposal</h3><span class="n">3</span></div>
+              <div class="sum">$225,400</div>
+            </div>
+            <div class="col-body">
+              <div class="deal" draggable="true">
+                <div class="top"><div><div class="name">Meridian Health</div><div class="co">Platform + onboarding</div></div><div class="amt">$126,500</div></div>
+                <div class="meta"><span class="chip p">Healthcare</span><span class="due">Due Jun 14</span></div>
+                <div class="foot"><div class="av-stack"><div class="av av-4">RS</div><div class="av av-1">DT</div></div><span>Ruth Sinclair</span><span class="go">→</span></div>
+              </div>
+              <div class="deal" draggable="true">
+                <div class="top"><div><div class="name">Vantage Analytics</div><div class="co">Data tier, 3-year term</div></div><div class="amt">$72,100</div></div>
+                <div class="meta"><span class="chip p">SaaS</span><span class="due">Due Jun 17</span></div>
+                <div class="foot"><div class="av-stack"><div class="av av-5">LO</div></div><span>Lena Ortiz</span><span class="go">→</span></div>
+              </div>
+              <div class="deal" draggable="true">
+                <div class="top"><div><div class="name">Pinecrest Education</div><div class="co">District rollout, 4 sites</div></div><div class="amt">$26,900</div></div>
+                <div class="meta"><span class="chip p">EdTech</span><span class="due">Due Jun 21</span></div>
+                <div class="foot"><div class="av-stack"><div class="av av-3">AP</div><div class="av av-2">MK</div></div><span>Aaron Patel</span><span class="go">→</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Negotiation -->
+          <div class="col" data-stage="n">
+            <div class="col-head">
+              <div class="row"><span class="cdot" style="background:#3E5A85"></span><h3>Negotiation</h3><span class="n">2</span></div>
+              <div class="sum">$102,500</div>
+            </div>
+            <div class="col-body">
+              <div class="deal" draggable="true">
+                <div class="top"><div><div class="name">Halcyon Retail</div><div class="co">Pricing round 2, legal review</div></div><div class="amt">$54,300</div></div>
+                <div class="meta"><span class="chip n">Retail</span><span class="due">Due Jun 13</span></div>
+                <div class="foot"><div class="av-stack"><div class="av av-2">MK</div><div class="av av-4">RS</div></div><span>Maya Kessler</span><span class="go">→</span></div>
+              </div>
+              <div class="deal" draggable="true">
+                <div class="top"><div><div class="name">Northwind Logistics</div><div class="co">Enterprise, multi-year</div></div><div class="amt">$48,200</div></div>
+                <div class="meta"><span class="chip n">Logistics</span><span class="due">Due Jun 15</span></div>
+                <div class="foot"><div class="av-stack"><div class="av av-1">DT</div></div><span>Dana Torres</span><span class="go">→</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Won -->
+          <div class="col" data-stage="w">
+            <div class="col-head">
+              <div class="row"><span class="cdot" style="background:#2E7D6B"></span><h3>Won</h3><span class="n">2</span></div>
+              <div class="sum">$231,000</div>
+            </div>
+            <div class="col-body">
+              <div class="deal" draggable="true">
+                <div class="top"><div><div class="name">Ironworks Manufacturing</div><div class="co">Closed · PO received</div></div><div class="amt">$142,000</div></div>
+                <div class="meta"><span class="chip w">Industrial</span><span class="due">Won Jun 04</span></div>
+                <div class="foot"><div class="av-stack"><div class="av av-4">RS</div><div class="av av-5">LO</div></div><span>Ruth Sinclair</span><span class="go">→</span></div>
+              </div>
+              <div class="deal" draggable="true">
+                <div class="top"><div><div class="name">Copperfield Group</div><div class="co">Closed · annual plan</div></div><div class="amt">$89,000</div></div>
+                <div class="meta"><span class="chip w">Finance</span><span class="due">Won May 28</span></div>
+                <div class="foot"><div class="av-stack"><div class="av av-2">MK</div></div><span>Maya Kessler</span><span class="go">→</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT RAIL -->
+    <aside class="rail">
+      <!-- Contacts -->
+      <div class="card contacts">
+        <div class="card-head"><h3>Contacts</h3><span class="badge">6 key</span><a class="link" href="#">View all</a></div>
+        <div class="contact-list">
+          <div class="contact"><div class="av av-s av-1">DT</div><div><b>Dana Torres</b><span>Atlas Freight · VP Ops</span></div><span class="tag tag-cust">Customer</span></div>
+          <div class="contact"><div class="av av-s av-4">RS</div><div><b>Ruth Sinclair</b><span>Ironworks Mfg · CTO</span></div><span class="tag tag-cust">Customer</span></div>
+          <div class="contact"><div class="av av-s av-5">LO</div><div><b>Lena Ortiz</b><span>Meridian Health · Procurement</span></div><span class="tag tag-lead">Lead</span></div>
+          <div class="contact"><div class="av av-s av-3">AP</div><div><b>Aaron Patel</b><span>Vantage Analytics · Head of Data</span></div><span class="tag tag-lead">Lead</span></div>
+          <div class="contact"><div class="av av-s av-2">MK</div><div><b>Maya Kessler</b><span>Halcyon Retail · Founder</span></div><span class="tag tag-part">Partner</span></div>
+          <div class="contact"><div class="av av-s av-1">JC</div><div><b>Jonah Clarke</b><span>Pinecrest · IT Director</span></div><span class="tag tag-lead">Lead</span></div>
+        </div>
+      </div>
+
+      <!-- Activity -->
+      <div class="card activity">
+        <div class="card-head"><h3>Activity feed</h3><a class="link" href="#">This week</a></div>
+        <div class="feed">
+          <div class="event"><div class="ei ei-win"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div><div><p><b>Ruth Sinclair</b> marked Ironworks Mfg as won — <b>$142,000</b> added to Q3.</p><time>Today · 09:42</time></div></div>
+          <div class="event"><div class="ei ei-call"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/></svg></div><div><p><b>Maya</b> called Lena Ortiz — Meridian Health wants a revised proposal by Friday.</p><time>Today · 08:15</time></div></div>
+          <div class="event"><div class="ei ei-doc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></svg></div><div><p>Contract v2 uploaded for <b>Halcyon Retail</b> — legal flagged §4.2 pricing terms.</p><time>Yesterday · 17:30</time></div></div>
+          <div class="event"><div class="ei ei-mail"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.5 7 8.5 6 8.5-6"/></svg></div><div><p><b>Aaron Patel</b> replied with security questionnaire for Vantage Analytics.</p><time>Yesterday · 11:04</time></div></div>
+          <div class="event"><div class="ei ei-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></div><p><b>Dana</b> noted: Northwind decision committee meets Jun 20 — send ROI deck before.</p><time>Mon · 15:52</time></div>
+        </div>
+      </div>
+
+      <!-- Tasks -->
+      <div class="card tasks">
+        <div class="card-head"><h3>Tasks</h3><span class="badge" id="taskCount">4 open</span><a class="link" href="#">All</a></div>
+        <div class="task-list" id="taskList">
+          <div class="task"><div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div><div class="t">Send revised proposal to Meridian Health<span>Ruth Sinclair · $126,500</span></div><span class="due-chip due-today">Today</span></div>
+          <div class="task"><div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div><div class="t">Chase legal on Halcyon §4.2<span>Maya Kessler · $54,300</span></div><span class="due-chip due-today">Today</span></div>
+          <div class="task"><div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div><div class="t">Prep ROI deck for Northwind committee<span>Dana Torres · $48,200</span></div><span class="due-chip due-later">Jun 15</span></div>
+          <div class="task"><div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div><div class="t">Answer Vantage security questionnaire<span>Aaron Patel · $72,100</span></div><span class="due-chip due-later">Jun 18</span></div>
+          <div class="task"><div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div><div class="t">Intro email: Sable &amp; Co. demo prep<span>Lena Ortiz · $31,600</span></div><span class="due-chip due-over">Overdue</span></div>
+          <div class="task done"><div class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div><div class="t">Kickoff call with Copperfield Group<span>Maya Kessler · $89,000</span></div><span class="due-chip due-later">Done</span></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+/* ---------- Global search ---------- */
+const index = [
+  {t:'deal',    title:'Meridian Health', sub:'Proposal · $126,500 · Lena Ortiz'},
+  {t:'deal',    title:'Northwind Logistics', sub:'Negotiation · $48,200 · Dana Torres'},
+  {t:'deal',    title:'Halcyon Retail', sub:'Negotiation · $54,300 · Maya Kessler'},
+  {t:'deal',    title:'Ironworks Manufacturing', sub:'Won · $142,000 · Ruth Sinclair'},
+  {t:'deal',    title:'Vantage Analytics', sub:'Proposal · $72,100 · Aaron Patel'},
+  {t:'deal',    title:'Atlas Freight Co.', sub:'Qualified · $23,400 · Dana Torres'},
+  {t:'deal',    title:'Sable & Co.', sub:'Qualified · $31,600 · Lena Ortiz'},
+  {t:'deal',    title:'Brightline Media', sub:'Qualified · $17,800 · Aaron Patel'},
+  {t:'deal',    title:'Pinecrest Education', sub:'Proposal · $26,900 · Aaron Patel'},
+  {t:'deal',    title:'Copperfield Group', sub:'Won · $89,000 · Maya Kessler'},
+  {t:'contact', title:'Dana Torres', sub:'Atlas Freight · VP Operations'},
+  {t:'contact', title:'Ruth Sinclair', sub:'Ironworks Mfg · CTO'},
+  {t:'contact', title:'Lena Ortiz', sub:'Meridian Health · Procurement'},
+  {t:'contact', title:'Aaron Patel', sub:'Vantage Analytics · Head of Data'},
+  {t:'contact', title:'Maya Kessler', sub:'Halcyon Retail · Founder'},
+  {t:'contact', title:'Jonah Clarke', sub:'Pinecrest · IT Director'},
+  {t:'task',    title:'Send revised proposal to Meridian Health', sub:'Due today · $126,500'},
+  {t:'task',    title:'Chase legal on Halcyon §4.2', sub:'Due today · $54,300'},
+  {t:'task',    title:'Prep ROI deck for Northwind committee', sub:'Due Jun 15 · $48,200'},
+  {t:'task',    title:'Answer Vantage security questionnaire', sub:'Due Jun 18 · $72,100'},
+  {t:'task',    title:'Intro email: Sable & Co. demo prep', sub:'Overdue · $31,600'}
+];
+const labels = {deal:'Deals', contact:'Contacts', task:'Tasks'};
+const input = document.getElementById('globalSearch');
+const panel = document.getElementById('searchResults');
+
+function renderResults(q){
+  if(!q){ panel.classList.remove('open'); panel.innerHTML=''; return; }
+  const ql = q.toLowerCase();
+  const groups = {};
+  index.forEach(it => {
+    if(it.title.toLowerCase().includes(ql) || it.sub.toLowerCase().includes(ql)){
+      (groups[it.t] = groups[it.t] || []).push(it);
+    }
+  });
+  let html = '', total = 0;
+  ['deal','contact','task'].forEach(t => {
+    (groups[t]||[]).slice(0,4).forEach(it => {
+      total++;
+      html += `<div class="sr-item"><div class="ic ic-${t}">${t==='deal'?'$':t==='contact'?'C':'✓'}</div><div><b>${it.title}</b><span>${it.sub}</span></div></div>`;
+    });
+  });
+  if(total===0) html = `<div class="sr-empty">No results for “${q}” — try a deal name or contact.</div>`;
+  panel.innerHTML = html;
+  panel.classList.add('open');
+}
+input.addEventListener('input', e => renderResults(e.target.value.trim()));
+input.addEventListener('focus', e => { if(e.target.value.trim()) renderResults(e.target.value.trim()); });
+document.addEventListener('click', e => { if(!e.target.closest('.search')) panel.classList.remove('open'); });
+document.addEventListener('keydown', e => {
+  if(e.key === '/' && document.activeElement !== input){ e.preventDefault(); input.focus(); }
+  if(e.key === 'Escape') panel.classList.remove('open');
+});
+
+/* ---------- Filter buttons (visual only) ---------- */
+document.querySelectorAll('.board-head .filter button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.board-head .filter button').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+  });
+});
+
+/* ---------- Task toggling ---------- */
+const taskList = document.getElementById('taskList');
+taskList.addEventListener('click', e => {
+  const task = e.target.closest('.task');
+  if(!task) return;
+  task.classList.toggle('done');
+  const open = taskList.querySelectorAll('.task:not(.done)').length;
+  document.getElementById('taskCount').textContent = open + ' open';
+});
+
+/* ---------- Drag & drop pipeline ---------- */
+const fmt = n => '$' + n.toLocaleString('en-US');
+function parseAmt(el){ return parseInt(el.textContent.replace(/[^0-9]/g,'')) || 0; }
+
+function refreshColumn(col){
+  const deals = col.querySelectorAll('.deal');
+  col.querySelector('.n').textContent = deals.length;
+  let sum = 0;
+  deals.forEach(d => sum += parseAmt(d.querySelector('.amt')));
+  col.querySelector('.sum').textContent = deals.length ? fmt(sum) : '—';
+  const body = col.querySelector('.col-body');
+  const hint = body.querySelector('.hint');
+  if(hint) hint.remove();
+  if(!deals.length){
+    const h = document.createElement('div');
+    h.className = 'hint';
+    h.textContent = 'Drop a deal here';
+    body.appendChild(h);
+  }
+}
+function refreshPipelineTotal(){
+  let open = 0;
+  document.querySelectorAll('.col[data-stage]:not([data-stage="w"]) .deal .amt').forEach(a => open += parseAmt(a));
+  document.getElementById('pipelineTotal').textContent = fmt(open);
+}
+
+let dragged = null;
+document.querySelectorAll('.deal').forEach(deal => {
+  deal.addEventListener('dragstart', e => {
+    dragged = deal;
+    deal.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  deal.addEventListener('dragend', () => {
+    deal.classList.remove('dragging');
+    dragged = null;
+    document.querySelectorAll('.col').forEach(c => c.classList.remove('drag-over'));
+    document.querySelectorAll('.col').forEach(refreshColumn);
+    refreshPipelineTotal();
+  });
+});
+document.querySelectorAll('.col').forEach(col => {
+  col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('drag-over'); });
+  col.addEventListener('dragleave', e => { if(!col.contains(e.relatedTarget)) col.classList.remove('drag-over'); });
+  col.addEventListener('drop', e => {
+    e.preventDefault();
+    col.classList.remove('drag-over');
+    const body = col.querySelector('.col-body');
+    const after = [...body.querySelectorAll('.deal:not(.dragging)')].reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = e.clientY - box.top - box.height/2;
+      return (offset < 0 && offset > closest.offset) ? {offset, element: child} : closest;
+    }, {offset: -Infinity}).element;
+    if(after) body.insertBefore(dragged, after); else body.appendChild(dragged);
+  });
+});
+
+/* ---------- Stat count-up on load ---------- */
+document.querySelectorAll('.stat .val').forEach(el => {
+  const raw = el.textContent.replace(/[^0-9.]/g,'');
+  const num = parseFloat(raw);
+  if(!isFinite(num)) return;
+  const prefix = el.textContent.includes('$') ? '$' : '';
+  const dur = 700, t0 = performance.now();
+  function tick(t){
+    const p = Math.min(1, (t - t0)/dur);
+    const eased = 1 - Math.pow(1-p, 3);
+    el.innerHTML = prefix + Math.round(num * eased).toLocaleString('en-US');
+    if(p < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+});
+</script>
+</body>
+</html>

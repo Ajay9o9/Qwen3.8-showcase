@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEDDING / PLANNER — Amara &amp; Jonas · File No. 027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3EEE2;
+  --paper2:#EBE3D1;
+  --card:#FBF8F0;
+  --ink:#1C1810;
+  --ink2:#6A6250;
+  --line:rgba(28,24,16,.18);
+  --line-soft:rgba(28,24,16,.09);
+  --rust:#C1481F;
+  --olive:#5F6A3B;
+  --gold:#B08A3E;
+  --night:#161309;
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Archivo",Helvetica,Arial,sans-serif;
+  --mono:"Space Mono",ui-monospace,monospace;
+  --rad:6px;
+  --maxw:1320px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--rust);color:var(--paper)}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 48px}
+
+/* ---------- grain ---------- */
+#grain{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:.55;z-index:60;mix-blend-mode:multiply}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:50;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.head-in{display:flex;align-items:center;justify-content:space-between;height:64px;gap:24px}
+.brand{font-family:var(--mono);font-size:13px;letter-spacing:.22em;font-weight:700;white-space:nowrap}
+.brand em{font-style:normal;color:var(--rust)}
+nav{display:flex;gap:30px}
+nav a{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);position:relative;padding:4px 0}
+nav a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--rust);transition:width .3s ease}
+nav a:hover{color:var(--ink)}
+nav a:hover::after{width:100%}
+.file-chip{
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;
+  border:1px solid var(--line);border-radius:100px;padding:7px 16px;white-space:nowrap;
+  background:var(--card);
+}
+.file-chip b{color:var(--rust);font-weight:400}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden}
+.hero-grid{
+  display:grid;grid-template-columns:1.12fr .88fr;gap:56px;
+  padding:64px 0 58px;align-items:center;position:relative;
+}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink2);display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.kicker::before{content:"";width:36px;height:1px;background:var(--rust)}
+.kicker .live{display:inline-flex;align-items:center;gap:7px;color:var(--olive)}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--olive);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
+h1{
+  font-family:var(--serif);font-weight:340;font-variation-settings:"opsz" 144;
+  font-size:clamp(54px,6.6vw,98px);line-height:.98;letter-spacing:-.015em;
+}
+h1 .amp{font-style:italic;font-weight:400;color:var(--rust);padding:0 .04em}
+h1 .it{font-style:italic;font-weight:300}
+.hero-sub{margin-top:26px;max-width:52ch;font-size:17px;color:var(--ink2);line-height:1.65}
+.hero-sub b{color:var(--ink);font-weight:600}
+.meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
+.meta{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  border:1px solid var(--line);border-radius:4px;padding:8px 14px;background:var(--card);
+}
+.meta b{color:var(--rust);font-weight:400}
+.ghost{
+  position:absolute;right:-30px;bottom:-46px;z-index:0;
+  font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:340px;line-height:1;color:transparent;
+  -webkit-text-stroke:1.5px rgba(28,24,16,.09);
+  user-select:none;pointer-events:none;
+}
+
+/* countdown */
+.count{
+  position:relative;z-index:1;
+  background:var(--night);color:var(--paper);
+  border-radius:var(--rad);padding:34px 34px 30px;
+  box-shadow:0 30px 60px -30px rgba(28,24,16,.55), 0 0 0 1px rgba(28,24,16,.9);
+  overflow:hidden;
+}
+.count::after{
+  content:"";position:absolute;right:-70px;top:-70px;width:220px;height:220px;border-radius:50%;
+  background:
+    repeating-radial-gradient(circle,transparent 0 12px,rgba(243,238,226,.10) 12px 13px);
+}
+.count-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px;position:relative}
+.count-label{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(243,238,226,.55)}
+.count-date{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--gold)}
+.cd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;position:relative}
+.cd-cell{text-align:center;position:relative}
+.cd-cell + .cd-cell::before{
+  content:"/";position:absolute;left:-8px;top:50%;transform:translateY(-58%);
+  font-family:var(--serif);font-style:italic;font-size:30px;color:rgba(243,238,226,.28);
+}
+.cd-num{font-family:var(--serif);font-weight:300;font-size:clamp(38px,4.4vw,58px);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.cd-cell:nth-child(4) .cd-num{color:var(--rust);filter:brightness(1.35)}
+.cd-num.tick{animation:tick .45s ease}
+@keyframes tick{0%{transform:translateY(.18em);opacity:.15}100%{transform:none;opacity:1}}
+.cd-unit{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:rgba(243,238,226,.5);margin-top:10px}
+.cd-note{margin-top:26px;padding-top:18px;border-top:1px solid rgba(243,238,226,.15);font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:rgba(243,238,226,.6);display:flex;justify-content:space-between;gap:12px}
+.cd-note b{color:var(--gold);font-weight:400}
+
+/* ---------- marquee ---------- */
+.marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper2);overflow:hidden}
+.mq-track{display:flex;width:max-content;animation:mq 26s linear infinite}
+.mq-track span{
+  font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;
+  padding:13px 0 13px 26px;white-space:nowrap;color:var(--ink2);
+}
+.mq-track i{font-style:normal;color:var(--rust)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- stats strip ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--line)}
+.stat{padding:30px 34px 30px 0;border-right:1px solid var(--line);padding-left:0}
+.stat + .stat{padding-left:34px}
+.stat:last-child{border-right:none}
+.stat .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink2)}
+.stat .val{font-family:var(--serif);font-weight:340;font-size:40px;line-height:1.1;margin-top:6px}
+.stat .val small{font-size:19px;color:var(--ink2);font-style:italic}
+.stat .sub{font-size:12.5px;color:var(--ink2);margin-top:4px}
+.stat .val .hot{color:var(--rust);font-style:italic}
+
+/* ---------- sections ---------- */
+section{padding:84px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:40px;flex-wrap:wrap}
+.sec-idx{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--rust);display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.sec-idx::after{content:"";flex:0 0 56px;height:1px;background:var(--line)}
+h2{font-family:var(--serif);font-weight:360;font-size:clamp(34px,3.4vw,52px);line-height:1.05;letter-spacing:-.01em}
+h2 em{font-style:italic;color:var(--rust);font-weight:340}
+.sec-note{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);max-width:34ch;text-align:right;line-height:1.8}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}
+
+/* ---------- checklist + guests ---------- */
+.duo{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:var(--rad)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;padding:20px 26px;border-bottom:1px solid var(--line)}
+.panel-head h3{font-family:var(--serif);font-weight:500;font-size:22px}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);border:1px solid var(--line);border-radius:100px;padding:5px 12px}
+.bar{height:6px;background:var(--paper2);border-radius:100px;overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--rust);border-radius:100px;transition:width .7s cubic-bezier(.2,.7,.2,1)}
+.check-list{list-style:none;padding:10px 8px 14px}
+.check-list li{
+  display:flex;align-items:center;gap:16px;padding:13px 18px;border-radius:4px;cursor:pointer;
+  transition:background .2s ease;user-select:none;
+}
+.check-list li:hover{background:var(--paper2)}
+.box{
+  flex:0 0 20px;width:20px;height:20px;border:1.5px solid var(--ink);border-radius:3px;
+  display:grid;place-items:center;transition:all .25s ease;background:transparent;
+}
+.box svg{width:11px;height:9px;stroke:var(--paper);stroke-width:2.4;fill:none;opacity:0;transform:scale(.4);transition:all .25s ease}
+li.done .box{background:var(--rust);border-color:var(--rust)}
+li.done .box svg{opacity:1;transform:scale(1)}
+li .txt{font-size:15px;font-weight:500;transition:color .25s}
+li.done .txt{color:var(--ink2);text-decoration:line-through;text-decoration-color:rgba(193,72,31,.6);text-decoration-thickness:1.5px}
+li .due{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);white-space:nowrap}
+li .prio{font-family:var(--mono);font-size:9px;letter-spacing:.14em;padding:3px 8px;border-radius:2px;text-transform:uppercase}
+.prio.hi{background:var(--rust);color:var(--paper)}
+.prio.md{background:rgba(95,106,59,.18);color:var(--olive)}
+.prio.lo{background:rgba(28,24,16,.07);color:var(--ink2)}
+.check-foot{padding:16px 26px 20px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--ink2)}
+.check-foot b{color:var(--rust);font-weight:400}
+
+/* guests */
+.guests .g-num{display:flex;align-items:baseline;gap:14px;padding:24px 26px 6px}
+.g-num .big{font-family:var(--serif);font-weight:340;font-size:64px;line-height:1}
+.g-num .of{font-family:var(--serif);font-style:italic;color:var(--ink2);font-size:22px}
+.g-num .cap{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-left:auto;text-align:right;line-height:1.9}
+.donut-row{display:flex;gap:22px;align-items:center;padding:14px 26px 8px}
+.donut{width:128px;height:128px;flex:0 0 128px;transform:rotate(-90deg)}
+.donut circle{fill:none;stroke-width:11;transition:stroke-dashoffset 1.2s cubic-bezier(.2,.7,.2,1)}
+.donut .track{stroke:var(--paper2)}
+.donut .a{stroke:var(--rust)}
+.donut .b{stroke:var(--olive)}
+.donut .c{stroke:#C9BFA6}
+.legend{flex:1;display:grid;gap:12px}
+.leg{display:grid;grid-template-columns:14px 1fr auto;gap:10px;align-items:center;font-size:13.5px}
+.leg .sw{width:11px;height:11px;border-radius:2px}
+.leg .n{font-family:var(--mono);font-size:12px;font-weight:700}
+.leg .pct{font-family:var(--mono);font-size:10px;color:var(--ink2)}
+.g-foot{margin:16px 26px 24px;padding:14px 16px;background:var(--paper2);border-radius:4px;font-size:13px;color:var(--ink2);border-left:3px solid var(--gold)}
+.g-foot b{color:var(--ink);font-weight:600}
+
+/* ---------- vendors ---------- */
+.vendors{background:var(--paper2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.v-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.v-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--rad);
+  padding:26px 24px 22px;display:flex;flex-direction:column;gap:14px;position:relative;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.v-card:hover{transform:translateY(-6px);box-shadow:0 24px 40px -24px rgba(28,24,16,.35)}
+.v-card .idx{position:absolute;top:16px;right:18px;font-family:var(--mono);font-size:10px;color:var(--ink2);letter-spacing:.14em}
+.avatar{
+  width:64px;height:64px;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--serif);font-style:italic;font-size:24px;color:var(--paper);
+  position:relative;flex:0 0 64px;
+}
+.avatar::after{content:"";position:absolute;inset:-5px;border:1px solid var(--line);border-radius:50%}
+.av1{background:radial-gradient(120% 120% at 30% 25%,#8A9057,#4E5830)}
+.av2{background:radial-gradient(120% 120% at 30% 25%,#D2703F,#8C3413)}
+.av3{background:radial-gradient(120% 120% at 30% 25%,#5B6B74,#2E3B43)}
+.av4{background:radial-gradient(120% 120% at 30% 25%,#C09A52,#7E6224)}
+.v-cat{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--rust)}
+.v-name{font-family:var(--serif);font-weight:500;font-size:21px;line-height:1.15;margin-top:2px}
+.v-contact{font-family:var(--mono);font-size:11px;color:var(--ink2);letter-spacing:.04em;line-height:1.7}
+.v-card hr{border:none;border-top:1px dashed var(--line);margin:2px 0}
+.v-price{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--ink2)}
+.v-price b{font-family:var(--serif);font-size:19px;color:var(--ink);font-weight:500}
+.pill{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:100px;white-space:nowrap}
+.pill.ok{background:rgba(95,106,59,.16);color:var(--olive)}
+.pill.wait{background:rgba(176,138,62,.18);color:#7E6224}
+.pill.talk{background:rgba(193,72,31,.14);color:var(--rust)}
+.v-note{font-size:13px;color:var(--ink2);line-height:1.6;font-style:italic}
+
+/* ---------- budget ---------- */
+.budget-grid{display:grid;grid-template-columns:.9fr 1.4fr;gap:56px;align-items:start}
+.b-total .big{font-family:var(--serif);font-weight:340;font-size:76px;line-height:1;letter-spacing:-.02em}
+.b-total .big small{font-size:28px;font-style:italic;color:var(--ink2)}
+.b-total .of{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink2);margin-top:10px}
+.b-bar{height:10px;background:var(--paper2);border-radius:100px;overflow:hidden;margin-top:26px;position:relative}
+.b-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rust),#E07A45);border-radius:100px;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.b-legend{display:flex;gap:24px;margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink2)}
+.b-legend b{color:var(--ink);font-weight:400}
+.b-legend .rest{margin-left:auto}
+.b-note{margin-top:30px;font-size:14px;color:var(--ink2);max-width:38ch;line-height:1.7}
+.b-note b{color:var(--ink)}
+.b-lines{border-top:1px solid var(--line)}
+.b-line{display:grid;grid-template-columns:1fr auto;gap:6px 20px;padding:17px 4px;border-bottom:1px solid var(--line-soft);align-items:center}
+.b-line .nm{font-weight:600;font-size:15px;display:flex;align-items:center;gap:12px}
+.b-line .nm i{font-style:italic;font-family:var(--serif);color:var(--ink2);font-weight:400;font-size:14px}
+.b-line .amt{font-family:var(--mono);font-size:13px;text-align:right;white-space:nowrap}
+.b-line .amt small{color:var(--ink2);font-size:10.5px;display:block;letter-spacing:.08em}
+.b-line .bar{grid-column:1/-1}
+.b-line .bar > i{background:var(--olive)}
+.b-line.hot .bar > i{background:linear-gradient(90deg,var(--rust),#E07A45)}
+
+/* ---------- timeline ---------- */
+.timeline{background:var(--night);color:var(--paper);border-radius:var(--rad);padding:64px 64px 56px;position:relative;overflow:hidden}
+.timeline::before{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;
+  background:repeating-linear-gradient(180deg,rgba(243,238,226,.22) 0 6px,transparent 6px 14px);
+}
+.tl-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:52px;flex-wrap:wrap;gap:16px;position:relative;z-index:1}
+.tl-head .sec-idx{color:var(--gold)}
+.tl-head .sec-idx::after{background:rgba(243,238,226,.2)}
+.tl-head h2{color:var(--paper)}
+.tl-head h2 em{color:var(--gold)}
+.tl-head .sec-note{color:rgba(243,238,226,.5)}
+.tl{position:relative;z-index:1;list-style:none}
+.tl li{
+  display:grid;grid-template-columns:1fr 84px 1fr;gap:0 26px;
+  padding:0 0 44px;align-items:start;
+}
+.tl li:last-child{padding-bottom:4px}
+.tl .time{
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-align:right;padding-top:14px;color:var(--gold);white-space:nowrap;
+}
+.tl .node{justify-self:center;width:13px;height:13px;border-radius:50%;background:var(--night);border:2px solid var(--rust);margin-top:14px;position:relative;z-index:2;transition:transform .3s ease,background .3s ease}
+.tl li:hover .node{background:var(--rust);transform:scale(1.35)}
+.tl li.key .node{background:var(--gold);border-color:var(--gold);box-shadow:0 0 0 6px rgba(176,138,62,.18)}
+.tl .body{padding-top:6px}
+.tl .body h4{font-family:var(--serif);font-weight:500;font-size:21px;margin-bottom:5px}
+.tl .body p{font-size:14px;color:rgba(243,238,226,.62);line-height:1.65;max-width:44ch}
+.tl .body .who{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(243,238,226,.45);border:1px solid rgba(243,238,226,.22);border-radius:100px;padding:4px 11px}
+.tl li:nth-child(even) .time{order:3;text-align:left}
+.tl li:nth-child(even) .body{order:1;text-align:right}
+.tl li:nth-child(even) .body p{margin-left:auto}
+.tl li:nth-child(even) .who{margin-left:auto}
+.tl li:nth-child(odd) .body .who{margin-right:auto}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);margin-top:20px}
+.foot-in{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:34px 0 44px;flex-wrap:wrap}
+.foot-brand{font-family:var(--mono);font-size:12px;letter-spacing:.22em;font-weight:700}
+.foot-brand em{font-style:normal;color:var(--rust)}
+.foot-mid{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink2)}
+.foot-rt{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--ink2);text-transform:uppercase}
+.foot-rt a{border-bottom:1px solid var(--line);padding-bottom:2px}
+.foot-rt a:hover{color:var(--rust);border-color:var(--rust)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1080px){
+  .hero-grid{grid-template-columns:1fr;gap:40px;padding:48px 0 56px}
+  .ghost{font-size:240px;bottom:-30px}
+  .duo{grid-template-columns:1fr}
+  .v-grid{grid-template-columns:repeat(2,1fr)}
+  .budget-grid{grid-template-columns:1fr;gap:40px}
+  nav{display:none}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat{padding:24px 28px;border-bottom:1px solid var(--line)}
+  .stat + .stat{padding-left:28px}
+  .stat:nth-child(2n){border-right:none;padding-left:0}
+}
+@media (max-width:680px){
+  .wrap{padding:0 22px}
+  .head-in{height:58px}
+  .file-chip{display:none}
+  .v-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .stat{border-right:none!important;padding:20px 4px!important;border-bottom:1px solid var(--line-soft)}
+  section{padding:56px 0}
+  .timeline{padding:40px 24px}
+  .timeline::before{left:8px}
+  .tl li{grid-template-columns:1fr;gap:6px 0;padding-bottom:38px}
+  .tl .time{text-align:left;order:-1;padding:0 0 0 30px}
+  .tl .node{position:absolute;margin:0}
+  .tl li{position:relative;padding-left:34px}
+  .tl li .node{left:2px;top:22px}
+  .tl li:nth-child(even) .time{order:-1;text-align:left}
+  .tl li:nth-child(even) .body{order:0;text-align:left}
+  .tl li:nth-child(even) .body p{margin-left:0}
+  .tl li:nth-child(even) .who{margin-left:0}
+  .donut-row{flex-direction:column;align-items:flex-start}
+  .count{padding:26px 20px}
+  .cd-num{font-size:38px}
+  .cd-cell + .cd-cell::before{left:-6px;font-size:22px}
+  .sec-note{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<canvas id="grain" aria-hidden="true"></canvas>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap head-in">
+    <a class="brand" href="#top">WEDDING <em>/</em> PLANNER</a>
+    <nav>
+      <a href="#checklist">Checklist</a>
+      <a href="#guests">Guests</a>
+      <a href="#vendors">Vendors</a>
+      <a href="#budget">Budget</a>
+      <a href="#timeline">Timeline</a>
+    </nav>
+    <div class="file-chip">FILE <b>027</b> · A + J · <b>14.08.2027</b></div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="kicker">Client file — planning in progress <span class="live"><span class="dot"></span>live board</span></div>
+        <h1>Amara <span class="amp">&amp;</span> <span class="it">Jonas</span></h1>
+        <p class="hero-sub">A two-day celebration at <b>The Orchard House</b> in the Hudson Valley — 118 guests, a meadow ceremony under the pear trees, and one very organized bride. We're <b>nine months out</b>; the details are coming together beautifully.</p>
+        <div class="meta-row">
+          <span class="meta"><b>Where</b> — Orchard House, Rhinebeck NY</span>
+          <span class="meta"><b>When</b> — Sat 14 Aug 2027, 4:00 PM</span>
+          <span class="meta"><b>Planner</b> — R. Okafor, Principal</span>
+          <span class="meta"><b>Status</b> — On schedule</span>
+        </div>
+      </div>
+
+      <div class="count" id="countdown">
+        <div class="count-top">
+          <span class="count-label">T-minus to the first kiss</span>
+          <span class="count-date">SAT 14 AUG 2027</span>
+        </div>
+        <div class="cd-grid" role="timer" aria-label="Countdown to the wedding">
+          <div class="cd-cell"><div class="cd-num" id="cd-d">—</div><div class="cd-unit">Days</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-h">—</div><div class="cd-unit">Hours</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-m">—</div><div class="cd-unit">Minutes</div></div>
+          <div class="cd-cell"><div class="cd-num" id="cd-s">—</div><div class="cd-unit">Seconds</div></div>
+        </div>
+        <div class="cd-note">
+          <span>Planning complete — <b id="cd-pct">72%</b></span>
+          <span>Next: menu tasting</span>
+        </div>
+        <div class="bar" style="margin-top:16px;background:rgba(243,238,226,.12)"><i id="cd-bar" style="width:0;background:linear-gradient(90deg,var(--rust),var(--gold))"></i></div>
+      </div>
+
+      <div class="ghost">A+J</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="mq-track" id="mq">
+    <span>Save the date <i>·</i> 14.08.2027 <i>·</i> The Orchard House <i>·</i> Hudson Valley, NY <i>·</i> 118 guests <i>·</i> Meadow ceremony, 4:00 PM <i>·</i> Sparkler send-off, 11:15 PM <i>·</i> &nbsp;</span>
+  </div>
+</div>
+
+<!-- ============ STATS ============ -->
+<div class="wrap">
+  <div class="stats">
+    <div class="stat rv"><div class="lbl">Guests confirmed</div><div class="val">94<small> / 118</small></div><div class="sub">RSVP deadline — 15 July 2027</div></div>
+    <div class="stat rv d1"><div class="lbl">Tasks cleared</div><div class="val"><span id="stat-tasks">24</span><small> / 31</small></div><div class="sub" id="stat-tasks-sub">7 remaining · 2 high priority</div></div>
+    <div class="stat rv d2"><div class="lbl">Budget committed</div><div class="val"><span class="hot">68</span><small> %</small></div><div class="sub">$55,920 of $82,000 deployed</div></div>
+    <div class="stat rv d3"><div class="lbl">Vendors locked in</div><div class="val">18<small> / 21</small></div><div class="sub">3 in final negotiation</div></div>
+  </div>
+</div>
+
+<!-- ============ 01 CHECKLIST + GUESTS ============ -->
+<section id="checklist">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-idx">01 / The working list</div>
+        <h2>What's next <em>on the desk</em></h2>
+      </div>
+      <p class="sec-note">Tap a task to clear it — the file keeps itself updated.</p>
+    </div>
+
+    <div class="duo">
+      <!-- checklist -->
+      <div class="panel rv">
+        <div class="panel-head">
+          <h3>Open tasks</h3>
+          <span class="tag" id="chk-tag">6 open</span>
+        </div>
+        <div class="bar" style="margin:0"><i id="chk-bar" style="width:0"></i></div>
+        <ul class="check-list" id="checklist">
+          <li class="done"><span class="box"><svg viewBox="0 0 12 10"><path d="M1 5.5 L4.5 9 L11 1"/></svg></span><span class="txt">Venue contract &amp; insurance certificate signed</span><span class="prio lo">done</span><span class="due">Feb 2027</span></li>
+          <li class="done"><span class="box"><svg viewBox="0 0 12 10"><path d="M1 5.5 L4.5 9 L11 1"/></svg></span><span class="txt">Guest list finalized with both families</span><span class="prio lo">done</span><span class="due">Mar 2027</span></li>
+          <li class="done"><span class="box"><svg viewBox="0 0 12 10"><path d="M1 5.5 L4.5 9 L11 1"/></svg></span><span class="txt">Save-the-dates mailed (118 addressed)</span><span class="prio lo">done</span><span class="due">Apr 2027</span></li>
+          <li class="done"><span class="box"><svg viewBox="0 0 12 10"><path d="M1 5.5 L4.5 9 L11 1"/></svg></span><span class="txt">Floral moodboard approved by the couple</span><span class="prio lo">done</span><span class="due">May 2027</span></li>
+          <li><span class="box"><svg viewBox="0 0 12 10"><path d="M1 5.5 L4.5 9 L11 1"/></svg></span><span class="txt">Menu tasting &amp; final count with Copper &amp; Sage</span><span class="prio hi">hi</span><span class="due">Jul 09</span></li>
+          <li><span class="box"><svg viewBox="0 0 12 10"><path d="M1 5.5 L4.5 9 L11 1"/></svg></span><span class="txt">Seating chart draft — 10 tables, 2 family rows</span><span class="prio hi">hi</span><span class="due">Jul 21</span></li>
+          <li><span class="box"><svg viewBox="0 0 12 10"><path d="M1 5.5 L4.5 9 L11 1"/></svg></span><span class="txt">Vows workshop with both officiant &amp; copywriter</span><span class="prio md">med</span><span class="due">Jul 30</span></li>
+          <li><span class="box"><svg viewBox="0 0 12 10"><path d="M1 5.5 L4.5 9 L11 1"/></svg></span><span class="txt">Sparkler order — 130, with lighters in the baskets</span><span class="prio md">med</span><span class="due">Aug 01</span></li>
+          <li><span class="box"><svg viewBox="0 0 12 10"><path d="M1 5.5 L4.5 9 L11 1"/></svg></span><span class="txt">Band setlist call: 3-hour program, 42 songs</span><span class="prio md">med</span><span class="due">Aug 04</span></li>
+          <li><span class="box"><svg viewBox="0 0 12 10"><path d="M1 5.5 L4.5 9 L11 1"/></svg></span><span class="txt">Rain plan B — greenhouse ceremony run-of-show</span><span class="prio lo">low</span><span class="due">Aug 08</span></li>
+        </ul>
+        <div class="check-foot">
+          <span><b id="chk-done">4</b> / <b id="chk-total">10</b> on this board cleared</span>
+          <span>Full file: <b id="chk-file">24/31</b></span>
+        </div>
+      </div>
+
+      <!-- guests -->
+      <div class="panel guests rv d1" id="guests">
+        <div class="panel-head">
+          <h3>Guest ledger</h3>
+          <span class="tag">Updated 2h ago</span>
+        </div>
+        <div class="g-num">
+          <span class="big">118</span>
+          <span class="of">invited</span>
+          <span class="cap">RSVP deadline<br>15 JUL 2027</span>
+        </div>
+        <div class="donut-row">
+          <svg class="donut" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="track" cx="60" cy="60" r="50"/>
+            <circle class="a" id="don-a" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+            <circle class="b" id="don-b" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+            <circle class="c" id="don-c" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16"/>
+          </svg>
+          <div class="legend">
+            <div class="leg"><span class="sw" style="background:var(--rust)"></span><span>Confirmed</span><span><span class="n">94</span> <span class="pct">· 79.7%</span></span></div>
+            <div class="leg"><span class="sw" style="background:var(--olive)"></span><span>Pending</span><span><span class="n">15</span> <span class="pct">· 12.7%</span></span></div>
+            <div class="leg"><span class="sw" style="background:#C9BFA6"></span><span>Regretted</span><span><span class="n">9</span> <span class="pct">· 7.6%</span></span></div>
+          </div>
+        </div>
+        <div class="bar" style="margin:0 26px"><i id="rsvp-bar" style="width:0;background:var(--rust)"></i></div>
+        <div class="g-foot"><b>94 confirmed</b> of 118 — catering count holds at <b>100 covers</b> for safety. Kids under 12: 11. Vegetarian: 23. One gluten-free, two kosher.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 VENDORS ============ -->
+<section class="vendors" id="vendors">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-idx">02 / The roster</div>
+        <h2>People doing <em>the work</em></h2>
+      </div>
+      <p class="sec-note">18 confirmed across 21 categories. These are the four load-bearing ones.</p>
+    </div>
+    <div class="v-grid">
+      <article class="v-card rv">
+        <span class="idx">V·01</span>
+        <div class="avatar av1">OH</div>
+        <div>
+          <div class="v-cat">Venue</div>
+          <div class="v-name">The Orchard House</div>
+        </div>
+        <div class="v-contact">Dana Whitfield<br>events@orchardhouse.com<br>(845) 555-0173</div>
+        <hr>
+        <div class="v-price"><b>$24,500</b><span class="pill ok">Booked</span></div>
+        <p class="v-note">Meadow ceremony, 220 capacity. Greenhouse backup is free with the full buyout.</p>
+      </article>
+      <article class="v-card rv d1">
+        <span class="idx">V·02</span>
+        <div class="avatar av2">FF</div>
+        <div>
+          <div class="v-cat">Florals &amp; decor</div>
+          <div class="v-name">Fern &amp; Fable</div>
+        </div>
+        <div class="v-contact">Priya Anand<br>hello@fernandfable.co<br>(646) 555-0242</div>
+        <hr>
+        <div class="v-price"><b>$6,400</b><span class="pill ok">Booked</span></div>
+        <p class="v-note">Ranunculus, greenery-heavy arch. Install from 7 AM the day of; moodboard v3 approved.</p>
+      </article>
+      <article class="v-card rv d2">
+        <span class="idx">V·03</span>
+        <div class="avatar av3">MD</div>
+        <div>
+          <div class="v-cat">Photography</div>
+          <div class="v-name">Margaux Delacroix</div>
+        </div>
+        <div class="v-contact">Studio, Brooklyn<br>book@delacroix.photo<br>(718) 555-0310</div>
+        <hr>
+        <div class="v-price"><b>$5,800</b><span class="pill wait">Contract due</span></div>
+        <p class="v-note">Full-day + engagement session. Counter-signature due by Jul 20 — don't lose her to September.</p>
+      </article>
+      <article class="v-card rv d3">
+        <span class="idx">V·04</span>
+        <div class="avatar av4">CS</div>
+        <div>
+          <div class="v-cat">Catering</div>
+          <div class="v-name">Copper &amp; Sage</div>
+        </div>
+        <div class="v-contact">Marco Ruiz<br>marco@coppersage.net<br>(845) 555-0298</div>
+        <hr>
+        <div class="v-price"><b>$21,300</b><span class="pill talk">In negotiation</span></div>
+        <p class="v-note">Family-style, Hudson Valley produce. Tasting Jul 9; he'll trade the oyster plate for a third dessert if we hold the 100-cover count.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 BUDGET ============ -->
+<section id="budget">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-idx">03 / The money</div>
+        <h2>Budget, <em>line by line</em></h2>
+      </div>
+      <p class="sec-note">Self-funded, no loans. Cushion deliberately kept for rain plan B.</p>
+    </div>
+    <div class="budget-grid">
+      <div class="b-total rv">
+        <div class="big">$55,920<small> spent</small></div>
+        <div class="of">of $82,000 total budget</div>
+        <div class="b-bar"><i id="b-main"></i></div>
+        <div class="b-legend">
+          <span><b>$55,920</b> committed</span>
+          <span class="rest"><b>$26,080</b> in reserve · 31.8%</span>
+        </div>
+        <p class="b-note">The couple asked for <b>“a lot of flowers, a little less sparkle.”</b> Every line is tracking under plan. If the sparkler order lands under $480, reserve grows to 32%.</p>
+      </div>
+      <div class="b-lines rv d1" id="b-lines">
+        <div class="b-line hot"><span class="nm">Venue &amp; buyout <i>Orchard House</i></span><span class="amt"><b>$24,500</b><small>30% of budget</small></span><div class="bar"><i data-w="100"></i></div></div>
+        <div class="b-line hot"><span class="nm">Catering <i>Copper &amp; Sage</i></span><span class="amt"><b>$21,300</b><small>26% of budget</small></span><div class="bar"><i data-w="87"></i></div></div>
+        <div class="b-line"><span class="nm">Floral design <i>Fern &amp; Fable</i></span><span class="amt"><b>$6,400</b><small>8% of budget</small></span><div class="bar"><i data-w="26"></i></div></div>
+        <div class="b-line"><span class="nm">Photography <i>M. Delacroix</i></span><span class="amt"><b>$5,800</b><small>7% of budget</small></span><div class="bar"><i data-w="24"></i></div></div>
+        <div class="b-line"><span class="nm">Music &amp; band <i>The Hollow Pines</i></span><span class="amt"><b>$4,200</b><small>5% of budget</small></span><div class="bar"><i data-w="17"></i></div></div>
+        <div class="b-line"><span class="nm">Stationery <i>Pressed Petal</i></span><span class="amt"><b>$1,720</b><small>2% of budget</small></span><div class="bar"><i data-w="7"></i></div></div>
+        <div class="b-line"><span class="nm">Rings <i>—</i></span><span class="amt"><b>$2,000</b><small>2% of budget</small></span><div class="bar"><i data-w="8"></i></div></div>
+        <div class="b-line"><span class="nm">Transport <i>—</i></span><span class="amt"><b>$1,500</b><small>2% of budget</small></span><div class="bar"><i data-w="6"></i></div></div>
+        <div class="b-line"><span class="nm">Hair &amp; makeup <i>—</i></span><span class="amt"><b>$800</b><small>1% of budget</small></span><div class="bar"><i data-w="3"></i></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 TIMELINE ============ -->
+<section id="timeline">
+  <div class="wrap">
+    <div class="timeline">
+      <div class="tl-head rv">
+        <div>
+          <div class="sec-idx">04 / Run of show</div>
+          <h2>Wedding day, <em>minute by minute</em></h2>
+        </div>
+        <p class="sec-note">Draft v6 — shared with the full vendor team. Ceremony 4:00 PM, send-off 11:15 PM.</p>
+      </div>
+      <ol class="tl">
+        <li class="rv"><div class="time">7:00 AM</div><span class="node"></span><div class="body"><h4>Doors open</h4><p>Staff in. Florists begin install on the meadow arch; venue walk-through with the couple at 8:30.</p><span class="who">Orchard House crew</span></div></li>
+        <li class="rv"><div class="time">9:30 AM</div><span class="node"></span><div class="body"><h4>First look &amp; portrait block</h4><p>The pear grove, golden hour prep. 45 minutes, both families in frame, no rushing.</p><span class="who">Delacroix · hair &amp; makeup</span></div></li>
+        <li class="rv"><div class="time">1:00 PM</div><span class="node"></span><div class="body"><h4>Guest arrival</h4><p>Self-serve lemonade &amp; sherry. Seating cards under the string lights; program in each place setting.</p><span class="who">Copper &amp; Sage service</span></div></li>
+        <li class="rv key"><div class="time">4:00 PM</div><span class="node"></span><div class="body"><h4>The ceremony</h4><p>Meadow, 30 minutes. Officiant: Rev. T. Osei. Rain plan: greenhouse — no guest announcement either way; the day simply moves.</p><span class="who">Rev. Osei · full party</span></div></li>
+        <li class="rv"><div class="time">5:00 PM</div><span class="node"></span><div class="body"><h4>Cocktail hour</h4><p>Back porch. Oysters (pending the tasting), porch lemonade, first band set at 5:30.</p><span class="who">The Hollow Pines</span></div></li>
+        <li class="rv"><div class="time">6:45 PM</div><span class="node"></span><div class="body"><h4>Dinner</h4><p>Family-style, ten tables. Toasts at 7:30 — three speakers, ninety seconds each, gently enforced.</p><span class="who">Copper &amp; Sage</span></div></li>
+        <li class="rv"><div class="time">9:00 PM</div><span class="node"></span><div class="body"><h4>Dancing</h4><p>First dance at 9:05. Cake at 9:45. DJ hands over at 10:30; the floor belongs to the aunt with the tambourine by 11.</p><span class="who">DJ Marisol</span></div></li>
+        <li class="rv key"><div class="time">11:15 PM</div><span class="node"></span><div class="body"><h4>Sparkler send-off</h4><p>130 sparklers along the gravel lane. Car staged by 11:10 — it departs at 11:25, exactly.</p><span class="who">Everyone</span></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap foot-in">
+    <span class="foot-brand">WEDDING <em>/</em> PLANNER</span>
+    <span class="foot-mid">“Details are the whole thing.” — R. Okafor</span>
+    <span class="foot-rt"><a href="#top">Back to top ↑</a> &nbsp;·&nbsp; File 027 · Amara &amp; Jonas · Updated just now</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- grain texture ---------- */
+(function(){
+  const c = document.getElementById('grain'), x = c.getContext('2d');
+  function paint(){
+    c.width = innerWidth/2; c.height = innerHeight/2;
+    const img = x.createImageData(c.width, c.height);
+    for(let i=0;i<img.data.length;i+=4){
+      const v = 210 + Math.random()*45 | 0;
+      img.data[i]=img.data[i+1]=img.data[i+2]=v; img.data[i+3]=14;
+    }
+    x.putImageData(img,0,0);
+  }
+  paint();
+  addEventListener('resize', paint, {passive:true});
+})();
+
+/* ---------- marquee duplicate for seamless loop ---------- */
+(function(){
+  const t = document.getElementById('mq');
+  t.innerHTML = t.innerHTML + t.innerHTML;
+})();
+
+/* ---------- countdown ---------- */
+(function(){
+  const target = new Date('2027-08-14T16:00:00-04:00').getTime();
+  const els = {d:document.getElementById('cd-d'), h:document.getElementById('cd-h'),
+               m:document.getElementById('cd-m'), s:document.getElementById('cd-s')};
+  let prev = {};
+  function set(el, key, val){
+    const s = String(val).padStart(2,'0');
+    if(prev[key] !== s){
+      el.textContent = s;
+      el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick');
+      prev[key] = s;
+    }
+  }
+  function run(){
+    let diff = Math.max(0, target - Date.now());
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor(diff/3600000)%24;
+    const m = Math.floor(diff/60000)%60;
+    const s = Math.floor(diff/1000)%60;
+    set(els.d,'d',d); set(els.h,'h',h); set(els.m,'m',m); set(els.s,'s',s);
+  }
+  run(); setInterval(run,1000);
+})();
+
+/* ---------- checklist ---------- */
+(function(){
+  const list = document.getElementById('checklist');
+  const items = Array.from(list.querySelectorAll('li'));
+  const baseDone = 24, baseTotal = 31; // counts from the rest of the file
+  function update(){
+    const open = items.filter(li=>!li.classList.contains('done')).length;
+    const doneBoard = items.length - open;
+    const hi = items.filter(li=>!li.classList.contains('done') && li.querySelector('.prio.hi')).length;
+    const pct = Math.round(doneBoard/items.length*100);
+    const totalDone = baseDone + doneBoard - 4; // 4 already-done were pre-counted
+    document.getElementById('chk-tag').textContent = open + (open===1?' open':' open');
+    document.getElementById('chk-bar').style.width = pct + '%';
+    document.getElementById('chk-done').textContent = doneBoard;
+    document.getElementById('chk-total').textContent = items.length;
+    document.getElementById('chk-file').textContent = totalDone + '/' + baseTotal;
+    document.getElementById('stat-tasks').textContent = totalDone;
+    const sub = document.getElementById('stat-tasks-sub');
+    sub.textContent = open ? open + ' remaining · ' + hi + ' high priority' : 'Board clear — beautiful.';
+    const filePct = Math.round(totalDone/baseTotal*100);
+    document.getElementById('cd-pct').textContent = filePct + '%';
+    document.getElementById('cd-bar').style.width = filePct + '%';
+  }
+  list.addEventListener('click', e=>{
+    const li = e.target.closest('li'); if(!li) return;
+    li.classList.toggle('done'); update();
+  });
+  update();
+})();
+
+/* ---------- scroll reveals ---------- */
+(function(){
+  const io = new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+})();
+
+/* ---------- animated bars when visible ---------- */
+(function(){
+  function fill(el, w, delay){ setTimeout(()=>{ el.style.width = w + '%'; }, delay||0); }
+  const io = new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const t = e.target;
+    // budget line bars
+    t.querySelectorAll('.b-line .bar > i[data-w]').forEach((b,i)=>fill(b, b.dataset.w, i*90));
+    if(t.id==='b-lines') fill(document.getElementById('b-main'), 68, 200);
+    if(t.classList.contains('guests')){
+      fill(document.getElementById('rsvp-bar'), 79.7, 150);
+      // donut arcs: circumference 314.16
+      const C=314.16;
+      const a=document.getElementById('don-a'), b=document.getElementById('don-b'), c=document.getElementById('don-c');
+      const wA=.797, wB=.127, wC=.076;
+      a.style.strokeDashoffset = C*(1-wA);
+      b.style.strokeDashoffset = C*(1-wB); b.style.strokeDasharray = (C*wB)+' '+C; b.style.transform='rotate('+(360*wA)+'deg)'; b.style.transformOrigin='center';
+      c.style.strokeDashoffset = C*(1-wC); c.style.strokeDasharray = (C*wC)+' '+C; c.style.transform='rotate('+(360*(wA+wB))+'deg)'; c.style.transformOrigin='center';
+      setTimeout(()=>{ a.style.strokeDashoffset = C*(1-wA); b.style.strokeDashoffset = C*(1-wB); c.style.strokeDashoffset = C*(1-wC); }, 60);
+      [a,b,c].forEach(el=>{ el.style.transition='stroke-dashoffset 1.2s cubic-bezier(.2,.7,.2,1)'; });
+    }
+    io.unobserve(t);
+  }),{threshold:.3});
+  io.observe(document.getElementById('b-lines'));
+  io.observe(document.querySelector('.guests'));
+})();
+</script>
+</body>
+</html>

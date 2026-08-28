@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASA ORO — Mediterranean Fine Dining · Porto Cervo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F5EFE2;
+    --cream-2:#ECE3D0;
+    --paper:#F9F5EC;
+    --charcoal:#26241E;
+    --charcoal-2:#1C1B16;
+    --ink:#2B2922;
+    --olive:#6E7146;
+    --olive-deep:#565A38;
+    --gold:#B48B4A;
+    --line:#D8CDB4;
+    --serif:'Cormorant Garamond', serif;
+    --sans:'Inter', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    background:var(--cream);
+    color:var(--ink);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--olive);color:var(--cream)}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 48px}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,.61,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+
+  /* ---------- nav ---------- */
+  header{
+    position:fixed;inset:0 0 auto 0;z-index:100;
+    transition:background .35s ease,box-shadow .35s ease,padding .35s ease;
+    padding:28px 0;
+  }
+  header.scrolled{
+    background:rgba(245,239,226,.92);
+    backdrop-filter:blur(10px);
+    box-shadow:0 1px 0 var(--line);
+    padding:16px 0;
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between}
+  .wordmark{
+    font-family:var(--serif);
+    font-size:1.55rem;letter-spacing:.42em;font-weight:500;
+    color:var(--charcoal);text-decoration:none;text-indent:.42em;
+  }
+  .wordmark span{color:var(--olive-deep)}
+  .nav-links{display:flex;align-items:center;gap:44px}
+  .nav-links a{
+    text-decoration:none;color:var(--ink);font-size:.78rem;font-weight:500;
+    letter-spacing:.18em;text-transform:uppercase;position:relative;padding:4px 0;
+  }
+  .nav-links a:not(.btn):after{
+    content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;
+    background:var(--olive);transform:scaleX(0);transform-origin:right;
+    transition:transform .35s ease;
+  }
+  .nav-links a:not(.btn):hover:after{transform:scaleX(1);transform-origin:left}
+  .btn{
+    display:inline-block;font-family:var(--sans);font-size:.76rem;font-weight:600;
+    letter-spacing:.18em;text-transform:uppercase;text-decoration:none;
+    padding:13px 30px;border:1px solid var(--charcoal);color:var(--charcoal);
+    background:transparent;cursor:pointer;transition:all .3s ease;
+  }
+  .btn:hover{background:var(--charcoal);color:var(--cream)}
+  .btn-solid{background:var(--charcoal);color:var(--cream)}
+  .btn-solid:hover{background:var(--olive-deep);border-color:var(--olive-deep)}
+  .btn-cream{border-color:var(--cream);color:var(--cream)}
+  .btn-cream:hover{background:var(--cream);color:var(--charcoal)}
+
+  /* ---------- hero ---------- */
+  .hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden}
+  .hero:before{
+    content:'';position:absolute;inset:auto -8% -34% auto;width:66vw;height:66vw;
+    border-radius:50%;border:1px solid var(--line);z-index:0;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.05fr .95fr;align-items:center;
+    gap:40px;width:100%;position:relative;z-index:1;padding:140px 0 80px;
+  }
+  .eyebrow{
+    font-size:.74rem;font-weight:600;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--olive-deep);display:flex;align-items:center;gap:16px;margin-bottom:34px;
+  }
+  .eyebrow:before{content:'';width:44px;height:1px;background:var(--gold)}
+  h1{
+    font-family:var(--serif);font-weight:400;color:var(--charcoal);
+    font-size:clamp(3rem,5.6vw,5.4rem);line-height:1.04;letter-spacing:-.01em;
+  }
+  h1 em{font-style:italic;font-weight:300;color:var(--olive-deep)}
+  .hero p.lede{
+    margin:30px 0 40px;max-width:470px;font-size:1.02rem;font-weight:300;
+    color:#57534A;line-height:1.75;
+  }
+  .hero-ctas{display:flex;align-items:center;gap:30px;flex-wrap:wrap}
+  .link-underline{
+    font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--charcoal);text-decoration:none;border-bottom:1px solid var(--charcoal);
+    padding-bottom:5px;transition:all .3s ease;
+  }
+  .link-underline:hover{color:var(--olive-deep);border-color:var(--olive-deep)}
+  .hero-meta{
+    margin-top:64px;display:flex;gap:0;list-style:none;
+    border-top:1px solid var(--line);padding-top:26px;max-width:560px;
+  }
+  .hero-meta li{
+    flex:1;padding-right:24px;font-size:.72rem;letter-spacing:.14em;
+    text-transform:uppercase;color:#6B665A;line-height:1.9;
+  }
+  .hero-meta li + li{padding-left:24px;border-left:1px solid var(--line)}
+  .hero-meta li strong{display:block;font-family:var(--serif);font-size:1.35rem;
+    letter-spacing:.02em;text-transform:none;color:var(--charcoal);font-weight:500}
+
+  .hero-art{display:flex;justify-content:center;position:relative}
+  .hero-art svg{width:min(560px,100%);height:auto}
+
+  /* ---------- section scaffolding ---------- */
+  section{position:relative}
+  .sec-head{margin-bottom:64px}
+  .sec-title{
+    font-family:var(--serif);font-weight:400;color:var(--charcoal);
+    font-size:clamp(2.2rem,3.4vw,3.2rem);line-height:1.1;margin-top:22px;
+  }
+  .sec-title em{font-style:italic;font-weight:300;color:var(--olive-deep)}
+
+  /* ---------- menu ---------- */
+  #menu{background:var(--paper);padding:130px 0 140px;border-top:1px solid var(--line)}
+  .menu-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:56px}
+  .menu-col h3{
+    font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.3em;
+    text-transform:uppercase;color:var(--olive-deep);
+    display:flex;align-items:center;gap:14px;margin-bottom:34px;
+  }
+  .menu-col h3:after{content:'';flex:1;height:1px;background:var(--line)}
+  .dish{margin-bottom:30px}
+  .dish-line{display:flex;align-items:baseline;gap:10px}
+  .dish-name{font-family:var(--serif);font-size:1.4rem;font-weight:500;color:var(--charcoal);white-space:nowrap}
+  .leader{flex:1;border-bottom:1px dotted #B8AC8E;transform:translateY(-5px);min-width:16px}
+  .price{font-family:var(--serif);font-size:1.15rem;font-weight:500;color:var(--gold)}
+  .dish-desc{font-size:.84rem;font-weight:300;color:#6B665A;line-height:1.6;margin-top:4px;max-width:290px}
+  .tasting{
+    margin-top:76px;border:1px solid var(--line);background:var(--cream);
+    padding:44px 56px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;
+  }
+  .tasting p{font-family:var(--serif);font-size:1.35rem;font-style:italic;font-weight:400;color:var(--charcoal);max-width:620px;line-height:1.5}
+  .tasting p b{font-style:normal;font-weight:600;color:var(--olive-deep)}
+
+  /* ---------- chef ---------- */
+  #chef{background:var(--cream);padding:140px 0}
+  .chef-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:80px;align-items:center}
+  .chef-art{position:relative;background:var(--cream-2);padding:56px 40px 0}
+  .chef-art:after{
+    content:'';position:absolute;inset:16px;border:1px solid var(--line);pointer-events:none;
+  }
+  .chef-art svg{display:block;width:100%;height:auto;position:relative;z-index:1}
+  .chef-name{font-family:var(--serif);font-size:2.4rem;font-weight:500;color:var(--charcoal);margin-top:26px}
+  .chef-role{font-size:.74rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--olive-deep);margin-bottom:26px}
+  .chef-body{font-size:.98rem;font-weight:300;color:#57534A;line-height:1.85;margin-bottom:22px;max-width:520px}
+  blockquote{
+    margin-top:38px;padding-left:28px;border-left:2px solid var(--gold);
+    font-family:var(--serif);font-style:italic;font-weight:400;
+    font-size:1.6rem;line-height:1.45;color:var(--charcoal);max-width:480px;
+  }
+
+  /* ---------- reservation ---------- */
+  #reserve{background:var(--charcoal);color:var(--cream);padding:130px 0}
+  #reserve .sec-title{color:var(--cream)}
+  #reserve .sec-title em{color:#C7C0A4}
+  #reserve .eyebrow{color:#A9A084}
+  .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+  .res-copy{font-size:.98rem;font-weight:300;color:#B7B09A;line-height:1.85;margin:28px 0 36px;max-width:460px}
+  .res-note{
+    border:1px solid #3B3931;padding:24px 28px;font-size:.82rem;font-weight:300;
+    color:#8F8A77;line-height:1.7;max-width:440px;
+  }
+  .res-note a{color:#C9C2A6;text-decoration:none;border-bottom:1px solid #565244}
+  form.res-form{display:grid;grid-template-columns:1fr 1fr;gap:26px 22px}
+  .field{display:flex;flex-direction:column;gap:9px}
+  .field.full{grid-column:1/-1}
+  .field label{font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#8F8A77}
+  .field input,.field select{
+    font-family:var(--sans);font-size:.95rem;font-weight:300;color:var(--cream);
+    background:transparent;border:none;border-bottom:1px solid #4A473C;
+    padding:10px 2px;outline:none;transition:border-color .3s ease;border-radius:0;
+    color-scheme:dark;
+  }
+  .field input:focus,.field select:focus{border-color:var(--gold)}
+  .field select option{color:var(--ink);background:var(--cream)}
+  form.res-form .btn{grid-column:1/-1;justify-self:start;margin-top:14px;border-color:#6B675A;color:var(--cream)}
+  form.res-form .btn:hover{background:var(--cream);color:var(--charcoal);border-color:var(--cream)}
+  .form-done{
+    display:none;border:1px solid #4A473C;padding:40px;text-align:center;
+  }
+  .form-done.show{display:block}
+  .form-done h4{font-family:var(--serif);font-weight:400;font-style:italic;font-size:1.7rem;margin-bottom:12px;color:var(--cream)}
+  .form-done p{font-size:.88rem;font-weight:300;color:#B7B09A;line-height:1.7}
+
+  /* ---------- visit ---------- */
+  #visit{background:var(--cream);padding:130px 0 150px}
+  .visit-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center}
+  .map-card{background:var(--paper);border:1px solid var(--line);padding:34px;position:relative}
+  .map-card svg{display:block;width:100%;height:auto}
+  .map-cap{
+    display:flex;justify-content:space-between;align-items:center;margin-top:18px;
+    font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#7A7566;
+  }
+  .map-cap a{color:var(--olive-deep);text-decoration:none;border-bottom:1px solid var(--olive-deep);padding-bottom:2px}
+  .address{
+    font-family:var(--serif);font-size:1.9rem;font-weight:400;line-height:1.35;
+    color:var(--charcoal);margin:28px 0 40px;max-width:420px;
+  }
+  .hours{max-width:400px}
+  .hours h4{font-size:.72rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--olive-deep);margin-bottom:18px}
+  .hours-row{
+    display:flex;justify-content:space-between;align-items:baseline;
+    padding:13px 0;border-bottom:1px solid var(--line);font-size:.9rem;font-weight:300;
+  }
+  .hours-row span:first-child{letter-spacing:.06em}
+  .hours-row span:last-child{font-family:var(--serif);font-size:1.1rem;color:var(--charcoal)}
+  .hours-row.closed span:last-child{color:#9A9179;font-style:italic;font-size:1rem}
+  .contact-line{margin-top:36px;font-size:.9rem;font-weight:300;color:#57534A;line-height:2}
+  .contact-line a{color:var(--charcoal);text-decoration:none;border-bottom:1px solid var(--line);transition:all .3s}
+  .contact-line a:hover{border-color:var(--olive-deep);color:var(--olive-deep)}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--charcoal-2);color:#9B957F;padding:88px 0 44px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:56px;padding-bottom:64px;border-bottom:1px solid #33312A}
+  .foot-mark{
+    font-family:var(--serif);font-size:2rem;font-weight:500;letter-spacing:.38em;
+    color:var(--cream);text-indent:.38em;display:block;margin-bottom:22px;
+  }
+  .foot-mark span{color:var(--gold)}
+  .foot-blurb{font-size:.85rem;font-weight:300;line-height:1.8;max-width:300px;color:#827C68}
+  footer h5{font-size:.7rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:#C9C2A6;margin-bottom:22px}
+  footer ul{list-style:none}
+  footer li{margin-bottom:12px;font-size:.86rem;font-weight:300}
+  footer a{color:#9B957F;text-decoration:none;transition:color .3s}
+  footer a:hover{color:var(--cream)}
+  .foot-bottom{
+    display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+    padding-top:36px;font-size:.72rem;letter-spacing:.1em;color:#6B6656;
+  }
+  .foot-bottom .socials{display:flex;gap:28px}
+  .foot-bottom a{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;color:#827C68;transition:color .3s}
+  .foot-bottom a:hover{color:var(--cream)}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:1020px){
+    .hero-grid{grid-template-columns:1fr;padding-top:150px}
+    .hero-art{order:-1}
+    .hero-art svg{width:min(360px,80%)}
+    .menu-cols{grid-template-columns:1fr;gap:56px}
+    .chef-grid,.res-grid,.visit-grid{grid-template-columns:1fr;gap:56px}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .nav-links a:not(.btn){display:none}
+  }
+  @media(max-width:600px){
+    .wrap{padding:0 24px}
+    form.res-form{grid-template-columns:1fr}
+    .tasting{padding:32px 28px}
+    .hero-meta{flex-direction:column;gap:20px}
+    .hero-meta li + li{border-left:none;padding-left:0}
+    .foot-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header id="siteNav">
+  <div class="wrap nav">
+    <a class="wordmark" href="#top">CASA <span>ORO</span></a>
+    <nav class="nav-links">
+      <a href="#menu">Menu</a>
+      <a href="#chef">The Chef</a>
+      <a href="#visit">Visit</a>
+      <a href="#reserve" class="btn">Reserve</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow reveal">Mediterranean Fine Dining · Porto Cervo</div>
+      <h1 class="reveal d1">An ode to the<br><em>golden coast.</em></h1>
+      <p class="lede reveal d2">Contemporary Mediterranean cooking — a wood fire, a day-boat catch, and the long amber light of the afternoon, served in a room that faces the sea.</p>
+      <div class="hero-ctas reveal d3">
+        <a href="#reserve" class="btn btn-solid">Reserve a Table</a>
+        <a href="#menu" class="link-underline">View the Menu</a>
+      </div>
+      <ul class="hero-meta reveal d3">
+        <li><strong>2016</strong>Established</li>
+        <li><strong>★★</strong>Michelin, since 2019</li>
+        <li><strong>42</strong>Seats at the hearth</li>
+      </ul>
+    </div>
+
+    <div class="hero-art reveal d2" aria-hidden="true">
+      <!-- Plate illustration -->
+      <svg viewBox="0 0 560 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="280" cy="300" r="252" stroke="#D8CDB4" stroke-width="1"/>
+        <circle cx="280" cy="290" r="206" stroke="#565A38" stroke-width="1.5"/>
+        <circle cx="280" cy="290" r="152" stroke="#B48B4A" stroke-width="1"/>
+        <!-- sauce swoosh -->
+        <path d="M158 316 C 210 246, 330 246, 402 312" stroke="#B48B4A" stroke-width="2" stroke-linecap="round"/>
+        <path d="M182 330 C 226 284, 322 284, 380 326" stroke="#565A38" stroke-width="1.2" stroke-linecap="round"/>
+        <!-- garnish dots -->
+        <circle cx="222" cy="270" r="4" fill="#565A38"/>
+        <circle cx="248" cy="258" r="3" fill="#B48B4A"/>
+        <circle cx="352" cy="264" r="4" fill="#565A38"/>
+        <circle cx="332" cy="252" r="2.6" fill="#565A38"/>
+        <circle cx="286" cy="242" r="3.4" fill="#B48B4A"/>
+        <!-- olive sprig across plate -->
+        <path d="M196 356 C 244 342, 316 342, 366 358" stroke="#565A38" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M232 350 C 228 336, 234 326, 248 322 C 250 336, 244 346, 232 350 Z" stroke="#565A38" stroke-width="1.3"/>
+        <path d="M268 346 C 272 332, 266 322, 252 318 C 250 332, 256 342, 268 346 Z" stroke="#565A38" stroke-width="1.3"/>
+        <path d="M306 346 C 302 332, 308 322, 322 318 C 324 332, 318 342, 306 346 Z" stroke="#565A38" stroke-width="1.3"/>
+        <circle cx="288" cy="352" r="6" stroke="#B48B4A" stroke-width="1.3"/>
+        <circle cx="322" cy="354" r="6" stroke="#B48B4A" stroke-width="1.3"/>
+        <!-- sun arc above -->
+        <path d="M172 128 A 168 168 0 0 1 388 128" stroke="#B48B4A" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="280" cy="122" r="3.2" fill="#B48B4A"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MENU ===================== -->
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="eyebrow">The Season · Autumn Menu</div>
+      <h2 class="sec-title">From the fire, <em>to the table.</em></h2>
+    </div>
+
+    <div class="menu-cols">
+      <div class="menu-col reveal">
+        <h3>To Begin</h3>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Crudo of Turbot</span><span class="leader"></span><span class="price">28</span></div>
+          <p class="dish-desc">Day-boat turbot, blood orange, fennel pollen, Sicilian almond</p>
+        </div>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Charred Octopus</span><span class="leader"></span><span class="price">26</span></div>
+          <p class="dish-desc">'Nduja aioli, smoked lemon, estate olive oil</p>
+        </div>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Burrata di Andria</span><span class="leader"></span><span class="price">22</span></div>
+          <p class="dish-desc">Black figs, wild thyme, bread baked in the embers</p>
+        </div>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Crispy Artichoke</span><span class="leader"></span><span class="price">19</span></div>
+          <p class="dish-desc">Vinegar of Marsala, shaved pecorino, capers</p>
+        </div>
+      </div>
+
+      <div class="menu-col reveal d1">
+        <h3>From the Fire</h3>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Whole Branzino</span><span class="leader"></span><span class="price">58</span></div>
+          <p class="dish-desc">Za'atar butter, charred lemon, sea beans</p>
+        </div>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Slow Lamb Shoulder</span><span class="leader"></span><span class="price">64</span></div>
+          <p class="dish-desc">Pomegranate, pistachio dukkah, smoked eggplant</p>
+        </div>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Tagliolini di Mare</span><span class="leader"></span><span class="price">46</span></div>
+          <p class="dish-desc">Bottarga, brown-butter mussels, wild garlic</p>
+        </div>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Saffron Risotto</span><span class="leader"></span><span class="price">54</span></div>
+          <p class="dish-desc">Langoustine, aged parmesan, chive oil</p>
+        </div>
+      </div>
+
+      <div class="menu-col reveal d2">
+        <h3>Sweet End</h3>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Olive Oil Cake</span><span class="leader"></span><span class="price">18</span></div>
+          <p class="dish-desc">Mascarpone, orange blossom, candied citron</p>
+        </div>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Dark Chocolate &amp; Sea Salt</span><span class="leader"></span><span class="price">19</span></div>
+          <p class="dish-desc">Honey ice cream, hazelnut praline, olive crumb</p>
+        </div>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Fruits of the Garden</span><span class="leader"></span><span class="price">16</span></div>
+          <p class="dish-desc">Sorbet of the day, crushed pistachio, mint</p>
+        </div>
+        <div class="dish">
+          <div class="dish-line"><span class="dish-name">Cheese of Sardinia</span><span class="leader"></span><span class="price">21</span></div>
+          <p class="dish-desc">Sheep's-milk cheeses, quince, walnut bread</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tasting reveal">
+      <p><b>The Tasting.</b> A seven-course journey through the day's catch and the season's fields — <b>145</b> per guest, available to the whole table. A cellar pairing of Mediterranean wines adds <b>85</b>.</p>
+      <a href="#reserve" class="btn btn-solid">Book the Tasting</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CHEF ===================== -->
+<section id="chef">
+  <div class="wrap chef-grid">
+    <div class="chef-art reveal" aria-hidden="true">
+      <!-- Abstract chef portrait -->
+      <svg viewBox="0 0 320 400" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="160" cy="196" r="128" fill="#6E7146" opacity="0.16"/>
+        <path d="M160 92 a112 112 0 0 1 112 112" fill="none" stroke="#B48B4A" stroke-width="1.4" stroke-linecap="round"/>
+        <!-- head -->
+        <circle cx="160" cy="128" r="58" fill="#26241E"/>
+        <!-- hairline accent -->
+        <path d="M110 108 a58 58 0 0 1 100 -22" fill="none" stroke="#F5EFE2" stroke-width="1.4" opacity="0.55" stroke-linecap="round"/>
+        <!-- neck -->
+        <rect x="142" y="176" width="36" height="30" fill="#26241E"/>
+        <!-- shoulders / chef jacket -->
+        <path d="M64 330 C 64 254 104 214 160 214 C 216 214 256 254 256 330 Z" fill="#26241E"/>
+        <!-- collar -->
+        <path d="M138 220 L160 246 L182 220" fill="none" stroke="#F5EFE2" stroke-width="1.4" opacity="0.7"/>
+        <!-- buttons -->
+        <circle cx="160" cy="266" r="2.4" fill="#F5EFE2" opacity="0.7"/>
+        <circle cx="160" cy="288" r="2.4" fill="#F5EFE2" opacity="0.7"/>
+        <circle cx="160" cy="310" r="2.4" fill="#F5EFE2" opacity="0.7"/>
+        <!-- olive sprig signature -->
+        <path d="M214 356 C 236 348, 258 348, 276 354" stroke="#565A38" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+        <circle cx="242" cy="352" r="4" fill="none" stroke="#565A38" stroke-width="1.2"/>
+        <circle cx="258" cy="354" r="4" fill="none" stroke="#565A38" stroke-width="1.2"/>
+      </svg>
+    </div>
+    <div>
+      <div class="eyebrow reveal">The Kitchen</div>
+      <p class="chef-name reveal d1">Elena Marchetti</p>
+      <div class="chef-role reveal d1">Chef &amp; Founder</div>
+      <p class="chef-body reveal d2">Raised between a Ligurian kitchen and a Provençal market, Elena built Casa Oro around a single idea — that the Mediterranean's finest moments are its golden hours, and that a restaurant should hold them still. Every dish begins at the hearth: a wood-burning fire that anchors the room — and follows the day-boat catch, the orchard, and the herb farm on the hillside behind the house.</p>
+      <p class="chef-body reveal d2">Her menu changes with the tide and the harvest, never with the calendar. It has held two Michelin stars since 2019.</p>
+      <blockquote class="reveal d3">"I don't cook the coast. I turn on the light and let the ingredients do the talking."</blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RESERVE ===================== -->
+<section id="reserve">
+  <div class="wrap res-grid">
+    <div>
+      <div class="eyebrow reveal">Reservations</div>
+      <h2 class="sec-title reveal d1">A table in the <em>golden hour.</em></h2>
+      <p class="res-copy reveal d2">Evenings seat twice — 6pm and 9pm — and the hearth table seats a single table at a time. We hold the room for two hours; linger over the amari, the kitchen won't mind.</p>
+      <div class="res-note reveal d3">Parties of seven or more, and requests for the <a href="#reserve">Oro private dining room</a>, are handled personally by our reservations team at <a href="mailto:reserve@casahoro.it">reserve@casahoro.it</a>.</div>
+    </div>
+
+    <div class="reveal d2">
+      <form class="res-form" id="resForm" novalidate>
+        <div class="field full">
+          <label for="fname">Full name</label>
+          <input id="fname" type="text" placeholder="Isabella Ferrero" required>
+        </div>
+        <div class="field full">
+          <label for="femail">Email</label>
+          <input id="femail" type="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="fdate">Date</label>
+          <input id="fdate" type="date" required>
+        </div>
+        <div class="field">
+          <label for="ftime">Seating</label>
+          <select id="ftime" required>
+            <option value="">Select…</option>
+            <option>18:00 — First seating</option>
+            <option>21:00 — Second seating</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="fguests">Guests</label>
+          <select id="fguests" required>
+            <option>2 guests</option>
+            <option>3 guests</option>
+            <option>4 guests</option>
+            <option>5 guests</option>
+            <option>6 guests</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="foccasion">Occasion</label>
+          <select id="foccasion">
+            <option value="">None</option>
+            <option>Birthday</option>
+            <option>Anniversary</option>
+            <option>Celebration</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-cream">Request Reservation</button>
+      </form>
+
+      <div class="form-done" id="formDone">
+        <h4>Grazie — we've received your request.</h4>
+        <p id="doneText">Our reservations team will confirm your table by email within a few hours. We look forward to hosting you at Casa Oro.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== VISIT ===================== -->
+<section id="visit">
+  <div class="wrap visit-grid">
+    <div class="map-card reveal">
+      <!-- Abstract map -->
+      <svg viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg" fill="none" aria-hidden="true">
+        <!-- sea hatching -->
+        <g stroke="#D8CDB4" stroke-width="1">
+          <path d="M20 300 C 120 288, 200 300, 300 292 S 460 296, 505 288"/>
+          <path d="M30 316 C 130 306, 210 318, 310 310 S 455 314, 500 308"/>
+          <path d="M45 332 C 140 324, 220 334, 320 328 S 445 330, 490 326"/>
+        </g>
+        <!-- coastline -->
+        <path d="M0 250 C 90 240, 150 268, 235 246 C 320 226, 380 252, 520 228" stroke="#565A38" stroke-width="1.8"/>
+        <!-- streets -->
+        <g stroke="#C9BC9C" stroke-width="1">
+          <path d="M120 40 C 140 110, 130 170, 150 240"/>
+          <path d="M200 20 C 210 90, 195 160, 212 236"/>
+          <path d="M290 30 C 285 100, 300 160, 288 232"/>
+          <path d="M60 120 C 160 130, 260 118, 380 128"/>
+          <path d="M40 185 C 150 175, 270 190, 400 178"/>
+        </g>
+        <!-- bay label dots -->
+        <circle cx="440" cy="60" r="2" fill="#B48B4A"/>
+        <path d="M400 55 C 430 45, 470 48, 495 60" stroke="#B48B4A" stroke-width="1" stroke-linecap="round"/>
+        <!-- location marker -->
+        <circle cx="235" cy="246" r="26" stroke="#B48B4A" stroke-width="1"/>
+        <circle cx="235" cy="246" r="14" stroke="#B48B4A" stroke-width="1"/>
+        <circle cx="235" cy="246" r="5" fill="#B48B4A"/>
+      </svg>
+      <div class="map-cap">
+        <span>Porto Cervo · Sardinia</span>
+        <a href="#visit">Get Directions →</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="eyebrow reveal">Find Us</div>
+      <p class="address reveal d1">Casa Oro, 12 Via del Sole,<br>Porto Cervo 07020,<br>Sardinia, Italy</p>
+      <div class="hours reveal d2">
+        <h4>Hours</h4>
+        <div class="hours-row"><span>Wednesday — Thursday</span><span>18:00 – 23:00</span></div>
+        <div class="hours-row"><span>Friday — Saturday</span><span>18:00 – 23:30</span></div>
+        <div class="hours-row"><span>Sunday</span><span>18:00 – 22:00</span></div>
+        <div class="hours-row closed"><span>Monday — Tuesday</span><span>Closed</span></div>
+      </div>
+      <div class="contact-line reveal d3">
+        <a href="tel:+390789482107">+39 0789 48 21 07</a><br>
+        <a href="mailto:hello@casahoro.it">hello@casahoro.it</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <span class="foot-mark">CASA <span>ORO</span></span>
+        <p class="foot-blurb">Contemporary Mediterranean fine dining, two hours of the golden hour, on the bay of Porto Cervo.</p>
+      </div>
+      <div>
+        <h5>Visit</h5>
+        <ul>
+          <li>12 Via del Sole</li>
+          <li>Porto Cervo 07020</li>
+          <li>Sardinia, Italy</li>
+          <li><a href="tel:+390789482107">+39 0789 48 21 07</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Hours</h5>
+        <ul>
+          <li>Wed – Thu · 18:00 – 23:00</li>
+          <li>Fri – Sat · 18:00 – 23:30</li>
+          <li>Sun · 18:00 – 22:00</li>
+          <li>Mon – Tue · Closed</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:hello@casahoro.it">hello@casahoro.it</a></li>
+          <li><a href="mailto:reserve@casahoro.it">reserve@casahoro.it</a></li>
+          <li><a href="mailto:press@casahoro.it">press@casahoro.it</a></li>
+          <li><a href="#reserve">Reservations</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 Casa Oro S.r.l. · P.IVA 070241 0918 · All rights reserved</span>
+      <div class="socials">
+        <a href="#top">Instagram</a>
+        <a href="#top">Journal</a>
+        <a href="#top">Private Dining</a>
+        <a href="#top">Gift Cards</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('siteNav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Reservation form
+  const form = document.getElementById('resForm');
+  const done = document.getElementById('formDone');
+  const doneText = document.getElementById('doneText');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('fname').value.trim() || 'friend';
+    const date = document.getElementById('fdate').value;
+    const time = document.getElementById('ftime').value || '6pm';
+    const guests = document.getElementById('fguests').value;
+    if (!date) { document.getElementById('fdate').focus(); return; }
+    const pretty = new Date(date + 'T12:00:00').toLocaleDateString('en-GB',
+      {weekday:'long', day:'numeric', month:'long'});
+    doneText.textContent = `Thank you, ${name}. We've noted a request for ${guests} on ${pretty}, ${time}. Our reservations team will confirm by email within a few hours — we look forward to hosting you at Casa Oro.`;
+    form.style.display = 'none';
+    done.classList.add('show');
+  });
+</script>
+</body>
+</html>

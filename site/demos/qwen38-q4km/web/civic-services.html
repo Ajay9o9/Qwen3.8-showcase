@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lumen City — Official City Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --civic-900:#0B2A4A;
+  --civic-800:#123C6B;
+  --civic-700:#164B85;
+  --civic-600:#1D5FB0;
+  --civic-500:#2E74C8;
+  --civic-100:#DCE9F7;
+  --civic-50:#EEF4FB;
+  --paper-50:#FDFAF4;
+  --paper-100:#F7F1E5;
+  --paper-200:#EFE5D2;
+  --paper-300:#E2D4BA;
+  --ink-900:#1B2430;
+  --ink-600:#4A5568;
+  --ink-400:#7A8595;
+  --amber:#C98A2B;
+  --amber-soft:#F4E3C2;
+  --alert:#B3402E;
+  --ok:#2F7D4F;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(11,42,74,.06), 0 8px 24px rgba(11,42,74,.08);
+  --shadow-lg:0 2px 4px rgba(11,42,74,.08), 0 18px 44px rgba(11,42,74,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Public Sans',system-ui,sans-serif;
+  background:var(--paper-50);
+  color:var(--ink-900);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;line-height:1.15;letter-spacing:-.01em}
+a{color:var(--civic-600)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ---------- Skip + Utility bar ---------- */
+.skip{position:absolute;left:-9999px;top:0;background:var(--civic-900);color:#fff;padding:10px 18px;z-index:200;border-radius:0 0 8px 0}
+.skip:focus{left:0}
+.utilitybar{background:var(--civic-900);color:#CFE0F5;font-size:.82rem}
+.utilitybar .container{display:flex;justify-content:space-between;align-items:center;height:38px;gap:16px}
+.utilitybar nav{display:flex;gap:20px}
+.utilitybar a{color:#CFE0F5;text-decoration:none;font-weight:500}
+.utilitybar a:hover{color:#fff;text-decoration:underline}
+.util-left{display:flex;align-items:center;gap:10px}
+.util-dot{width:7px;height:7px;border-radius:50%;background:#7FD0A0;display:inline-block}
+
+/* ---------- Header ---------- */
+header.site{position:sticky;top:0;z-index:100;background:rgba(253,250,244,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--paper-300)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:76px;gap:24px}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink-900)}
+.brand-seal{width:46px;height:46px;flex:none}
+.brand-name{font-family:'Fraunces',serif;font-weight:700;font-size:1.35rem;letter-spacing:.04em}
+.brand-sub{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-400);font-weight:600}
+nav.primary{display:flex;gap:4px}
+nav.primary a{
+  text-decoration:none;color:var(--ink-600);font-weight:600;font-size:.92rem;
+  padding:9px 14px;border-radius:8px;transition:background .15s,color .15s;
+}
+nav.primary a:hover{background:var(--civic-50);color:var(--civic-700)}
+nav.primary a[aria-current="page"]{background:var(--civic-600);color:#fff}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.92rem;
+  padding:11px 20px;border-radius:10px;text-decoration:none;cursor:pointer;border:0;
+  transition:transform .12s,box-shadow .12s,background .15s;font-family:inherit;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--civic-700);color:#fff;box-shadow:0 2px 0 var(--civic-900)}
+.btn-primary:hover{background:var(--civic-600)}
+.btn-ghost{background:transparent;color:var(--civic-700);border:1.5px solid var(--civic-200,var(--paper-300))}
+.btn-ghost:hover{background:var(--civic-50)}
+@media(max-width:980px){nav.primary{display:none}}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;background:
+  radial-gradient(900px 420px at 85% -10%, var(--civic-100), transparent 60%),
+  linear-gradient(180deg, var(--paper-100) 0%, var(--paper-50) 100%);
+  border-bottom:1px solid var(--paper-300)}
+.hero .container{position:relative;z-index:2;padding-top:56px;padding-bottom:64px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin-bottom:18px}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--amber);border-radius:2px}
+.hero h1{font-size:clamp(2.2rem,3.6vw,3.3rem);font-weight:600;margin-bottom:18px}
+.hero h1 em{font-style:normal;color:var(--civic-700);position:relative}
+.hero p.lede{font-size:1.08rem;color:var(--ink-600);max-width:46ch;margin-bottom:32px}
+
+/* Search card */
+.search-card{background:#fff;border:1px solid var(--paper-300);border-radius:var(--radius);box-shadow:var(--shadow-lg);overflow:hidden}
+.search-tabs{display:flex;background:var(--paper-100);border-bottom:1px solid var(--paper-200)}
+.search-tabs button{
+  flex:1;padding:13px 8px;font-family:inherit;font-weight:700;font-size:.88rem;
+  background:none;border:0;border-bottom:3px solid transparent;cursor:pointer;color:var(--ink-600);
+}
+.search-tabs button[aria-selected="true"]{background:#fff;border-bottom-color:var(--civic-600);color:var(--civic-700)}
+.search-body{padding:24px}
+.search-field{display:flex;gap:10px}
+.search-field input{
+  flex:1;font-family:inherit;font-size:1rem;padding:13px 16px;border:1.5px solid var(--paper-300);
+  border-radius:10px;background:var(--paper-50);color:var(--ink-900);min-width:0;
+}
+.search-field input::placeholder{color:var(--ink-400)}
+.search-hint{margin-top:14px;font-size:.83rem;color:var(--ink-400)}
+.search-hint a{font-weight:600;text-decoration:underline}
+.suggest-list{list-style:none;margin-top:12px;border-top:1px dashed var(--paper-300);padding-top:12px;display:none}
+.suggest-list.show{display:block}
+.suggest-list li{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;font-size:.92rem}
+.suggest-list li:hover{background:var(--civic-50);cursor:pointer}
+.suggest-list .tag{margin-left:auto;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--civic-600);background:var(--civic-50);padding:2px 9px;border-radius:99px}
+.hero-quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{
+  font-size:.82rem;font-weight:600;padding:7px 14px;border-radius:99px;text-decoration:none;
+  background:var(--paper-100);border:1px solid var(--paper-300);color:var(--ink-600);transition:all .15s;
+}
+.chip:hover{background:var(--civic-600);color:#fff;border-color:var(--civic-600)}
+
+/* Skyline art */
+.skyline{position:relative;width:100%;height:340px}
+.skyline svg{position:absolute;inset:0;width:100%;height:100%}
+.float-card{
+  position:absolute;background:#fff;border:1px solid var(--paper-300);border-radius:12px;
+  box-shadow:var(--shadow);padding:14px 16px;font-size:.85rem;display:flex;gap:12px;align-items:center;
+  animation:floaty 6s ease-in-out infinite;
+}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.float-card .fc-icon{width:38px;height:38px;border-radius:9px;flex:none;display:grid;place-items:center}
+.float-card strong{display:block;font-size:.9rem}
+.float-card span{color:var(--ink-400);font-size:.78rem}
+.fc-1{top:18px;right:8px}
+.fc-2{bottom:26px;left:-6px;animation-delay:1.4s}
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:36px}
+  .skyline{height:280px}
+}
+
+/* ---------- Alerts ---------- */
+.alerts{padding:0 0 8px}
+.alert-stack{display:grid;gap:10px}
+.alert{
+  display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-radius:12px;
+  border:1px solid;box-shadow:var(--shadow);font-size:.94rem;
+}
+.alert .a-icon{width:34px;height:34px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:1rem;margin-top:2px}
+.alert strong{font-weight:700}
+.alert time{color:var(--ink-400);font-size:.8rem;font-weight:500}
+.alert .a-body{flex:1}
+.alert a{text-decoration:underline;font-weight:600}
+.alert-advisory{background:var(--amber-soft);border-color:#E4C88F}
+.alert-advisory .a-icon{background:#fff;color:var(--amber)}
+.alert-emergency{background:#F7E0DB;border-color:#E3B3A7}
+.alert-emergency .a-icon{background:#fff;color:var(--alert)}
+.alert-ok{background:#E1EFE7;border-color:#BCD9C9}
+.alert-ok .a-icon{background:#fff;color:var(--ok)}
+
+/* ---------- Section framing ---------- */
+section.block{padding:72px 0}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:34px}
+.section-head h2{font-size:clamp(1.6rem,2.4vw,2.1rem);font-weight:600}
+.section-head p{color:var(--ink-600);margin-top:8px;max-width:52ch}
+.section-head .link-all{font-weight:700;text-decoration:none;white-space:nowrap;font-size:.92rem;display:inline-flex;align-items:center;gap:6px}
+.section-head .link-all:hover{text-decoration:underline}
+
+/* ---------- Service finder ---------- */
+#services{background:var(--paper-50)}
+.filter-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.filter-btn{
+  font-family:inherit;font-weight:600;font-size:.85rem;padding:8px 16px;border-radius:99px;cursor:pointer;
+  border:1.5px solid var(--paper-300);background:#fff;color:var(--ink-600);transition:all .15s;
+}
+.filter-btn:hover{border-color:var(--civic-500);color:var(--civic-700)}
+.filter-btn[aria-pressed="true"]{background:var(--civic-700);border-color:var(--civic-700);color:#fff}
+.service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1000px){.service-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.service-grid{grid-template-columns:1fr}}
+.svc{
+  background:#fff;border:1px solid var(--paper-300);border-radius:var(--radius);padding:22px;
+  display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;
+  transition:transform .16s,box-shadow .16s,border-color .16s;
+}
+.svc:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--civic-500)}
+.svc[hidden]{display:none}
+.svc .s-icon{width:46px;height:46px;border-radius:11px;display:grid;place-items:center;background:var(--civic-50);color:var(--civic-700)}
+.svc h3{font-size:1.06rem;font-weight:600}
+.svc p{font-size:.87rem;color:var(--ink-600);flex:1}
+.svc .s-meta{font-size:.78rem;color:var(--ink-400);font-weight:600;display:flex;align-items:center;gap:6px}
+.svc .s-meta .arrow{color:var(--civic-600);transition:transform .16s}
+.svc:hover .s-meta .arrow{transform:translateX(4px)}
+
+/* ---------- Dual: permits + payments ---------- */
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
+@media(max-width:900px){.dual{grid-template-columns:1fr}}
+.panel{background:#fff;border:1px solid var(--paper-300);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px;display:flex;flex-direction:column}
+.panel h3{font-size:1.35rem;margin-bottom:6px}
+.panel > p{color:var(--ink-600);font-size:.92rem;margin-bottom:20px}
+.permits-list{list-style:none;flex:1}
+.permits-list li{display:flex;align-items:center;gap:14px;padding:13px 4px;border-bottom:1px dashed var(--paper-300)}
+.permits-list li:last-child{border-bottom:0}
+.p-dot{width:10px;height:10px;border-radius:3px;flex:none}
+.p-dot.est{background:var(--civic-500)} .p-dot.plat{background:var(--amber)} .p-dot.demo{background:var(--ok)}
+.permits-list .p-name{font-weight:600;font-size:.93rem}
+.permits-list .p-sub{font-size:.78rem;color:var(--ink-400)}
+.permits-list .p-time{margin-left:auto;font-size:.78rem;font-weight:700;color:var(--civic-700);background:var(--civic-50);padding:4px 11px;border-radius:99px;white-space:nowrap}
+.panel .btn{margin-top:20px;align-self:flex-start}
+.pay-summary{border:1px solid var(--paper-200);background:var(--paper-50);border-radius:12px;padding:18px;margin-bottom:8px}
+.pay-row{display:flex;justify-content:space-between;font-size:.9rem;padding:7px 0}
+.pay-row + .pay-row{border-top:1px dashed var(--paper-300)}
+.pay-row .amt{font-weight:700;font-variant-numeric:tabular-nums}
+.pay-total{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700}
+.pay-due{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-size:.8rem;font-weight:700;color:var(--amber);background:var(--amber-soft);padding:6px 12px;border-radius:99px;width:max-content}
+
+/* ---------- Waste + transit ---------- */
+#waste{background:linear-gradient(180deg,var(--paper-100),var(--paper-50));border-top:1px solid var(--paper-300);border-bottom:1px solid var(--paper-300)}
+.waste-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:1000px){.waste-grid{grid-template-columns:repeat(2,1fr)}}
+.waste-card{background:#fff;border:1px solid var(--paper-300);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.waste-card .w-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.waste-card .w-ico{width:42px;height:42px;border-radius:10px;display:grid;place-items:center}
+.w-ico.blue{background:var(--civic-50);color:var(--civic-700)}
+.w-ico.amber{background:var(--amber-soft);color:var(--amber)}
+.w-ico.green{background:#E1EFE7;color:var(--ok)}
+.w-ico.slate{background:var(--paper-200);color:var(--ink-600)}
+.waste-card .w-day{font-family:'Fraunces',serif;font-weight:700;font-size:1.7rem}
+.waste-card .w-day small{font-size:.8rem;font-family:'Public Sans';font-weight:700;color:var(--ink-400);letter-spacing:.1em;text-transform:uppercase;margin-left:4px}
+.waste-card h3{font-size:1.02rem;margin:2px 0 4px}
+.waste-card p{font-size:.82rem;color:var(--ink-600)}
+.waste-card .w-next{margin-top:14px;padding-top:12px;border-top:1px dashed var(--paper-300);font-size:.8rem;color:var(--ink-400)}
+.waste-card .w-next strong{color:var(--civic-700)}
+.trip-plan{margin-top:24px;background:var(--civic-900);border-radius:var(--radius);color:#E8F0FA;padding:28px 30px;display:flex;align-items:center;gap:28px;flex-wrap:wrap;box-shadow:var(--shadow-lg)}
+.trip-plan h3{color:#fff;font-size:1.25rem;margin-bottom:4px}
+.trip-plan p{font-size:.88rem;color:#A9C3E0;max-width:36ch}
+.trip-form{display:flex;gap:8px;flex:1;min-width:280px}
+.trip-form input{flex:1;padding:12px 14px;border-radius:10px;border:1px solid #2C5A94;background:var(--civic-800);color:#fff;font-family:inherit;font-size:.9rem;min-width:0}
+.trip-form input::placeholder{color:#7FA0C8}
+.trip-form .btn{background:var(--amber);color:#3B2503}
+.trip-form .btn:hover{background:#DB9C3C}
+.trip-meta{font-size:.8rem;color:#A9C3E0;display:flex;gap:18px}
+.trip-meta span{display:flex;align-items:center;gap:6px}
+
+/* ---------- Events ---------- */
+.events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:900px){.events-grid{grid-template-columns:1fr}}
+.event{display:flex;gap:18px;background:#fff;border:1px solid var(--paper-300);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);text-decoration:none;color:inherit;transition:transform .16s,box-shadow .16s}
+.event:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.e-date{flex:none;width:66px;height:74px;border-radius:10px;background:var(--civic-700);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.e-date .d{font-family:'Fraunces',serif;font-size:1.7rem;font-weight:700;line-height:1}
+.e-date .m{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.event h3{font-size:1.05rem;margin-bottom:5px}
+.event .e-meta{font-size:.82rem;color:var(--ink-400)}
+.event .e-tag{display:inline-block;margin-top:10px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 11px;border-radius:99px;background:var(--amber-soft);color:#7A4E10}
+.event:nth-child(2) .e-tag{background:#E1EFE7;color:var(--ok)}
+.event:nth-child(3) .e-tag{background:var(--civic-50);color:var(--civic-700)}
+
+/* ---------- Footer ---------- */
+footer{background:var(--civic-900);color:#C7D9EF;margin-top:0}
+.foot-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;padding:64px 0 48px}
+@media(max-width:900px){.foot-top{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.foot-top{grid-template-columns:1fr}}
+.foot-top h3{color:#fff;font-size:1rem;font-family:'Public Sans';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
+.foot-brand .brand-name{color:#fff}
+.foot-brand p{font-size:.9rem;margin:16px 0 20px;max-width:34ch}
+.foot-list{list-style:none;display:grid;gap:11px}
+.foot-list a{color:#C7D9EF;text-decoration:none;font-size:.92rem}
+.foot-list a:hover{color:#fff;text-decoration:underline}
+.foot-contact li{display:flex;gap:12px;font-size:.92rem;padding:6px 0}
+.foot-contact .c-ico{width:30px;height:30px;flex:none;border-radius:8px;background:var(--civic-800);display:grid;place-items:center;color:#8FB4E2}
+.foot-contact a{color:#fff;font-weight:600;text-decoration:none}
+.foot-contact a:hover{text-decoration:underline}
+.csr-1{font-size:1.5rem;font-weight:700;color:#fff;font-family:'Fraunces',serif}
+.csr-1 small{display:block;font-family:'Public Sans';font-size:.78rem;font-weight:600;color:#8FB4E2;letter-spacing:.06em}
+.foot-mid{border-top:1px solid var(--civic-800);padding:26px 0;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+.foot-mid .a11y{display:flex;align-items:center;gap:10px;font-size:.85rem;color:#A9C3E0}
+.a11y-badge{display:inline-flex;align-items:center;gap:8px;background:var(--civic-800);padding:8px 14px;border-radius:99px;font-weight:700;color:#fff;font-size:.8rem}
+.foot-bar{border-top:1px solid var(--civic-800);padding:18px 0 26px;font-size:.78rem;color:#7FA0C8;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.foot-bar a{color:#7FA0C8}
+.foot-bar a:hover{color:#fff}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+
+<!-- Utility bar -->
+<div class="utilitybar">
+  <div class="container">
+    <div class="util-left"><span class="util-dot" aria-hidden="true"></span> <span id="todayLabel">Official website of the City of Lumen</span></div>
+    <nav aria-label="Utility">
+      <a href="#alerts">Alerts</a>
+      <a href="#">Español</a>
+      <a href="#">Accessibility</a>
+      <a href="#">Open Data</a>
+    </nav>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="site">
+  <div class="container header-inner">
+    <a class="brand" href="#" aria-label="Lumen City home">
+      <svg class="brand-seal" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="22" fill="#164B85"/>
+        <circle cx="24" cy="24" r="17.5" fill="none" stroke="#F7F1E5" stroke-width="1.4" stroke-dasharray="2.5 3"/>
+        <path d="M24 12l2.6 7.4h8.4l-6.8 5 2.6 7.6-6.8-5-6.8 5 2.6-7.6-6.8-5h8.4z" fill="#F4E3C2"/>
+        <rect x="14" y="32" width="20" height="2.4" rx="1.2" fill="#F7F1E5" opacity=".85"/>
+      </svg>
+      <span>
+        <span class="brand-name">LUMEN CITY</span><br>
+        <span class="brand-sub">Serve &amp; Shine</span>
+      </span>
+    </a>
+    <nav class="primary" aria-label="Primary">
+      <a href="#main" aria-current="page">Home</a>
+      <a href="#services">Services</a>
+      <a href="#permits">Permits</a>
+      <a href="#waste">Waste</a>
+      <a href="#transit">Transit</a>
+      <a href="#payments">Pay</a>
+      <a href="#events">Events</a>
+    </nav>
+    <a class="btn btn-primary" href="#payments">Pay a Bill</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Hero: municipal search -->
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">City of Lumen · Est. 1889</span>
+          <h1 id="hero-h">Everything your city does, <em>one clear front door.</em></h1>
+          <p class="lede">Search services, check your pickup day, file a permit, and track your transit — plain language, no jargon, always accessible.</p>
+
+          <div class="search-card">
+            <div class="search-tabs" role="tablist" aria-label="Search type">
+              <button role="tab" id="tab-services" aria-selected="true" aria-controls="panel-services">Services</button>
+              <button role="tab" id="tab-permits" aria-selected="false" aria-controls="panel-permits">Permits</button>
+              <button role="tab" id="tab-reports" aria-selected="false" aria-controls="panel-reports">Report it</button>
+            </div>
+            <div class="search-body" id="panel-services" role="tabpanel" aria-labelledby="tab-services">
+              <label class="sr-only" for="muniSearch">Search city services</label>
+              <div class="search-field">
+                <input id="muniSearch" type="search" placeholder="Try “recycling day” or “business license”…" autocomplete="off">
+                <button class="btn btn-primary" type="button" id="searchBtn">Search</button>
+              </div>
+              <ul class="suggest-list" id="suggestList" aria-label="Suggested results"></ul>
+              <p class="search-hint" id="searchHint">Popular: <a href="#waste">Waste &amp; recycling</a> · <a href="#permits">Building permits</a> · <a href="#payments">Property tax</a></p>
+            </div>
+          </div>
+
+          <div class="hero-quick" aria-label="Quick links">
+            <a class="chip" href="#waste">🗓 My pickup day</a>
+            <a class="chip" href="#transit">🚌 Transit live</a>
+            <a class="chip" href="#permits">📄 Start a permit</a>
+            <a class="chip" href="#payments">💳 Pay online</a>
+            <a class="chip" href="#contact">📞 3-1-1</a>
+          </div>
+        </div>
+
+        <div class="skyline" aria-hidden="true">
+          <svg viewBox="0 0 520 340" preserveAspectRatio="xMidYMax meet">
+            <defs>
+              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#DCE9F7"/><stop offset="1" stop-color="#F7F1E5"/>
+              </linearGradient>
+            </defs>
+            <rect width="520" height="340" rx="16" fill="url(#sky)"/>
+            <circle cx="418" cy="72" r="34" fill="#F4E3C2"/>
+            <circle cx="418" cy="72" r="24" fill="#FBDfB0"/>
+            <!-- far buildings -->
+            <g fill="#B7CFE8">
+              <rect x="30" y="120" width="46" height="220"/>
+              <rect x="120" y="96" width="40" height="244"/>
+              <rect x="330" y="110" width="52" height="230"/>
+              <rect x="452" y="132" width="44" height="208"/>
+            </g>
+            <!-- mid buildings -->
+            <g fill="#7FA6CF">
+              <rect x="76" y="150" width="58" height="190"/>
+              <rect x="204" y="120" width="64" height="220"/>
+              <rect x="388" y="158" width="62" height="182"/>
+            </g>
+            <path d="M204 120l32-34 32 34z" fill="#7FA6CF"/>
+            <!-- tower with clock -->
+            <g>
+              <rect x="282" y="82" width="40" height="258" fill="#164B85"/>
+              <path d="M282 82l20-26 20 26z" fill="#123C6B"/>
+              <circle cx="302" cy="112" r="12" fill="#F7F1E5"/>
+              <line x1="302" y1="112" x2="302" y2="104" stroke="#164B85" stroke-width="2"/>
+              <line x1="302" y1="112" x2="308" y2="114" stroke="#164B85" stroke-width="2"/>
+            </g>
+            <!-- windows -->
+            <g fill="#FDFAF4" opacity=".8">
+              <rect x="188" y="136" width="8" height="10"/><rect x="204" y="136" width="8" height="10"/><rect x="220" y="136" width="8" height="10"/>
+              <rect x="188" y="158" width="8" height="10"/><rect x="220" y="158" width="8" height="10"/>
+              <rect x="188" y="180" width="8" height="10"/><rect x="204" y="180" width="8" height="10"/>
+              <rect x="90" y="170" width="7" height="9"/><rect x="104" y="170" width="7" height="9"/><rect x="118" y="170" width="7" height="9"/>
+              <rect x="90" y="192" width="7" height="9"/><rect x="118" y="192" width="7" height="9"/>
+              <rect x="402" y="176" width="7" height="9"/><rect x="416" y="176" width="7" height="9"/><rect x="430" y="176" width="7" height="9"/>
+              <rect x="402" y="198" width="7" height="9"/><rect x="430" y="198" width="7" height="9"/>
+            </g>
+            <g fill="#C98A2B" opacity=".9">
+              <rect x="204" y="158" width="8" height="10"/><rect x="104" y="192" width="7" height="9"/><rect x="416" y="198" width="7" height="9"/>
+            </g>
+            <!-- street -->
+            <rect x="0" y="316" width="520" height="24" fill="#123C6B"/>
+            <g fill="#F7F1E5" opacity=".9">
+              <rect x="20" y="326" width="26" height="4" rx="2"/><rect x="80" y="326" width="26" height="4" rx="2"/>
+              <rect x="140" y="326" width="26" height="4" rx="2"/><rect x="200" y="326" width="26" height="4" rx="2"/>
+              <rect x="260" y="326" width="26" height="4" rx="2"/><rect x="320" y="326" width="26" height="4" rx="2"/>
+              <rect x="380" y="326" width="26" height="4" rx="2"/><rect x="440" y="326" width="26" height="4" rx="2"/>
+            </g>
+            <!-- tram -->
+            <g>
+              <rect x="196" y="288" width="86" height="26" rx="7" fill="#C98A2B"/>
+              <rect x="202" y="293" width="16" height="11" rx="2" fill="#FDFAF4"/>
+              <rect x="223" y="293" width="16" height="11" rx="2" fill="#FDFAF4"/>
+              <rect x="244" y="293" width="16" height="11" rx="2" fill="#FDFAF4"/>
+              <rect x="265" y="293" width="12" height="11" rx="2" fill="#FDFAF4"/>
+              <line x1="239" y1="288" x2="239" y2="276" stroke="#123C6B" stroke-width="2"/>
+            </g>
+          </svg>
+          <div class="float-card fc-1">
+            <span class="fc-icon" style="background:var(--civic-50);color:var(--civic-700)">🚌</span>
+            <span><strong>Blue Line · 4 min</strong><span>Next tram to Central Sq.</span></span>
+          </div>
+          <div class="float-card fc-2">
+            <span class="fc-icon" style="background:var(--amber-soft);color:var(--amber)">♻️</span>
+            <span><strong>Recycling · Tomorrow</strong><span>Curbside · 6:00 – 11:00 AM</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Alerts -->
+  <section class="alerts" id="alerts" aria-labelledby="alerts-h">
+    <div class="container">
+      <h2 id="alerts-h" class="sr-only">Active city alerts</h2>
+      <div class="alert-stack">
+        <div class="alert alert-emergency" role="alert">
+          <span class="a-icon" aria-hidden="true">⚠</span>
+          <div class="a-body">
+            <strong>Water main repair — Harrow Ave &amp; 9th St.</strong> Water service suspended between 8th and 10th streets. Crews expect to restore service by 6:00 PM tonight. <time>Updated 14 min ago</time>
+            <br><a href="#">View affected addresses →</a>
+          </div>
+        </div>
+        <div class="alert alert-advisory">
+          <span class="a-icon" aria-hidden="true">🚧</span>
+          <div class="a-body">
+            <strong>Road advisory:</strong> The 12th Street Bridge carries lane closures (westbound) through Friday, 9:00 PM, for repaving. Plan extra time or use the River Loop detour. <time>Posted yesterday</time>
+            <br><a href="#">Detour map →</a>
+          </div>
+        </div>
+        <div class="alert alert-ok">
+          <span class="a-icon" aria-hidden="true">✔</span>
+          <div class="a-body">
+            <strong>All clear:</strong> The advisory for elevated ozone on Sunday has been lifted. Air quality is currently <strong>Good</strong> citywide.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service finder -->
+  <section class="block" id="services" aria-labelledby="svc-h">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 id="svc-h">Find a city service</h2>
+          <p>Browse by department or filter to what you need. Every page lists what you'll need, what it costs, and how long it takes.</p>
+        </div>
+        <a class="link-all" href="#">All 240 services <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="filter-row" role="group" aria-label="Filter services by category">
+        <button class="filter-btn" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-btn" data-filter="permits" aria-pressed="false">Permits &amp; Licensing</button>
+        <button class="filter-btn" data-filter="waste" aria-pressed="false">Waste &amp; Environment</button>
+        <button class="filter-btn" data-filter="transit" aria-pressed="false">Transit &amp; Mobility</button>
+        <button class="filter-btn" data-filter="utilities" aria-pressed="false">Utilities</button>
+        <button class="filter-btn" data-filter="community" aria-pressed="false">Community</button>
+      </div>
+
+      <div class="service-grid" id="serviceGrid">
+        <a class="svc" href="#" data-cat="permits">
+          <span class="s-icon" aria-hidden="true">📋</span>
+          <h3>Business Licensing</h3>
+          <p>Open or renew a business license, employer account, and signage permit in one session.</p>
+          <span class="s-meta">Permits &amp; Licensing · from $85 <span class="arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="svc" href="#" data-cat="waste">
+          <span class="s-icon" aria-hidden="true">♻️</span>
+          <h3>Curbside Waste &amp; Recycling</h3>
+          <p>Check your address's pickup schedule, bulk item pickup, and household hazardous waste drop-off.</p>
+          <span class="s-meta">Waste &amp; Environment · Free <span class="arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="svc" href="#" data-cat="transit">
+          <span class="s-icon" aria-hidden="true">🚌</span>
+          <h3>Lumen Transit Passes</h3>
+          <p>Buy single rides, 30-day passes, or reduced-fare passes. Free rides for riders under 6.</p>
+          <span class="s-meta">Transit &amp; Mobility · $2 – $60 <span class="arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="svc" href="#" data-cat="utilities">
+          <span class="s-icon" aria-hidden="true">💧</span>
+          <h3>Water, Sewer &amp; Storm</h3>
+          <p>Set up auto-pay, report a leak, read your utility statement, and track sewer upgrades near you.</p>
+          <span class="s-meta">Utilities · from $42/mo <span class="arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="svc" href="#" data-cat="permits">
+          <span class="s-icon" aria-hidden="true">🏗</span>
+          <h3>Building &amp; Electrical Permits</h3>
+          <p>File applications for construction, renovation, and structural work. Most reviewed in under 5 days.</p>
+          <span class="s-meta">Permits &amp; Licensing · from $120 <span class="arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="svc" href="#" data-cat="waste">
+          <span class="s-icon" aria-hidden="true">🌳</span>
+          <h3>Tree Care &amp; Parks</h3>
+          <p>Request tree planting, pruning, or removal. Find city parks, courts, and community gardens.</p>
+          <span class="s-meta">Waste &amp; Environment · Varies <span class="arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="svc" href="#" data-cat="transit">
+          <span class="s-icon" aria-hidden="true">🚲</span>
+          <h3>Bike &amp; Scooter Share</h3>
+          <p>Reserve a LumenRide bike or scooter, view protected lanes, and report maintenance needs.</p>
+          <span class="s-meta">Transit &amp; Mobility · from $3 <span class="arrow" aria-hidden="true">→</span></span>
+        </a>
+        <a class="svc" href="#" data-cat="community">
+          <span class="s-icon" aria-hidden="true">📣</span>
+          <h3>Events &amp; Permits (Public)</h3>
+          <p>Apply to host a street fair, parade, film shoot, or use a community center or pavilion.</p>
+          <span class="s-meta">Community · $50 – $1,500 <span class="arrow" aria-hidden="true">→</span></span>
+        </a>
+      </div>
+      <p id="filterNote" class="sr-only" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- Permits + Payments -->
+  <section class="block" id="permits" aria-labelledby="perm-h" style="padding-top:0">
+    <div class="container">
+      <div class="dual">
+        <div class="panel" id="perm-h-panel">
+          <h3 id="perm-h">Permits, simplified</h3>
+          <p>Start online, pay fees securely, and get status updates by text or email. No in-person visits required for 92% of permit types.</p>
+          <ul class="permits-list">
+            <li>
+              <span class="p-dot est" aria-hidden="true"></span>
+              <span><span class="p-name">Residential building permit</span><br><span class="p-sub">Additions, decks, kitchens, foundations</span></span>
+              <span class="p-time">~5 days review</span>
+            </li>
+            <li>
+              <span class="p-dot plat" aria-hidden="true"></span>
+              <span><span class="p-name">Excavation / grading permit</span><br><span class="p-sub">Over 500 sq ft or within 3 ft of a utility line</span></span>
+              <span class="p-time">~8 days review</span>
+            </li>
+            <li>
+              <span class="p-dot demo" aria-hidden="true"></span>
+              <span><span class="p-name">Temporary event permit</span><br><span class="p-sub">Streets, parks, pavilions &amp; sound zones</span></span>
+              <span class="p-time">~2 days review</span>
+            </li>
+            <li>
+              <span class="p-dot plat" aria-hidden="true"></span>
+              <span><span class="p-name">Sign permit (commercial)</span><br><span class="p-sub">Wall, pole, projection, and window signage</span></span>
+              <span class="p-time">~4 days review</span>
+            </li>
+          </ul>
+          <a class="btn btn-primary" href="#">Start a permit application</a>
+        </div>
+
+        <div class="panel" id="payments" style="background:linear-gradient(180deg,#fff, var(--paper-100))">
+          <h3>Pay a bill</h3>
+          <p>One dashboard for water, tax, parking, and permit fees. Payments process instantly; receipts arrive by email.</p>
+          <div class="pay-summary" aria-label="Example statement for residence 118 Lumen Way">
+            <div class="pay-row"><span>Property tax — Parcel 04-118 (Q3)</span><span class="amt">$612.40</span></div>
+            <div class="pay-row"><span>Water &amp; sewer — May statement</span><span class="amt">$48.15</span></div>
+            <div class="pay-row"><span>Parking citation #2214-A</span><span class="amt">$35.00</span></div>
+            <div class="pay-row pay-total"><span>Total due</span><span class="amt">$695.55</span></div>
+            <span class="pay-due">⏰ Due June 30 · Late fee $15 after July 1</span>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:8px">
+            <a class="btn btn-primary" href="#">Pay online</a>
+            <a class="btn btn-ghost" href="#">Set up auto-pay</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Waste + Transit -->
+  <section class="block" id="waste" aria-labelledby="waste-h">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 id="waste-h">Waste days &amp; getting around</h2>
+          <p>Live schedules for 118 Lumen Way (sample address) and real-time transit. Set your address in your account to personalize these.</p>
+        </div>
+        <a class="link-all" href="#">Full calendar <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="waste-grid">
+        <div class="waste-card">
+          <div class="w-top">
+            <span class="w-ico blue" aria-hidden="true">🗑</span>
+          </div>
+          <div class="w-day" id="wasteDay1">Tue<small>next</small></div>
+          <h3>Trash</h3>
+          <p>Curbside by 7:00 AM. Out by 6:00 PM the night before.</p>
+          <div class="w-next">Next pickup: <strong id="wasteDate1">—</strong></div>
+        </div>
+        <div class="waste-card">
+          <div class="w-top">
+            <span class="w-ico amber" aria-hidden="true">♻️</span>
+          </div>
+          <div class="w-day" id="wasteDay2">Wed<small>next</small></div>
+          <h3>Recycling</h3>
+          <p>Paper, glass, metal, and clean plastics #1–5. No bags — cart lids on.</p>
+          <div class="w-next">Next pickup: <strong id="wasteDate2">—</strong></div>
+        </div>
+        <div class="waste-card">
+          <div class="w-top">
+            <span class="w-ico green" aria-hidden="true">🍃</span>
+          </div>
+          <div class="w-day" id="wasteDay3">Thu<small>next</small></div>
+          <h3>Organics</h3>
+          <p>Food scraps, yard trimmings, and compostable containers. Seasonal: Apr – Oct.</p>
+          <div class="w-next">Next pickup: <strong id="wasteDate3">—</strong></div>
+        </div>
+        <div class="waste-card">
+          <div class="w-top">
+            <span class="w-ico slate" aria-hidden="true">🔋</span>
+          </div>
+          <div class="w-day" style="font-size:1.1rem;padding-top:10px">1st Sat<small>monthly</small></div>
+          <h3>Bulk &amp; Hazardous</h3>
+          <p>Bulk items by appointment; paint, batteries, and e-waste at Riverside Drop Center.</p>
+          <div class="w-next">Next drop day: <strong id="wasteDate4">—</strong></div>
+        </div>
+      </div>
+
+      <div class="trip-plan" id="transit">
+        <div>
+          <h3>Plan a trip on Lumen Transit</h3>
+          <p>Three lines, one fare zone. Live arrivals at every stop.</p>
+          <div class="trip-meta" style="margin-top:14px">
+            <span>🚌 <span id="liveTrips">142</span> trams in service</span>
+            <span>⏱ Avg wait <span id="avgWait">4 min</span></span>
+            <span>♿ All vehicles low-floor</span>
+          </div>
+        </div>
+        <form class="trip-form" onsubmit="return false" aria-label="Trip planner">
+          <label class="sr-only" for="from">Starting point</label>
+          <input id="from" type="text" placeholder="From — e.g., Central Sq.">
+          <label class="sr-only" for="to">Destination</label>
+          <input id="to" type="text" placeholder="To — e.g., Harbor Station">
+          <button class="btn" type="button">Go →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section class="block" id="events" aria-labelledby="ev-h" style="background:var(--paper-50)">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2 id="ev-h">This month in Lumen</h2>
+          <p>Civic meetings, festivals, and market days. Public sessions have live captioning; request other formats by phone.</p>
+        </div>
+        <a class="link-all" href="#">Full calendar <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="events-grid">
+        <a class="event" href="#">
+          <span class="e-date" aria-hidden="true"><span class="d" id="evD1">14</span><span class="m" id="evM1">JUN</span></span>
+          <span>
+            <h3>City Council Public Session</h3>
+            <span class="e-meta">Lumen Hall, Room B · 6:30 PM · Live captioned</span><br>
+            <span class="e-tag">Civic meeting</span>
+          </span>
+        </a>
+        <a class="event" href="#">
+          <span class="e-date" aria-hidden="true"><span class="d" id="evD2">21</span><span class="m" id="evM2">JUN</span></span>
+          <span>
+            <h3>Riverside Night Market</h3>
+            <span class="e-meta">Harrow Esplanade · 5:00 PM – 11:00 PM · Free entry</span><br>
+            <span class="e-tag">Festival</span>
+          </span>
+        </a>
+        <a class="event" href="#">
+          <span class="e-date" aria-hidden="true"><span class="d" id="evD3">28</span><span class="m" id="evM3">JUN</span></span>
+          <span>
+            <h3>Budget Open House &amp; Q&amp;A</h3>
+            <span class="e-meta">Online + City Hall · 6:00 PM · Interpreter on request</span><br>
+            <span class="e-tag">Community</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer id="contact" aria-labelledby="foot-h">
+  <h2 id="foot-h" class="sr-only">Contact the City of Lumen</h2>
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="brand-name" style="font-size:1.4rem;letter-spacing:.04em">LUMEN CITY</span>
+        <p>Official website of the City of Lumen. Government information is free unless a fee is stated on the page.</p>
+        <div class="csr-1">3-1-1 <small>NON-EMERGENCY ASSISTANCE · 24/7</small></div>
+        <p style="margin-top:8px">In an emergency, always call <a href="tel:911" style="color:#fff;font-weight:700">911</a>.</p>
+      </div>
+
+      <nav aria-label="Services">
+        <h3>Services</h3>
+        <ul class="foot-list">
+          <li><a href="#services">Service finder</a></li>
+          <li><a href="#permits">Permits &amp; licensing</a></li>
+          <li><a href="#waste">Waste &amp; recycling</a></li>
+          <li><a href="#payments">Pay a bill</a></li>
+          <li><a href="#transit">Lumen Transit</a></li>
+          <li><a href="#events">Events calendar</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-label="City government">
+        <h3>Government</h3>
+        <ul class="foot-list">
+          <li><a href="#">City Council &amp; meetings</a></li>
+          <li><a href="#">Departments &amp; staff</a></li>
+          <li><a href="#">Open data portal</a></li>
+          <li><a href="#">Jobs at the city</a></li>
+          <li><a href="#">Procurement &amp; bids</a></li>
+          <li><a href="#">Newsroom</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <h3>Reach us</h3>
+        <ul class="foot-contact">
+          <li>
+            <span class="c-ico" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+            </span>
+            <span><strong style="color:#fff">City Hall</strong><br>1 Lumen Plaza<br>Lumen, ST 02460</span>
+          </li>
+          <li>
+            <span class="c-ico" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5c0 8 7 15 15 15l2-4-4-2-2 2a11 11 0 0 1-7-7l2-2-2-4z"/></svg>
+            </span>
+            <span><a href="tel:1311">3-1-1</a> (non-emergency)<br><a href="tel:911">911</a> (emergency)</span>
+          </li>
+          <li>
+            <span class="c-ico" aria-hidden="true">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            </span>
+            <span><a href="mailto:hello@lumen.city">hello@lumen.city</a><br>Hours: Mon–Fri 8 AM – 5 PM</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-mid">
+      <div class="a11y">
+        <span class="a11y-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M12 7c-3 0-5 1-5 1v2l3 .5v3l-2 6h2.2l1.8-5 1.8 5H17l-2-6v-3l3-.5V8s-2-1-5-1h-1z"/></svg>
+          WCAG 2.1 AA
+        </span>
+        <span>This site is designed to be screen-reader, keyboard, and high-contrast friendly.</span>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a href="#" style="color:#C7D9EF;font-size:.85rem;text-decoration:none;font-weight:600">Text-to-speech version</a>
+        <span style="color:#3E639A" aria-hidden="true">·</span>
+        <a href="#" style="color:#C7D9EF;font-size:.85rem;text-decoration:none;font-weight:600">Large print</a>
+        <span style="color:#3E639A" aria-hidden="true">·</span>
+        <a href="#" style="color:#C7D9EF;font-size:.85rem;text-decoration:none;font-weight:600">Language access</a>
+      </div>
+    </div>
+
+    <div class="foot-bar">
+      <span>© <span id="yearNow"></span> City of Lumen. All government content is in the public domain.</span>
+      <span style="display:flex;gap:18px"><a href="#">Privacy</a><a href="#">Accessibility statement</a><a href="#">Site map</a><a href="#">Report a site issue</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const $ = (s,c)=> (c||document).querySelector(s);
+  const $$ = (s,c)=> Array.from((c||document).querySelectorAll(s));
+
+  /* Date-based labels */
+  const now = new Date();
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const fmt = d => days[d.getDay()] + ', ' + months[d.getMonth()].toLowerCase() + ' ' + d.getDate();
+  const addDays = (n, off) => { const d = new Date(now); d.setDate(d.getDate()+off); return d; };
+
+  // Sample address schedule: Tue trash, Wed recycling, Thu organics
+  const dayMap = {'Sun':-1,'Mon':-1,'Tue':0,'Wed':1,'Thu':2,'Fri':-1,'Sat':-1};
+  function nextOf(dayName){
+    let off = 1;
+    for(let i=0;i<8;i++){ const d = addDays(0,i); if(days[d.getDay()]===dayName){ return d; } }
+    return now;
+  }
+  const trashD = nextOf('Tue'), recD = nextOf('Wed'), orgD = nextOf('Thu');
+  const bulkD = (function(){ let d=new Date(now); d.setDate(d.getDate()+1); while(d.getDay()!==6){ d.setDate(d.getDate()+1);} return d; })();
+
+  $('#todayLabel').textContent = 'Official website · ' + fmt(now);
+  $('#wasteDay1').innerHTML = days[trashD.getDay()] + '<small>next</small>';
+  $('#wasteDay2').innerHTML = days[recD.getDay()] + '<small>next</small>';
+  $('#wasteDay3').innerHTML = days[orgD.getDay()] + '<small>next</small>';
+  $('#wasteDate1').textContent = fmt(trashD);
+  $('#wasteDate2').textContent = fmt(recD);
+  $('#wasteDate3').textContent = fmt(orgD);
+  $('#wasteDate4').textContent = fmt(bulkD);
+
+  // Events: first Thursday (council), third Saturday (market), last Friday (budget) of this month
+  const y = now.getFullYear(), m = now.getMonth();
+  const firstThu = (function(){ let d=new Date(y,m,1); while(d.getDay()!==4) d.setDate(d.getDate()+1); return d; })();
+  const thirdSat = new Date(y,m, 15 + ((6 - new Date(y,m,15).getDay()+7)%7) + 7);
+  const lastFri = (function(){ const last=new Date(y,m+1,0); const d=new Date(y,last.getDate(),0); while(d.getDay()!==5) d.setDate(d.getDate()-1); return d; })();
+  $('#evD1').textContent=firstThu.getDate(); $('#evM1').textContent=months[firstThu.getMonth()];
+  $('#evD2').textContent=thirdSat.getDate(); $('#evM2').textContent=months[thirdSat.getMonth()];
+  $('#evD3').textContent=lastFri.getDate();   $('#evM3').textContent=months[lastFri.getMonth()];
+  $('#yearNow').textContent = y;
+
+  /* Search tabs */
+  const tabs = $$('[role="tab"]');
+  const placeholders = {
+    'tab-services':'Try “recycling day” or “business license”…',
+    'tab-permits':'Try “deck permit” or “sign permit”…',
+    'tab-reports':'Describe the issue, e.g. “broken streetlight”…'
+  };
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.setAttribute('aria-selected', x===t ? 'true':'false'));
+    $('#muniSearch').placeholder = placeholders[t.id];
+    $('#suggestList').classList.remove('show');
+    $('#muniSearch').focus();
+  }));
+
+  /* Municipal search suggest */
+  const index = [
+    {t:'Curbside waste & recycling schedule', tag:'Waste'},
+    {t:'Pay property tax online', tag:'Pay'},
+    {t:'Business license application', tag:'Permits'},
+    {t:'Report a broken streetlight', tag:'Report'},
+    {t:'Lumen Transit trip planner & live arrivals', tag:'Transit'},
+    {t:'Bulk item & e-waste drop-off', tag:'Waste'},
+    {t:'City Council public session — live captions', tag:'Civic'},
+    {t:'3-1-1 non-emergency line', tag:'Contact'}
+  ];
+  const input = $('#muniSearch'), list = $('#suggestList'), hint = $('#searchHint');
+  function renderSuggest(q){
+    list.innerHTML='';
+    const matches = q ? index.filter(i => i.t.toLowerCase().includes(q.toLowerCase())).slice(0,4)
+                      : index.slice(0,4);
+    if(!matches.length){ hint.style.display='block'; list.classList.remove('show'); return; }
+    hint.style.display='none';
+    matches.forEach(i=>{
+      const li=document.createElement('li');
+      li.innerHTML = '<span aria-hidden="true" style="color:var(--civic-500)">🔎</span> '+i.t+' <span class="tag">'+i.tag+'</span>';
+      li.tabIndex=0;
+      li.addEventListener('click',()=>{ input.value=i.t; renderSuggest(''); });
+      list.appendChild(li);
+    });
+    list.classList.add('show');
+  }
+  input.addEventListener('input', ()=> renderSuggest(input.value.trim()));
+  input.addEventListener('focus', ()=> renderSuggest(input.value.trim()));
+  $('#searchBtn').addEventListener('click', ()=>{
+    const q = input.value.trim();
+    hint.style.display='block';
+    hint.innerHTML = q ? 'Showing results for “'+q.replace(/</g,'&lt;')+'” — top match: <a href="#services">'+index.find(i=>i.t.toLowerCase().includes(q.toLowerCase()))?.t ?? index[0].t+'</a>'
+                       : 'Popular: <a href="#waste">Waste &amp; recycling</a> · <a href="#permits">Building permits</a> · <a href="#payments">Property tax</a>';
+    list.classList.remove('show');
+  });
+
+  /* Service filter */
+  const fbtns = $$('.filter-btn'), cards = $$('.svc'), note = $('#filterNote');
+  fbtns.forEach(b => b.addEventListener('click', ()=>{
+    fbtns.forEach(x=>x.setAttribute('aria-pressed', x===b?'true':'false'));
+    const f = b.dataset.filter;
+    let shown = 0;
+    cards.forEach(c => { const show = f==='all' || c.dataset.cat===f; c.hidden=!show; if(show) shown++; });
+    note.textContent = shown + ' services shown';
+  }));
+
+  /* Live transit ticker (gentle) */
+  let trips = 142, wait = 4;
+  setInterval(()=>{
+    trips += Math.floor(Math.random()*5)-2;
+    trips = Math.max(130, Math.min(152, trips));
+    wait = 3 + Math.floor(Math.random()*3);
+    $('#liveTrips').textContent = trips;
+    $('#avgWait').textContent = wait + ' min';
+  }, 5000);
+})();
+</script>
+</body>
+</html>

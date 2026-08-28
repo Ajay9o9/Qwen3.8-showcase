@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRAME/ONE — Cinema, Delivered</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0c;
+  --bg-2:#101014;
+  --panel:#16161c;
+  --line:rgba(255,255,255,.08);
+  --txt:#ece9e2;
+  --dim:#9a968d;
+  --gold:#d9a441;
+  --gold-2:#f2c56b;
+  --red:#c0392b;
+  --serif:'Cormorant Garamond',serif;
+  --disp:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:var(--body);
+  font-weight:300;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--gold);color:#0a0a0c}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+
+/* ---------- GRAIN OVERLAY ---------- */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:200;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+
+/* ---------- HEADER ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 56px;
+  background:linear-gradient(to bottom, rgba(10,10,12,.92), rgba(10,10,12,.55) 70%, transparent);
+  backdrop-filter:blur(6px);
+  transition:background .4s;
+}
+.logo{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:.06em;display:flex;align-items:baseline;gap:2px}
+.logo .slash{color:var(--gold);font-weight:400}
+.logo small{font-family:var(--body);font-weight:300;font-size:9px;letter-spacing:.42em;color:var(--dim);margin-left:10px;text-transform:uppercase}
+nav{display:flex;gap:34px}
+nav a{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);transition:color .25s;position:relative}
+nav a:hover,nav a.on{color:var(--txt)}
+nav a.on::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:1px;background:var(--gold)}
+.head-right{display:flex;align-items:center;gap:22px}
+.icon-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;transition:border-color .25s, background .25s}
+.icon-btn:hover{border-color:var(--gold);background:rgba(217,164,65,.08)}
+.avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#3a2f52,#c0392b);border:1px solid rgba(255,255,255,.15);position:relative;overflow:hidden}
+.avatar::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 35% 30%, rgba(255,255,255,.35), transparent 55%)}
+.avatar::before{content:"";position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:16px;height:10px;background:#0a0a0c;border-radius:50%;z-index:1}
+.avatar i{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:#0a0a0c}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;min-height:100vh;display:grid;grid-template-columns:1fr 460px;
+  align-items:center;padding:120px 56px 80px;gap:60px;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 55% at 78% 40%, rgba(192,57,43,.30), transparent 60%),
+    radial-gradient(ellipse 50% 60% at 15% 80%, rgba(42,36,84,.55), transparent 65%),
+    radial-gradient(ellipse 90% 70% at 50% 110%, rgba(20,18,26,.9), transparent 70%),
+    linear-gradient(180deg, #0c0a10 0%, #0a0a0c 100%);
+}
+.hero-bg::before{ /* cinematic light beams */
+  content:"";position:absolute;inset:-20%;
+  background:
+    conic-gradient(from 210deg at 80% 30%, transparent 0deg, rgba(217,164,65,.06) 12deg, transparent 26deg, transparent 90deg, rgba(192,57,43,.05) 108deg, transparent 124deg);
+  animation:beam 14s ease-in-out infinite alternate;
+}
+@keyframes beam{to{transform:rotate(4deg) scale(1.06);opacity:.8}}
+.hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;
+  box-shadow:inset 0 0 220px 60px rgba(0,0,0,.85);}
+.hero > *{position:relative;z-index:2}
+.hero-meta-top{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.badge{font-family:var(--disp);font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(217,164,65,.4);padding:7px 14px;border-radius:2px;display:flex;align-items:center;gap:8px}
+.badge::before{content:"";width:5px;height:5px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px var(--gold)}
+.rating{font-size:12px;color:var(--dim);letter-spacing:.1em;display:flex;align-items:center;gap:6px}
+.rating b{color:var(--gold-2);font-weight:600;font-family:var(--disp)}
+.stars{color:var(--gold);letter-spacing:2px;font-size:11px}
+.hero h1{
+  font-family:var(--disp);font-weight:700;font-size:clamp(52px,5.6vw,86px);
+  line-height:.98;letter-spacing:-.01em;text-transform:uppercase;
+  margin-bottom:8px;
+  text-shadow:0 6px 40px rgba(0,0,0,.6);
+}
+.hero .tagline{font-family:var(--serif);font-style:italic;font-size:22px;color:var(--dim);margin-bottom:26px;max-width:560px;line-height:1.5}
+.hero .tagline em{color:var(--gold-2);font-style:italic}
+.hero-desc{font-size:15px;line-height:1.75;color:#c9c5bc;max-width:560px;margin-bottom:30px}
+.hero-tags{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px}
+.tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);border:1px solid var(--line);padding:7px 13px;border-radius:2px}
+.tag.gold{color:var(--gold-2);border-color:rgba(217,164,65,.35)}
+.cta-row{display:flex;gap:16px;align-items:center}
+.btn{
+  font-family:var(--disp);font-weight:600;font-size:14px;letter-spacing:.14em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:12px;padding:17px 34px;border-radius:2px;
+  transition:transform .2s, box-shadow .25s, background .25s;
+}
+.btn:active{transform:scale(.97)}
+.btn-watch{
+  background:linear-gradient(135deg,var(--gold) 0%, #b8842c 100%);color:#100c04;
+  box-shadow:0 8px 30px rgba(217,164,65,.35);
+}
+.btn-watch:hover{box-shadow:0 10px 44px rgba(217,164,65,.55);transform:translateY(-2px)}
+.btn-ghost{border:1px solid rgba(255,255,255,.25);color:var(--txt);background:rgba(255,255,255,.03)}
+.btn-ghost:hover{border-color:var(--gold);background:rgba(217,164,65,.08)}
+.btn svg{width:16px;height:16px;fill:currentColor}
+.hero-side{display:flex;justify-content:flex-end;align-items:center;gap:36px}
+
+/* ---------- POSTER (CSS art) ---------- */
+.poster{
+  --p1:#1a1024; --p2:#3a1f3a; --accent:#c0392b;
+  width:300px;height:440px;flex:none;border-radius:4px;position:relative;overflow:hidden;
+  background:linear-gradient(165deg,var(--p1) 0%, var(--p2) 55%, #0b0710 100%);
+  box-shadow:0 40px 80px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.08), 0 0 90px rgba(192,57,43,.22);
+  transition:transform .5s cubic-bezier(.2,.7,.3,1);
+}
+.poster::before{ /* moon */
+  content:"";position:absolute;top:44px;right:44px;width:74px;height:74px;border-radius:50%;
+  background:radial-gradient(circle at 38% 34%, #f4e9d4, #cbb98f 55%, #8f7a4d);
+  box-shadow:0 0 50px rgba(244,233,212,.5), 0 0 120px rgba(244,233,212,.2);
+}
+.poster::after{ /* fog */
+  content:"";position:absolute;left:-20%;right:-20%;bottom:0;height:60%;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 100%, rgba(10,7,14,.9), transparent 70%),
+    radial-gradient(ellipse 90% 50% at 75% 105%, rgba(26,16,36,.95), transparent 70%),
+    linear-gradient(to top, #0b0710 8%, transparent 60%);
+}
+.poster .ridge{position:absolute;bottom:0;left:0;right:0;height:38%;z-index:1}
+.poster .silhouette{
+  position:absolute;bottom:52px;left:50%;transform:translateX(-50%);width:36px;height:92px;z-index:2;
+  background:
+    radial-gradient(circle at 50% 10%, #060409 34%, transparent 36%),
+    linear-gradient(#060409 0 100%);
+  clip-path:polygon(38% 0, 62% 0, 66% 14%, 60% 30%, 74% 100%, 56% 100%, 50% 46%, 44% 100%, 26% 100%, 40% 30%, 34% 14%);
+}
+.poster .title-plate{
+  position:absolute;bottom:22px;left:24px;right:24px;z-index:3;
+  border-top:1px solid rgba(244,233,212,.28);padding-top:12px;
+  font-family:var(--disp);font-weight:700;font-size:19px;letter-spacing:.24em;text-transform:uppercase;color:#f4e9d4;
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.poster .title-plate span{font-family:var(--serif);font-style:italic;font-weight:500;font-size:13px;letter-spacing:.04em;color:rgba(244,233,212,.65);text-transform:none}
+.poster .fr-line{position:absolute;left:24px;right:24px;bottom:64px;height:1px;background:rgba(244,233,212,.18);z-index:3}
+.hero .poster:hover{transform:translateY(-8px) rotate(-.6deg)}
+
+.scroll-hint{position:absolute;bottom:34px;left:56px;z-index:3;display:flex;align-items:center;gap:14px;color:var(--dim);font-size:10px;letter-spacing:.4em;text-transform:uppercase}
+.scroll-hint::after{content:"";width:70px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);animation:pulse 2.2s infinite}
+@keyframes pulse{50%{opacity:.3}}
+
+/* ---------- SECTIONS ---------- */
+section{padding:64px 56px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:30px}
+.sec-head .k{font-size:10px;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.sec-head .k::before{content:"";width:22px;height:1px;background:var(--gold)}
+.sec-head h2{font-family:var(--disp);font-weight:600;font-size:30px;letter-spacing:.02em;text-transform:uppercase}
+.sec-head .note{font-family:var(--serif);font-style:italic;color:var(--dim);font-size:15px}
+.row-nav{display:flex;gap:10px}
+.row-nav button{width:42px;height:42px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;color:var(--dim);transition:all .25s}
+.row-nav button:hover{border-color:var(--gold);color:var(--gold-2);background:rgba(217,164,65,.07)}
+.row-nav svg{width:15px;height:15px;fill:currentColor}
+
+/* ---------- SCROLL ROW ---------- */
+.row{
+  display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:10px 4px 22px;scrollbar-width:none;
+}
+.row::-webkit-scrollbar{display:none}
+.row > *{scroll-snap-align:start;flex:none}
+
+/* continue watching cards */
+.cw{width:360px;position:relative;border-radius:4px;overflow:hidden;border:1px solid var(--line);background:var(--panel);transition:transform .35s, border-color .3s}
+.cw:hover{transform:translateY(-6px);border-color:rgba(217,164,65,.5)}
+.cw-art{height:190px;position:relative;overflow:hidden}
+.cw-art .scene{position:absolute;inset:0;transition:transform .6s}
+.cw:hover .scene{transform:scale(1.06)}
+.cw-art::after{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(12,12,16,.95), transparent 55%)}
+.cw-body{padding:16px 18px 18px;position:relative;margin-top:-46px;z-index:2}
+.cw-title{font-family:var(--disp);font-weight:600;font-size:16px;letter-spacing:.03em}
+.cw-meta{font-size:12px;color:var(--dim);margin-top:5px;letter-spacing:.06em}
+.cw-meta b{color:var(--gold-2);font-weight:500}
+.progress{margin-top:14px;height:3px;background:rgba(255,255,255,.12);border-radius:2px;overflow:hidden}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-2));border-radius:2px}
+.cw-resume{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;width:56px;height:56px;border-radius:50%;
+  background:rgba(10,10,12,.65);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;opacity:0;transition:opacity .3s}
+.cw:hover .cw-resume{opacity:1}
+.cw-resume svg{width:18px;height:18px;fill:var(--txt);margin-left:3px}
+/* scene palettes */
+.s1 .scene{background:radial-gradient(circle at 70% 20%, rgba(242,197,107,.5), transparent 45%), linear-gradient(200deg,#231a3d,#0e0a18 70%)}
+.s2 .scene{background:radial-gradient(circle at 25% 80%, rgba(192,57,43,.55), transparent 55%), linear-gradient(160deg,#1c1218,#0a0a0c)}
+.s3 .scene{background:radial-gradient(ellipse at 60% 90%, rgba(58,110,124,.5), transparent 60%), linear-gradient(190deg,#12222a,#080b0d)}
+.s4 .scene{background:radial-gradient(circle at 50% 15%, rgba(217,164,65,.35), transparent 50%), linear-gradient(180deg,#241d12,#0c0a07)}
+.cw-art .sun{position:absolute;width:56px;height:56px;border-radius:50%;top:34px}
+.s1 .sun{right:44px;background:radial-gradient(circle at 40% 35%, #f2c56b, #9a6b24);box-shadow:0 0 40px rgba(242,197,107,.5)}
+.s2 .sun{left:52px;bottom:56px;top:auto;background:radial-gradient(circle at 40% 35%, #e0584a, #5c1410);box-shadow:0 0 44px rgba(192,57,43,.55)}
+.s3 .sun{left:38%;top:40px;background:radial-gradient(circle at 40% 35%, #bfe4ec, #3d6a76);box-shadow:0 0 34px rgba(191,228,236,.35)}
+.s4 .sun{right:60px;top:38px;background:radial-gradient(circle at 40% 35%, #e8d3a0, #7a5c22);box-shadow:0 0 38px rgba(232,211,160,.4)}
+.cw-art .hill{position:absolute;bottom:0;left:0;right:0;height:34%;background:#0a0a0c;clip-path:polygon(0 62%,18% 38%,36% 58%,55% 30%,74% 55%,100% 40%,100% 100%,0 100%)}
+
+/* ---------- COLLECTIONS ---------- */
+.collections{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.coll{
+  position:relative;height:280px;border-radius:4px;overflow:hidden;border:1px solid var(--line);
+  display:flex;flex-direction:column;justify-content:flex-end;padding:26px;cursor:pointer;
+  transition:transform .35s;
+}
+.coll:hover{transform:translateY(-6px)}
+.coll .bg{position:absolute;inset:0;transition:transform .7s}
+.coll:hover .bg{transform:scale(1.08)}
+.c1 .bg{background:radial-gradient(circle at 80% 15%, rgba(217,164,65,.5), transparent 45%), radial-gradient(ellipse at 20% 100%, rgba(26,16,36,.9), transparent 65%), linear-gradient(160deg,#1d1526,#0b0810)}
+.c2 .bg{background:radial-gradient(circle at 15% 25%, rgba(192,57,43,.45), transparent 50%), radial-gradient(ellipse at 85% 95%, rgba(10,10,12,.95), transparent 60%), linear-gradient(200deg,#221318,#0b0709)}
+.c3 .bg{background:radial-gradient(circle at 55% 85%, rgba(58,110,124,.55), transparent 55%), linear-gradient(170deg,#101c22,#080b0d)}
+.coll::after{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(8,8,10,.92) 5%, transparent 60%)}
+.coll > *{position:relative;z-index:2}
+.coll .count{font-family:var(--serif);font-style:italic;color:var(--gold-2);font-size:15px;margin-bottom:6px}
+.coll h3{font-family:var(--disp);font-weight:600;font-size:23px;text-transform:uppercase;letter-spacing:.03em;line-height:1.15}
+.coll p{font-size:13px;color:#b5b1a8;margin-top:8px;line-height:1.55;max-width:88%}
+.coll .go{margin-top:14px;font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(6px);transition:all .3s}
+.coll:hover .go{opacity:1;transform:translateY(0)}
+.coll .strip{position:absolute;top:0;right:0;width:96px;height:124px;z-index:1;display:flex;gap:5px;padding:5px 5px 0 0;transform:rotate(2deg);filter:drop-shadow(0 8px 14px rgba(0,0,0,.6))}
+.coll .strip i{flex:1;border-radius:2px;background:linear-gradient(180deg,var(--a,#3a2f52),var(--b,#c0392b));opacity:.9}
+.c1 .strip i:nth-child(1){--a:#2a2440;--b:#d9a441}
+.c1 .strip i:nth-child(2){--a:#171422;--b:#8a5a9a}
+.c2 .strip i:nth-child(1){--a:#3d1410;--b:#e0584a}
+.c2 .strip i:nth-child(2){--a:#170d0b;--b:#d9a441}
+.c3 .strip i:nth-child(1){--a:#122831;--b:#7fb4c4}
+.c3 .strip i:nth-child(2){--a:#0c1518;--b:#3a6e7c}
+
+/* ---------- FILM GRID ---------- */
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.card{position:relative;border-radius:4px;overflow:hidden;border:1px solid var(--line);background:var(--panel);cursor:pointer;transition:transform .35s, border-color .3s, box-shadow .35s}
+.card:hover{transform:translateY(-7px);border-color:rgba(217,164,65,.5);box-shadow:0 24px 50px rgba(0,0,0,.6)}
+.card-art{height:330px;position:relative;overflow:hidden}
+.card-art .scene{position:absolute;inset:0;transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+.card:hover .scene{transform:scale(1.07)}
+.card-art::after{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(10,10,12,.96) 4%, transparent 55%)}
+.card-body{position:absolute;left:0;right:0;bottom:0;padding:20px;z-index:2}
+.card-body h4{font-family:var(--disp);font-weight:600;font-size:16px;letter-spacing:.04em}
+.card-body .m{font-size:11.5px;color:var(--dim);margin-top:6px;letter-spacing:.08em;display:flex;gap:8px;align-items:center}
+.card-body .m .dot{width:3px;height:3px;border-radius:50%;background:var(--dim)}
+.card-body .m b{color:var(--gold-2);font-weight:500}
+.chip{position:absolute;top:14px;left:14px;z-index:3;font-family:var(--disp);font-size:9px;letter-spacing:.26em;text-transform:uppercase;padding:6px 10px;border-radius:2px;background:rgba(10,10,12,.7);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(4px)}
+.chip.new{color:var(--gold-2);border-color:rgba(217,164,65,.45)}
+/* card scenes */
+.g1 .scene{background:radial-gradient(circle at 75% 22%, rgba(242,197,107,.55), transparent 42%), radial-gradient(ellipse at 30% 100%, rgba(10,10,12,.9), transparent 70%), linear-gradient(190deg,#2a1e3f 0%,#0d0a16 75%)}
+.g2 .scene{background:radial-gradient(circle at 20% 20%, rgba(224,88,74,.5), transparent 48%), linear-gradient(175deg,#251317,#0a0708)}
+.g3 .scene{background:radial-gradient(circle at 50% 100%, rgba(127,180,196,.5), transparent 55%), linear-gradient(180deg,#0d1a20,#070b0d)}
+.g4 .scene{background:radial-gradient(circle at 65% 60%, rgba(217,164,65,.4), transparent 45%), linear-gradient(200deg,#241c10,#0b0906)}
+.g5 .scene{background:radial-gradient(circle at 30% 30%, rgba(138,90,154,.5), transparent 50%), linear-gradient(165deg,#1d1430,#090712)}
+.g6 .scene{background:radial-gradient(circle at 80% 75%, rgba(110,160,120,.4), transparent 50%), linear-gradient(190deg,#12211a,#070d0a)}
+.g7 .scene{background:radial-gradient(circle at 45% 25%, rgba(232,211,160,.45), transparent 45%), linear-gradient(180deg,#221c12,#0a0906)}
+.g8 .scene{background:radial-gradient(circle at 15% 70%, rgba(192,57,43,.55), transparent 50%), linear-gradient(155deg,#1e1013,#080607)}
+.g1 .scene::before,.g4 .scene::before,.g7 .scene::before{content:"";position:absolute;top:36px;width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#f4e9d4,#c9a44e 70%);box-shadow:0 0 42px rgba(244,233,212,.5);right:52px}
+.g2 .scene::before,.g5 .scene::before,.g8 .scene::before{content:"";position:absolute;top:30px;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#e8b9a8,#6a2a20 75%);box-shadow:0 0 38px rgba(224,88,74,.5);left:48px}
+.g3 .scene::before,.g6 .scene::before{content:"";position:absolute;top:34px;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#cfe9ef,#3d6a76 75%);box-shadow:0 0 36px rgba(191,228,236,.35);left:50%;transform:translateX(-50%)}
+.g1 .scene::after,.g3 .scene::after,.g6 .scene::after{content:"";position:absolute;bottom:0;left:0;right:0;height:30%;background:#08080a;clip-path:polygon(0 65%,20% 40%,42% 60%,60% 32%,80% 56%,100% 42%,100% 100%,0 100%)}
+.g2 .scene::after,.g5 .scene::after,.g8 .scene::after{content:"";position:absolute;bottom:0;left:0;right:0;height:34%;background:#070608;clip-path:polygon(0 55%,15% 75%,35% 45%,52% 70%,70% 40%,88% 68%,100% 50%,100% 100%,0 100%)}
+.g4 .scene::after,.g7 .scene::after{content:"";position:absolute;bottom:0;left:0;right:0;height:28%;background:#080604;clip-path:polygon(0 70%,25% 45%,48% 68%,72% 38%,100% 62%,100% 100%,0 100%)}
+.play-badge{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);z-index:3;width:58px;height:58px;border-radius:50%;background:rgba(217,164,65,.92);display:grid;place-items:center;opacity:0;transition:all .3s;box-shadow:0 0 34px rgba(217,164,65,.5)}
+.play-badge svg{width:18px;height:18px;fill:#100c04;margin-left:3px}
+.card:hover .play-badge{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* ---------- DIRECTOR SPOTLIGHT ---------- */
+.spot{position:relative;overflow:hidden}
+.spot-inner{display:grid;grid-template-columns:420px 1fr;gap:64px;align-items:center;background:linear-gradient(120deg,#14121a 0%,#0e0c12 60%,#12100c 100%);border:1px solid var(--line);border-radius:6px;padding:56px;position:relative}
+.spot-inner::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 70% 90% at 90% 10%, rgba(217,164,65,.12), transparent 60%);pointer-events:none}
+.portrait{position:relative;width:100%;aspect-ratio:4/5;border-radius:4px;overflow:hidden;border:1px solid rgba(255,255,255,.1);background:linear-gradient(175deg,#1e1826 0%,#0c0a10 70%)}
+.portrait svg{position:absolute;inset:0;width:100%;height:100%}
+.portrait::after{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(10,10,12,.55), transparent 40%)}
+.portrait .plate{position:absolute;bottom:0;left:0;right:0;padding:18px;z-index:2;font-family:var(--disp);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-2);display:flex;justify-content:space-between}
+.spot-copy .k{font-size:10px;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.spot-copy .k::before{content:"";width:22px;height:1px;background:var(--gold)}
+.spot-copy h2{font-family:var(--disp);font-weight:700;font-size:42px;text-transform:uppercase;letter-spacing:.01em;line-height:1}
+.spot-copy h2 small{display:block;font-family:var(--serif);font-style:italic;font-weight:500;font-size:19px;text-transform:none;letter-spacing:.02em;color:var(--dim);margin-top:10px}
+.spot-copy blockquote{font-family:var(--serif);font-style:italic;font-size:21px;line-height:1.55;color:#d8d3c8;margin:26px 0;padding-left:22px;border-left:2px solid var(--gold);max-width:560px}
+.spot-films{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+.spot-films span{font-size:12px;letter-spacing:.1em;color:var(--dim);border:1px solid var(--line);padding:9px 15px;border-radius:2px;transition:all .25s;cursor:pointer}
+.spot-films span:hover{color:var(--gold-2);border-color:rgba(217,164,65,.45)}
+.spot-stats{display:flex;gap:44px;margin-top:34px}
+.spot-stats div b{display:block;font-family:var(--disp);font-weight:700;font-size:26px;color:var(--gold-2)}
+.spot-stats div span{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--dim)}
+
+/* ---------- SUBSCRIPTION FOOTER ---------- */
+footer{margin-top:40px}
+.plans{padding:90px 56px 60px;background:linear-gradient(180deg,#0a0a0c, #0e0c11 40%, #0a0a0c);position:relative;overflow:hidden}
+.plans::before{content:"";position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:900px;height:500px;background:radial-gradient(ellipse at center, rgba(217,164,65,.10), transparent 65%);pointer-events:none}
+.plans-head{text-align:center;max-width:640px;margin:0 auto 56px}
+.plans-head .k{font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.plans-head h2{font-family:var(--disp);font-weight:700;font-size:44px;text-transform:uppercase;letter-spacing:.01em;line-height:1.1}
+.plans-head p{color:var(--dim);margin-top:18px;font-size:15px;line-height:1.7}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1080px;margin:0 auto}
+.plan{border:1px solid var(--line);border-radius:6px;padding:38px 34px;background:rgba(255,255,255,.02);position:relative;transition:transform .3s, border-color .3s}
+.plan:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.2)}
+.plan.featured{background:linear-gradient(160deg, rgba(217,164,65,.12), rgba(217,164,65,.02) 55%), var(--panel);border-color:rgba(217,164,65,.5);box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.plan .flag{position:absolute;top:-12px;left:34px;font-family:var(--disp);font-size:9px;letter-spacing:.3em;text-transform:uppercase;background:linear-gradient(135deg,var(--gold),#b8842c);color:#100c04;padding:6px 12px;border-radius:2px;font-weight:600}
+.plan h3{font-family:var(--disp);font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);font-weight:500}
+.plan .price{font-family:var(--disp);font-weight:700;font-size:44px;margin:18px 0 4px}
+.plan .price small{font-size:14px;font-weight:400;color:var(--dim)}
+.plan .per{font-size:12px;color:var(--dim);letter-spacing:.1em;margin-bottom:26px}
+.plan ul{list-style:none;margin-bottom:34px}
+.plan li{font-size:13.5px;color:#c4c0b7;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;gap:10px;align-items:center}
+.plan li::before{content:"—";color:var(--gold);font-weight:600}
+.plan .btn{width:100%;justify-content:center;padding:15px}
+.foot-bottom{border-top:1px solid var(--line);padding:34px 56px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;background:#08080a}
+.foot-bottom .logo{font-size:16px}
+.foot-links{display:flex;gap:28px}
+.foot-links a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);transition:color .25s}
+.foot-links a:hover{color:var(--gold-2)}
+.copy{font-size:11px;color:#5c5952;letter-spacing:.08em}
+
+/* ---------- REVEAL ANIM ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media (max-width:1100px){
+  .hero{grid-template-columns:1fr}
+  .hero-side{justify-content:flex-start}
+  .poster{width:240px;height:360px}
+  .collections,.grid{grid-template-columns:repeat(2,1fr)}
+  .spot-inner{grid-template-columns:1fr;gap:40px}
+  .plan-grid{grid-template-columns:1fr;max-width:440px}
+  nav{display:none}
+}
+</style>
+</head>
+<body>
+
+<header id="top">
+  <a class="logo" href="#">FRAME<span class="slash">/</span>ONE<small>cinema, delivered</small></a>
+  <nav>
+    <a href="#" class="on">Home</a>
+    <a href="#films">Films</a>
+    <a href="#collections">Collections</a>
+    <a href="#director">Directors</a>
+    <a href="#plans">Plans</a>
+  </nav>
+  <div class="head-right">
+    <button class="icon-btn" aria-label="Search">
+      <svg viewBox="0 0 24 24" width="15" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    </button>
+    <div class="avatar" title="Your profile"><i></i></div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-vignette"></div>
+
+  <div>
+    <div class="hero-meta-top">
+      <span class="badge">Featured Tonight</span>
+      <span class="rating"><span class="stars">★★★★☆</span> &nbsp;<b>8.7</b> · 124,430 ratings</span>
+    </div>
+    <h1>The Last<br>Lighthouse</h1>
+    <p class="tagline">"A masterpiece of restraint — the sea, the storm, and the silence between them."</p>
+    <p class="hero-desc">After forty years keeping the light at Cape Verdon, keeper Elin Marlowe must decide whether to let the lighthouse go dark — or relight the fires she has spent a lifetime burying. Shot in the off-season on the Faroe Islands, it is a film that holds its breath for two hours and then releases it all at once.</p>
+    <div class="hero-tags">
+      <span class="tag gold">Drama</span>
+      <span class="tag">Nordic Noir</span>
+      <span class="tag">2h 14m</span>
+      <span class="tag">4K · HDR</span>
+      <span class="tag">Director's Cut</span>
+    </div>
+    <div class="cta-row">
+      <button class="btn btn-watch" id="playBtn">
+        <svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg>
+        Watch Now
+      </button>
+      <button class="btn btn-ghost">+ My List</button>
+    </div>
+  </div>
+
+  <div class="hero-side">
+    <div class="poster" aria-hidden="true">
+      <svg class="ridge" viewBox="0 0 300 160" preserveAspectRatio="none">
+        <path d="M0 90 L40 40 L80 78 L120 30 L160 70 L210 24 L250 66 L300 42 L300 160 L0 160 Z" fill="#080510"/>
+        <path d="M0 120 L50 88 L110 118 L170 82 L230 114 L300 92 L300 160 L0 160 Z" fill="#050308"/>
+      </svg>
+      <div class="silhouette"></div>
+      <div class="fr-line"></div>
+      <div class="title-plate">The Last Lighthouse <span>dir. Ingrid Halvorsen</span></div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ============ CONTINUE WATCHING ============ -->
+<section class="reveal">
+  <div class="sec-head">
+    <div>
+      <div class="k">Pick Up Where You Left Off</div>
+      <h2>Continue Watching</h2>
+    </div>
+    <div class="row-nav">
+      <button data-row="cwRow" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15.5 5 8 12l7.5 7z"/></svg></button>
+      <button data-row="cwRow" data-dir="1" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M8.5 5 16 12l-7.5 7z"/></svg></button>
+    </div>
+  </div>
+  <div class="row" id="cwRow">
+    <div class="cw s1">
+      <div class="cw-art"><div class="scene"><div class="sun"></div><div class="hill"></div></div></div>
+      <div class="cw-resume"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="cw-body">
+        <div class="cw-title">Amber &amp; Ash</div>
+        <div class="cw-meta"><b>S1 · E4</b> "The Ember Road" · 22 min left</div>
+        <div class="progress"><i style="width:68%"></i></div>
+      </div>
+    </div>
+    <div class="cw s2">
+      <div class="cw-art"><div class="scene"><div class="sun"></div><div class="hill"></div></div></div>
+      <div class="cw-resume"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="cw-body">
+        <div class="cw-title">Red Static</div>
+        <div class="cw-meta"><b>Film</b> · 51 min left · 4K</div>
+        <div class="progress"><i style="width:43%"></i></div>
+      </div>
+    </div>
+    <div class="cw s3">
+      <div class="cw-art"><div class="scene"><div class="sun"></div><div class="hill"></div></div></div>
+      <div class="cw-resume"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="cw-body">
+        <div class="cw-title">Northwater</div>
+        <div class="cw-meta"><b>Documentary</b> · 1h 12m left</div>
+        <div class="progress"><i style="width:21%"></i></div>
+      </div>
+    </div>
+    <div class="cw s4">
+      <div class="cw-art"><div class="scene"><div class="sun"></div><div class="hill"></div></div></div>
+      <div class="cw-resume"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="cw-body">
+        <div class="cw-title">Dust Season</div>
+        <div class="cw-meta"><b>S2 · E1</b> "Arrivals" · 34 min left</div>
+        <div class="progress"><i style="width:86%"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COLLECTIONS ============ -->
+<section id="collections" class="reveal">
+  <div class="sec-head">
+    <div>
+      <div class="k">Curated by Our Editors</div>
+      <h2>Collections</h2>
+    </div>
+    <span class="note">new shelves every Friday at 18:00 CET</span>
+  </div>
+  <div class="collections">
+    <div class="coll c1">
+      <div class="bg"></div>
+      <div class="strip"><i></i><i></i></div>
+      <div class="count">18 titles</div>
+      <h3>Neon Nocturnes</h3>
+      <p>Slow-burning nights, sodium light, and cities that never quite let their characters off the hook.</p>
+      <span class="go">Browse the shelf →</span>
+    </div>
+    <div class="coll c2">
+      <div class="bg"></div>
+      <div class="strip"><i></i><i></i></div>
+      <div class="count">12 titles</div>
+      <h3>Restorations of the Year</h3>
+      <p>Four-decade vaults opened: newly scanned, remastered, and re-scored in full 5.1.</p>
+      <span class="go">Browse the shelf →</span>
+    </div>
+    <div class="coll c3">
+      <div class="bg"></div>
+      <div class="strip"><i></i><i></i></div>
+      <div class="count">9 titles</div>
+      <h3>North of Nowhere</h3>
+      <p>Arctic landscapes, small populations, and enormous silences — cinema from the far north.</p>
+      <span class="go">Browse the shelf →</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FILM GRID ============ -->
+<section id="films" class="reveal">
+  <div class="sec-head">
+    <div>
+      <div class="k">On Screen This Month</div>
+      <h2>Now Streaming</h2>
+    </div>
+    <div class="row-nav">
+      <button data-row="filmRow" data-dir="-1" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15.5 5 8 12l7.5 7z"/></svg></button>
+      <button data-row="filmRow" data-dir="1" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M8.5 5 16 12l-7.5 7z"/></svg></button>
+    </div>
+  </div>
+  <div class="row" id="filmRow" style="gap:22px">
+    <div class="card g1">
+      <span class="chip new">New</span>
+      <div class="card-art"><div class="scene"></div></div>
+      <div class="play-badge"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="card-body"><h4>Vesper Point</h4><div class="m"><span>Drama</span><span class="dot"></span><b>8.9</b><span class="dot"></span><span>1h 58m</span></div></div>
+    </div>
+    <div class="card g2">
+      <div class="card-art"><div class="scene"></div></div>
+      <div class="play-badge"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="card-body"><h4>Red Static</h4><div class="m"><span>Thriller</span><span class="dot"></span><b>8.1</b><span class="dot"></span><span>2h 06m</span></div></div>
+    </div>
+    <div class="card g3">
+      <span class="chip">Documentary</span>
+      <div class="card-art"><div class="scene"></div></div>
+      <div class="play-badge"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="card-body"><h4>Northwater</h4><div class="m"><span>Doc</span><span class="dot"></span><b>9.2</b><span class="dot"></span><span>1h 41m</span></div></div>
+    </div>
+    <div class="card g4">
+      <span class="chip new">New</span>
+      <div class="card-art"><div class="scene"></div></div>
+      <div class="play-badge"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="card-body"><h4>The Cartographer's Wife</h4><div class="m"><span>Mystery</span><span class="dot"></span><b>8.4</b><span class="dot"></span><span>1h 49m</span></div></div>
+    </div>
+    <div class="card g5">
+      <div class="card-art"><div class="scene"></div></div>
+      <div class="play-badge"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="card-body"><h4>Ultraviolet Hours</h4><div class="m"><span>Noir</span><span class="dot"></span><b>7.8</b><span class="dot"></span><span>1h 37m</span></div></div>
+    </div>
+    <div class="card g6">
+      <span class="chip">Awards Winner</span>
+      <div class="card-art"><div class="scene"></div></div>
+      <div class="play-badge"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="card-body"><h4>Greenhouse</h4><div class="m"><span>Drama</span><span class="dot"></span><b>9.0</b><span class="dot"></span><span>2h 22m</span></div></div>
+    </div>
+    <div class="card g7">
+      <div class="card-art"><div class="scene"></div></div>
+      <div class="play-badge"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="card-body"><h4>Goldfield</h4><div class="m"><span>Western</span><span class="dot"></span><b>8.3</b><span class="dot"></span><span>2h 01m</span></div></div>
+    </div>
+    <div class="card g8">
+      <span class="chip new">New</span>
+      <div class="card-art"><div class="scene"></div></div>
+      <div class="play-badge"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></div>
+      <div class="card-body"><h4>Emberfall</h4><div class="m"><span>Cat. 4</span><span class="dot"></span><b>8.6</b><span class="dot"></span><span>1h 52m</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIRECTOR SPOTLIGHT ============ -->
+<section id="director" class="spot reveal">
+  <div class="spot-inner">
+    <div class="portrait">
+      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="pg" cx="42%" cy="30%" r="75%">
+            <stop offset="0%" stop-color="#3d3352"/>
+            <stop offset="55%" stop-color="#1a1626"/>
+            <stop offset="100%" stop-color="#0a0910"/>
+          </radialGradient>
+          <linearGradient id="rim" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#d9a441" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#d9a441" stop-opacity=".8"/>
+          </linearGradient>
+        </defs>
+        <rect width="400" height="500" fill="url(#pg)"/>
+        <!-- abstract figure: shoulders / head in chiaroscuro -->
+        <path d="M60 500 C80 400 130 360 200 360 C270 360 320 400 340 500 Z" fill="#120f1a"/>
+        <path d="M158 362 C158 300 168 250 200 250 C232 250 242 300 242 362 Z" fill="#161221"/>
+        <ellipse cx="200" cy="218" rx="52" ry="60" fill="#1c1729"/>
+        <path d="M236 170 C260 190 262 250 240 280 L246 280 C268 250 272 190 252 162 Z" fill="url(#rim)" opacity=".55"/>
+        <!-- streak of key light -->
+        <path d="M150 60 L190 60 L150 320 L118 320 Z" fill="#d9a441" opacity=".07"/>
+        <path d="M160 60 L172 60 L140 320 L128 320 Z" fill="#f2c56b" opacity=".09"/>
+        <!-- film sprocket frame edge -->
+        <g fill="#0a0910" opacity=".5">
+          <rect x="18" y="24" width="26" height="16" rx="3"/><rect x="18" y="60" width="26" height="16" rx="3"/>
+          <rect x="18" y="96" width="26" height="16" rx="3"/><rect x="18" y="132" width="26" height="16" rx="3"/>
+          <rect x="18" y="168" width="26" height="16" rx="3"/><rect x="18" y="204" width="26" height="16" rx="3"/>
+          <rect x="18" y="240" width="26" height="16" rx="3"/><rect x="18" y="276" width="26" height="16" rx="3"/>
+          <rect x="18" y="312" width="26" height="16" rx="3"/><rect x="18" y="348" width="26" height="16" rx="3"/>
+          <rect x="18" y="384" width="26" height="16" rx="3"/><rect x="18" y="420" width="26" height="16" rx="3"/>
+          <rect x="18" y="456" width="26" height="16" rx="3"/>
+          <rect x="356" y="24" width="26" height="16" rx="3"/><rect x="356" y="60" width="26" height="16" rx="3"/>
+          <rect x="356" y="96" width="26" height="16" rx="3"/><rect x="356" y="132" width="26" height="16" rx="3"/>
+          <rect x="356" y="168" width="26" height="16" rx="3"/><rect x="356" y="204" width="26" height="16" rx="3"/>
+          <rect x="356" y="240" width="26" height="16" rx="3"/><rect x="356" y="276" width="26" height="16" rx="3"/>
+          <rect x="356" y="312" width="26" height="16" rx="3"/><rect x="356" y="348" width="26" height="16" rx="3"/>
+          <rect x="356" y="384" width="26" height="16" rx="3"/><rect x="356" y="420" width="26" height="16" rx="3"/>
+          <rect x="356" y="456" width="26" height="16" rx="3"/>
+        </g>
+      </svg>
+      <div class="plate"><span>Frame/One Original</span><span>2024</span></div>
+    </div>
+    <div class="spot-copy">
+      <div class="k">Director Spotlight</div>
+      <h2>Ingrid Halvorsen<small>Faroe Islands · three FRAME/ONE premieres and counting</small></h2>
+      <blockquote>"I don't direct the storm. I point the camera at the person who stays through it, and I wait. That's the whole film, in one sentence."</blockquote>
+      <div class="spot-films">
+        <span>The Last Lighthouse</span>
+        <span>Vesper Point</span>
+        <span>Stillwater Season</span>
+        <span>Halvorsen: A Documentary</span>
+      </div>
+      <div class="spot-stats">
+        <div><b>14</b><span>Certified Films</span></div>
+        <div><b>9</b><span>Intl. Awards</span></div>
+        <div><b>4.2M</b><span>Viewers</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUBSCRIPTION FOOTER ============ -->
+<footer id="plans">
+  <div class="plans reveal">
+    <div class="plans-head">
+      <div class="k">Membership</div>
+      <h2>Choose Your Frame</h2>
+      <p>Every plan includes our full certified catalog, zero ads, and new premieres every Friday. Cancel anytime — we'd rather you stay because you love the films.</p>
+    </div>
+    <div class="plan-grid">
+      <div class="plan">
+        <h3>Single Screen</h3>
+        <div class="price">$6.99<small>/mo</small></div>
+        <div class="per">One screen at a time</div>
+        <ul>
+          <li>Full film library in 1080p</li>
+          <li>Weekly director interviews</li>
+          <li>Offline downloads ×5</li>
+          <li>Standard audio (stereo)</li>
+        </ul>
+        <button class="btn btn-ghost">Start Free · 14 Days</button>
+      </div>
+      <div class="plan featured">
+        <span class="flag">Most Popular</span>
+        <h3>Household</h3>
+        <div class="price">$11.99<small>/mo</small></div>
+        <div class="per">Up to four screens</div>
+        <ul>
+          <li>Everything in Single Screen</li>
+          <li>4K HDR + Dolby Atmos</li>
+          <li>Offline downloads ×20</li>
+          <li>Kids &amp; Classics profiles</li>
+          <li>Early access to premieres</li>
+        </ul>
+        <button class="btn btn-watch">Start Free · 14 Days</button>
+      </div>
+      <div class="plan">
+        <h3>Cinéma Club</h3>
+        <div class="price">$24.99<small>/mo</small></div>
+        <div class="per">For the devoted</div>
+        <ul>
+          <li>Everything in Household</li>
+          <li>Live restoration screenings</li>
+          <li>Directors' audio commentaries</li>
+          <li>Print poster with each premiere</li>
+          <li>Front-row premiere invites</li>
+        </ul>
+        <button class="btn btn-ghost">Join the Club</button>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <a class="logo" href="#">FRAME<span class="slash">/</span>ONE</a>
+    <div class="foot-links">
+      <a href="#">About</a>
+      <a href="#">Certification</a>
+      <a href="#">Help</a>
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="#">Press Kit</a>
+    </div>
+    <div class="copy">© 2025 Frame/One Cinema Co. — Every film, a first screening.</div>
+  </div>
+</footer>
+
+<script>
+/* Scroll reveal */
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* Row arrows */
+document.querySelectorAll('.row-nav button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const row = document.getElementById(btn.dataset.row);
+    row.scrollBy({left: 380 * Number(btn.dataset.dir), behavior:'smooth'});
+  });
+});
+
+/* Header background on scroll */
+const header = document.querySelector('header');
+addEventListener('scroll',()=>{
+  header.style.background = scrollY > 40
+    ? 'linear-gradient(to bottom, rgba(8,8,10,.96), rgba(8,8,10,.85))'
+    : 'linear-gradient(to bottom, rgba(10,10,12,.92), rgba(10,10,12,.55) 70%, transparent)';
+},{passive:true});
+
+/* Watch CTA feedback */
+const playBtn = document.getElementById('playBtn');
+playBtn.addEventListener('click',function(){
+  if(this.dataset.busy) return;
+  this.dataset.busy = 1;
+  this.innerHTML = '<svg viewBox="0 0 24 24" style="animation:spin 1s linear infinite"><path d="M12 4a8 8 0 1 0 8 8h-2a6 6 0 1 1-6-6z"/></svg> Loading 4K…';
+  setTimeout(()=>{
+    this.innerHTML = '<svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg> Watch Now';
+    delete this.dataset.busy;
+  }, 1600);
+});
+const style = document.createElement('style');
+style.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
+document.head.appendChild(style);
+</script>
+</body>
+</html>

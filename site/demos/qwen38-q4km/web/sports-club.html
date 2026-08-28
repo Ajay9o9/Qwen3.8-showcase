@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Northline FC — Women's Football · Northline Arena</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a1a30;
+  --navy-2:#102546;
+  --navy-3:#1a3560;
+  --cream:#f4edda;
+  --cream-2:#fbf7ec;
+  --red:#e63427;
+  --red-2:#ff4a3c;
+  --ink:#0d1830;
+  --muted:#7d8aa3;
+  --line:rgba(10,26,48,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Archivo',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.55;
+  overflow-x:hidden;
+}
+h1,h2,h3,.display{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.01em}
+img,svg{display:block}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer}
+.wrap{width:min(1240px,92%);margin:0 auto}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;
+}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--red)}
+.section{padding:clamp(70px,8vw,110px) 0}
+
+/* ============ HEADER ============ */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .35s, box-shadow .35s;
+  padding:14px 0;
+}
+header.scrolled{background:rgba(10,26,48,.94);backdrop-filter:blur(10px);box-shadow:0 6px 30px rgba(0,0,0,.35)}
+.nav{display:flex;align-items:center;gap:2rem}
+.brand{display:flex;align-items:center;gap:.8rem;color:var(--cream)}
+.brand .name{font-family:'Anton';font-size:1.25rem;letter-spacing:.06em;line-height:1}
+.brand .name small{display:block;font-family:'Archivo';font-size:.58rem;font-weight:700;letter-spacing:.34em;color:var(--red-2);margin-top:2px}
+.nav-links{display:flex;gap:1.8rem;margin-left:auto}
+.nav-links a{
+  color:var(--cream);font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  position:relative;padding:6px 0;opacity:.85;transition:opacity .2s;
+}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--red);transition:width .3s}
+.nav-links a:hover{opacity:1}
+.nav-links a:hover::after{width:100%}
+.btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  padding:.85rem 1.6rem;border:none;border-radius:3px;
+  font-weight:700;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;
+  transition:transform .2s, box-shadow .2s, background .2s;
+}
+.btn:active{transform:translateY(1px)}
+.btn-red{background:var(--red);color:var(--cream-2);box-shadow:0 8px 24px rgba(230,52,39,.35)}
+.btn-red:hover{background:var(--red-2);transform:translateY(-2px);box-shadow:0 14px 30px rgba(230,52,39,.45)}
+.btn-ghost{background:transparent;color:var(--cream);border:1.5px solid rgba(244,237,218,.4)}
+.btn-ghost:hover{border-color:var(--cream);background:rgba(244,237,218,.08)}
+.btn-navy{background:var(--navy);color:var(--cream)}
+.btn-navy:hover{background:var(--navy-3);transform:translateY(-2px)}
+@media(max-width:960px){.nav-links{display:none}}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;min-height:900px;
+  background:radial-gradient(1200px 500px at 70% -10%, #1d3f74 0%, transparent 60%),
+             radial-gradient(900px 480px at 15% 0%, #16305a 0%, transparent 55%),
+             linear-gradient(180deg,#0a1a30 0%, #0c2040 55%, #0a1a30 100%);
+  color:var(--cream);
+  display:flex;align-items:center;
+  overflow:hidden;
+  padding:150px 0 0;
+}
+.hero-glow{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none}
+.glow-1{width:520px;height:520px;top:-180px;right:8%;background:rgba(230,52,39,.14);animation:pulse 7s ease-in-out infinite}
+.glow-2{width:420px;height:420px;top:-140px;left:4%;background:rgba(90,140,230,.12);animation:pulse 9s ease-in-out infinite 2s}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+.hero-inner{position:relative;z-index:3;display:grid;grid-template-columns:1.15fr .9fr;gap:4rem;align-items:center;width:min(1240px,92%);margin:0 auto}
+.hero h1{
+  font-size:clamp(3.4rem,7.2vw,6.4rem);line-height:.95;text-transform:uppercase;
+  margin:1.1rem 0 1.3rem;
+}
+.hero h1 .red{color:var(--red-2);display:block}
+.hero .lead{max-width:480px;color:#b8c4da;font-size:1.05rem;margin-bottom:2.2rem}
+.hero .lead strong{color:var(--cream)}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap}
+.hero-badges{display:flex;gap:2.4rem;margin-top:3rem;padding-top:1.6rem;border-top:1px solid rgba(244,237,218,.14)}
+.hero-badges div b{font-family:'Anton';font-size:1.7rem;display:block;letter-spacing:.03em}
+.hero-badges div span{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+
+/* Match card */
+.match-card{
+  background:linear-gradient(160deg,#122a4e,#0d1f3c);
+  border:1px solid rgba(244,237,218,.14);
+  border-radius:10px;padding:1.8rem 1.8rem 1.6rem;position:relative;
+  box-shadow:0 30px 70px rgba(0,0,0,.5);
+}
+.match-card::before{content:"";position:absolute;inset:0 0 auto;height:5px;border-radius:10px 10px 0 0;
+  background:linear-gradient(90deg,var(--red) 0 60%, var(--cream) 60% 62%, transparent 62%)}
+.match-tag{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem}
+.match-tag .lbl{font-size:.68rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--red-2)}
+.match-tag .home{font-size:.7rem;font-weight:600;color:#9fb0cd;border:1px solid rgba(244,237,218,.2);padding:.25rem .6rem;border-radius:20px}
+.teams{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.8rem;margin-bottom:1.4rem}
+.team{text-align:center}
+.team .tname{font-family:'Anton';font-size:1.5rem;letter-spacing:.03em;margin-top:.5rem;line-height:1.1}
+.team .tsub{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;margin-top:.2rem}
+.vs{font-family:'Anton';font-size:1rem;color:var(--red-2);border:1.5px solid rgba(230,52,39,.5);width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;align-self:center}
+.kickoff{text-align:center;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:#9fb0cd;margin-bottom:1.2rem}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1.4rem}
+.cd-cell{background:rgba(244,237,218,.06);border:1px solid rgba(244,237,218,.12);border-radius:6px;padding:.7rem .3rem .5rem;text-align:center}
+.cd-cell b{font-family:'Anton';font-size:1.7rem;display:block;letter-spacing:.04em}
+.cd-cell span{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.match-card .btn{width:100%;justify-content:center}
+/* Stadium svg */
+.stadium{position:absolute;bottom:-4px;left:0;width:100%;z-index:1;pointer-events:none}
+.floodlight{position:absolute;top:60px;z-index:1;width:8px}
+.floodlight .pole{width:8px;height:150px;background:linear-gradient(180deg,#2a3d63,#152档6);background:#1a2c50;margin:0 auto}
+.floodlight .head{width:56px;height:22px;background:#132647;border-radius:4px;border:1px solid #2c4572;margin:0 auto;position:relative;display:flex;gap:4px;padding:5px 6px}
+.floodlight .head i{flex:1;background:radial-gradient(circle,#ffe9a8 40%,#8a7a45 70%,transparent);border-radius:50%;animation:pulse 5s infinite}
+.fl-1{left:14%}.fl-2{left:84%;transform:scale(.9)}.fl-3{left:48%;transform:scale(.7);opacity:.55}
+@media(max-width:960px){
+  .hero{min-height:auto;padding:130px 0 220px}
+  .hero-inner{grid-template-columns:1fr;gap:3rem}
+  .hero-badges{gap:1.6rem}
+}
+
+/* ============ TICKER ============ */
+.ticker{background:var(--red);color:var(--cream-2);overflow:hidden;white-space:nowrap;padding:.75rem 0;position:relative;z-index:4}
+.ticker-track{display:inline-flex;gap:3rem;animation:tick 28s linear infinite;font-family:'Anton';font-size:.95rem;letter-spacing:.12em;text-transform:uppercase}
+.ticker-track span{display:inline-flex;align-items:center;gap:3rem}
+.ticker-track span::after{content:"◆";color:rgba(255,255,255,.55);font-size:.7rem}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ============ SECTION HEADS ============ */
+.shead{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:3rem;flex-wrap:wrap}
+.shead h2{font-size:clamp(2.2rem,4vw,3.4rem);text-transform:uppercase;line-height:1;margin-top:.7rem}
+.shead p{max-width:420px;color:#5a6a85;font-size:.95rem}
+.shead .on-dark p{color:#9fb0cd}
+
+/* ============ RESULTS & TABLE ============ */
+.results-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:3rem;align-items:start}
+.form-row{display:flex;gap:.5rem;margin-bottom:1.4rem}
+.form{width:44px;height:44px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'Anton';font-size:1.05rem;color:var(--cream-2)}
+.form.W{background:var(--red)}.form.L{background:var(--navy-3)}.form.D{background:#7d8aa3}
+.res-list{border-top:1px solid var(--line)}
+.res-item{display:grid;grid-template-columns:64px 1fr auto;gap:1rem;align-items:center;padding:1rem .4rem;border-bottom:1px solid var(--line);transition:background .2s}
+.res-item:hover{background:rgba(10,26,48,.04)}
+.res-item .score{font-family:'Anton';font-size:1.15rem;letter-spacing:.05em}
+.res-item .op{font-weight:600;font-size:.95rem}
+.res-item .op small{display:block;font-weight:500;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.1em}
+.res-item .date{font-size:.75rem;color:var(--muted)}
+.panel{background:var(--cream-2);border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 20px 50px rgba(10,26,48,.08)}
+.panel-head{background:var(--navy);color:var(--cream);padding:1.1rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+.panel-head b{font-family:'Anton';letter-spacing:.08em;font-size:1.05rem;text-transform:uppercase}
+.panel-head span{font-size:.7rem;color:#9fb0cd;letter-spacing:.15em;text-transform:uppercase}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+thead th{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-align:right;padding:.8rem .8rem;border-bottom:1px solid var(--line)}
+thead th:nth-child(1),thead th:nth-child(2){text-align:left}
+tbody td{padding:.75rem .8rem;text-align:right;border-bottom:1px solid rgba(10,26,48,.07);font-variant-numeric:tabular-nums}
+tbody td:nth-child(1){text-align:left;width:34px;font-family:'Anton';color:var(--muted)}
+tbody td:nth-child(2){text-align:left;font-weight:600}
+tbody tr.me{background:linear-gradient(90deg,rgba(230,52,39,.1),transparent 70%)}
+tbody tr.me td:nth-child(2){color:var(--red);font-weight:700}
+tbody tr.me td:first-child{color:var(--red)}
+tbody tr:hover{background:rgba(10,26,48,.04)}
+.tfoot{padding:.9rem 1.5rem;font-size:.72rem;color:var(--muted);display:flex;justify-content:space-between}
+@media(max-width:960px){.results-grid{grid-template-columns:1fr}}
+
+/* ============ PLAYERS ============ */
+.players{background:var(--navy);color:var(--cream);position:relative;overflow:hidden}
+.players::before{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,transparent 0 120px, rgba(244,237,218,.03) 120px 121px);}
+.p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;position:relative}
+.p-card{background:linear-gradient(170deg,#142c52,#0d1f3c);border:1px solid rgba(244,237,218,.12);border-radius:10px;overflow:hidden;transition:transform .35s, box-shadow .35s}
+.p-card:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(0,0,0,.5)}
+.p-art{position:relative;height:270px;overflow:hidden}
+.p-art::after{content:attr(data-num);position:absolute;right:14px;bottom:-24px;font-family:'Anton';font-size:8rem;color:rgba(244,237,218,.08);line-height:1}
+.p-art svg{width:100%;height:100%}
+.p-body{padding:1.3rem 1.5rem 1.5rem}
+.p-body h3{font-size:1.35rem;letter-spacing:.04em;text-transform:uppercase}
+.p-role{font-size:.68rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--red-2);margin:.3rem 0 1rem}
+.p-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(244,237,218,.14);padding-top:1rem}
+.p-stats div b{font-family:'Anton';font-size:1.4rem;display:block}
+.p-stats div span{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+@media(max-width:960px){.p-grid{grid-template-columns:1fr;max-width:440px;margin:0 auto}}
+
+/* ============ TICKETS ============ */
+.tickets{background:var(--cream);position:relative;overflow:hidden}
+.tickets::before{content:"";position:absolute;left:-120px;top:50%;width:420px;height:420px;border:2px dashed rgba(10,26,48,.1);border-radius:50%;transform:translateY(-50%)}
+.tic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;position:relative}
+.ticket{
+  background:var(--navy);color:var(--cream);border-radius:10px;position:relative;
+  display:grid;grid-template-columns:1fr 62px;
+  box-shadow:0 22px 50px rgba(10,26,48,.25);
+  transition:transform .3s;
+}
+.ticket:hover{transform:translateY(-6px)}
+.ticket .main{padding:1.6rem 1.4rem}
+.ticket .stub{border-left:2px dashed rgba(244,237,218,.3);display:flex;align-items:center;justify-content:center;position:relative}
+.stub i{font-family:'Anton';font-style:normal;writing-mode:vertical-rl;letter-spacing:.4em;font-size:.72rem;color:var(--red-2);text-transform:uppercase}
+.ticket::before,.ticket::after{content:"";position:absolute;left:calc(100% - 68px);width:20px;height:20px;border-radius:50%;background:var(--cream)}
+.ticket::before{top:-10px}
+.ticket::after{bottom:-10px}
+.ticket .tier{font-size:.66rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--red-2);margin-bottom:.5rem}
+.ticket h3{font-size:1.5rem;text-transform:uppercase;letter-spacing:.03em}
+.ticket .price{font-family:'Anton';font-size:2.6rem;margin:.8rem 0 .2rem}
+.ticket .price small{font-size:1rem;color:var(--muted)}
+.ticket ul{list-style:none;margin:1rem 0 1.4rem}
+.ticket li{font-size:.85rem;color:#b8c4da;padding:.35rem 0 .35rem 1.4rem;position:relative}
+.ticket li::before{content:"—";position:absolute;left:0;color:var(--red-2)}
+.ticket .btn{width:100%;justify-content:center;padding:.75rem 1rem}
+.ticket.featured{background:linear-gradient(165deg,var(--red),#b52117)}
+.ticket.featured::before,.ticket.featured::after{background:var(--cream)}
+.ticket.featured .tier{color:var(--cream-2)}
+.ticket.featured li{color:#f6d8d3}
+.ticket.featured li::before{color:var(--cream-2)}
+.ticket .flag{position:absolute;top:-12px;left:1.2rem;background:var(--cream);color:var(--red);font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding:.3rem .7rem;border-radius:20px}
+@media(max-width:960px){.tic-grid{grid-template-columns:1fr;max-width:440px;margin:0 auto}}
+
+/* ============ MEMBERSHIP ============ */
+.membership{background:var(--cream-2);border-top:1px solid var(--line)}
+.mem-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;align-items:center}
+.mem-copy h2{font-size:clamp(2.2rem,3.6vw,3.2rem);text-transform:uppercase;line-height:1.02;margin:1rem 0 1.2rem}
+.mem-copy p{color:#5a6a85;max-width:440px;margin-bottom:1.6rem}
+.mem-points{list-style:none;margin-bottom:2rem}
+.mem-points li{display:flex;gap:.9rem;padding:.55rem 0;font-weight:600;font-size:.92rem}
+.mem-points li::before{content:"";width:10px;height:10px;background:var(--red);border-radius:2px;margin-top:.45rem;flex-shrink:0}
+.plan{
+  background:#fff;border:1px solid var(--line);border-radius:10px;padding:1.8rem;
+  box-shadow:0 14px 40px rgba(10,26,48,.08);transition:transform .3s,border-color .3s;
+}
+.plan:hover{transform:translateY(-6px);border-color:var(--red)}
+.plan .row{display:flex;justify-content:space-between;align-items:baseline}
+.plan h3{font-size:1.3rem;text-transform:uppercase;letter-spacing:.03em}
+.plan .pr{font-family:'Anton';font-size:2rem}
+.plan .pr small{font-family:'Archivo';font-size:.75rem;color:var(--muted)}
+.plan p{font-size:.85rem;color:var(--muted);margin:.7rem 0 1.2rem;min-height:44px}
+.plan .btn{width:100%;justify-content:center;padding:.7rem}
+@media(max-width:960px){.mem-grid{grid-template-columns:1fr;gap:2.5rem}}
+
+/* ============ NEWS ============ */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem}
+.n-card{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;transition:transform .3s,box-shadow .3s}
+.n-card:hover{transform:translateY(-6px);box-shadow:0 24px 50px rgba(10,26,48,.14)}
+.n-art{height:170px;position:relative;overflow:hidden}
+.n-art svg{width:100%;height:100%}
+.n-body{padding:1.3rem 1.4rem 1.5rem}
+.n-meta{display:flex;gap:.9rem;align-items:center;font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:.7rem}
+.n-meta .cat{color:var(--red)}
+.n-meta .dt{color:var(--muted)}
+.n-body h3{font-size:1.15rem;line-height:1.25;text-transform:none;letter-spacing:.01em;font-family:'Archivo';font-weight:700}
+.n-body p{font-size:.85rem;color:#5a6a85;margin-top:.6rem}
+.n-body .more{display:inline-block;margin-top:1rem;font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red)}
+@media(max-width:960px){.news-grid{grid-template-columns:1fr;max-width:460px;margin:0 auto}}
+
+/* ============ STORE ============ */
+.store{background:var(--navy);color:var(--cream)}
+.shop-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem}
+.s-card{background:#12294c;border:1px solid rgba(244,237,218,.12);border-radius:10px;overflow:hidden;transition:transform .3s,border-color .3s}
+.s-card:hover{transform:translateY(-6px);border-color:rgba(230,52,39,.6)}
+.s-art{height:190px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 30%, #1a3560, #0e2142)}
+.s-art svg{width:70%;height:82%}
+.s-body{padding:1.1rem 1.2rem 1.3rem;display:flex;justify-content:space-between;align-items:center;gap:.6rem}
+.s-body h3{font-size:.95rem;text-transform:uppercase;letter-spacing:.05em}
+.s-body .tag{font-size:.6rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:.25rem}
+.s-body .pr{font-family:'Anton';font-size:1.25rem;color:var(--red-2);white-space:nowrap}
+@media(max-width:1080px){.shop-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.shop-grid{grid-template-columns:1fr}}
+
+/* ============ CTA BAND ============ */
+.cta-band{background:var(--red);color:var(--cream-2);padding:70px 0;position:relative;overflow:hidden}
+.cta-band::before{content:"";position:absolute;right:-80px;top:-80px;width:340px;height:340px;border:2px dashed rgba(255,255,255,.3);border-radius:50%}
+.cta-inner{display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap;position:relative}
+.cta-inner h2{font-size:clamp(2rem,3.6vw,3rem);text-transform:uppercase;line-height:1}
+.cta-inner p{opacity:.85;max-width:480px;margin-top:.6rem}
+
+/* ============ FOOTER ============ */
+footer{background:#071224;color:#8fa0bf;padding:60px 0 30px}
+.f-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.f-grid h4{font-family:'Anton';color:var(--cream);font-size:.95rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:1rem}
+.f-grid a{display:block;font-size:.85rem;padding:.3rem 0;transition:color .2s}
+.f-grid a:hover{color:var(--red-2)}
+.f-about p{font-size:.85rem;max-width:300px;margin-top:1rem}
+.f-bottom{border-top:1px solid rgba(244,237,218,.1);padding-top:1.6rem;display:flex;justify-content:space-between;font-size:.72rem;letter-spacing:.08em;flex-wrap:wrap;gap:1rem}
+@media(max-width:960px){.f-grid{grid-template-columns:1fr 1fr}}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<!-- ================= HEADER ================= -->
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="brand" href="#">
+      <svg width="44" height="50" viewBox="0 0 44 50" aria-hidden="true">
+        <path d="M22 1 42 7v17c0 13-9 21-20 25C11 45 2 37 2 24V7Z" fill="#0a1a30" stroke="#f4edda" stroke-width="2"/>
+        <path d="M22 5 38 10v14c0 11-7.5 17.5-16 21-8.5-3.5-16-10-16-21V10Z" fill="#e63427"/>
+        <path d="M15 33V17l14 13V17" stroke="#f4edda" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="name">NORTHLINE FC<small>WOMEN'S FOOTBALL</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#fixtures">Fixtures</a>
+      <a href="#players">Squad</a>
+      <a href="#tickets">Tickets</a>
+      <a href="#membership">Membership</a>
+      <a href="#news">News</a>
+      <a href="#store">Store</a>
+    </nav>
+    <a href="#tickets" class="btn btn-red" style="margin-left:auto">Buy Tickets</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-glow glow-1"></div>
+  <div class="hero-glow glow-2"></div>
+  <div class="floodlight fl-3"><div class="head"><i></i><i></i><i></i></div><div class="pole"></div></div>
+  <div class="floodlight fl-1"><div class="head"><i></i><i></i><i></i><i></i></div><div class="pole"></div></div>
+  <div class="floodlight fl-2"><div class="head"><i></i><i></i><i></i><i></i></div><div class="pole"></div></div>
+
+  <div class="hero-inner">
+    <div>
+      <span class="eyebrow" style="color:var(--red-2)">Matchweek 19 · Northline Arena</span>
+      <h1>One City.<span class="red">One Northline.</span></h1>
+      <p class="lead">The women's game in our city is loud, fearless and electric. Join us at the bowl as we take on <strong>Harbour City WFC</strong> in a title decider that will define the season.</p>
+      <div class="hero-cta">
+        <a href="#tickets" class="btn btn-red">Get Match Tickets</a>
+        <a href="#membership" class="btn btn-ghost">Become a Member</a>
+      </div>
+      <div class="hero-badges">
+        <div><b>2nd</b><span>League Position</span></div>
+        <div><b>W5</b><span>Winning Streak</span></div>
+        <div><b>21,400</b><span>Avg. Home Crowd</span></div>
+        <div><b>0</b><span>Goals at Home · Lost</span></div>
+      </div>
+    </div>
+
+    <div class="match-card" id="fixtures">
+      <div class="match-tag">
+        <span class="lbl">Next Match</span>
+        <span class="home">● Home · Live on NLTV</span>
+      </div>
+      <div class="teams">
+        <div class="team">
+          <svg width="58" height="66" viewBox="0 0 44 50" style="margin:0 auto">
+            <path d="M22 1 42 7v17c0 13-9 21-20 25C11 45 2 37 2 24V7Z" fill="#0a1a30" stroke="#f4edda" stroke-width="2"/>
+            <path d="M22 5 38 10v14c0 11-7.5 17.5-16 21-8.5-3.5-16-10-16-21V10Z" fill="#e63427"/>
+            <path d="M15 33V17l14 13V17" stroke="#f4edda" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="tname">Northline</div>
+          <div class="tsub">Form W W W D W</div>
+        </div>
+        <div class="vs">VS</div>
+        <div class="team">
+          <svg width="58" height="66" viewBox="0 0 60 66" style="margin:0 auto">
+            <circle cx="30" cy="33" r="30" fill="#123055" stroke="#f4edda" stroke-width="2"/>
+            <path d="M12 40c6-4 12-4 18 0s12 4 18 0" stroke="#f4edda" stroke-width="2.5" fill="none"/>
+            <path d="M12 28c6-4 12-4 18 0s12 4 18 0" stroke="#f4edda" stroke-width="2.5" fill="none"/>
+            <circle cx="30" cy="16" r="6" fill="#f4edda"/>
+          </svg>
+          <div class="tname">Harbour City</div>
+          <div class="tsub">Form W L D W L</div>
+        </div>
+      </div>
+      <div class="kickoff" id="kickoff">Kick-off · —</div>
+      <div class="countdown" id="countdown">
+        <div class="cd-cell"><b id="cd-d">–</b><span>Days</span></div>
+        <div class="cd-cell"><b id="cd-h">–</b><span>Hrs</span></div>
+        <div class="cd-cell"><b id="cd-m">–</b><span>Min</span></div>
+        <div class="cd-cell"><b id="cd-s">–</b><span>Sec</span></div>
+      </div>
+      <a href="#tickets" class="btn btn-red">Tickets from €24</a>
+    </div>
+  </div>
+
+  <!-- Stadium bowl SVG -->
+  <svg class="stadium" viewBox="0 0 1440 300" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <pattern id="crowd" width="14" height="12" patternUnits="userSpaceOnUse">
+        <circle cx="4" cy="4" r="1.6" fill="#3a5a92"/>
+        <circle cx="11" cy="9" r="1.4" fill="#e63427" opacity=".7"/>
+        <circle cx="7" cy="10" r="1.3" fill="#f4edda" opacity=".4"/>
+      </pattern>
+    </defs>
+    <ellipse cx="720" cy="340" rx="820" ry="150" fill="#0e2347"/>
+    <ellipse cx="720" cy="340" rx="820" ry="150" fill="url(#crowd)" opacity=".9"/>
+    <ellipse cx="720" cy="345" rx="640" ry="112" fill="#122c52"/>
+    <ellipse cx="720" cy="350" rx="640" ry="112" fill="url(#crowd)" opacity=".8"/>
+    <ellipse cx="720" cy="360" rx="470" ry="80" fill="#0f2848" stroke="#26447a" stroke-width="2"/>
+    <ellipse cx="720" cy="365" rx="330" ry="52" fill="#173a2c"/>
+    <line x1="390" y1="365" x2="1050" y2="365" stroke="#2f5a44" stroke-width="1.5" stroke-dasharray="6 8"/>
+    <line x1="720" y1="313" x2="720" y2="417" stroke="#2f5a44" stroke-width="1.5"/>
+    <rect x="0" y="290" width="1440" height="10" fill="#071224"/>
+  </svg>
+</section>
+
+<!-- ================= TICKER ================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <span>Next Match · <b id="ticker-date">Sat · 14:00</b> · vs Harbour City WFC</span>
+    <span>Tickets from €24 · Members 20% off</span>
+    <span>Vasquez named Player of the Month</span>
+    <span>Northline Arena floodlight upgrade complete</span>
+    <span>5 straight wins · unbeaten at home</span>
+  </div>
+</div>
+
+<!-- ================= RESULTS & TABLE ================= -->
+<section class="section" id="table">
+  <div class="wrap">
+    <div class="shead rv">
+      <div>
+        <span class="eyebrow">Form &amp; Standing</span>
+        <h2>Results &amp; Table</h2>
+      </div>
+      <p>Five wins from the last six and a six-point gap to the summit. Here's where the season stands and how we've got here.</p>
+    </div>
+    <div class="results-grid">
+      <div class="rv">
+        <h3 style="font-size:1rem;letter-spacing:.14em;text-transform:uppercase;color:#5a6a85;margin-bottom:.9rem">Last five</h3>
+        <div class="form-row">
+          <div class="form W">W</div><div class="form W">W</div><div class="form D">D</div><div class="form L">L</div><div class="form W">W</div>
+        </div>
+        <div class="res-list">
+          <div class="res-item"><span class="score">3–1</span><span class="op">Northline vs Solhaven <small>Northline Arena · Matchweek 18</small></span><span class="date">8 May</span></div>
+          <div class="res-item"><span class="score">2–0</span><span class="op">Brygge Utd vs Northline <small>Brygge Park · Matchweek 17</small></span><span class="date">2 May</span></div>
+          <div class="res-item"><span class="score">1–1</span><span class="op">Vester Kyst vs Northline <small>Kyst Stadion · Matchweek 16</small></span><span class="date">27 Apr</span></div>
+          <div class="res-item"><span class="score">0–2</span><span class="op">Northline vs Harbour City <small>Northline Arena · Matchweek 15</small></span><span class="date">20 Apr</span></div>
+          <div class="res-item"><span class="score">4–0</span><span class="op">Fjordby vs Northline <small>Fjordby Idrettspark · Matchweek 14</small></span><span class="date">13 Apr</span></div>
+        </div>
+      </div>
+      <div class="panel rv">
+        <div class="panel-head"><b>Northline Division</b><span>Matchweek 18 · Spring League</span></div>
+        <table>
+          <thead><tr><th>#</th><th>Club</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Vester Kyst</td><td>18</td><td>14</td><td>2</td><td>2</td><td>+28</td><td>44</td></tr>
+            <tr class="me"><td>2</td><td>Northline FC</td><td>18</td><td>12</td><td>3</td><td>3</td><td>+22</td><td>39</td></tr>
+            <tr><td>3</td><td>Harbour City</td><td>18</td><td>11</td><td>3</td><td>4</td><td>+15</td><td>36</td></tr>
+            <tr><td>4</td><td>Solhaven</td><td>18</td><td>9</td><td>4</td><td>5</td><td>+6</td><td>31</td></tr>
+            <tr><td>5</td><td>Brygge United</td><td>18</td><td>7</td><td>5</td><td>6</td><td>−1</td><td>26</td></tr>
+            <tr><td>6</td><td>Fjordby</td><td>18</td><td>5</td><td>4</td><td>9</td><td>−10</td><td>19</td></tr>
+            <tr><td>7</td><td>Grantholm</td><td>18</td><td>3</td><td>4</td><td>11</td><td>−19</td><td>13</td></tr>
+            <tr><td>8</td><td>Old Quay</td><td>18</td><td>2</td><td>3</td><td>13</td><td>−29</td><td>9</td></tr>
+          </tbody>
+        </table>
+        <div class="tfoot"><span>Source: Spring League Office</span><span>Win 3 pts · Draw 1 pt</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PLAYERS ================= -->
+<section class="section players" id="players">
+  <div class="wrap">
+    <div class="shead on-dark rv">
+      <div>
+        <span class="eyebrow" style="color:var(--red-2)">Player Spotlight</span>
+        <h2>The Ones Carrying It</h2>
+      </div>
+      <p>Three players who are making this the loudest season in Northline Arena history. Tap into their numbers this campaign.</p>
+    </div>
+    <div class="p-grid">
+      <!-- Rina -->
+      <article class="p-card rv">
+        <div class="p-art" data-num="9">
+          <svg viewBox="0 0 300 270" preserveAspectRatio="xMidYMax slice">
+            <circle cx="150" cy="140" r="112" fill="#e63427"/>
+            <path d="M150 30c-40 0-62 26-62 58 0 12 3 22 8 30l-8 22h124l-8-22c5-8 8-18 8-30 0-32-22-58-62-58Z" fill="#1b2436"/>
+            <path d="M96 92c-14 10-16 26-10 40l-8 22h144l-8-22c6-14 4-30-10-40-10 12-28 20-54 20s-44-8-54-20Z" fill="#f4edda"/>
+            <circle cx="150" cy="96" r="34" fill="#8a5a3b"/>
+            <path d="M116 92c0-26 14-44 34-44s34 18 34 44c-6-16-16-24-34-24s-28 8-34 24Z" fill="#141824"/>
+            <path d="M92 210c8-34 32-52 58-52s50 18 58 52v60H92Z" fill="#0a1a30"/>
+            <path d="M150 158v112" stroke="#e63427" stroke-width="4"/>
+            <text x="150" y="238" text-anchor="middle" font-family="Anton" font-size="38" fill="#f4edda">9</text>
+          </svg>
+        </div>
+        <div class="p-body">
+          <h3>Rina Vasquez</h3>
+          <div class="p-role">Centre-Forward · #9</div>
+          <div class="p-stats">
+            <div><b>19</b><span>Goals</span></div>
+            <div><b>6</b><span>Assists</span></div>
+            <div><b>17</b><span>Apps</span></div>
+          </div>
+        </div>
+      </article>
+      <!-- Amara -->
+      <article class="p-card rv">
+        <div class="p-art" data-num="10">
+          <svg viewBox="0 0 300 270" preserveAspectRatio="xMidYMax slice">
+            <circle cx="150" cy="140" r="112" fill="#12294c"/>
+            <path d="M150 26c-44 0-68 30-68 64 0 14 4 26 10 34l-8 24h132l-8-24c6-8 10-20 10-34 0-34-24-64-68-64Z" fill="#f4edda"/>
+            <path d="M98 96c-12 12-14 28-8 42l-8 22h144l-8-22c6-14 4-30-8-42-12 14-30 22-50 22s-38-8-50-22Z" fill="#e63427"/>
+            <circle cx="150" cy="100" r="35" fill="#c98a5a"/>
+            <path d="M112 112c-4-40 8-66 38-66s42 26 38 66c-4-24-14-36-38-36s-34 12-38 36Z" fill="#0d1117"/>
+            <circle cx="112" cy="128" r="10" fill="#0d1117"/><circle cx="188" cy="128" r="10" fill="#0d1117"/>
+            <path d="M90 212c8-36 34-56 60-56s52 20 60 56v58H90Z" fill="#f4edda"/>
+            <path d="M110 176l-20 50M190 176l20 50" stroke="#e63427" stroke-width="4"/>
+            <text x="150" y="240" text-anchor="middle" font-family="Anton" font-size="38" fill="#0a1a30">10</text>
+          </svg>
+        </div>
+        <div class="p-body">
+          <h3>Amara Kessler</h3>
+          <div class="p-role">Attacking Midfielder · #10</div>
+          <div class="p-stats">
+            <div><b>14</b><span>Assists</span></div>
+            <div><b>7</b><span>Goals</span></div>
+            <div><b>18</b><span>Apps</span></div>
+          </div>
+        </div>
+      </article>
+      <!-- Tessa -->
+      <article class="p-card rv">
+        <div class="p-art" data-num="4">
+          <svg viewBox="0 0 300 270" preserveAspectRatio="xMidYMax slice">
+            <circle cx="150" cy="140" r="112" fill="#e63427"/>
+            <path d="M150 30c-40 0-62 26-62 58 0 12 3 22 8 30l-8 22h124l-8-22c5-8 8-18 8-30 0-32-22-58-62-58Z" fill="#f4edda"/>
+            <path d="M120 84c8-30 20-40 30-40s22 10 30 40c0-18-10-30-30-30s-30 12-30 30Z" fill="#b98a4e"/>
+            <path d="M96 92c-14 10-16 26-10 40l-8 22h144l-8-22c6-14 4-30-10-40-10 12-28 20-54 20s-44-8-54-20Z" fill="#0a1a30"/>
+            <circle cx="150" cy="96" r="33" fill="#6b4a2f"/>
+            <path d="M92 210c8-34 32-52 58-52s50 18 58 52v60H92Z" fill="#f4edda"/>
+            <path d="M150 158v112" stroke="#e63427" stroke-width="4"/>
+            <text x="150" y="238" text-anchor="middle" font-family="Anton" font-size="38" fill="#0a1a30">4</text>
+          </svg>
+        </div>
+        <div class="p-body">
+          <h3>Tessa Brandt</h3>
+          <div class="p-role">Centre-Back · #4 · Captain</div>
+          <div class="p-stats">
+            <div><b>3</b><span>Goals</span></div>
+            <div><b>52%</b><span>Duels Won</span></div>
+            <div><b>18</b><span>Apps</span></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TICKETS ================= -->
+<section class="section tickets" id="tickets">
+  <div class="wrap">
+    <div class="shead rv">
+      <div>
+        <span class="eyebrow">Matchday</span>
+        <h2>Northline Arena</h2>
+      </div>
+      <p>Gates open 90 minutes before kick-off. Season members get a 20% discount on every ticket they buy — including this one.</p>
+    </div>
+    <div class="tic-grid">
+      <div class="ticket rv">
+        <div class="main">
+          <div class="tier">Tier 3 · East Stand</div>
+          <h3>Stand</h3>
+          <div class="price">€24<small> /match</small></div>
+          <ul>
+            <li>General seating, east bowl</li>
+            <li>Full match + warm-up</li>
+            <li>Kids under 10 free</li>
+          </ul>
+          <a href="#" class="btn btn-ghost">Select Seats</a>
+        </div>
+        <div class="stub"><i>Northline</i></div>
+      </div>
+      <div class="ticket featured rv">
+        <span class="flag">Best Value</span>
+        <div class="main">
+          <div class="tier">Tier 2 · South Stand</div>
+          <h3>Supporter</h3>
+          <div class="price">€38<small> /match</small></div>
+          <ul>
+            <li>Heart of the south stand</li>
+            <li>Drinking water included</li>
+            <li>Access to fan zone &amp; pitchside photo wall</li>
+          </ul>
+          <a href="#" class="btn" style="background:var(--navy);color:var(--cream-2)">Select Seats</a>
+        </div>
+        <div class="stub"><i>Northline</i></div>
+      </div>
+      <div class="ticket rv">
+        <div class="main">
+          <div class="tier">Tier 1 · North Terrace</div>
+          <h3>Pitchside</h3>
+          <div class="price">€55<small> /match</small></div>
+          <ul>
+            <li>Standing terrace, pitchside</li>
+            <li>Hospitality bar 50% off</li>
+            <li>Exclusive matchday shirt for members</li>
+          </ul>
+          <a href="#" class="btn btn-ghost">Select Seats</a>
+        </div>
+        <div class="stub"><i>Northline</i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MEMBERSHIP ================= -->
+<section class="section membership" id="membership">
+  <div class="wrap mem-grid">
+    <div class="mem-copy rv">
+      <span class="eyebrow">Join the Club</span>
+      <h2>Member of the Northline</h2>
+      <p>Every membership funds the women's academy, the medical team and the floodlights you can hear from the harbour. Pick your tier — cancel anytime.</p>
+      <ul class="mem-points">
+        <li>20% off all match tickets &amp; store items</li>
+        <li>Season-end dinner with the first team</li>
+        <li>Academy open-training visit each spring</li>
+        <li>Your name on the 2026 supporters' wall</li>
+      </ul>
+      <a href="#" class="btn btn-navy">Read Member Charter</a>
+    </div>
+    <div class="plan rv">
+      <div class="row"><h3>Supporter Membership</h3><div class="pr">€95<small> /season</small></div></div>
+      <p>The full club: 20% discount everywhere, priority ticket windows, matchday zine and the end-of-season dinner.</p>
+      <a href="#" class="btn btn-red">Become a Member</a>
+      <p style="min-height:0;margin-top:1.2rem;font-size:.78rem">Also available — <strong>Club Member €45</strong> (discounts + zine) and <strong>Founding Circle €250</strong> (everything + kit signing &amp; private viewing). <a href="#" style="color:var(--red);font-weight:700">Compare all tiers →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= NEWS ================= -->
+<section class="section" id="news">
+  <div class="wrap">
+    <div class="shead rv">
+      <div>
+        <span class="eyebrow">Club News</span>
+        <h2>From the Arena</h2>
+      </div>
+      <p>Match reactions, club decisions and academy news — straight from the Northline newsroom.</p>
+    </div>
+    <div class="news-grid">
+      <article class="n-card rv">
+        <div class="n-art">
+          <svg viewBox="0 0 400 170" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="170" fill="#0e2142"/>
+            <circle cx="320" cy="40" r="55" fill="rgba(230,52,39,.25)"/>
+            <path d="M0 130 Q100 90 200 125 T400 120 V170 H0Z" fill="#16305a"/>
+            <path d="M0 145 Q100 110 200 142 T400 138 V170 H0Z" fill="#0a1a30"/>
+            <g fill="#f4edda" opacity=".85">
+              <circle cx="40" cy="132" r="3"/><circle cx="70" cy="126" r="3"/><circle cx="100" cy="122" r="3"/><circle cx="130" cy="121" r="3"/>
+              <circle cx="160" cy="124" r="3"/><circle cx="190" cy="128" r="3"/><circle cx="220" cy="130" r="3"/><circle cx="250" cy="128" r="3"/>
+              <circle cx="280" cy="124" r="3"/><circle cx="310" cy="120" r="3"/><circle cx="340" cy="118" r="3"/><circle cx="370" cy="118" r="3"/>
+            </g>
+            <path d="M180 40h60l-10 46h-40Z" fill="#e63427"/>
+            <text x="210" y="72" text-anchor="middle" font-family="Anton" font-size="20" fill="#f4edda">POY</text>
+          </svg>
+        </div>
+        <div class="n-body">
+          <div class="n-meta"><span class="cat">Awards</span><span class="dt">10 May 2026</span></div>
+          <h3>Vasquez named Player of the Month for the third time this season</h3>
+          <p>The forward's five goals in April took her past the all-time single-season record held since 2022.</p>
+          <span class="more">Read Story →</span>
+        </div>
+      </article>
+      <article class="n-card rv">
+        <div class="n-art">
+          <svg viewBox="0 0 400 170" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="170" fill="#f4edda"/>
+            <rect y="110" width="400" height="60" fill="#c8bda0"/>
+            <ellipse cx="200" cy="120" rx="230" ry="40" fill="#0e2142"/>
+            <g stroke="#0a1a30" stroke-width="4"><line x1="90" y1="120" x2="90" y2="30"/><line x1="310" y1="120" x2="310" y2="30"/></g>
+            <g fill="#0a1a30">
+              <rect x="66" y="16" width="48" height="20" rx="3"/><rect x="286" y="16" width="48" height="20" rx="3"/>
+            </g>
+            <g fill="#ffe9a8"><circle cx="78" cy="26" r="4"/><circle cx="94" cy="26" r="4"/><circle cx="110" cy="26" r="4"/><circle cx="298" cy="26" r="4"/><circle cx="314" cy="26" r="4"/><circle cx="330" cy="26" r="4"/></g>
+          </svg>
+        </div>
+        <div class="n-body">
+          <div class="n-meta"><span class="cat">Ground</span><span class="dt">4 May 2026</span></div>
+          <h3>Northline Arena floodlight upgrade complete — 240 lux and counting</h3>
+          <p>The new LEDs meet full UEFA night standards and cut the arena's energy bill by a third.</p>
+          <span class="more">Read Story →</span>
+        </div>
+      </article>
+      <article class="n-card rv">
+        <div class="n-art">
+          <svg viewBox="0 0 400 170" preserveAspectRatio="xMidYMid slice">
+            <rect width="400" height="170" fill="#e63427"/>
+            <circle cx="200" cy="85" r="60" fill="#f4edda"/>
+            <circle cx="200" cy="85" r="46" fill="#0a1a30"/>
+            <path d="M178 106V66l44 36V66" stroke="#f4edda" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <g fill="rgba(244,237,218,.35)"><circle cx="40" cy="30" r="8"/><circle cx="360" cy="30" r="8"/><circle cx="40" cy="140" r="8"/><circle cx="360" cy="140" r="8"/></g>
+          </svg>
+        </div>
+        <div class="n-body">
+          <div class="n-meta"><span class="cat">Academy</span><span class="dt">28 Apr 2026</span></div>
+          <h3>Youth academy signs twelve new U17 contracts in biggest intake yet</h3>
+          <p>Eight of the newcomers came through the spring open trials held on the arena's pitch B.</p>
+          <span class="more">Read Story →</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STORE ================= -->
+<section class="section store" id="store">
+  <div class="wrap">
+    <div class="shead on-dark rv">
+      <div>
+        <span class="eyebrow" style="color:var(--red-2)">Supporter Store</span>
+        <h2>Wear the Line</h2>
+      </div>
+      <p>Official Northline FC kit and supporter goods. Members pay 20% less. Free shipping over €60.</p>
+    </div>
+    <div class="shop-grid">
+      <article class="s-card rv">
+        <div class="s-art">
+          <svg viewBox="0 0 120 140">
+            <path d="M30 22l18-10h24l18 10 16 20-14 12-8-8v84H46V56l-8 8-14-12Z" fill="#0a1a30" stroke="#f4edda" stroke-width="2"/>
+            <path d="M46 12h28v14H46z" fill="#e63427"/>
+            <text x="60" y="95" text-anchor="middle" font-family="Anton" font-size="30" fill="#f4edda">NL</text>
+          </svg>
+        </div>
+        <div class="s-body"><div><h3>Home Jersey '26</h3><div class="tag">Official Match Kit</div></div><span class="pr">€79</span></div>
+      </article>
+      <article class="s-card rv">
+        <div class="s-art">
+          <svg viewBox="0 0 120 140">
+            <path d="M30 22l18-10h24l18 10 16 20-14 12-8-8v84H46V56l-8 8-14-12Z" fill="#f4edda" stroke="#0a1a30" stroke-width="2"/>
+            <path d="M30 22l18-10h24l18 10 16 20-14 12-8-8v8H46v-8l-8 8-14-12Z" fill="#e63427"/>
+            <text x="60" y="95" text-anchor="middle" font-family="Anton" font-size="30" fill="#0a1a30">NL</text>
+          </svg>
+        </div>
+        <div class="s-body"><div><h3>Away Jersey '26</h3><div class="tag">Cream &amp; Signal Red</div></div><span class="pr">€79</span></div>
+      </article>
+      <article class="s-card rv">
+        <div class="s-art">
+          <svg viewBox="0 0 120 140">
+            <path d="M25 30h70v90H25z" fill="#0a1a30"/>
+            <g fill="#f4edda" font-family="Anton" font-size="15" text-anchor="middle">
+              <text x="60" y="52">NORTH</text><text x="60" y="72">LINE</text>
+            </g>
+            <rect x="25" y="80" width="70" height="6" fill="#e63427"/>
+            <g stroke="#f4edda" stroke-width="4" stroke-dasharray="8 6"><line x1="30" y1="120" x2="30" y2="135"/><line x1="45" y1="120" x2="45" y2="135"/><line x1="60" y1="120" x2="60" y2="135"/><line x1="75" y1="120" x2="75" y2="135"/><line x1="90" y1="120" x2="90" y2="135"/></g>
+            <rect x="25" y="26" width="70" height="8" fill="#e63427"/>
+          </svg>
+        </div>
+        <div class="s-body"><div><h3>Matchday Scarf</h3><div class="tag">Knitted · One Size</div></div><span class="pr">€29</span></div>
+      </article>
+      <article class="s-card rv">
+        <div class="s-art">
+          <svg viewBox="0 0 120 140">
+            <path d="M30 22l18-10h24l18 10 16 20-14 12-8-8v84H46V56l-8 8-14-12Z" fill="#e63427" stroke="#f4edda" stroke-width="2"/>
+            <path d="M30 22l18-10h24l18 10 16 20-14 12-8-8v-20H46v20l-8-8-14-12Z" fill="#f4edda"/>
+            <text x="60" y="98" text-anchor="middle" font-family="Anton" font-size="24" fill="#f4edda">NFC</text>
+          </svg>
+        </div>
+        <div class="s-body"><div><h3>Training Top</h3><div class="tag">Lightweight · All Sizes</div></div><span class="pr">€55</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA BAND ================= -->
+<section class="cta-band">
+  <div class="wrap cta-inner rv">
+    <div>
+      <h2>Saturday. 14:00. The whole north side.</h2>
+      <p>Be where it happens — the title decider under the new floodlights, in the stand that shakes the harbour.</p>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <a href="#tickets" class="btn" style="background:var(--navy);color:var(--cream-2)">Book Your Seat</a>
+      <a href="#membership" class="btn" style="background:transparent;color:var(--cream-2);border:1.5px solid rgba(244,237,218,.5)">Join as Member</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="f-grid">
+      <div class="f-about">
+        <a class="brand" href="#">
+          <svg width="38" height="43" viewBox="0 0 44 50" aria-hidden="true">
+            <path d="M22 1 42 7v17c0 13-9 21-20 25C11 45 2 37 2 24V7Z" fill="#0a1a30" stroke="#f4edda" stroke-width="2"/>
+            <path d="M22 5 38 10v14c0 11-7.5 17.5-16 21-8.5-3.5-16-10-16-21V10Z" fill="#e63427"/>
+            <path d="M15 33V17l14 13V17" stroke="#f4edda" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="name">NORTHLINE FC<small>EST. 2014</small></span>
+        </a>
+        <p>Northline Arena, Harbour Road 12, Northline 2041. Box office open Thu–Sat, 10:00–18:00.</p>
+      </div>
+      <div>
+        <h4>Club</h4>
+        <a href="#players">First Team</a><a href="#news">Newsroom</a><a href="#">Youth Academy</a><a href="#">Sponsors</a><a href="#">Contact</a>
+      </div>
+      <div>
+        <h4>Matchday</h4>
+        <a href="#tickets">Tickets</a><a href="#membership">Membership</a><a href="#">Hospitality</a><a href="#">Travel &amp; Parking</a><a href="#">Accessibility</a>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <a href="#">Instagram</a><a href="#">X / Twitter</a><a href="#">TikTok</a><a href="#">NLTV YouTube</a><a href="#store">Supporter Store</a>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© 2026 Northline FC — Fictional club, real heart.</span>
+      <span>Privacy · Cookie Policy · Match Regulations</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- Header scroll state ---------- */
+const hdr = document.getElementById('hdr');
+window.addEventListener('scroll', () => {
+  hdr.classList.toggle('scrolled', window.scrollY > 30);
+}, {passive:true});
+hdr.classList.add('scrolled'); // start over navy hero anyway, keep subtle
+
+/* ---------- Countdown: next Saturday 14:00 ---------- */
+(function(){
+  const now = new Date();
+  const target = new Date(now);
+  target.setDate(now.getDate() + ((6 - now.getDay() + 7) % 7 || 7));
+  target.setHours(14, 0, 0, 0);
+
+  const fmt = target.toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short'});
+  document.getElementById('kickoff').textContent =
+    'Kick-off · ' + fmt + ' · 14:00 · Northline Arena';
+  document.getElementById('ticker-date').textContent =
+    fmt + ' · 14:00';
+
+  const d = document.getElementById('cd-d'),
+        h = document.getElementById('cd-h'),
+        m = document.getElementById('cd-m'),
+        s = document.getElementById('cd-s');
+  const pad = n => String(n).padStart(2,'0');
+  function tick(){
+    let diff = Math.max(0, target - new Date());
+    const dd = Math.floor(diff / 86400000);
+    const hh = Math.floor(diff / 3600000) % 24;
+    const mm = Math.floor(diff / 60000) % 60;
+    const ss = Math.floor(diff / 1000) % 60;
+    d.textContent = pad(dd); h.textContent = pad(hh);
+    m.textContent = pad(mm); s.textContent = pad(ss);
+  }
+  tick(); setInterval(tick, 1000);
+})();
+
+/* ---------- Duplicate ticker for seamless loop ---------- */
+(function(){
+  const t = document.getElementById('tickerTrack');
+  t.innerHTML += t.innerHTML;
+})();
+
+/* ---------- Scroll reveal ---------- */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, {threshold:.12});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

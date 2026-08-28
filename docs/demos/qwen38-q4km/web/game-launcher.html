@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INDIE / GAME / LAUNCHER</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0d12;
+  --panel:#11151d;
+  --panel2:#161b25;
+  --line:#222a38;
+  --line-soft:#1a2130;
+  --text:#e9edf5;
+  --mut:#8b94a7;
+  --dim:#5b6478;
+  --acid:#c8f24b;
+  --acid-dim:#8ea93a;
+  --coral:#ff6f5e;
+  --violet:#8b7bff;
+  --teal:#4fd8c5;
+  --radius:14px;
+  --font-d:"Bricolage Grotesque",sans-serif;
+  --font-b:"Inter",sans-serif;
+  --font-m:"JetBrains Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(139,123,255,.07), transparent 60%),
+    radial-gradient(700px 420px at -5% 20%, rgba(200,242,75,.05), transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font-family:var(--font-b);
+  font-size:14px;
+  line-height:1.5;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+::selection{background:var(--acid);color:#0a0d12}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#242c3b;border-radius:99px;border:2px solid var(--bg)}
+
+/* ============ TOPBAR ============ */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  height:62px;
+  display:flex;align-items:center;gap:28px;
+  padding:0 28px;
+  background:rgba(10,13,18,.86);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.brand{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.brand-mark{
+  width:34px;height:34px;border-radius:9px;position:relative;
+  background:conic-gradient(from 210deg, var(--acid), var(--teal), var(--violet), var(--coral), var(--acid));
+  display:grid;place-items:center;
+  box-shadow:0 0 0 1px rgba(255,255,255,.12), 0 4px 18px rgba(200,242,75,.18);
+}
+.brand-mark::after{
+  content:"";width:22px;height:22px;border-radius:6px;background:var(--bg);
+  display:block;
+}
+.brand-mark svg{position:absolute;z-index:2}
+.brand-name{
+  font-family:var(--font-m);font-weight:700;font-size:13px;letter-spacing:.14em;
+}
+.brand-name em{font-style:normal;color:var(--acid)}
+.brand-tag{
+  font-family:var(--font-m);font-size:9.5px;color:var(--dim);letter-spacing:.1em;
+  border:1px solid var(--line);border-radius:99px;padding:2px 8px;margin-left:4px;
+}
+nav{display:flex;gap:4px}
+.nav-tab{
+  font-family:var(--font-m);font-size:11.5px;letter-spacing:.06em;
+  padding:7px 14px;border-radius:8px;color:var(--mut);
+  transition:color .18s, background .18s;
+  display:flex;align-items:center;gap:7px;
+}
+.nav-tab .dot{width:6px;height:6px;border-radius:50%;background:var(--dim);transition:background .18s, box-shadow .18s}
+.nav-tab:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.nav-tab.active{color:var(--acid);background:rgba(200,242,75,.08)}
+.nav-tab.active .dot{background:var(--acid);box-shadow:0 0 8px var(--acid)}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:14px}
+.search{
+  display:flex;align-items:center;gap:9px;
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:9px;padding:8px 12px;width:250px;
+  transition:border-color .2s, width .25s;
+}
+.search:focus-within{border-color:var(--acid-dim);width:300px}
+.search svg{flex-shrink:0;opacity:.5}
+.search input{
+  background:none;border:none;outline:none;color:var(--text);
+  font-family:var(--font-b);font-size:13px;width:100%;
+}
+.search input::placeholder{color:var(--dim)}
+.icon-btn{
+  width:36px;height:36px;border-radius:9px;border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--mut);position:relative;
+  transition:color .18s, border-color .18s;
+}
+.icon-btn:hover{color:var(--text);border-color:#33405a}
+.icon-btn .badge{
+  position:absolute;top:-5px;right:-5px;min-width:16px;height:16px;
+  background:var(--coral);color:#180a08;border-radius:99px;
+  font-family:var(--font-m);font-size:9px;font-weight:700;
+  display:grid;place-items:center;padding:0 4px;
+  box-shadow:0 0 0 2.5px var(--bg);
+}
+.avatar{
+  width:38px;height:38px;border-radius:10px;position:relative;
+  background:linear-gradient(135deg,var(--violet),var(--coral));
+  display:grid;place-items:center;
+  font-family:var(--font-d);font-weight:700;font-size:15px;color:#fff;
+  border:2px solid rgba(255,255,255,.15);
+  cursor:pointer;transition:transform .15s;
+}
+.avatar:hover{transform:translateY(-1px)}
+.avatar::after{
+  content:"";position:absolute;bottom:-2px;right:-2px;width:11px;height:11px;
+  border-radius:50%;background:var(--acid);border:2.5px solid var(--bg);
+}
+
+/* ============ LAYOUT ============ */
+.shell{
+  display:grid;
+  grid-template-columns:272px minmax(0,1fr) 318px;
+  gap:22px;
+  padding:22px 28px 40px;
+  max-width:1720px;margin:0 auto;
+  align-items:start;
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--line-soft);
+  border-radius:var(--radius);
+}
+.card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px 12px;
+  border-bottom:1px solid var(--line-soft);
+}
+.card-title{
+  font-family:var(--font-m);font-size:10.5px;font-weight:700;
+  letter-spacing:.18em;color:var(--mut);text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;
+}
+.card-title::before{content:"";width:7px;height:7px;background:var(--acid);transform:rotate(45deg);border-radius:1px}
+.card-link{font-family:var(--font-m);font-size:10.5px;color:var(--dim);letter-spacing:.04em;transition:color .15s}
+.card-link:hover{color:var(--acid)}
+
+/* ============ SIDEBAR / FRIENDS ============ */
+.side{display:flex;flex-direction:column;gap:22px;position:sticky;top:84px}
+.side-sub{font-family:var(--font-m);font-size:10px;color:var(--dim);letter-spacing:.1em;padding:0 16px 10px}
+.friends{padding-bottom:8px}
+.friend{
+  display:flex;align-items:center;gap:11px;padding:9px 16px;
+  transition:background .15s;cursor:pointer;position:relative;
+}
+.friend:hover{background:rgba(255,255,255,.03)}
+.friend:hover .invite{opacity:1;transform:translateX(0)}
+.fav{
+  width:34px;height:34px;border-radius:9px;flex-shrink:0;position:relative;
+  display:grid;place-items:center;
+  font-family:var(--font-d);font-weight:700;font-size:13px;color:#fff;
+}
+.fav::after{
+  content:"";position:absolute;bottom:-3px;right:-3px;width:10px;height:10px;
+  border-radius:50%;border:2.5px solid var(--panel);
+}
+.fav.on::after{background:var(--acid)}
+.fav.idle::after{background:#e8b83a}
+.fav.off::after{background:#4a5468}
+.fav.gaming::before{
+  content:"";position:absolute;inset:-3px;border-radius:11px;
+  border:1.5px solid var(--coral);opacity:.8;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.06);opacity:.35}}
+.f-info{min-width:0;flex:1}
+.f-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.f-sub{font-family:var(--font-m);font-size:10px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.f-sub .live{color:var(--coral)}
+.invite{
+  opacity:0;transform:translateX(4px);
+  font-family:var(--font-m);font-size:9.5px;letter-spacing:.08em;
+  border:1px solid var(--acid-dim);color:var(--acid);
+  border-radius:6px;padding:4px 8px;
+  transition:opacity .15s, transform .15s, background .15s, color .15s;
+}
+.friend:hover .invite:hover{background:var(--acid);color:#0a0d12}
+.friend.off .f-name,.friend.off .f-sub{opacity:.45}
+.side-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--line-soft);
+}
+.stat{background:var(--panel);padding:13px 16px}
+.stat b{font-family:var(--font-d);font-size:20px;font-weight:700;display:block;line-height:1.1}
+.stat span{font-family:var(--font-m);font-size:9.5px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+.stat b em{font-style:normal;color:var(--acid);font-size:13px}
+.side-foot{
+  margin:0 16px 14px;
+  border:1px dashed var(--line);border-radius:10px;
+  padding:11px 13px;
+  font-family:var(--font-m);font-size:10.5px;color:var(--dim);line-height:1.6;
+}
+.side-foot b{color:var(--teal);font-weight:500}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;overflow:hidden;
+  border-radius:var(--radius);
+  border:1px solid var(--line);
+  min-height:340px;
+  display:flex;align-items:flex-end;
+  background:#0d1017;
+}
+.hero-art{position:absolute;inset:0}
+.hero-art .sky{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(120% 90% at 78% 18%, rgba(255,111,94,.32), transparent 55%),
+    radial-gradient(90% 80% at 20% 90%, rgba(139,123,255,.28), transparent 60%),
+    linear-gradient(180deg,#141a2e 0%, #232041 42%, #4a2b47 72%, #7a3a48 100%);
+}
+.hero-art .sun{
+  position:absolute;left:64%;top:16%;width:120px;height:120px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, #ffe9c4, #ffb37a 55%, #ff6f5e 100%);
+  box-shadow:0 0 70px 24px rgba(255,140,100,.4);
+  animation:sunfloat 9s ease-in-out infinite;
+}
+@keyframes sunfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(10px)}}
+.hero-art svg.mounts{position:absolute;left:0;right:0;bottom:0;width:100%;height:auto;display:block}
+.hero-scene-fx{position:absolute;inset:0;pointer-events:none}
+.hero-vignette{
+  position:absolute;inset:0;
+  background:linear-gradient(90deg, rgba(10,13,18,.92) 8%, rgba(10,13,18,.55) 45%, rgba(10,13,18,0) 75%),
+             linear-gradient(0deg, rgba(10,13,18,.7), transparent 45%);
+}
+.hero-scan{
+  position:absolute;inset:0;opacity:.5;
+  background:repeating-linear-gradient(0deg, transparent 0 3px, rgba(0,0,0,.09) 3px 4px);
+  pointer-events:none;
+}
+.hero-body{
+  position:relative;z-index:3;
+  width:100%;padding:26px 30px 24px;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;
+  gap:24px;align-items:end;
+}
+.hero-kicker{
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;
+  font-family:var(--font-m);font-size:10px;letter-spacing:.2em;color:var(--acid);
+  text-transform:uppercase;
+}
+.hero-kicker .chip{
+  border:1px solid var(--acid-dim);border-radius:99px;padding:3px 10px;
+  letter-spacing:.14em;color:var(--text);
+  background:rgba(200,242,75,.08);
+}
+.hero-title{
+  font-family:var(--font-d);font-weight:800;
+  font-size:clamp(34px,3.6vw,52px);line-height:.98;letter-spacing:-.015em;
+  margin-bottom:10px;
+}
+.hero-title .glow{
+  background:linear-gradient(100deg,#fff 30%, var(--acid) 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-desc{max-width:440px;color:#c3cad8;font-size:13.5px;margin-bottom:14px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tag{
+  font-family:var(--font-m);font-size:10px;letter-spacing:.06em;
+  color:var(--mut);border:1px solid var(--line);border-radius:6px;
+  padding:4px 9px;background:rgba(10,13,18,.4);
+}
+.tag b{color:var(--acid);font-weight:500}
+.hero-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{
+  font-family:var(--font-m);font-weight:700;font-size:12px;letter-spacing:.1em;
+  border-radius:10px;padding:13px 22px;
+  display:inline-flex;align-items:center;gap:9px;
+  transition:transform .12s, box-shadow .18s, background .18s, color .18s;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{
+  background:var(--acid);color:#131a05;
+  box-shadow:0 6px 22px rgba(200,242,75,.28), inset 0 1px 0 rgba(255,255,255,.35);
+  min-width:168px;justify-content:center;position:relative;overflow:hidden;
+}
+.btn-primary:hover{box-shadow:0 8px 30px rgba(200,242,75,.45)}
+.btn-primary.launching{background:var(--teal)}
+.btn-ghost{
+  border:1px solid rgba(255,255,255,.22);color:var(--text);
+  background:rgba(255,255,255,.05);backdrop-filter:blur(4px);
+}
+.btn-ghost:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.4)}
+.btn-icon{
+  width:46px;padding:0;justify-content:center;
+}
+.btn .bar{
+  position:absolute;left:0;bottom:0;height:3px;width:0;
+  background:rgba(19,26,5,.45);transition:width 2.4s linear;
+}
+.hero-side{display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+.ring-wrap{position:relative;width:96px;height:96px}
+.ring-wrap svg{transform:rotate(-90deg)}
+.ring-bg{stroke:rgba(255,255,255,.1)}
+.ring-fg{stroke:var(--acid);stroke-linecap:round;transition:stroke-dashoffset 1.6s cubic-bezier(.3,.8,.3,1)}
+.ring-label{
+  position:absolute;inset:0;display:grid;place-items:center;
+  text-align:center;
+}
+.ring-label b{font-family:var(--font-d);font-size:19px;font-weight:700;display:block;line-height:1}
+.ring-label span{font-family:var(--font-m);font-size:8.5px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.mini-stats{display:flex;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.mini-stat{padding:8px 14px;border-right:1px solid var(--line);text-align:center;min-width:74px}
+.mini-stat:last-child{border-right:none}
+.mini-stat b{font-family:var(--font-d);font-size:15px;font-weight:700;display:block}
+.mini-stat span{font-family:var(--font-m);font-size:8.5px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+
+/* ============ SHELF ============ */
+.main-col{display:flex;flex-direction:column;gap:22px;min-width:0}
+.shelf-head{display:flex;align-items:baseline;justify-content:space-between;padding:0 2px}
+.shelf-head h2{
+  font-family:var(--font-d);font-size:21px;font-weight:700;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:12px;
+}
+.shelf-head h2 small{
+  font-family:var(--font-m);font-size:10px;font-weight:400;
+  color:var(--dim);letter-spacing:.12em;
+}
+.shelf{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+}
+.tile{
+  position:relative;border-radius:12px;overflow:hidden;
+  border:1px solid var(--line);background:var(--panel2);
+  cursor:pointer;
+  transition:transform .18s, border-color .18s, box-shadow .18s;
+  aspect-ratio:16/10;
+}
+.tile:hover{transform:translateY(-4px);border-color:#37445e;box-shadow:0 14px 34px rgba(0,0,0,.45)}
+.tile-scene{position:absolute;inset:0}
+.tile-scene::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(0deg, rgba(8,10,15,.82) 0%, rgba(8,10,15,.15) 55%, transparent 100%);
+}
+.tile-info{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:11px 13px 10px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:8px;
+}
+.tile-name{font-family:var(--font-d);font-weight:700;font-size:15.5px;letter-spacing:-.01em}
+.tile-sub{font-family:var(--font-m);font-size:9.5px;color:#aab2c4;margin-top:2px}
+.tile-play{
+  width:32px;height:32px;border-radius:9px;flex-shrink:0;
+  background:var(--acid);color:#131a05;display:grid;place-items:center;
+  opacity:0;transform:translateY(6px);
+  transition:opacity .18s, transform .18s;
+  box-shadow:0 4px 14px rgba(200,242,75,.4);
+}
+.tile:hover .tile-play{opacity:1;transform:translateY(0)}
+.tile .cont{
+  position:absolute;top:10px;left:10px;z-index:2;
+  font-family:var(--font-m);font-size:9px;letter-spacing:.1em;
+  background:rgba(10,13,18,.65);backdrop-filter:blur(4px);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:6px;padding:3px 8px;color:#cfd6e4;
+}
+.tile .cont b{color:var(--acid);font-weight:500}
+.tile-progress{
+  position:absolute;left:0;bottom:0;height:3px;background:var(--acid);z-index:2;
+  box-shadow:0 0 10px rgba(200,242,75,.6);
+}
+.tile .upd-dot{
+  position:absolute;top:10px;right:10px;z-index:2;width:8px;height:8px;border-radius:50%;
+  background:var(--coral);box-shadow:0 0 0 3px rgba(255,111,94,.25), 0 0 12px var(--coral);
+}
+/* scene styles */
+.s-drift{background:radial-gradient(1px 1px at 12% 25%,#fff 60%,transparent 61%),radial-gradient(1.5px 1.5px at 70% 15%,#cfe 60%,transparent 61%),radial-gradient(1px 1px at 40% 60%,#fff 60%,transparent 61%),radial-gradient(1px 1px at 85% 55%,#ffd 60%,transparent 61%),linear-gradient(180deg,#0b1026 0%,#1a1f45 60%,#3a2a5e 100%)}
+.s-moss{background:radial-gradient(80% 60% at 50% 110%, rgba(90,160,90,.75), transparent 70%),linear-gradient(180deg,#0f1a14 0%,#17301e 60%,#2c5530 100%)}
+.s-koi{background:radial-gradient(60% 45% at 30% 30%, rgba(255,110,160,.5), transparent 65%),radial-gradient(50% 40% at 75% 70%, rgba(80,220,205,.4), transparent 65%),linear-gradient(160deg,#12202e,#1e3448)}
+.s-tallow{background:radial-gradient(35% 45% at 50% 68%, rgba(255,180,80,.65), transparent 70%),linear-gradient(180deg,#141018,#241a20 70%,#3a2418)}
+.s-pit{background:repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 2px, transparent 2px 12px),repeating-linear-gradient(90deg, rgba(0,0,0,.28) 0 2px, transparent 2px 12px),linear-gradient(180deg,#2a1f33,#3b2440)}
+.s-orchard{background:radial-gradient(90% 55% at 50% -10%, rgba(255,190,80,.4), transparent 60%),linear-gradient(180deg,#1a2030 0%,#3a3520 55%,#5a4a1c 100%)}
+.tile-scene .deco{position:absolute;inset:0;display:grid;place-items:end center}
+
+/* ============ ON DECK ROW ============ */
+.deck{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.deck-item{
+  display:flex;gap:12px;align-items:center;
+  padding:11px;border:1px solid var(--line-soft);border-radius:12px;
+  background:var(--panel2);cursor:pointer;
+  transition:border-color .15s, transform .15s;
+}
+.deck-item:hover{border-color:#37445e;transform:translateY(-2px)}
+.deck-thumb{
+  width:46px;height:46px;border-radius:9px;flex-shrink:0;position:relative;overflow:hidden;
+  display:grid;place-items:center;
+}
+.deck-thumb svg{position:absolute;inset:0;width:100%;height:100%}
+.deck-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deck-sub{font-family:var(--font-m);font-size:9.5px;color:var(--dim);margin-top:2px}
+.deck-sub em{font-style:normal;color:var(--violet)}
+
+/* ============ RIGHT COLUMN ============ */
+.right-col{display:flex;flex-direction:column;gap:22px;position:sticky;top:84px}
+.updates{padding-bottom:6px}
+.update{
+  padding:12px 16px;display:flex;gap:12px;border-bottom:1px solid var(--line-soft);
+  transition:background .15s;
+}
+.update:last-child{border-bottom:none}
+.update:hover{background:rgba(255,255,255,.025)}
+.u-icon{
+  width:34px;height:34px;border-radius:9px;flex-shrink:0;
+  display:grid;place-items:center;
+}
+.u-icon.v{background:rgba(200,242,75,.1);border:1px solid rgba(200,242,75,.3);color:var(--acid)}
+.u-icon.e{background:rgba(139,123,255,.1);border:1px solid rgba(139,123,255,.35);color:var(--violet)}
+.u-icon.c{background:rgba(255,111,94,.1);border:1px solid rgba(255,111,94,.35);color:var(--coral)}
+.u-icon.d{background:rgba(79,216,197,.1);border:1px solid rgba(79,216,197,.35);color:var(--teal)}
+.u-body{min-width:0;flex:1}
+.u-title{font-size:13px;font-weight:600}
+.u-meta{font-family:var(--font-m);font-size:9.5px;color:var(--dim);margin-top:3px;display:flex;gap:8px;align-items:center}
+.u-meta .ver{color:var(--teal)}
+.u-note{font-size:11.5px;color:var(--mut);margin-top:5px;line-height:1.45}
+.u-act{
+  font-family:var(--font-m);font-size:9px;letter-spacing:.08em;
+  border:1px solid var(--acid-dim);color:var(--acid);border-radius:6px;
+  padding:4px 8px;align-self:center;flex-shrink:0;
+  transition:background .15s,color .15s;
+}
+.u-act:hover{background:var(--acid);color:#0a0d12}
+/* achievements */
+.ach{padding:12px 16px 14px}
+.ach-item{display:flex;gap:12px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line-soft)}
+.ach-item:last-child{border-bottom:none}
+.ach-medal{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;position:relative;
+  display:grid;place-items:center;
+}
+.ach-medal.gold{background:linear-gradient(145deg,#3a3410,#221f0a);border:1px solid rgba(200,242,75,.45);color:var(--acid)}
+.ach-medal.silver{background:linear-gradient(145deg,#2b303c,#1c2029);border:1px solid rgba(160,175,200,.35);color:#b9c4d8}
+.ach-medal.bronze{background:linear-gradient(145deg,#3a2418,#241611);border:1px solid rgba(255,140,90,.4);color:#ffa57e}
+.ach-medal.lock{background:#151922;border:1px dashed var(--line);color:#414b60}
+.ach-info{flex:1;min-width:0}
+.ach-name{font-size:12.5px;font-weight:600}
+.ach-game{font-family:var(--font-m);font-size:9.5px;color:var(--dim);margin-top:1px}
+.ach-bar{height:4px;border-radius:99px;background:#1c2330;margin-top:6px;overflow:hidden}
+.ach-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--acid-dim),var(--acid));transition:width 1.4s cubic-bezier(.3,.8,.3,1)}
+.ach-pct{font-family:var(--font-m);font-size:10px;color:var(--mut);flex-shrink:0}
+.ach-pct em{font-style:normal;color:var(--acid)}
+.ach-head-stats{display:flex;gap:8px;padding:0 16px 10px}
+.ach-chip{
+  flex:1;text-align:center;border:1px solid var(--line-soft);border-radius:9px;
+  padding:8px 6px;background:var(--panel2);
+}
+.ach-chip b{font-family:var(--font-d);font-size:17px;font-weight:700;display:block}
+.ach-chip span{font-family:var(--font-m);font-size:8.5px;letter-spacing:.1em;color:var(--dim);text-transform:uppercase}
+.ach-chip.g b{color:var(--acid)}
+.ach-chip.v b{color:var(--violet)}
+.ach-chip.c b{color:var(--coral)}
+
+/* toast */
+#toast{
+  position:fixed;bottom:26px;left:50%;transform:translate(-50%,80px);
+  background:var(--panel2);border:1px solid var(--acid-dim);
+  border-radius:10px;padding:11px 18px;z-index:99;
+  font-family:var(--font-m);font-size:11.5px;letter-spacing:.04em;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 14px 40px rgba(0,0,0,.5);
+  transition:transform .3s cubic-bezier(.3,1.4,.4,1), opacity .3s;
+  opacity:0;
+}
+#toast.show{transform:translate(-50%,0);opacity:1}
+#toast .tdot{width:8px;height:8px;border-radius:50%;background:var(--acid);box-shadow:0 0 10px var(--acid)}
+
+/* reveal on load */
+.reveal{opacity:0;transform:translateY(14px);animation:rise .6s cubic-bezier(.2,.8,.3,1) forwards}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:1400px){
+  .shell{grid-template-columns:250px minmax(0,1fr) 290px;gap:18px;padding:18px 20px 36px}
+}
+@media (max-width:1220px){
+  .shell{grid-template-columns:240px minmax(0,1fr)}
+  .right-col{grid-column:1 / -1;position:static;flex-direction:row;flex-wrap:wrap}
+  .right-col .card{flex:1;min-width:300px}
+}
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr}
+  .side{position:static;flex-direction:row;flex-wrap:wrap}
+  .side .card{flex:1;min-width:280px}
+  .shelf{grid-template-columns:repeat(2,1fr)}
+  .deck{grid-template-columns:repeat(2,1fr)}
+  nav{display:none}
+}
+@media (max-width:720px){
+  .topbar{gap:12px;padding:0 14px}
+  .search{display:none}
+  .shell{padding:14px 12px 30px}
+  .hero-body{grid-template-columns:1fr}
+  .hero-side{flex-direction:row;align-items:center;justify-content:space-between;width:100%}
+  .shelf{grid-template-columns:1fr}
+  .deck{grid-template-columns:1fr}
+  .side{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= TOPBAR ================= -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">
+      <svg width="12" height="12" viewBox="0 0 12 12"><path d="M3 1.5 L10 6 L3 10.5 Z" fill="#c8f24b"/></svg>
+    </div>
+    <div>
+      <div class="brand-name">INDIE<em>/</em>GAME<em>/</em>LAUNCHER</div>
+    </div>
+    <span class="brand-tag">v3.2.1 · stable</span>
+  </div>
+  <nav>
+    <button class="nav-tab active" data-tab><span class="dot"></span>LIBRARY</button>
+    <button class="nav-tab" data-tab><span class="dot"></span>STORE</button>
+    <button class="nav-tab" data-tab><span class="dot"></span>COMMUNITY</button>
+    <button class="nav-tab" data-tab><span class="dot"></span>DOWNLOADS</button>
+    <button class="nav-tab" data-tab><span class="dot"></span>MODS</button>
+  </nav>
+  <div class="top-right">
+    <label class="search">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4.4" stroke="currentColor" stroke-width="1.6"/><path d="M9.4 9.4 L13 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <input id="searchInput" type="text" placeholder="Search 47 games…" aria-label="Search games">
+    </label>
+    <button class="icon-btn" aria-label="Notifications">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 1.5c-2.2 0-3.5 1.7-3.5 3.7 0 3-1.4 3.9-1.4 3.9h9.8s-1.4-.9-1.4-3.9c0-2-1.3-3.7-3.5-3.7Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M6 11.5a1.6 1.6 0 0 0 3 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span class="badge">3</span>
+    </button>
+    <div class="avatar" title="PixelWren · Level 24">PW</div>
+  </div>
+</header>
+
+<!-- ================= SHELL ================= -->
+<div class="shell">
+
+  <!-- ========== SIDEBAR ========== -->
+  <aside class="side">
+    <div class="card friends reveal" style="animation-delay:.05s">
+      <div class="card-head">
+        <span class="card-title">Friends</span>
+        <a class="card-link" href="#">+ Add</a>
+      </div>
+      <div class="side-sub">12 PLAYERS ONLINE</div>
+      <div class="friend" data-name="Mara_V">
+        <div class="fav gaming" style="background:linear-gradient(135deg,#ff6f5e,#8b7bff)">MV</div>
+        <div class="f-info">
+          <div class="f-name">Mara_V</div>
+          <div class="f-sub"><span class="live">●</span> LUMEN FABLE — rank 14</div>
+        </div>
+        <button class="invite" data-invite="Mara_V">JOIN</button>
+      </div>
+      <div class="friend" data-name="bytekelp">
+        <div class="fav gaming" style="background:linear-gradient(135deg,#4fd8c5,#3a7bd5)">BK</div>
+        <div class="f-info">
+          <div class="f-name">bytekelp</div>
+          <div class="f-sub"><span class="live">●</span> NEON KOI — ranked 2v2</div>
+        </div>
+        <button class="invite" data-invite="bytekelp">JOIN</button>
+      </div>
+      <div class="friend" data-name="soot_and_salt">
+        <div class="fav on" style="background:linear-gradient(135deg,#c8f24b,#4fd8c5)">SS</div>
+        <div class="f-info">
+          <div class="f-name">soot_and_salt</div>
+          <div class="f-sub">Browsing the store</div>
+        </div>
+        <button class="invite" data-invite="soot_and_salt">INVITE</button>
+      </div>
+      <div class="friend" data-name="juno.tape">
+        <div class="fav on" style="background:linear-gradient(135deg,#e8b83a,#ff6f5e)">JT</div>
+        <div class="f-info">
+          <div class="f-name">juno.tape</div>
+          <div class="f-sub">In lobby · Tallowlight co-op</div>
+        </div>
+        <button class="invite" data-invite="juno.tape">INVITE</button>
+      </div>
+      <div class="side-sub" style="padding-top:12px">3 IDLE</div>
+      <div class="friend" data-name="dustmoor">
+        <div class="fav idle" style="background:linear-gradient(135deg,#8b7bff,#4a5468)">DM</div>
+        <div class="f-info">
+          <div class="f-name">dustmoor</div>
+          <div class="f-sub">Idle · Mossfolk (save 3)</div>
+        </div>
+        <button class="invite" data-invite="dustmoor">INVITE</button>
+      </div>
+      <div class="side-sub" style="padding-top:12px">OFFLINE · 12</div>
+      <div class="friend off" data-name="halide">
+        <div class="fav off" style="background:linear-gradient(135deg,#5b6478,#3a4254)">HL</div>
+        <div class="f-info">
+          <div class="f-name">halide</div>
+          <div class="f-sub">Last seen 4h ago</div>
+        </div>
+      </div>
+      <div class="friend off" data-name="quillbox">
+        <div class="fav off" style="background:linear-gradient(135deg,#5b6478,#3a4254)">QB</div>
+        <div class="f-info">
+          <div class="f-name">quillbox</div>
+          <div class="f-sub">Last seen yesterday</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="animation-delay:.12s">
+      <div class="card-head"><span class="card-title">Season</span><a class="card-link" href="#">Map →</a></div>
+      <div class="side-stats">
+        <div class="stat"><b>4,310</b><span>XP this week</span></div>
+        <div class="stat"><b>7<em> · </em>31</b><span>Rank · ladder</span></div>
+        <div class="stat"><b>62%</b><span>Season progress</span></div>
+        <div class="stat"><b>3 d</b><span>Until reset</span></div>
+      </div>
+      <div class="side-foot">
+        <b>◆ Weekly quest:</b> Clear 3 Lumen FABLE night biomes. Reward: <b>Driftlamp skin</b> + 400 XP.
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========== MAIN ========== -->
+  <main class="main-col">
+
+    <!-- HERO -->
+    <section class="hero reveal" style="animation-delay:0s">
+      <div class="hero-art">
+        <div class="sky"></div>
+        <div class="sun"></div>
+        <svg class="mounts" viewBox="0 0 1200 320" preserveAspectRatio="none">
+          <path d="M0 210 L140 120 L260 190 L400 90 L540 200 L700 110 L860 205 L1010 130 L1200 200 L1200 320 L0 320 Z" fill="#2a1e3e" opacity=".85"/>
+          <path d="M0 250 L180 170 L330 240 L520 150 L720 250 L900 175 L1080 250 L1200 210 L1200 320 L0 320 Z" fill="#171232"/>
+          <path d="M0 290 L200 235 L420 285 L640 240 L880 290 L1080 255 L1200 285 L1200 320 L0 320 Z" fill="#0d0a1c"/>
+          <circle cx="240" cy="252" r="3" fill="#c8f24b" opacity=".9"/>
+          <circle cx="640" cy="268" r="2.5" fill="#c8f24b" opacity=".7"/>
+          <circle cx="980" cy="258" r="3" fill="#ffb37a" opacity=".85"/>
+        </svg>
+        <canvas class="hero-scene-fx" id="fx"></canvas>
+        <div class="hero-scan"></div>
+        <div class="hero-vignette"></div>
+      </div>
+      <div class="hero-body">
+        <div>
+          <div class="hero-kicker">
+            FEATURED THIS WEEK <span class="chip">NEW UPDATE · 0.9.4</span>
+          </div>
+          <h1 class="hero-title"><span class="glow">LUMEN</span> FABLE</h1>
+          <p class="hero-desc">A hand-painted worldbuilding odyssey. Tame drifting light, chart the dusk territories, and rebuild the last lantern-guild — 42 hours of story, zero combat, all atmosphere.</p>
+          <div class="hero-meta">
+            <span class="tag">ATMOSPHERIC</span>
+            <span class="tag">EXPLORATION</span>
+            <span class="tag">STORY-RICH</span>
+            <span class="tag"><b>◆</b> 87% POSITIVE · 2,140 REVIEWS</span>
+            <span class="tag">1.4 GB · INSTALLED</span>
+          </div>
+          <div class="hero-actions">
+            <button class="btn btn-primary" id="playBtn">
+              <span id="playLabel"><svg width="11" height="12" viewBox="0 0 11 12"><path d="M1 1 L10 6 L1 11 Z" fill="currentColor"/></svg> PLAY</span>
+              <span class="bar" id="playBar"></span>
+            </button>
+            <button class="btn btn-ghost" id="continueBtn">CONTINUE · 37 H 12 M</button>
+            <button class="btn btn-ghost btn-icon" id="settingsBtn" aria-label="Game settings">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 5.4a2.6 2.6 0 1 0 0 5.2 2.6 2.6 0 0 0 0-5.2Z" stroke="currentColor" stroke-width="1.4"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M2.9 2.9l1.4 1.4M11.7 11.7l1.4 1.4M13.1 2.9l-1.4 1.4M4.3 11.7l-1.4 1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="hero-side">
+          <div class="ring-wrap">
+            <svg width="96" height="96">
+              <circle class="ring-bg" cx="48" cy="48" r="42" fill="none" stroke-width="6"/>
+              <circle class="ring-fg" id="heroRing" cx="48" cy="48" r="42" fill="none" stroke-width="6" stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
+            </svg>
+            <div class="ring-label"><div><b>62%</b><span>Story</span></div></div>
+          </div>
+          <div class="mini-stats">
+            <div class="mini-stat"><b>128</b><span>Biomes</span></div>
+            <div class="mini-stat"><b>9.2k</b><span>Players now</span></div>
+            <div class="mini-stat"><b>+1.1k</b><span>Today</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTINUE PLAYING SHELF -->
+    <section class="reveal" style="animation-delay:.15s">
+      <div class="shelf-head">
+        <h2>Continue Playing <small>6 OF 47 INSTALLED</small></h2>
+        <a class="card-link" href="#">Full library →</a>
+      </div>
+      <div class="shelf" id="shelf">
+        <div class="tile" data-name="Lumen Fable">
+          <div class="tile-scene s-drift"></div>
+          <span class="cont"><b>37h</b> played · Chapter 5</span>
+          <span class="tile-progress" style="width:62%"></span>
+          <div class="tile-info">
+            <div><div class="tile-name">Lumen Fable</div><div class="tile-sub">Atmospheric · Story-Rich</div></div>
+            <span class="tile-play"><svg width="11" height="12" viewBox="0 0 11 12"><path d="M1 1 L10 6 L1 11 Z" fill="currentColor"/></svg></span>
+          </div>
+        </div>
+        <div class="tile" data-name="Neon Koi">
+          <div class="tile-scene s-koi"></div>
+          <span class="upd-dot"></span>
+          <span class="cont"><b>12h</b> played · Ranked</span>
+          <div class="tile-info">
+            <div><div class="tile-name">Neon Koi</div><div class="tile-sub">Arcade · 2v2 Ranked</div></div>
+            <span class="tile-play"><svg width="11" height="12" viewBox="0 0 11 12"><path d="M1 1 L10 6 L1 11 Z" fill="currentColor"/></svg></span>
+          </div>
+        </div>
+        <div class="tile" data-name="Mossfolk">
+          <div class="tile-scene s-moss"></div>
+          <span class="cont"><b>21h</b> played · Save 3</span>
+          <div class="tile-info">
+            <div><div class="tile-name">Mossfolk</div><div class="tile-sub">Survival · Crafting</div></div>
+            <span class="tile-play"><svg width="11" height="12" viewBox="0 0 11 12"><path d="M1 1 L10 6 L1 11 Z" fill="currentColor"/></svg></span>
+          </div>
+        </div>
+        <div class="tile" data-name="Tallowlight">
+          <div class="tile-scene s-tallow"></div>
+          <span class="cont"><b>6h</b> played · Act II</span>
+          <div class="tile-info">
+            <div><div class="tile-name">Tallowlight</div><div class="tile-sub">Co-op · Horror-lite</div></div>
+            <span class="tile-play"><svg width="11" height="12" viewBox="0 0 11 12"><path d="M1 1 L10 6 L1 11 Z" fill="currentColor"/></svg></span>
+          </div>
+        </div>
+        <div class="tile" data-name="Pitfall 9">
+          <div class="tile-scene s-pit"></div>
+          <span class="cont"><b>18h</b> played · Stage 41</span>
+          <div class="tile-info">
+            <div><div class="tile-name">Pitfall 9</div><div class="tile-sub">Roguelike · Pixel</div></div>
+            <span class="tile-play"><svg width="11" height="12" viewBox="0 0 11 12"><path d="M1 1 L10 6 L1 11 Z" fill="currentColor"/></svg></span>
+          </div>
+        </div>
+        <div class="tile" data-name="Orchard Zero">
+          <div class="tile-scene s-orchard"></div>
+          <span class="cont"><b>2h</b> played · New save</span>
+          <div class="tile-info">
+            <div><div class="tile-name">Orchard Zero</div><div class="tile-sub">Simulation · Cozy</div></div>
+            <span class="tile-play"><svg width="11" height="12" viewBox="0 0 11 12"><path d="M1 1 L10 6 L1 11 Z" fill="currentColor"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ON DECK -->
+    <section class="reveal" style="animation-delay:.22s">
+      <div class="shelf-head">
+        <h2>On Deck <small>UPCOMING THIS WEEK</small></h2>
+        <a class="card-link" href="#">Store →</a>
+      </div>
+      <div class="deck">
+        <div class="deck-item">
+          <div class="deck-thumb" style="background:linear-gradient(135deg,#1e2a4a,#3a2a5e)">
+            <svg viewBox="0 0 46 46"><circle cx="23" cy="20" r="9" fill="#c8f24b" opacity=".9"/><path d="M6 38 L18 26 L28 34 L40 24 L46 30 V46 H0 Z" fill="#0d1017"/></svg>
+          </div>
+          <div style="min-width:0">
+            <div class="deck-name">Glasswinders</div>
+            <div class="deck-sub"><em>Tuesday</em> · Launch day · −15%</div>
+          </div>
+        </div>
+        <div class="deck-item">
+          <div class="deck-thumb" style="background:linear-gradient(135deg,#3a1e2e,#6a2a3e)">
+            <svg viewBox="0 0 46 46"><path d="M23 6 C28 14 34 18 34 26 a11 11 0 0 1-22 0 C12 18 18 14 23 6Z" fill="#ff6f5e"/><path d="M23 16 C26 21 29 23 29 28 a6 6 0 0 1-12 0 C17 23 20 21 23 16Z" fill="#ffb37a"/></svg>
+          </div>
+          <div style="min-width:0">
+            <div class="deck-name">Ember Choir</div>
+            <div class="deck-sub"><em>Thursday</em> · Free demo live now</div>
+          </div>
+        </div>
+        <div class="deck-item">
+          <div class="deck-thumb" style="background:linear-gradient(135deg,#0e2a26,#1e4a3e)">
+            <svg viewBox="0 0 46 46"><rect x="12" y="12" width="22" height="22" rx="4" fill="none" stroke="#4fd8c5" stroke-width="2.5"/><circle cx="23" cy="23" r="4" fill="#4fd8c5"/></svg>
+          </div>
+          <div style="min-width:0">
+            <div class="deck-name">Cartographer X</div>
+            <div class="deck-sub"><em>Friday</em> · Preload scheduled</div>
+          </div>
+        </div>
+        <div class="deck-item">
+          <div class="deck-thumb" style="background:linear-gradient(135deg,#2a2410,#4a3a10)">
+            <svg viewBox="0 0 46 46"><path d="M10 34 L23 8 L36 34 Z" fill="none" stroke="#e8b83a" stroke-width="2.5" stroke-linejoin="round"/><circle cx="23" cy="26" r="3" fill="#e8b83a"/></svg>
+          </div>
+          <div style="min-width:0">
+            <div class="deck-name">Signal & Static</div>
+            <div class="deck-sub"><em>Weekend</em> · Community vote 94%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== RIGHT COLUMN ========== -->
+  <aside class="right-col">
+    <div class="card updates reveal" style="animation-delay:.1s">
+      <div class="card-head">
+        <span class="card-title">Updates</span>
+        <a class="card-link" href="#">All · 31</a>
+      </div>
+      <div class="update">
+        <div class="u-icon v"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 8 L6 12 L13 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="u-body">
+          <div class="u-title">Lumen Fable 0.9.4</div>
+          <div class="u-meta"><span class="ver">v0.9.4</span>· 42 min ago · 310 MB</div>
+          <div class="u-note">New night biome "Vellum Coast", 3 light-taming abilities, co-op lantern relays.</div>
+        </div>
+        <button class="u-act" data-update="Lumen Fable">UPDATE</button>
+      </div>
+      <div class="update">
+        <div class="u-icon e"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 4.5 V7.8 L9.8 9.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <div class="u-body">
+          <div class="u-title">Neon Koi — Ranked Season 4</div>
+          <div class="u-meta"><span class="ver">v1.4.0</span>· 2h ago · live</div>
+          <div class="u-note">New koi "Glassfin", remapped current zones, matchmaking at 24+ ping regions.</div>
+        </div>
+        <button class="u-act" data-update="Neon Koi">LAUNCH</button>
+      </div>
+      <div class="update">
+        <div class="u-icon c"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 2 L13 12 H2 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.5 6 V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="7.5" cy="10.8" r=".9" fill="currentColor"/></svg></div>
+        <div class="u-body">
+          <div class="u-title">Pitfall 9 — Hotfix</div>
+          <div class="u-meta"><span class="ver">v0.6.2</span>· 6h ago · 12 MB</div>
+          <div class="u-note">Fixed soft-lock at stage 37 spike pits. Balance: chasm hook +0.4s range.</div>
+        </div>
+        <button class="u-act" data-update="Pitfall 9">APPLY</button>
+      </div>
+      <div class="update">
+        <div class="u-icon d"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M7.5 2 V10 M4 6.5 L7.5 10 L11 6.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12.5 H12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+        <div class="u-body">
+          <div class="u-title">Orchard Zero — Preload done</div>
+          <div class="u-meta"><span class="ver">v1.0.0</span>· queued · 890 MB</div>
+          <div class="u-note">Full build ready. Launch window opens Friday 09:00 UTC. Cloud saves linked.</div>
+        </div>
+        <button class="u-act" data-update="Orchard Zero">READY</button>
+      </div>
+    </div>
+
+    <div class="card reveal" style="animation-delay:.16s">
+      <div class="card-head">
+        <span class="card-title">Achievements</span>
+        <a class="card-link" href="#">Trophy shelf →</a>
+      </div>
+      <div class="ach-head-stats">
+        <div class="ach-chip g"><b data-count="41">0</b><span>Unlocked</span></div>
+        <div class="ach-chip v"><b data-count="189">0</b><span>Secrets found</span></div>
+        <div class="ach-chip c"><b data-count="7">0</b><span>Flawless runs</span></div>
+      </div>
+      <div class="ach">
+        <div class="ach-item">
+          <div class="ach-medal gold"><svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M8.5 1.5 L10.4 6 L15 6.6 L11.5 9.8 L12.6 14.5 L8.5 12 L4.4 14.5 L5.5 9.8 L2 6.6 L6.6 6 Z" fill="currentColor"/></svg></div>
+          <div class="ach-info">
+            <div class="ach-name">First Light Keeper</div>
+            <div class="ach-game">Lumen Fable · Gold · 14 min ago</div>
+            <div class="ach-bar"><div class="ach-fill" data-w="100%"></div></div>
+          </div>
+          <span class="ach-pct"><em>100%</em></span>
+        </div>
+        <div class="ach-item">
+          <div class="ach-medal silver"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="7.5" r="2" fill="currentColor"/></svg></div>
+          <div class="ach-info">
+            <div class="ach-name">Deep Current (3/5)</div>
+            <div class="ach-game">Neon Koi · Silver · in progress</div>
+            <div class="ach-bar"><div class="ach-fill" data-w="60%"></div></div>
+          </div>
+          <span class="ach-pct">60%</span>
+        </div>
+        <div class="ach-item">
+          <div class="ach-medal bronze"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 11 L7.5 3 L12 11 Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.5 6.5 V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+          <div class="ach-info">
+            <div class="ach-name">Hundred Descent (87/100)</div>
+            <div class="ach-game">Pitfall 9 · Bronze · nearly there</div>
+            <div class="ach-bar"><div class="ach-fill" data-w="87%"></div></div>
+          </div>
+          <span class="ach-pct">87%</span>
+        </div>
+        <div class="ach-item">
+          <div class="ach-medal lock"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="6" width="8" height="6" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M5 6 V4.5 a2 2 0 0 1 4 0 V6" stroke="currentColor" stroke-width="1.4"/></svg></div>
+          <div class="ach-info">
+            <div class="ach-name">??? (hidden)</div>
+            <div class="ach-game">Tallowlight · locked · keep the light…</div>
+            <div class="ach-bar"><div class="ach-fill" data-w="24%"></div></div>
+          </div>
+          <span class="ach-pct">24%</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<div id="toast"><span class="tdot"></span><span id="toastMsg"></span></div>
+
+<script>
+/* ---------- toast ---------- */
+const toast = document.getElementById('toast');
+const toastMsg = document.getElementById('toastMsg');
+let toastT;
+function showToast(msg){
+  toastMsg.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>toast.classList.remove('show'), 2600);
+}
+
+/* ---------- nav tabs ---------- */
+document.querySelectorAll('.nav-tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.nav-tab').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+
+/* ---------- play button state machine ---------- */
+const playBtn = document.getElementById('playBtn');
+const playLabel = document.getElementById('playLabel');
+const playBar = document.getElementById('playBar');
+let playing = false;
+playBtn.addEventListener('click',()=>{
+  if(playing) return;
+  playing = true;
+  playBtn.classList.add('launching');
+  playLabel.innerHTML = 'LAUNCHING…';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>playBar.style.width='100%'));
+  setTimeout(()=>{
+    playLabel.innerHTML = '● RUNNING · 92 FPS';
+    playBtn.style.background = 'var(--acid)';
+    showToast('Lumen Fable started — see you in the dusk territories.');
+  }, 2500);
+  setTimeout(()=>{
+    playBtn.classList.remove('launching');
+    playLabel.innerHTML = '<svg width="11" height="12" viewBox="0 0 11 12"><path d="M1 1 L10 6 L1 11 Z" fill="currentColor"/></svg> PAUSE GAME';
+  }, 2600);
+});
+document.getElementById('continueBtn').addEventListener('click',()=>showToast('Resuming save — Chapter 5, Vellum Coast…'));
+document.getElementById('settingsBtn').addEventListener('click',()=>showToast('Lumen Fable settings opened in new window.'));
+
+/* ---------- hero ring ---------- */
+setTimeout(()=>{
+  const ring = document.getElementById('heroRing');
+  ring.style.strokeDashoffset = 263.9 * (1 - 0.62);
+}, 300);
+
+/* ---------- achievement bars & counters ---------- */
+setTimeout(()=>{
+  document.querySelectorAll('.ach-fill').forEach(f=>f.style.width = f.dataset.w);
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target = +el.dataset.count;
+    const dur = 1300, t0 = performance.now();
+    (function tick(now){
+      const p = Math.min((now - t0)/dur, 1);
+      el.textContent = Math.round(target * (1-Math.pow(1-p,3))).toLocaleString();
+      if(p<1) requestAnimationFrame(tick);
+    })(t0);
+  });
+}, 500);
+
+/* ---------- invites ---------- */
+document.querySelectorAll('[data-invite]').forEach(b=>{
+  b.addEventListener('click',e=>{
+    e.stopPropagation();
+    showToast('Invite sent to ' + b.dataset.invite + ' — they get 30s to accept.');
+  });
+});
+
+/* ---------- update buttons ---------- */
+document.querySelectorAll('[data-update]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const name = b.dataset.update;
+    if(b.textContent === 'LAUNCH'){ showToast(name + ' launching…'); return; }
+    b.textContent = '…';
+    setTimeout(()=>{
+      b.textContent = 'DONE ✓';
+      b.style.borderColor = 'var(--acid)';
+      b.style.background = 'var(--acid)';
+      b.style.color = '#0a0d12';
+      showToast(name + ' update complete.');
+    }, 1600);
+  });
+});
+
+/* ---------- search filter ---------- */
+document.getElementById('searchInput').addEventListener('input', e=>{
+  const q = e.target.value.trim().toLowerCase();
+  document.querySelectorAll('#shelf .tile').forEach(t=>{
+    t.style.display = t.dataset.name.toLowerCase().includes(q) ? '' : 'none';
+  });
+});
+
+/* ---------- tile play ---------- */
+document.querySelectorAll('.tile').forEach(t=>{
+  t.addEventListener('click',()=>showToast('Launching ' + t.dataset.name + '…'));
+});
+
+/* ---------- hero particle canvas ---------- */
+const cv = document.getElementById('fx');
+const ctx = cv.getContext('2d');
+let W, H, parts = [];
+function sizeCanvas(){
+  W = cv.width = cv.offsetWidth;
+  H = cv.height = cv.offsetHeight;
+}
+function seed(){
+  parts = [];
+  const n = Math.min(70, Math.floor(W/16));
+  for(let i=0;i<n;i++){
+    parts.push({
+      x: Math.random()*W,
+      y: Math.random()*H,
+      r: .6 + Math.random()*1.8,
+      vy: .08 + Math.random()*.3,
+      vx: (Math.random()-.5)*.15,
+      a: .15 + Math.random()*.5,
+      c: Math.random()<.75 ? '200,242,75' : (Math.random()<.5 ? '255,179,122' : '139,123,255')
+    });
+  }
+}
+function loop(){
+  ctx.clearRect(0,0,W,H);
+  for(const p of parts){
+    p.y -= p.vy; p.x += p.vx + Math.sin(p.y*.01)*.1;
+    if(p.y < -4){ p.y = H+4; p.x = Math.random()*W; }
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(${p.c},${p.a})`;
+    ctx.fill();
+  }
+  requestAnimationFrame(loop);
+}
+sizeCanvas(); seed(); loop();
+window.addEventListener('resize', ()=>{ sizeCanvas(); seed(); });
+</script>
+</body>
+</html>

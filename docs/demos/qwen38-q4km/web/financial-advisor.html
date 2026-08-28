@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clearwater Capital — Independent Wealth Advisory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E1B17;
+  --ink-soft:#243730;
+  --parchment:#F4EFE2;
+  --parchment-deep:#ECE4CF;
+  --green:#1F7A54;
+  --green-deep:#166042;
+  --line:rgba(14,27,23,.16);
+  --line-soft:rgba(14,27,23,.09);
+  --muted:#5C6A62;
+  --muted-light:rgba(244,239,226,.62);
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--parchment);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--green);color:var(--parchment)}
+.wrap{max-width:1220px;margin:0 auto;padding:0 40px}
+.eyebrow{
+  font-size:.7rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--green);display:flex;align-items:center;gap:14px;
+}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--green);display:inline-block}
+h1,h2,h3{font-family:var(--serif);font-weight:420;letter-spacing:-.015em}
+p{font-size:1.05rem;line-height:1.75;color:var(--muted)}
+a{color:inherit;text-decoration:none}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* ---------- nav ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  transition:background .4s,box-shadow .4s,border-color .4s;
+  border-bottom:1px solid transparent;
+}
+header.scrolled{
+  background:rgba(244,239,226,.92);
+  backdrop-filter:blur(10px);
+  border-bottom-color:var(--line-soft);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:80px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-mark{width:38px;height:38px;flex:none}
+.brand-name{font-family:var(--serif);font-size:1.18rem;letter-spacing:.14em;font-weight:520}
+.brand-name span{display:block;font-family:var(--sans);font-size:.56rem;letter-spacing:.42em;color:var(--muted);font-weight:600;margin-top:2px}
+nav{display:flex;align-items:center;gap:38px}
+nav a.link{font-size:.82rem;font-weight:500;letter-spacing:.06em;color:var(--ink-soft);position:relative;padding:6px 0}
+nav a.link::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--green);transform:scaleX(0);transform-origin:right;transition:transform .4s cubic-bezier(.22,1,.36,1)}
+nav a.link:hover::after{transform:scaleX(1);transform-origin:left}
+.btn{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--green);color:var(--parchment);
+  font-family:var(--sans);font-size:.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:15px 26px;border:none;border-radius:2px;cursor:pointer;
+  transition:background .3s,transform .3s,box-shadow .3s;
+}
+.btn .arr{transition:transform .3s}
+.btn:hover{background:var(--green-deep);box-shadow:0 10px 28px -10px rgba(31,122,84,.5)}
+.btn:hover .arr{transform:translateX(5px)}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:.85rem;font-weight:600;letter-spacing:.04em;color:var(--ink);
+  border-bottom:1px solid var(--line);padding-bottom:5px;transition:color .3s,border-color .3s;
+}
+.btn-ghost:hover{color:var(--green);border-color:var(--green)}
+.nav-cta{padding:12px 22px;font-size:.72rem}
+
+/* ---------- hero ---------- */
+.hero{min-height:100vh;display:flex;align-items:center;padding:150px 0 70px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:80px;align-items:center;width:100%}
+.hero h1{
+  font-size:clamp(2.9rem,4.6vw,4.35rem);line-height:1.04;letter-spacing:-.02em;
+  margin:26px 0 24px;font-weight:400;
+}
+.hero h1 em{font-style:italic;color:var(--green);font-weight:460}
+.hero-sub{max-width:520px;font-size:1.12rem}
+.hero-actions{display:flex;align-items:center;gap:34px;margin-top:38px;flex-wrap:wrap}
+.trust-line{
+  display:flex;gap:0;margin-top:56px;border-top:1px solid var(--line);padding-top:26px;max-width:560px;
+}
+.trust-item{padding-right:28px;margin-right:28px;border-right:1px solid var(--line)}
+.trust-item:last-child{border:none;margin:0;padding:0}
+.trust-item b{display:block;font-family:var(--serif);font-size:1.32rem;font-weight:500;letter-spacing:-.01em}
+.trust-item small{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+/* hero panel */
+.hero-panel{
+  background:var(--parchment-deep);
+  border:1px solid var(--line-soft);
+  box-shadow:0 30px 60px -30px rgba(14,27,23,.35);
+  display:flex;flex-direction:column;
+  position:relative;overflow:hidden;
+  min-height:560px;
+}
+.hero-panel::before{
+  content:"";position:absolute;inset:10px;border:1px solid var(--line-soft);pointer-events:none;
+}
+.ripples{flex:1;display:flex;align-items:center;justify-content:center;padding:30px 0 0}
+.ripples svg{width:100%;height:auto;display:block}
+.ring{transform-origin:center;animation:breathe 9s ease-in-out infinite}
+.ring:nth-child(2){animation-delay:-1.5s}
+.ring:nth-child(3){animation-delay:-3s}
+.ring:nth-child(4){animation-delay:-4.5s}
+.ring:nth-child(5){animation-delay:-6s}
+.ring-green{animation:breathe 9s ease-in-out infinite;animation-delay:-2.2s;transform-origin:center}
+@keyframes breathe{
+  0%,100%{transform:scale(1);opacity:.85}
+  50%{transform:scale(1.035);opacity:.55}
+}
+.letter-quote{padding:34px 38px 40px;border-top:1px solid var(--line-soft);margin:0 10px}
+.letter-quote .tag{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--green);font-weight:600}
+.letter-quote blockquote{font-family:var(--serif);font-style:italic;font-size:1.22rem;line-height:1.5;color:var(--ink);margin-top:14px;font-weight:430}
+.letter-quote cite{display:block;margin-top:14px;font-style:normal;font-size:.78rem;color:var(--muted);letter-spacing:.05em}
+
+/* ---------- trust band ---------- */
+.trustband{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trustband .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:24px;padding-bottom:24px;flex-wrap:wrap;gap:18px}
+.cred{display:flex;align-items:center;gap:10px;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.cred::before{content:"";width:5px;height:5px;background:var(--green);border-radius:50%;flex:none}
+
+/* ---------- section scaffolding ---------- */
+section{position:relative}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:58px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(2.1rem,3.1vw,2.9rem);line-height:1.12;margin-top:20px;max-width:560px}
+.sec-head .side-note{max-width:340px;font-size:.95rem;padding-bottom:8px}
+
+/* ---------- services ---------- */
+.services{padding:120px 0 110px}
+.svc-row{
+  display:grid;grid-template-columns:90px 320px 1fr 140px;gap:32px;align-items:baseline;
+  padding:34px 8px;border-top:1px solid var(--line);
+  transition:background .35s;
+  cursor:default;
+}
+.svc-row:last-child{border-bottom:1px solid var(--line)}
+.svc-row:hover{background:rgba(14,27,23,.03)}
+.svc-num{font-family:var(--serif);font-style:italic;font-size:1.1rem;color:var(--muted);transition:color .3s}
+.svc-row:hover .svc-num{color:var(--green)}
+.svc-title{font-family:var(--serif);font-size:1.5rem;font-weight:460;transition:transform .35s, color .35s}
+.svc-row:hover .svc-title{color:var(--green);transform:translateX(6px)}
+.svc-desc{font-size:.96rem}
+.svc-tag{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);text-align:right}
+
+/* ---------- perspective ---------- */
+.perspective{background:var(--parchment-deep);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:120px 0}
+.persp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.persp-card{
+  background:var(--parchment);border:1px solid var(--line-soft);
+  padding:36px 32px 32px;display:flex;flex-direction:column;
+  transition:transform .4s cubic-bezier(.22,1,.36,1),box-shadow .4s,border-color .4s;
+}
+.persp-card:hover{transform:translateY(-6px);box-shadow:0 26px 48px -24px rgba(14,27,23,.35);border-color:var(--line)}
+.persp-motif{height:88px;margin-bottom:26px;display:flex;align-items:center}
+.persp-motif svg{width:100%;height:100%}
+.persp-kicker{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green);font-weight:600;margin-bottom:14px}
+.persp-card h3{font-size:1.42rem;line-height:1.25;margin-bottom:14px;font-weight:470}
+.persp-card p{font-size:.94rem;flex:1}
+.persp-link{margin-top:26px;padding-top:20px;border-top:1px solid var(--line-soft);font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;color:var(--ink-soft);transition:color .3s}
+.persp-card:hover .persp-link{color:var(--green)}
+.persp-link .arr{transition:transform .3s}
+.persp-card:hover .persp-link .arr{transform:translateX(5px)}
+
+/* ---------- journey ---------- */
+.journey{padding:130px 0 120px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:36px;position:relative;margin-top:10px}
+.steps::before{
+  content:"";position:absolute;top:27px;left:2%;right:2%;height:1px;
+  background:repeating-linear-gradient(90deg,var(--line) 0 8px,transparent 8px 16px);
+}
+.step{position:relative;padding-top:0}
+.step-dot{
+  width:54px;height:54px;border-radius:50%;background:var(--parchment);
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);font-style:italic;font-size:1.05rem;
+  position:relative;z-index:1;transition:background .4s,color .4s,border-color .4s,transform .4s;
+  margin-bottom:26px;
+}
+.step:hover .step-dot{background:var(--green);color:var(--parchment);border-color:var(--green);transform:scale(1.08)}
+.step h3{font-size:1.35rem;margin-bottom:12px;font-weight:470}
+.step p{font-size:.92rem}
+.step .step-meta{margin-top:16px;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--green);font-weight:600}
+
+/* ---------- team ---------- */
+.team{background:var(--ink);color:var(--parchment);padding:130px 0 140px}
+.team .eyebrow{color:#7FC8A4}.team .eyebrow::before{background:#7FC8A4}
+.team h2{color:var(--parchment)}
+.team .sec-head p{color:var(--muted-light)}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.member{position:relative}
+.member-photo{
+  width:100%;aspect-ratio:4/5;background:var(--parchment-deep);overflow:hidden;
+  border:1px solid rgba(244,239,226,.14);position:relative;
+  transition:transform .45s cubic-bezier(.22,1,.36,1);
+}
+.member:hover .member-photo{transform:translateY(-6px)}
+.member-photo svg{width:100%;height:100%;display:block}
+.member-photo::after{
+  content:"";position:absolute;inset:8px;border:1px solid rgba(14,27,23,.12);pointer-events:none;
+}
+.member h3{font-size:1.3rem;margin-top:22px;font-weight:470}
+.member .role{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#7FC8A4;font-weight:600;margin-top:6px}
+.member .creds{font-family:var(--serif);font-style:italic;font-size:.92rem;color:var(--muted-light);margin-top:12px;line-height:1.5}
+
+/* ---------- consult CTA ---------- */
+.consult{background:var(--ink);color:var(--parchment);position:relative;overflow:hidden;border-top:1px solid rgba(244,239,226,.12)}
+.consult .wrap{position:relative;z-index:1;padding-top:120px;padding-bottom:120px}
+.consult-rings{position:absolute;right:-220px;top:50%;transform:translateY(-50%);width:640px;opacity:.5;pointer-events:none}
+.consult-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:80px;align-items:center}
+.consult h2{font-size:clamp(2.3rem,3.6vw,3.4rem);line-height:1.12;color:var(--parchment);margin-top:22px}
+.consult h2 em{font-style:italic;color:#7FC8A4}
+.consult p{color:var(--muted-light);max-width:480px;margin-top:22px}
+.consult-panel{
+  border:1px solid rgba(244,239,226,.2);padding:46px 44px;background:rgba(244,239,226,.035);
+  position:relative;
+}
+.consult-panel::before{content:"";position:absolute;inset:9px;border:1px solid rgba(244,239,226,.1);pointer-events:none}
+.consult-panel .tag{font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:#7FC8A4;font-weight:600}
+.consult-panel h3{font-size:1.6rem;color:var(--parchment);margin:16px 0 8px;font-weight:460}
+.consult-panel>p{font-size:.95rem}
+.consult-list{list-style:none;margin:28px 0 32px}
+.consult-list li{padding:13px 0;border-top:1px solid rgba(244,239,226,.14);font-size:.9rem;color:var(--muted-light);display:flex;gap:14px;align-items:baseline}
+.consult-list li b{font-family:var(--serif);font-style:italic;color:#7FC8A4;font-weight:500;font-size:.95rem}
+.consult-contact{margin-top:26px;display:flex;gap:32px;flex-wrap:wrap;font-size:.82rem;letter-spacing:.04em;color:var(--muted-light)}
+.consult-contact a:hover{color:#7FC8A4}
+.consult .btn{margin-top:34px}
+
+/* ---------- footer ---------- */
+footer{background:#0A1410;color:var(--muted-light);padding:90px 0 0;font-size:.85rem}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px;padding-bottom:70px}
+.foot-brand .brand-name{color:var(--parchment)}
+.foot-brand p{margin-top:22px;max-width:340px;font-size:.88rem;line-height:1.7}
+.foot-col h4{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--parchment);font-weight:600;margin-bottom:20px;font-family:var(--sans)}
+.foot-col a,.foot-col span{display:block;padding:7px 0;color:var(--muted-light);font-size:.86rem;transition:color .3s}
+.foot-col a:hover{color:#7FC8A4}
+.foot-legal{border-top:1px solid rgba(244,239,226,.1);padding:44px 0 40px}
+.foot-legal p{font-size:.72rem;line-height:1.8;color:rgba(244,239,226,.42);max-width:1080px}
+.foot-legal p+p{margin-top:14px}
+.foot-bottom{border-top:1px solid rgba(244,239,226,.08);margin-top:34px;padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;font-size:.72rem;letter-spacing:.06em;color:rgba(244,239,226,.4)}
+.foot-bottom nav{display:flex;gap:26px}
+.foot-bottom a:hover{color:#7FC8A4}
+
+/* ---------- responsive ---------- */
+@media(max-width:1080px){
+  .hero-grid{grid-template-columns:1fr;gap:56px}
+  .hero{min-height:auto;padding-top:130px}
+  .persp-grid{grid-template-columns:1fr;max-width:560px}
+  .steps{grid-template-columns:1fr 1fr;gap:48px 36px}
+  .steps::before{display:none}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .consult-grid{grid-template-columns:1fr;gap:56px}
+  .svc-row{grid-template-columns:60px 1fr;gap:12px 24px}
+  .svc-desc{grid-column:2}.svc-tag{display:none}
+  nav a.link{display:none}
+}
+@media(max-width:640px){
+  .wrap{padding:0 24px}
+  .trustband .wrap{justify-content:flex-start;gap:14px 28px}
+  .steps,.team-grid,.foot-grid{grid-template-columns:1fr}
+  .trust-line{flex-direction:column;gap:20px}
+  .trust-item{border:none;padding:0;margin:0}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header id="siteNav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Clearwater Capital home">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="18.5" stroke="#0E1B17" stroke-width="1.2"/>
+        <path d="M6 22c4-4 8-4 12 0s8 4 12 0" stroke="#1F7A54" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M8 16.5c3.5-3 7-3 10.5 0s7.5 3 11 0" stroke="#0E1B17" stroke-width="1.1" stroke-linecap="round" opacity=".55"/>
+        <circle cx="20" cy="28.5" r="1.6" fill="#1F7A54"/>
+      </svg>
+      <span class="brand-name">CLEARWATER<span>CAPITAL</span></span>
+    </a>
+    <nav>
+      <a class="link" href="#services">Services</a>
+      <a class="link" href="#perspective">Perspective</a>
+      <a class="link" href="#journey">Approach</a>
+      <a class="link" href="#team">People</a>
+      <a class="btn nav-cta" href="#consult">Book a Consultation <span class="arr">→</span></a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow reveal">Independent Wealth Advisory · Est. 2004</div>
+      <h1 class="reveal d1">Your wealth,<br>kept in <em>clear water.</em></h1>
+      <p class="hero-sub reveal d2">Clearwater Capital is a fee-only, fiduciary advisory serving a small number of families. No products to sell, no commissions to chase — only considered counsel, held for the long view.</p>
+      <div class="hero-actions reveal d3">
+        <a class="btn" href="#consult">Book a Consultation <span class="arr">→</span></a>
+        <a class="btn-ghost" href="#perspective">Read the 2025 outlook</a>
+      </div>
+      <div class="trust-line reveal d4">
+        <div class="trust-item"><b>$2.4B</b><small>Assets guided</small></div>
+        <div class="trust-item"><b>1,900+</b><small>Families served</small></div>
+        <div class="trust-item"><b>21 yrs</b><small>Avg. relationship</small></div>
+      </div>
+    </div>
+
+    <div class="hero-panel reveal d2" aria-label="Quote from the 2024 annual letter">
+      <div class="ripples">
+        <svg viewBox="0 0 420 340" fill="none" aria-hidden="true">
+          <g class="ring" stroke="#0E1B17" stroke-opacity=".28"><ellipse cx="210" cy="170" rx="36" ry="26" stroke-width="1"/></g>
+          <g class="ring" stroke="#0E1B17" stroke-opacity=".22"><ellipse cx="210" cy="170" rx="74" ry="54" stroke-width="1"/></g>
+          <g class="ring" stroke="#0E1B17" stroke-opacity=".17"><ellipse cx="210" cy="170" rx="112" ry="82" stroke-width="1"/></g>
+          <g class="ring-green" stroke="#1F7A54" stroke-opacity=".75"><ellipse cx="210" cy="170" rx="90" ry="64" stroke-width="1.3"/></g>
+          <g class="ring" stroke="#0E1B17" stroke-opacity=".1"><ellipse cx="210" cy="170" rx="150" ry="110" stroke-width="1"/></g>
+          <circle cx="210" cy="170" r="3" fill="#1F7A54"/>
+          <path d="M132 268c22-12 44-12 66 0s44 12 66 0" stroke="#0E1B17" stroke-opacity=".3" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M152 286c18-9 36-9 54 0s36 9 54 0" stroke="#0E1B17" stroke-opacity=".2" stroke-width="1" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="letter-quote">
+        <span class="tag">From the 2024 Annual Letter</span>
+        <blockquote>“The market will test you many times. Discipline is what you deposit before the test, not after.”</blockquote>
+        <cite>— Eleanor Voss, Founding Principal</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST BAND ============ -->
+<div class="trustband">
+  <div class="wrap">
+    <span class="cred">Fiduciary, by law — always</span>
+    <span class="cred">CFP®-led advisory team</span>
+    <span class="cred">Fee-only · No commissions</span>
+    <span class="cred">Independent — no affiliations</span>
+    <span class="cred">AICPA firm-reviewed since 2009</span>
+  </div>
+</div>
+
+<!-- ============ SERVICES ============ -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">What we do</div>
+        <h2>Four disciplines, one standard of care.</h2>
+      </div>
+      <p class="side-note">We practice like attorneys and think like librarians: everything filed, everything explained, nothing hidden behind a platform.</p>
+    </div>
+
+    <div class="svc-row reveal">
+      <span class="svc-num">01</span>
+      <span class="svc-title">Wealth Planning</span>
+      <span class="svc-desc">A living document of your money: goals, obligations, values, and the sequence of decisions that connect them. Revised annually, never shelf-ware.</span>
+      <span class="svc-tag">The foundation</span>
+    </div>
+    <div class="svc-row reveal d1">
+      <span class="svc-num">02</span>
+      <span class="svc-title">Retirement Architecture</span>
+      <span class="svc-desc">Income engineered to outlive the portfolio — decumulation order, sequence-of-returns protection, and a bridge from paycheck to pension.</span>
+      <span class="svc-tag">For the next chapter</span>
+    </div>
+    <div class="svc-row reveal d2">
+      <span class="svc-num">03</span>
+      <span class="svc-title">Estate &amp; Legacy</span>
+      <span class="svc-desc">Working shoulder-to-shoulder with your attorneys: trust structures, charitable vehicles, and tax posture coordinated — never siloed.</span>
+      <span class="svc-tag">What endures</span>
+    </div>
+    <div class="svc-row reveal d3">
+      <span class="svc-num">04</span>
+      <span class="svc-title">Concentrated Positions</span>
+      <span class="svc-desc">Liquidity events, rollovers, and founder equity handled with staged strategies that respect both the opportunity and the risk of the moment.</span>
+      <span class="svc-tag">At pivotal moments</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PERSPECTIVE ============ -->
+<section class="perspective" id="perspective">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Market Perspective</div>
+        <h2>Notes from the long view.</h2>
+      </div>
+      <p class="side-note">We publish a short letter each season — what we see, what we're doing about it, and what we deliberately are not.</p>
+    </div>
+
+    <div class="persp-grid">
+      <article class="persp-card reveal">
+        <div class="persp-motif" aria-hidden="true">
+          <svg viewBox="0 0 240 88" fill="none">
+            <path d="M8 76 C60 72 100 60 140 40 S216 12 232 8" stroke="#1F7A54" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M8 76 C60 76 100 66 140 54 S216 34 232 30" stroke="#0E1B17" stroke-opacity=".28" stroke-width="1.1" stroke-dasharray="3 5" stroke-linecap="round"/>
+            <circle cx="232" cy="8" r="3" fill="#1F7A54"/>
+            <circle cx="8" cy="76" r="2.5" fill="#0E1B17" fill-opacity=".4"/>
+          </svg>
+        </div>
+        <div class="persp-kicker">Seasonal Letter · Q1 2025</div>
+        <h3>The quiet arithmetic of patience</h3>
+        <p>Most of the returns in a forty-year portfolio are earned in a handful of unglamorous years that arrive after years of noise. Our clients' edge is rarely timing — it is staying invested through the unlovable stretches.</p>
+        <a class="persp-link" href="#consult">Read the note <span class="arr">→</span></a>
+      </article>
+
+      <article class="persp-card reveal d1">
+        <div class="persp-motif" aria-hidden="true">
+          <svg viewBox="0 0 240 88" fill="none">
+            <rect x="12" y="18" width="34" height="56" stroke="#0E1B17" stroke-opacity=".3" stroke-width="1.1"/>
+            <rect x="56" y="30" width="34" height="44" stroke="#0E1B17" stroke-opacity=".3" stroke-width="1.1"/>
+            <rect x="100" y="24" width="34" height="50" stroke="#1F7A54" stroke-width="1.5"/>
+            <path d="M150 62c14-24 26-42 38-52 10 20 16 32 22 52" stroke="#0E1B17" stroke-opacity=".35" stroke-width="1.1" stroke-linecap="round"/>
+            <path d="M196 66h30M226 66l-8-4v8z" stroke="#1F7A54" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <div class="persp-kicker">Quarterly Review · Q4 2024</div>
+        <h3>What the last decade teaches about concentration</h3>
+        <p>A single position can carry a family's entire story — and its entire risk. We walked 40 clients through staged liquidity last year. Not one regretted starting earlier than they did.</p>
+        <a class="persp-link" href="#consult">Read the note <span class="arr">→</span></a>
+      </article>
+
+      <article class="persp-card reveal d2">
+        <div class="persp-motif" aria-hidden="true">
+          <svg viewBox="0 0 240 88" fill="none">
+            <circle cx="40" cy="44" r="18" stroke="#0E1B17" stroke-opacity=".3" stroke-width="1.1"/>
+            <path d="M40 44V30M40 44l10 6" stroke="#1F7A54" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M78 62c18-10 36-10 54 0s36 10 54 0 36-10 54 0" stroke="#0E1B17" stroke-opacity=".32" stroke-width="1.1" stroke-linecap="round"/>
+            <path d="M78 74c18-10 36-10 54 0s36 10 54 0 36-10 54 0" stroke="#1F7A54" stroke-opacity=".55" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="persp-kicker">Long-form Essay · Fall 2024</div>
+        <h3>Longevity is now an asset class</h3>
+        <p>Planning to age 85 is prudent; planning to age 95 is essential. We've rebuilt our withdrawal frameworks around a 35-year retirement horizon — and the portfolios that survive it are calmer ones.</p>
+        <a class="persp-link" href="#consult">Read the note <span class="arr">→</span></a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ JOURNEY ============ -->
+<section class="journey" id="journey">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">The Client Journey</div>
+        <h2>How a family works with us.</h2>
+      </div>
+      <p class="side-note">No onboarding portal, no scripted sales call. A slow, deliberate beginning — because trust must be earned in the first ninety days.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-dot">i.</div>
+        <h3>Listen</h3>
+        <p>The first two hours are yours to fill. We ask about the business, the children, the fears. There is no pitch — and often, no follow-up needed.</p>
+        <div class="step-meta">Two hours · No fee</div>
+      </div>
+      <div class="step reveal d1">
+        <div class="step-dot">ii.</div>
+        <h3>Map</h3>
+        <p>We build the full picture: assets, obligations, insurance, tax posture, and the family's stated values — filed where you can always see it.</p>
+        <div class="step-meta">4–6 weeks</div>
+      </div>
+      <div class="step reveal d2">
+        <div class="step-dot">iii.</div>
+        <h3>Architect</h3>
+        <p>A written plan you can hold up: allocations, income strategy, estate mechanics, and the costs of every recommendation, in plain language.</p>
+        <div class="step-meta">Your document</div>
+      </div>
+      <div class="step reveal d3">
+        <div class="step-dot">iv.</div>
+        <h3>Steward</h3>
+        <p>Quarterly reviews, an annual letter, and a phone number that goes to a person. We measure our success decades later, not next month.</p>
+        <div class="step-meta">Ongoing · For the long view</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAM ============ -->
+<section class="team" id="team">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">The People Behind the Counsel</div>
+        <h2>A small bench, deliberately so.</h2>
+      </div>
+      <p>Every principal manages their own book and knows your name, your history, and your plans. If we grow too large to hold that, we would rather not.</p>
+    </div>
+
+    <div class="team-grid">
+      <div class="member reveal">
+        <div class="member-photo">
+          <svg viewBox="0 0 200 250" aria-hidden="true">
+            <rect width="200" height="250" fill="#ECE4CF"/>
+            <path d="M100 78c22 0 34 16 34 34 0 10-3 18-8 24 10 8 40 18 40 62v52H34v-52c0-44 30-54 40-62-5-6-8-14-8-24 0-18 12-34 34-34z" fill="#243730"/>
+            <path d="M100 46c14 0 24 8 26 18-12-5-40-5-52 0 2-10 12-18 26-18z" fill="#243730"/>
+            <path d="M78 136c14 8 30 10 44 2" stroke="#1F7A54" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Eleanor Voss</h3>
+        <div class="role">Founding Principal</div>
+        <p class="creds">CFP®, CFA · 31 years in private wealth; author of the annual Clearwater letter.</p>
+      </div>
+
+      <div class="member reveal d1">
+        <div class="member-photo">
+          <svg viewBox="0 0 200 250" aria-hidden="true">
+            <rect width="200" height="250" fill="#ECE4CF"/>
+            <path d="M100 78c22 0 34 16 34 34 0 10-3 18-8 24 10 8 40 18 40 62v52H34v-52c0-44 30-54 40-62-5-6-8-14-8-24 0-18 12-34 34-34z" fill="#243730"/>
+            <rect x="76" y="52" width="48" height="16" rx="4" fill="#243730"/>
+            <path d="M74 138l20 10 20-10" stroke="#1F7A54" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Marcus Hale</h3>
+        <div class="role">Head of Retirement Strategy</div>
+        <p class="creds">CFP®, ChFC · Twenty years designing income that outlives the portfolio it comes from.</p>
+      </div>
+
+      <div class="member reveal d2">
+        <div class="member-photo">
+          <svg viewBox="0 0 200 250" aria-hidden="true">
+            <rect width="200" height="250" fill="#ECE4CF"/>
+            <path d="M100 78c22 0 34 16 34 34 0 10-3 18-8 24 10 8 40 18 40 62v52H34v-52c0-44 30-54 40-62-5-6-8-14-8-24 0-18 12-34 34-34z" fill="#243730"/>
+            <circle cx="128" cy="52" r="13" fill="#243730"/>
+            <path d="M84 70c8-10 28-14 38-6" stroke="#ECE4CF" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M78 138c14 6 30 6 44 0" stroke="#1F7A54" stroke-width="2" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Priya Raman</h3>
+        <div class="role">Portfolio Construction</div>
+        <p class="creds">CFA, FRM · Builds the quiet, unhurried portfolios behind our longer-horizon clients.</p>
+      </div>
+
+      <div class="member reveal d3">
+        <div class="member-photo">
+          <svg viewBox="0 0 200 250" aria-hidden="true">
+            <rect width="200" height="250" fill="#ECE4CF"/>
+            <path d="M100 78c22 0 34 16 34 34 0 10-3 18-8 24 10 8 40 18 40 62v52H34v-52c0-44 30-54 40-62-5-6-8-14-8-24 0-18 12-34 34-34z" fill="#243730"/>
+            <path d="M78 60c10-8 34-8 44 0l-4 14c-12-6-24-6-36 0z" fill="#243730"/>
+            <path d="M92 136h16" stroke="#1F7A54" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Tomas Lindqvist</h3>
+        <div class="role">Estate &amp; Tax Strategy</div>
+        <p class="creds">JD, CFP® · A former tax litigator who keeps our estate counsel honest.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONSULT CTA ============ -->
+<section class="consult" id="consult">
+  <svg class="consult-rings" viewBox="0 0 640 640" fill="none" aria-hidden="true">
+    <ellipse cx="320" cy="320" rx="60" ry="44" stroke="#F4EFE2" stroke-opacity=".25"/>
+    <ellipse cx="320" cy="320" rx="130" ry="95" stroke="#F4EFE2" stroke-opacity=".18"/>
+    <ellipse cx="320" cy="320" rx="200" ry="148" stroke="#F4EFE2" stroke-opacity=".12"/>
+    <ellipse cx="320" cy="320" rx="270" ry="200" stroke="#F4EFE2" stroke-opacity=".07"/>
+    <ellipse cx="320" cy="320" rx="165" ry="120" stroke="#7FC8A4" stroke-opacity=".35"/>
+  </svg>
+  <div class="wrap consult-grid">
+    <div class="reveal">
+      <div class="eyebrow" style="color:#7FC8A4">Begin Here</div>
+      <h2>Start with an <em>unhurried</em> conversation.</h2>
+      <p>Sixty minutes with a principal — not a representative. Bring your questions, your statements, and your skepticism. We'll tell you plainly whether we're the right firm for you; many first calls end in a good recommendation to someone else.</p>
+      <a class="btn" href="mailto:hello@clearwatercapital.com">Book a Consultation <span class="arr">→</span></a>
+    </div>
+    <div class="consult-panel reveal d2">
+      <span class="tag">What the first hour holds</span>
+      <h3>No pitch. No forms. A real conversation.</h3>
+      <p>We've kept this deliberately simple since 2004:</p>
+      <ul class="consult-list">
+        <li><b>i.</b> A thirty-minute call to confirm we can serve you honestly</li>
+        <li><b>ii.</b> A 90-minute meeting, in person or by video, at your pace</li>
+        <li><b>iii.</b> Written follow-up — our honest read, whether or not you engage us</li>
+      </ul>
+      <div class="consult-contact">
+        <a href="mailto:hello@clearwatercapital.com">hello@clearwatercapital.com</a>
+        <a href="tel:+16175550182">+1 (617) 555-0182</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top">
+          <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="18.5" stroke="#F4EFE2" stroke-opacity=".7" stroke-width="1.2"/>
+            <path d="M6 22c4-4 8-4 12 0s8 4 12 0" stroke="#7FC8A4" stroke-width="1.6" stroke-linecap="round"/>
+            <circle cx="20" cy="28.5" r="1.6" fill="#7FC8A4"/>
+          </svg>
+          <span class="brand-name">CLEARWATER<span style="color:rgba(244,239,226,.5)">CAPITAL</span></span>
+        </a>
+        <p>An independent, fee-only wealth advisory. One hundred Seven Beacon Street, Suite 1400, Boston, MA 02108. By appointment only.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Explore</h4>
+        <a href="#services">Services</a>
+        <a href="#perspective">Market perspective</a>
+        <a href="#journey">The client journey</a>
+        <a href="#team">Our principals</a>
+        <a href="#consult">Consultation</a>
+      </div>
+      <div class="foot-col">
+        <h4>Disclosures</h4>
+        <a href="#">Form ADV Part 1A/1B</a>
+        <a href="#">Form CRS</a>
+        <a href="#">Fee schedule</a>
+        <a href="#">Code of ethics</a>
+        <a href="#">Privacy policy</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href="mailto:hello@clearwatercapital.com">hello@clearwatercapital.com</a>
+        <a href="tel:+16175550182">+1 (617) 555-0182</a>
+        <span>Mon–Fri · 8:30a–6p ET</span>
+        <span>Existing clients: portal access</span>
+      </div>
+    </div>
+
+    <div class="foot-legal">
+      <p>Clearwater Capital Advisors LLC is a registered investment adviser. Registration does not imply a certain level of skill or training. The information on this site is provided for general informational purposes only and does not constitute investment, legal, tax, or accounting advice, nor a recommendation or offer to buy or sell any security or financial instrument. Past performance is not indicative of future results. Investing involves risk, including the potential loss of principal.</p>
+      <p>Clearwater Capital is fee-only: we are compensated solely by fees paid directly by clients. We do not accept commissions, solicitation payments, or revenue-sharing arrangements from any third party. "CFP®" and "Certified Financial Planner" are certification marks owned by the CFP Board of Standards, Inc. "CFA" is a registered trademark owned by the CFA Institute. "ChFC®" is a registered trademark of The American College of Financial Services. "FRM®" is a mark of the Global Association of Risk Professionals.</p>
+      <div class="foot-bottom">
+        <span>© 2025 Clearwater Capital Advisors LLC. All rights reserved.</span>
+        <nav>
+          <a href="#">Form ADV</a>
+          <a href="#">Privacy</a>
+          <a href="#">Disclosures</a>
+          <a href="#">Accessibility</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scrolled state
+const nav = document.getElementById('siteNav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+// Reveal on scroll
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  });
+}, {threshold: 0.12, rootMargin: '0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// Hero ripple: gentle pointer parallax on the panel (desktop only)
+const panel = document.querySelector('.hero-panel');
+if (panel && window.matchMedia('(pointer:fine)').matches) {
+  const svg = panel.querySelector('svg');
+  panel.addEventListener('mousemove', e => {
+    const r = panel.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5;
+    const y = (e.clientY - r.top) / r.height - .5;
+    svg.style.transform = `translate(${x * 14}px, ${y * 10}px)`;
+    svg.style.transition = 'transform .25s ease-out';
+  });
+  panel.addEventListener('mouseleave', () => {
+    svg.style.transform = 'translate(0,0)';
+    svg.style.transition = 'transform 1s cubic-bezier(.22,1,.36,1)';
+  });
+}
+</script>
+</body>
+</html>

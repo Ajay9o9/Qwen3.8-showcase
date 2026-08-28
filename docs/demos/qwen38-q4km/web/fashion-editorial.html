@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATELIER 09 — The Weight of Stillness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f2efe9;
+  --paper-2:#e9e5dd;
+  --ink:#171512;
+  --ink-soft:#4a463f;
+  --clay:#9a4a33;
+  --clay-deep:#6e3122;
+  --hairline:rgba(23,21,18,.16);
+  --serif:"Playfair Display",Georgia,serif;
+  --sans:"Inter","Helvetica Neue",Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:300;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--clay);color:var(--paper)}
+
+/* ---------- utility type ---------- */
+.kicker{
+  font-family:var(--sans);
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:.42em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+}
+.serif{font-family:var(--serif)}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(34px);transition:opacity 1.1s cubic-bezier(.19,1,.22,1),transform 1.1s cubic-bezier(.19,1,.22,1)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}
+
+/* ---------- nav ---------- */
+nav{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:26px 48px;
+  transition:background .5s,padding .5s,box-shadow .5s;
+}
+nav.scrolled{
+  background:rgba(242,239,233,.92);
+  backdrop-filter:blur(8px);
+  padding:16px 48px;
+  box-shadow:0 1px 0 var(--hairline);
+}
+.brand{
+  font-family:var(--serif);
+  font-size:19px;letter-spacing:.28em;
+  text-decoration:none;color:var(--ink);
+  display:flex;align-items:baseline;gap:10px;
+}
+.brand em{font-style:italic;font-size:13px;letter-spacing:.1em;color:var(--clay)}
+.nav-links{display:flex;gap:42px;align-items:center}
+.nav-links a{
+  font-size:10px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--ink);text-decoration:none;position:relative;padding:4px 0;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:var(--clay);transform:scaleX(0);transform-origin:right;
+  transition:transform .45s cubic-bezier(.19,1,.22,1);
+}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  align-items:end;
+  padding:150px 48px 64px;
+  position:relative;
+}
+.hero-meta{
+  grid-column:1/3;grid-row:1;
+  align-self:start;margin-top:14px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.hero-meta .line{width:44px;height:1px;background:var(--clay);margin-bottom:6px}
+.hero-title{
+  grid-column:1/9;grid-row:2;
+  align-self:end;margin-top:20px;
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(64px,9.2vw,158px);
+  line-height:.92;
+  letter-spacing:-.015em;
+}
+.hero-title .it{font-style:italic;color:var(--clay)}
+.hero-title .indent{padding-left:.9em}
+.hero-sub{
+  grid-column:9/12;grid-row:2;
+  align-self:end;
+  max-width:260px;
+  font-size:12.5px;line-height:1.85;color:var(--ink-soft);
+  padding-bottom:22px;
+}
+.hero-sub b{font-weight:500;color:var(--ink)}
+.hero-frame{
+  grid-column:8/13;grid-row:1/3;
+  justify-self:end;align-self:center;
+  width:clamp(280px,26vw,430px);
+  aspect-ratio:3/4.1;
+  position:relative;
+  margin-bottom:40px;
+}
+/* crop-like framing: hairline box + offset inner art */
+.frame{
+  position:absolute;inset:0;
+  border:1px solid var(--ink);
+}
+.frame::before,.frame::after{
+  content:"";position:absolute;background:var(--ink);
+}
+.frame::before{top:-5px;left:-5px;width:10px;height:10px}
+.frame::after{bottom:-5px;right:-5px;width:10px;height:10px}
+.crop{
+  position:absolute;inset:14px;
+  overflow:hidden;background:var(--paper-2);
+}
+.crop svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.frame-caption{
+  position:absolute;left:-9px;top:50%;
+  transform:translate(-50%,-50%) rotate(180deg);
+  writing-mode:vertical-rl;
+  font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:var(--ink-soft);
+}
+.hero-foot{
+  grid-column:1/13;grid-row:3;
+  margin-top:44px;padding-top:22px;
+  border-top:1px solid var(--hairline);
+  display:flex;justify-content:space-between;
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);
+}
+
+/* ---------- marquee ---------- */
+.marquee{
+  border-top:1px solid var(--hairline);
+  border-bottom:1px solid var(--hairline);
+  overflow:hidden;padding:20px 0;background:var(--paper);
+}
+.marquee-track{
+  display:flex;gap:0;width:max-content;
+  animation:mq 34s linear infinite;
+}
+.marquee span{
+  font-family:var(--serif);
+  font-size:26px;font-style:italic;white-space:nowrap;
+  padding:0 34px;color:var(--ink);
+  display:flex;align-items:center;gap:68px;
+}
+.marquee span::after{
+  content:"";width:6px;height:6px;background:var(--clay);border-radius:50%;
+}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- statement ---------- */
+.statement{
+  display:grid;grid-template-columns:repeat(12,1fr);
+  gap:24px;
+  padding:150px 48px 170px;
+}
+.statement .idx{
+  grid-column:1/2;grid-row:1;
+  font-family:var(--serif);font-style:italic;font-size:15px;color:var(--clay);
+  padding-top:8px;
+}
+.statement .kicker{grid-column:1/4;grid-row:1;justify-self:end}
+.statement p{
+  grid-column:2/10;grid-row:2;
+  font-family:var(--serif);
+  font-size:clamp(26px,3.1vw,44px);
+  line-height:1.42;font-weight:400;
+}
+.statement p em{font-style:italic;color:var(--clay)}
+.statement .sig{
+  grid-column:10/13;grid-row:3;align-self:end;justify-self:end;
+  font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink-soft);
+  border-left:2px solid var(--clay);padding-left:14px;line-height:2;
+}
+
+/* ---------- collection teaser ---------- */
+.collection{
+  background:var(--ink);color:var(--paper);
+  padding:130px 48px 140px;
+  position:relative;
+}
+.collection .kicker{color:rgba(242,239,233,.5)}
+.coll-head{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:24px;
+  margin-bottom:90px;
+}
+.coll-head h2{
+  grid-column:2/10;
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(48px,7vw,110px);line-height:.98;letter-spacing:-.01em;
+}
+.coll-head h2 .it{font-style:italic;color:#c7765b}
+.coll-head .no{
+  grid-column:11/13;justify-self:end;
+  font-family:var(--serif);font-style:italic;font-size:15px;color:rgba(242,239,233,.55);
+  text-align:right;line-height:1.9;
+}
+.looks{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:24px;
+}
+.look{border-top:1px solid rgba(242,239,233,.22);padding-top:26px;display:flex;flex-direction:column;gap:22px}
+.look:nth-child(1){grid-column:1/5}
+.look:nth-child(2){grid-column:6/9;margin-top:90px}
+.look:nth-child(3){grid-column:10/13;margin-top:20px}
+.look .num{
+  font-family:var(--serif);font-style:italic;font-size:15px;color:#c7765b;
+}
+.look .lart{
+  width:100%;aspect-ratio:4/5;overflow:hidden;
+  border:1px solid rgba(242,239,233,.3);position:relative;background:#211e19;
+}
+.look .lart svg{position:absolute;inset:0;width:100%;height:100%;display:block;
+  transition:transform 1.4s cubic-bezier(.19,1,.22,1)}
+.look:hover .lart svg{transform:scale(1.06)}
+.look h3{
+  font-family:var(--serif);font-weight:400;font-size:24px;letter-spacing:.01em;
+}
+.look p{font-size:11.5px;line-height:1.8;color:rgba(242,239,233,.55);max-width:280px}
+.look a{
+  font-size:9.5px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--paper);text-decoration:none;width:fit-content;
+  border-bottom:1px solid var(--clay);padding-bottom:5px;
+}
+.look a:hover{color:#c7765b}
+
+/* ---------- products ---------- */
+.products{padding:150px 48px 160px}
+.prod-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:96px;
+}
+.prod-head h2{
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(40px,5vw,76px);line-height:1;
+}
+.prod-head h2 .it{font-style:italic;color:var(--clay)}
+.prod-head .kicker{transform:translateY(-10px)}
+.prod-grid{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:24px;
+}
+.card{position:relative;display:flex;flex-direction:column;gap:20px}
+.card:nth-child(1){grid-column:1/5}
+.card:nth-child(2){grid-column:6/9;margin-top:120px}
+.card:nth-child(3){grid-column:10/13;margin-top:48px}
+.card .pnum{
+  font-family:var(--serif);font-style:italic;font-size:14px;color:var(--clay);
+}
+.part{
+  width:100%;aspect-ratio:4/4.7;overflow:hidden;position:relative;
+  background:var(--paper-2);border:1px solid var(--hairline);
+}
+.part svg{position:absolute;inset:0;width:100%;height:100%;display:block;
+  transition:transform 1.4s cubic-bezier(.19,1,.22,1)}
+.card:hover .part svg{transform:scale(1.05)}
+.pmeta{
+  display:flex;justify-content:space-between;align-items:baseline;
+  border-top:1px solid var(--hairline);padding-top:16px;
+}
+.pmeta h3{font-family:var(--serif);font-weight:400;font-size:21px}
+.pmeta .price{font-size:11px;letter-spacing:.16em;color:var(--ink-soft)}
+.pdesc{font-size:11.5px;line-height:1.8;color:var(--ink-soft);max-width:270px}
+
+/* ---------- cta strip ---------- */
+.cta{
+  border-top:1px solid var(--hairline);
+  padding:110px 48px;
+  display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;
+}
+.cta h2{
+  grid-column:1/10;
+  font-family:var(--serif);font-weight:400;
+  font-size:clamp(44px,6.4vw,100px);line-height:1;letter-spacing:-.01em;
+}
+.cta h2 .it{font-style:italic;color:var(--clay)}
+.cta a{
+  grid-column:10/13;justify-self:end;
+  font-size:11px;font-weight:500;letter-spacing:.36em;text-transform:uppercase;
+  color:var(--ink);text-decoration:none;
+  border:1px solid var(--ink);padding:22px 40px;
+  position:relative;overflow:hidden;
+  transition:color .5s;
+}
+.cta a::before{
+  content:"";position:absolute;inset:0;background:var(--clay);
+  transform:translateY(101%);transition:transform .5s cubic-bezier(.19,1,.22,1);z-index:-1;
+}
+.cta a:hover{color:var(--paper)}
+.cta a:hover::before{transform:none}
+
+/* ---------- footer ---------- */
+footer{
+  background:var(--ink);color:var(--paper);
+  padding:90px 48px 40px;
+}
+.foot-grid{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:24px;
+  margin-bottom:80px;
+}
+.foot-brand{grid-column:1/5}
+.foot-brand .brand{color:var(--paper);font-size:26px}
+.foot-brand p{
+  margin-top:22px;font-size:11.5px;line-height:1.9;color:rgba(242,239,233,.5);max-width:300px;
+}
+.foot-col{grid-column:6/8}
+.foot-col h4, .foot-col2 h4{
+  font-size:9.5px;font-weight:500;letter-spacing:.36em;text-transform:uppercase;
+  color:rgba(242,239,233,.4);margin-bottom:22px;
+}
+.foot-col a,.foot-col2 a{
+  display:block;font-size:12px;color:rgba(242,239,233,.75);text-decoration:none;
+  margin-bottom:12px;transition:color .3s,padding-left .3s;
+}
+.foot-col a:hover,.foot-col2 a:hover{color:#c7765b;padding-left:6px}
+.foot-col2{grid-column:9/12}
+.news{margin-top:34px}
+.news label{
+  font-size:9.5px;font-weight:500;letter-spacing:.36em;text-transform:uppercase;
+  color:rgba(242,239,233,.4);display:block;margin-bottom:14px;
+}
+.news form{display:flex;border-bottom:1px solid rgba(242,239,233,.3)}
+.news input{
+  flex:1;background:none;border:none;color:var(--paper);
+  font-family:var(--sans);font-size:12px;font-weight:300;
+  padding:8px 0;outline:none;
+}
+.news input::placeholder{color:rgba(242,239,233,.35)}
+.news button{
+  background:none;border:none;color:var(--paper);cursor:pointer;
+  font-size:14px;padding:0 4px;transition:transform .3s,color .3s;
+}
+.news button:hover{transform:translateX(5px);color:#c7765b}
+.news-msg{font-size:10.5px;color:#c7765b;margin-top:10px;min-height:14px}
+.foot-base{
+  border-top:1px solid rgba(242,239,233,.15);padding-top:28px;
+  display:flex;justify-content:space-between;
+  font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(242,239,233,.35);
+}
+
+/* ---------- responsive ---------- */
+@media(max-width:1020px){
+  .hero{padding-top:130px}
+  .hero-frame{display:none}
+  .hero-title{grid-column:1/13}
+  .hero-sub{grid-column:1/13;max-width:420px;margin-top:28px}
+  .hero-meta{grid-column:1/13;grid-row:1;margin-top:0}
+  .look:nth-child(1),.look:nth-child(2),.look:nth-child(3){grid-column:1/13;margin-top:0}
+  .card:nth-child(1),.card:nth-child(2),.card:nth-child(3){grid-column:1/13;margin-top:0}
+  .statement p{grid-column:1/13}
+  .foot-brand{grid-column:1/13}
+  .foot-col{grid-column:1/7}.foot-col2{grid-column:7/13}
+  .cta a{grid-column:1/13;margin-top:30px;justify-self:start}
+  .nav-links a:nth-child(2){display:none}
+  nav,nav.scrolled{padding:18px 24px}
+  .hero,.statement,.collection,.products,.cta,footer{padding-left:24px;padding-right:24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav id="nav">
+  <a class="brand" href="#">ATELIER&nbsp;09 <em>MMXXV</em></a>
+  <div class="nav-links">
+    <a href="#collection">Collection</a>
+    <a href="#atelier">Atelier</a>
+    <a href="#correspondence">Correspondence</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="hero-meta rv">
+    <div class="line"></div>
+    <span class="kicker">Autumn — Winter 2025</span>
+    <span class="kicker">Nº 09 · Paris</span>
+  </div>
+
+  <h1 class="hero-title rv d1">
+    The Weight<br>
+    <span class="it indent">of</span> Stillness
+  </h1>
+
+  <div class="hero-sub rv d2">
+    <p><b>Campaign 09</b> explores the pause between gesture and fabric. Nine looks, cut in undyed wool, raw linen and bone — a wardrobe built for the hours before light.</p>
+  </div>
+
+  <div class="hero-frame rv d2" id="heroFrame">
+    <div class="frame"></div>
+    <div class="crop">
+      <!-- duotone art: arch / figure -->
+      <svg viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <linearGradient id="gDuo1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#9a4a33"/>
+            <stop offset="1" stop-color="#6e3122"/>
+          </linearGradient>
+          <clipPath id="clip1"><rect x="14" y="14" width="272" height="372"/></clipPath>
+        </defs>
+        <g clip-path="url(#clip1)">
+          <rect width="300" height="400" fill="#e9e5dd"/>
+          <path d="M75 400 L75 165 A75 75 0 0 1 225 165 L225 400 Z" fill="url(#gDuo1)"/>
+          <circle cx="150" cy="150" r="34" fill="#171512"/>
+          <path d="M60 400 C60 300 100 250 150 240 C200 250 240 300 240 400 Z" fill="#171512" opacity=".88"/>
+          <line x1="20" y1="70" x2="280" y2="70" stroke="#171512" stroke-width="1"/>
+          <line x1="20" y1="84" x2="200" y2="84" stroke="#9a4a33" stroke-width="1"/>
+          <circle cx="252" cy="330" r="20" fill="none" stroke="#171512" stroke-width="1"/>
+          <circle cx="252" cy="330" r="6" fill="#9a4a33"/>
+        </g>
+      </svg>
+    </div>
+    <span class="frame-caption">Study 09 — Arch in Clay</span>
+  </div>
+
+  <div class="hero-foot rv d3">
+    <span>Scroll — Campaign Statement</span>
+    <span>Shot on no light</span>
+  </div>
+</header>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Atelier 09</span><span>Autumn Winter 2025</span><span>The Weight of Stillness</span><span>Nine Looks, One Silence</span>
+    <span>Atelier 09</span><span>Autumn Winter 2025</span><span>The Weight of Stillness</span><span>Nine Looks, One Silence</span>
+  </div>
+</div>
+
+<!-- ============ STATEMENT ============ -->
+<section class="statement" id="atelier">
+  <span class="idx rv">01</span>
+  <span class="kicker rv d1">Manifesto</span>
+  <p class="rv d1">
+    We do not dress the body. We dress the <em>pause</em> it makes —
+    the breath held before a decision. Garment 09 is heavy by design,
+    silent by construction, and unfinished on purpose. <em>It waits
+    for you to finish it.</em>
+  </p>
+  <div class="sig rv d2">
+    Creative Direction<br>M. Auren<br>Atelier 09, Paris 10ᵉ
+  </div>
+</section>
+
+<!-- ============ COLLECTION TEASER ============ -->
+<section class="collection" id="collection">
+  <div class="coll-head">
+    <h2 class="rv">The <span class="it">Collection</span><br>in Three Movements</h2>
+    <div class="no rv d2">
+      AW 2025<br>Nº 09 / 24<br>Paris
+    </div>
+  </div>
+
+  <div class="looks">
+    <article class="look rv">
+      <span class="num">Movement I — The Column</span>
+      <div class="lart">
+        <svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice">
+          <rect width="240" height="300" fill="#211e19"/>
+          <path d="M60 300 L60 90 L120 40 L180 90 L180 300 Z" fill="#9a4a33"/>
+          <path d="M85 300 L85 120 L120 85 L155 120 L155 300 Z" fill="#f2efe9" opacity=".92"/>
+          <line x1="120" y1="85" x2="120" y2="300" stroke="#211e19" stroke-width="1.5"/>
+          <circle cx="120" cy="40" r="4" fill="#f2efe9"/>
+        </svg>
+      </div>
+      <h3>Stillness, Vertical</h3>
+      <p>Coat silhouettes held at one unbroken line. Undyed Mongolian wool, cut from a single bolt, closed with hand-set corozo buttons.</p>
+      <a href="#">View the looks →</a>
+    </article>
+
+    <article class="look rv d1">
+      <span class="num">Movement II — The Fold</span>
+      <div class="lart">
+        <svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice">
+          <rect width="240" height="300" fill="#211e19"/>
+          <path d="M30 300 C80 180 90 160 120 160 C150 160 160 180 210 300 Z" fill="#f2efe9" opacity=".9"/>
+          <path d="M60 300 C95 210 105 195 120 195 C135 195 145 210 180 300 Z" fill="#9a4a33"/>
+          <path d="M90 300 C110 240 115 230 120 230 C125 230 130 240 150 300 Z" fill="#171512"/>
+          <line x1="20" y1="60" x2="220" y2="60" stroke="#f2efe9" stroke-width="1" opacity=".4"/>
+          <circle cx="120" cy="60" r="3" fill="#9a4a33"/>
+        </svg>
+      </div>
+      <h3>The Soft Interior</h3>
+      <p>Blouses and slips gathered in deep pleats, washed eleven times until the linen forgets it was cloth. Worn closest to the skin.</p>
+      <a href="#">View the looks →</a>
+    </article>
+
+    <article class="look rv d2">
+      <span class="num">Movement III — The Ground</span>
+      <div class="lart">
+        <svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice">
+          <rect width="240" height="300" fill="#211e19"/>
+          <path d="M70 60 L105 60 L95 300 L45 300 Z" fill="#9a4a33"/>
+          <path d="M135 60 L170 60 L195 300 L145 300 Z" fill="#f2efe9" opacity=".9"/>
+          <line x1="112" y1="60" x2="128" y2="60" stroke="#f2efe9" stroke-width="1"/>
+          <rect x="0" y="284" width="240" height="16" fill="#171512"/>
+          <circle cx="120" cy="180" r="26" fill="none" stroke="#9a4a33" stroke-width="1"/>
+        </svg>
+      </div>
+      <h3>Weight, Resolved</h3>
+      <p>Wide trousers and long coats that pool at the hem. The collection ends where the foot begins — grounded, deliberate, still.</p>
+      <a href="#">View the looks →</a>
+    </article>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="products">
+  <div class="prod-head">
+    <h2 class="rv">Objects of <span class="it">Note</span></h2>
+    <span class="kicker rv d1">Selected pieces · AW25</span>
+  </div>
+
+  <div class="prod-grid">
+    <article class="card rv">
+      <span class="pnum">Nº 01</span>
+      <div class="part">
+        <svg viewBox="0 0 240 280" preserveAspectRatio="xMidYMid slice">
+          <rect width="240" height="280" fill="#e9e5dd"/>
+          <path d="M55 280 L55 100 L95 55 L120 45 L145 55 L185 100 L185 280 Z" fill="#171512"/>
+          <path d="M95 55 L120 45 L145 55 L140 70 L120 120 L100 70 Z" fill="#9a4a33"/>
+          <line x1="120" y1="120" x2="120" y2="280" stroke="#e9e5dd" stroke-width="1"/>
+          <circle cx="112" cy="150" r="2" fill="#e9e5dd"/>
+          <circle cx="128" cy="150" r="2" fill="#e9e5dd"/>
+        </svg>
+      </div>
+      <div class="pmeta">
+        <h3>The Column Coat</h3>
+        <span class="price">€ 2 450</span>
+      </div>
+      <p class="pdesc">Single-bolt undyed wool. One seam, no waist, a fall that outlasts its wearer by a season.</p>
+    </article>
+
+    <article class="card rv d1">
+      <span class="pnum">Nº 02</span>
+      <div class="part">
+        <svg viewBox="0 0 240 280" preserveAspectRatio="xMidYMid slice">
+          <rect width="240" height="280" fill="#e9e5dd"/>
+          <path d="M60 280 C85 170 100 140 120 140 C140 140 155 170 180 280 Z" fill="#9a4a33"/>
+          <path d="M80 280 C98 200 108 180 120 180 C132 180 142 200 160 280 Z" fill="#171512"/>
+          <path d="M98 280 C110 235 115 225 120 225 C125 225 130 235 142 280 Z" fill="#f2efe9" opacity=".85"/>
+          <circle cx="120" cy="90" r="18" fill="#171512"/>
+        </svg>
+      </div>
+      <div class="pmeta">
+        <h3>The Fold Blouse</h3>
+        <span class="price">€ 890</span>
+      </div>
+      <p class="pdesc">Eleven-wash linen pleated by hand in a single afternoon. It holds the fold; you hold the breath.</p>
+    </article>
+
+    <article class="card rv d2">
+      <span class="pnum">Nº 03</span>
+      <div class="part">
+        <svg viewBox="0 0 240 280" preserveAspectRatio="xMidYMid slice">
+          <rect width="240" height="280" fill="#e9e5dd"/>
+          <path d="M72 40 L108 40 L100 280 L48 280 Z" fill="#171512"/>
+          <path d="M132 40 L168 40 L192 280 L140 280 Z" fill="#9a4a33"/>
+          <line x1="90" y1="40" x2="150" y2="40" stroke="#171512" stroke-width="1"/>
+          <line x1="74" y1="80" x2="104" y2="80" stroke="#e9e5dd" stroke-width="1"/>
+          <circle cx="120" cy="150" r="30" fill="none" stroke="#171512" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="pmeta">
+        <h3>The Sculptural Trouser</h3>
+        <span class="price">€ 1 120</span>
+      </div>
+      <p class="pdesc">Raw twill with a weighted hem and a rise cut to sit exactly where the morning begins.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="correspondence">
+  <h2 class="rv">Correspondence,<br>kept <span class="it">sparse.</span></h2>
+  <a class="rv d1" href="#">Request the Journal</a>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="brand" href="#top">ATELIER&nbsp;09 <em>MMXXV</em></a>
+      <p>An independent Parisian atelier working in nine garments at a time. Each collection is cut once, numbered, and never repeated. 14 Rue des Ombres, 75010 Paris.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Index</h4>
+      <a href="#top">Campaign 09</a>
+      <a href="#collection">The Collection</a>
+      <a href="#atelier">Manifesto</a>
+      <a href="#">Archive I — VIII</a>
+    </div>
+    <div class="foot-col2">
+      <h4>House</h4>
+      <a href="#">Appointments</a>
+      <a href="#">Press Kit</a>
+      <a href="#">Terms of Wear</a>
+      <a href="#">Instagram</a>
+      <div class="news">
+        <label for="nl">The Journal — twice a season</label>
+        <form id="nlForm">
+          <input id="nl" type="email" placeholder="your address" required>
+          <button type="submit" aria-label="Subscribe">→</button>
+        </form>
+        <div class="news-msg" id="nlMsg"></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot-base">
+    <span>© MMXXV Atelier 09 — All silhouettes reserved</span>
+    <span id="clock">Paris — 00:00</span>
+  </div>
+</footer>
+
+<script>
+// nav state
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+// scroll reveals
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// hero art parallax
+const hf=document.getElementById('heroFrame');
+if(hf){
+  let ticking=false;
+  addEventListener('scroll',()=>{
+    if(!ticking){
+      requestAnimationFrame(()=>{
+        const y=Math.min(scrollY,800);
+        hf.style.transform=`translateY(${y*-0.06}px)`;
+        ticking=false;
+      });
+      ticking=true;
+    }
+  },{passive:true});
+}
+
+// newsletter
+document.getElementById('nlForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const msg=document.getElementById('nlMsg');
+  msg.textContent='Received. The next letter leaves with the autumn light.';
+  e.target.querySelector('input').value='';
+});
+
+// paris clock
+const clk=document.getElementById('clock');
+function tick(){
+  try{
+    const t=new Date().toLocaleTimeString('en-GB',{timeZone:'Europe/Paris',hour:'2-digit',minute:'2-digit'});
+    clk.textContent='Paris — '+t;
+  }catch(_){clk.textContent='Paris — GMT+1'}
+}
+tick();setInterval(tick,30000);
+</script>
+</body>
+</html>

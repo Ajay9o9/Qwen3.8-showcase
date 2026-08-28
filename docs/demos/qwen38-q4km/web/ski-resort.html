@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKI/RESORT — Kestrel Ridge, 6,870 ft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f2efe7;
+  --paper-2:#e9e5d9;
+  --ink:#182420;
+  --ink-soft:#41504a;
+  --pine:#14352b;
+  --pine-deep:#0d241d;
+  --frost:#cfe0dd;
+  --amber:#e8a13c;
+  --amber-deep:#c9821e;
+  --signal:#d9502b;
+  --green:#2e7d4f;
+  --blue:#2b5ea7;
+  --black:#14161a;
+  --line:#c8c2b2;
+  --mono:'IBM Plex Mono',monospace;
+  --grot:'Space Grotesk',sans-serif;
+  --frac:'Fraunces',serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--grot);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--amber);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+.wrap{max-width:1360px;margin:0 auto;padding:0 48px}
+
+/* ---------- ticker ---------- */
+.ticker{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;font-family:var(--mono);font-size:11px;letter-spacing:.14em;border-bottom:1px solid #000}
+.ticker-track{display:inline-block;padding:7px 0;animation:tick 38s linear infinite}
+.ticker span{padding:0 26px;border-right:1px solid #3a4a44}
+.ticker b{color:var(--amber);font-weight:500}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- header ---------- */
+header{position:sticky;top:0;z-index:60;background:rgba(242,239,231,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.wordmark{display:flex;align-items:baseline;gap:10px;font-family:var(--frac);font-weight:700;font-size:24px;letter-spacing:-.01em}
+.wordmark .slash{color:var(--amber-deep);font-weight:300}
+.wordmark small{font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.22em;color:var(--ink-soft);text-transform:uppercase}
+.nav-links{display:flex;gap:34px;font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.nav-links a{position:relative;padding:6px 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:0;background:var(--amber-deep);transition:width .25s}
+.nav-links a:hover::after{width:100%}
+.nav-cta{font-family:var(--mono);font-size:12px;letter-spacing:.1em;border:1.5px solid var(--ink);padding:10px 18px;border-radius:2px;transition:.2s;background:var(--ink);color:var(--paper)}
+.nav-cta:hover{background:var(--amber);border-color:var(--amber);color:var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;background:var(--paper);overflow:hidden}
+.hero-grid{position:relative;z-index:3;display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:end;padding:72px 48px 120px}
+.hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.hero-eyebrow::before{content:"";width:34px;height:1px;background:var(--ink-soft)}
+h1{font-family:var(--frac);font-weight:700;font-size:clamp(58px,7.2vw,108px);line-height:.94;letter-spacing:-.02em}
+h1 .amp{color:var(--amber-deep);font-weight:300;font-style:italic}
+.hero-sub{max-width:44ch;margin-top:22px;font-size:17px;color:var(--ink-soft)}
+.hero-meta{display:flex;gap:0;margin-top:40px;border-top:1px solid var(--line);max-width:560px}
+.hero-meta div{padding:16px 28px 0 0;margin-right:28px}
+.hero-meta div+div{border-left:1px solid var(--line);padding-left:28px}
+.hero-meta b{display:block;font-family:var(--frac);font-size:30px;font-weight:600;line-height:1}
+.hero-meta span{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+.hero-meta .amber{color:var(--amber-deep)}
+
+/* conditions panel */
+.conditions{background:var(--ink);color:var(--paper);border-radius:6px;padding:30px 30px 26px;position:relative;overflow:hidden}
+.conditions::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% -10%,rgba(232,161,60,.25),transparent 55%);pointer-events:none}
+.cond-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#9db4ac;margin-bottom:20px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#5fd39a;margin-right:8px;box-shadow:0 0 0 0 rgba(95,211,154,.5);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(95,211,154,0)}100%{box-shadow:0 0 0 0 rgba(95,211,154,0)}}
+.temp-row{display:flex;align-items:flex-start;gap:6px}
+.temp{font-family:var(--frac);font-size:84px;font-weight:400;line-height:.9}
+.temp sup{font-size:30px;font-weight:300;color:#9db4ac}
+.cond-feel{font-family:var(--mono);font-size:11px;color:#9db4ac;margin-top:8px;letter-spacing:.06em}
+.cond-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#2b3b35;margin:24px 0;border:1px solid #2b3b35}
+.cond-cell{background:var(--ink);padding:14px 16px}
+.cond-cell span{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9db4ac;display:block}
+.cond-cell b{font-family:var(--frac);font-size:22px;font-weight:600;display:block;margin-top:2px}
+.cond-cell b em{font-style:normal;font-size:13px;font-family:var(--grot);color:#9db4ac;font-weight:400}
+.snow-gauge{margin-top:4px}
+.snow-gauge .label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9db4ac;margin-bottom:8px}
+.gauge{height:8px;background:#2b3b35;border-radius:99px;overflow:hidden}
+.gauge i{display:block;height:100%;width:62%;background:linear-gradient(90deg,#5fd39a,var(--amber));border-radius:99px}
+.status-bar{margin-top:22px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #2b3b35;padding-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.1em}
+.status-pill{background:#123527;color:#8fe6b6;padding:6px 12px;border-radius:99px;border:1px solid #1e5a3e}
+
+/* hero scenery */
+.hero-scene{position:absolute;left:0;right:0;bottom:0;height:340px;z-index:1;pointer-events:none}
+.hero-scene svg{width:100%;height:100%;display:block}
+#snowCanvas{position:absolute;inset:0;z-index:2;pointer-events:none}
+
+/* ---------- section scaffolding ---------- */
+section{padding:96px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:52px;flex-wrap:wrap}
+.sec-num{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sec-num::before{content:"";width:28px;height:1px;background:var(--ink-soft)}
+h2{font-family:var(--frac);font-weight:600;font-size:clamp(34px,3.4vw,52px);line-height:1.02;letter-spacing:-.015em}
+.sec-note{max-width:34ch;font-size:14px;color:var(--ink-soft)}
+
+/* ---------- snow report ---------- */
+#snow{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.snow-grid{display:grid;grid-template-columns:1fr 1fr 380px;gap:40px;align-items:start}
+.days{display:flex;gap:10px;margin-bottom:20px}
+.day-btn{flex:1;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;padding:14px 8px;border:1.5px solid var(--line);background:transparent;border-radius:4px;cursor:pointer;transition:.2s;color:var(--ink)}
+.day-btn small{display:block;font-size:9px;color:var(--ink-soft);margin-top:3px;letter-spacing:.18em}
+.day-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.day-btn.active small{color:#9db4ac}
+.day-btn:not(.active):hover{border-color:var(--ink)}
+.day-data{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.day-data .cell{background:var(--paper);padding:20px 18px}
+.day-data .cell span{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);display:block}
+.day-data .cell b{font-family:var(--frac);font-size:28px;font-weight:600;display:block;margin-top:4px}
+.day-data .cell b em{font-style:normal;font-size:14px;font-family:var(--grot);font-weight:400;color:var(--ink-soft)}
+.day-note{margin-top:16px;font-size:14px;color:var(--ink-soft);border-left:3px solid var(--amber);padding-left:14px}
+.base-block{background:var(--ink);color:var(--paper);border-radius:6px;padding:28px}
+.base-block h3{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#9db4ac;margin-bottom:18px;font-weight:400}
+.base-rows{display:grid;gap:14px}
+.base-row{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;border-bottom:1px dashed #2b3b35;padding-bottom:12px}
+.base-row b{font-family:var(--frac);font-size:24px;font-weight:600}
+.base-row b i{font-style:normal;font-size:13px;font-family:var(--grot);font-weight:400;color:#9db4ac}
+.base-row .up{color:#8fe6b6;font-family:var(--mono);font-size:11px}
+.chart-title{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
+.chart{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:22px}
+.chart svg{width:100%;height:auto;display:block}
+.chart-legend{display:flex;gap:18px;margin-top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--ink-soft);text-transform:uppercase}
+.chart-legend i{width:10px;height:10px;display:inline-block;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+/* ---------- lifts ---------- */
+.lift-list{display:grid;gap:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--paper)}
+.lift{display:grid;grid-template-columns:220px 1fr 130px 150px 130px;align-items:center;gap:16px;padding:20px 28px;border-bottom:1px solid var(--line);transition:background .2s}
+.lift:last-child{border-bottom:0}
+.lift:hover{background:#eceadf}
+.lift .lname{font-family:var(--frac);font-weight:600;font-size:19px}
+.lift .lname small{display:block;font-family:var(--mono);font-weight:400;font-size:10px;letter-spacing:.14em;color:var(--ink-soft);text-transform:uppercase;margin-top:2px}
+.lift .ltype{font-size:13px;color:var(--ink-soft)}
+.lift .lwait{font-family:var(--mono);font-size:13px}
+.lift .lwait b{font-weight:500;color:var(--amber-deep)}
+.lift .lstat{text-align:right}
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:6px 13px;border-radius:99px;border:1px solid}
+.pill.open{color:#1d5c39;border-color:#b7dcc7;background:#e8f4ec}
+.pill.hold{color:#9a3c1e;border-color:#ecc9b9;background:#f7e9e2}
+.pill.hold .pulse-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--signal);margin-right:7px;animation:blink 1.4s infinite}
+@keyframes blink{50%{opacity:.25}}
+.lift-head{background:var(--paper-2);font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);padding:14px 28px}
+.lift.held{background:#faf3ef}
+.lift-note{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);letter-spacing:.04em}
+.lift-note b{color:var(--signal);font-weight:500}
+
+/* ---------- trail map ---------- */
+#map{background:var(--pine);color:var(--paper)}
+#map .sec-num{color:#8fb3a4}
+#map .sec-num::before{background:#8fb3a4}
+#map .sec-note{color:#a9c6ba}
+.map-shell{display:grid;grid-template-columns:1fr 260px;gap:36px;align-items:stretch}
+.map-frame{background:var(--paper);border-radius:8px;padding:10px;box-shadow:0 30px 60px rgba(0,0,0,.35)}
+.map-frame svg{width:100%;height:auto;display:block;border-radius:4px}
+.trail{transition:stroke-width .2s,opacity .3s;cursor:pointer}
+.trail:hover{stroke-width:8}
+.map-shell.dimmed .trail{opacity:.14}
+.map-shell.dimmed .trail.lit{opacity:1;stroke-width:7}
+.map-label{font-family:var(--mono);font-size:10px;letter-spacing:.08em;fill:var(--ink);paint-order:stroke;stroke:var(--paper);stroke-width:3.5px}
+.map-elev{font-family:var(--mono);font-size:9px;fill:#6b7d76;letter-spacing:.05em}
+.legend{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:26px;display:flex;flex-direction:column;gap:8px}
+.legend h4{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#8fb3a4;margin-bottom:10px;font-weight:400}
+.legend-item{display:flex;align-items:center;gap:14px;padding:10px 12px;border-radius:4px;cursor:pointer;border:1px solid transparent;transition:.2s;font-size:14px}
+.legend-item:hover{background:rgba(255,255,255,.07)}
+.legend-item.on{border-color:var(--amber);background:rgba(232,161,60,.1)}
+.legend-item small{margin-left:auto;font-family:var(--mono);font-size:10px;color:#8fb3a4}
+.ic{flex:none;width:18px;height:18px;display:grid;place-items:center}
+.ic.beginner{width:15px;height:15px;background:var(--green);border-radius:50%}
+.ic.intermediate{width:15px;height:15px;background:var(--blue);border-radius:2px}
+.ic.advanced{width:14px;height:14px;background:var(--black);transform:rotate(45deg);margin:0 2px}
+.ic.expert{display:flex;gap:2px}
+.ic.expert i{width:8px;height:8px;background:var(--black);transform:rotate(45deg)}
+.ic.liftic{width:26px;height:2px;background:repeating-linear-gradient(90deg,#d9c58a 0 6px,transparent 6px 10px);position:relative}
+.map-foot{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#8fb3a4;margin-top:14px}
+
+/* ---------- lodging ---------- */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden;transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-6px);box-shadow:0 24px 44px rgba(24,36,32,.14)}
+.card-art{height:190px;position:relative;overflow:hidden}
+.card-art svg{width:100%;height:100%;display:block}
+.card-body{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
+.card-tag{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--amber-deep);margin-bottom:8px}
+.card h3{font-family:var(--frac);font-weight:600;font-size:24px;margin-bottom:8px}
+.card p{font-size:14px;color:var(--ink-soft);flex:1}
+.card-feats{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0}
+.card-feats span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;border:1px solid var(--line);border-radius:99px;padding:4px 10px;color:var(--ink-soft)}
+.card-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:18px}
+.card-foot b{font-family:var(--frac);font-size:24px;font-weight:600}
+.card-foot b em{font-style:normal;font-size:12px;font-family:var(--grot);font-weight:400;color:var(--ink-soft)}
+.card-foot a{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--amber-deep);border-bottom:1.5px solid var(--amber)}
+.card-foot a:hover{color:var(--signal);border-color:var(--signal)}
+
+/* ---------- lessons & pass ---------- */
+#pass{background:var(--paper-2);border-top:1px solid var(--line)}
+.pass-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:stretch}
+.lessons{border:1px solid var(--line);border-radius:8px;background:var(--paper);overflow:hidden;display:flex;flex-direction:column}
+.lessons-head{padding:26px 30px 20px;border-bottom:1px solid var(--line);background:var(--paper-2)}
+.lessons-head h3{font-family:var(--frac);font-weight:600;font-size:26px}
+.lessons-head p{font-size:13px;color:var(--ink-soft);margin-top:4px}
+.lesson{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 30px;border-bottom:1px solid var(--line);transition:background .2s}
+.lesson:last-child{border-bottom:0}
+.lesson:hover{background:#fff}
+.lesson b{font-size:15px;font-weight:700;display:block}
+.lesson small{font-size:12px;color:var(--ink-soft)}
+.lesson .price{font-family:var(--mono);font-size:14px;white-space:nowrap;color:var(--amber-deep);font-weight:500}
+.pass-panel{background:var(--pine-deep);color:var(--paper);border-radius:8px;padding:44px 44px 40px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.pass-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 110% 0%,rgba(232,161,60,.28),transparent 50%),radial-gradient(circle at -10% 110%,rgba(95,211,154,.12),transparent 50%)}
+.pass-panel>*{position:relative}
+.pass-panel .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#8fb3a4;margin-bottom:16px}
+.pass-panel h3{font-family:var(--frac);font-weight:600;font-size:clamp(30px,2.6vw,44px);line-height:1.05;margin-bottom:14px}
+.pass-panel h3 em{font-style:italic;color:var(--amber)}
+.pass-panel p{color:#b9d0c6;font-size:15px;max-width:42ch;margin-bottom:28px}
+.tiers{display:flex;gap:14px;margin-bottom:32px;flex-wrap:wrap}
+.tier{border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:14px 20px;flex:1;min-width:150px}
+.tier span{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#8fb3a4;display:block;margin-bottom:4px}
+.tier b{font-family:var(--frac);font-size:26px;font-weight:600}
+.tier b i{font-style:normal;font-size:12px;font-family:var(--grot);font-weight:400;color:#8fb3a4}
+.btn{display:inline-flex;align-items:center;gap:12px;background:var(--amber);color:var(--ink);font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;padding:18px 32px;border-radius:4px;border:none;cursor:pointer;transition:.2s;font-family:var(--grot)}
+.btn:hover{background:#fff;transform:translateY(-2px)}
+.btn .arrow{transition:transform .2s}
+.btn:hover .arrow{transform:translateX(5px)}
+.btn-ghost{background:transparent;border:1.5px solid rgba(255,255,255,.35);color:var(--paper);margin-left:12px}
+.btn-ghost:hover{background:rgba(255,255,255,.1)}
+.pass-fine{font-family:var(--mono);font-size:10px;color:#8fb3a4;margin-top:20px;letter-spacing:.06em}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:#9db4ac;padding:64px 0 40px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.foot-grid h5{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#5f776e;margin-bottom:16px;font-weight:400}
+.foot-grid a{display:block;font-size:14px;padding:5px 0;transition:color .2s}
+.foot-grid a:hover{color:var(--amber)}
+.foot-brand .wordmark{color:var(--paper);font-size:28px}
+.foot-brand p{font-size:13px;margin-top:14px;max-width:32ch}
+.foot-bar{border-top:1px solid #2b3b35;padding-top:24px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- responsive ---------- */
+@media(max-width:1120px){
+  .hero-grid{grid-template-columns:1fr;gap:40px;padding-bottom:150px}
+  .snow-grid{grid-template-columns:1fr 1fr}
+  .snow-grid .chart-wrap{grid-column:1/-1}
+  .map-shell{grid-template-columns:1fr}
+  .pass-grid{grid-template-columns:1fr}
+}
+@media(max-width:820px){
+  .wrap{padding:0 24px}
+  section{padding:64px 0}
+  .nav-links{display:none}
+  .hero-grid{padding:48px 24px 170px}
+  .hero-meta{flex-wrap:wrap;max-width:none}
+  .snow-grid{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr}
+  .lift,.lift-head{grid-template-columns:1fr 100px;font-size:13px}
+  .lift .ltype,.lift-head .h-type{display:none}
+  .lift .lwait,.lift-head .h-wait{text-align:right}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .pass-panel{padding:32px 24px}
+  .btn-ghost{margin-left:0;margin-top:12px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <span>BASE <b>62"</b></span><span>OVERNIGHT <b>6"</b></span><span>WIND N 18 MPH</span><span>SNOW LINE <b>3,400'</b></span><span>LIFTS <b>11/14 OPEN</b></span><span>GROOMING <b>COMPLETE BY 4 PM</b></span><span>POND SKIING OPEN ON MORRINE STRETCH</span><span>ALPENGLOW PASS <b>$549 SEASON</b></span>
+    <span>BASE <b>62"</b></span><span>OVERNIGHT <b>6"</b></span><span>WIND N 18 MPH</span><span>SNOW LINE <b>3,400'</b></span><span>LIFTS <b>11/14 OPEN</b></span><span>GROOMING <b>COMPLETE BY 4 PM</b></span><span>POND SKIING OPEN ON MORRINE STRETCH</span><span>ALPENGLOW PASS <b>$549 SEASON</b></span>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a class="wordmark" href="#">SKI<span class="slash">/</span>RESORT <small>Kestrel Ridge</small></a>
+    <nav class="nav-links">
+      <a href="#snow">Snow Report</a>
+      <a href="#lifts">Lifts</a>
+      <a href="#map">Trail Map</a>
+      <a href="#lodging">Lodging</a>
+      <a href="#pass">Lessons &amp; Passes</a>
+    </nav>
+    <a href="#pass" class="nav-cta">BUY A PASS</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow">N 44°52′ · W 119°08′ &nbsp;—&nbsp; <span id="clock">--:--</span> MOUNTAIN TIME</div>
+      <h1>SKI <span class="amp">/</span> RESORT</h1>
+      <p class="hero-sub">Fourteen lifts and 118 carved lines between 2,140 and 6,870 feet of wind-scoured backcountry — minus the helicopter. The mountains do the rest.</p>
+      <div class="hero-meta">
+        <div><b>6,870'</b><span>Summit</span></div>
+        <div><b>118</b><span>Trails</span></div>
+        <div><b>4,730'</b><span>Vertical</span></div>
+        <div><b class="amber">6"</b><span>New Overnight</span></div>
+      </div>
+    </div>
+
+    <aside class="conditions" aria-label="Current conditions">
+      <div class="cond-top"><span><span class="dot"></span>Live Conditions</span><span id="condTime">Updated --</span></div>
+      <div class="temp-row"><div class="temp">22<sup>°F</sup></div></div>
+      <div class="cond-feel">FEELS 9° · PARTLY CLOUDY · UV LOW</div>
+      <div class="cond-grid">
+        <div class="cond-cell"><span>Overnight Snow</span><b>6" <em>@ summit</em></b></div>
+        <div class="cond-cell"><span>Base Depth</span><b>62" <em>at lodge</em></b></div>
+        <div class="cond-cell"><span>Wind</span><b>N 18 <em>mph, gust 26</em></b></div>
+        <div class="cond-cell"><span>Snow Line</span><b>3,400'</b></div>
+      </div>
+      <div class="snow-gauge">
+        <div class="label"><span>Piste Coverage</span><span>78% of 118 trails</span></div>
+        <div class="gauge"><i></i></div>
+      </div>
+      <div class="status-bar"><span class="status-pill">ALL SYSTEMS OPERATIONAL</span><span>GATES 8:30 – 15:30</span></div>
+    </aside>
+  </div>
+
+  <canvas id="snowCanvas"></canvas>
+  <div class="hero-scene" aria-hidden="true">
+    <svg viewBox="0 0 1440 340" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f2efe7"/><stop offset="1" stop-color="#e2ded2"/>
+        </linearGradient>
+      </defs>
+      <rect width="1440" height="340" fill="url(#sky)"/>
+      <circle cx="1080" cy="90" r="52" fill="#e8a13c" opacity=".85"/>
+      <circle cx="1080" cy="90" r="78" fill="#e8a13c" opacity=".14"/>
+      <path d="M0 340 L0 250 L180 130 L320 230 L470 60 L640 240 L820 110 L1010 260 L1200 140 L1350 250 L1440 200 L1440 340 Z" fill="#3d5a4e" opacity=".45"/>
+      <path d="M0 340 L0 290 L220 190 L400 280 L560 140 L780 300 L960 180 L1160 300 L1330 220 L1440 280 L1440 340 Z" fill="#25423a" opacity=".7"/>
+      <path d="M0 340 L0 320 L160 250 L360 320 L540 220 L760 330 L980 240 L1220 330 L1440 270 L1440 340 Z" fill="#14352b"/>
+      <path d="M540 220 L570 205 L600 220 Z M980 240 L1005 228 L1030 240 Z" fill="#f2efe7" opacity=".55"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ============ SNOW REPORT ============ -->
+<section id="snow">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-num">01 — Snow Report</div>
+        <h2>What's falling, and where it's sticking.</h2>
+      </div>
+      <p class="sec-note">Read by the forecast desk at 6 AM and again after every dump. Last full cycle: yesterday, 3:12 PM.</p>
+    </div>
+
+    <div class="snow-grid">
+      <div class="reveal">
+        <div class="days" role="tablist">
+          <button class="day-btn active" data-day="0">Today<small>Wed</small></button>
+          <button class="day-btn" data-day="1">Tomorrow<small>Thu</small></button>
+          <button class="day-btn" data-day="2">Fri<small>Peak</small></button>
+        </div>
+        <div class="day-data" id="dayData">
+          <div class="cell"><span>High / Low</span><b>22<em>° / 8°</em></b></div>
+          <div class="cell"><span>Expected</span><b>1–3" <em>flurries</em></b></div>
+          <div class="cell"><span>Wind</span><b>N 18 <em>gust 26</em></b></div>
+        </div>
+        <p class="day-note" id="dayNote">Sun through lunch, then a light spatter off the north range. Groomers on the upper field by 15:00 — catch Moraine Stretch before the corduroy drops.</p>
+      </div>
+
+      <div class="base-block reveal">
+        <h3>Base &amp; Piste Depth</h3>
+        <div class="base-rows">
+          <div class="base-row"><span>Summit (6,870') — Crag Station</span><b>94" <i class="up">▲ 6</i></b></div>
+          <div class="base-row"><span>Ridgeline (5,600') — North Ridge Top</span><b>77" <i class="up">▲ 6</i></b></div>
+          <div class="base-row"><span>Mid-mountain (4,200') — Larch Junction</span><b>68" <i class="up">▲ 4</i></b></div>
+          <div class="base-row"><span>Base (2,140') — Timber Lodge</span><b>62" <i class="up">▲ 2</i></b></div>
+          <div class="base-row" style="border-bottom:0"><span>Pond status — Moraine Straight, lower 300'</span><b style="font-size:17px;font-family:var(--grot)">OPEN · 4" ice</b></div>
+        </div>
+      </div>
+
+      <div class="chart-wrap reveal">
+        <div class="chart-title">Snowfall — Last 14 Days (inches)</div>
+        <div class="chart">
+          <svg viewBox="0 0 340 150" role="img" aria-label="Bar chart of snowfall over the last 14 days">
+            <line x1="10" y1="120" x2="330" y2="120" stroke="#c8c2b2" stroke-width="1"/>
+            <text x="10" y="138" font-size="8" fill="#41504a" font-family="IBM Plex Mono">NOV 30</text>
+            <text x="300" y="138" font-size="8" fill="#41504a" font-family="IBM Plex Mono">DEC 13</text>
+            <g font-family="IBM Plex Mono" font-size="8" fill="#41504a">
+              <rect x="16"  y="102" width="16" height="18" fill="#cfe0dd"/><text x="18" y="98">2</text>
+              <rect x="39"  y="108" width="16" height="12" fill="#cfe0dd"/><text x="41" y="104">1</text>
+              <rect x="62"  y="84"  width="16" height="36" fill="#9cc4b8"/><text x="64" y="80">4</text>
+              <rect x="85"  y="96"  width="16" height="24" fill="#cfe0dd"/><text x="87" y="92">3</text>
+              <rect x="108" y="60"  width="16" height="60" fill="#2e7d4f"/><text x="110" y="56">7</text>
+              <rect x="131" y="40"  width="16" height="80" fill="#2e7d4f"/><text x="133" y="36">9</text>
+              <rect x="154" y="76"  width="16" height="44" fill="#9cc4b8"/><text x="156" y="72">5</text>
+              <rect x="177" y="104" width="16" height="16" fill="#cfe0dd"/><text x="179" y="100">2</text>
+              <rect x="200" y="112" width="16" height="8"  fill="#cfe0dd"/><text x="202" y="108">1</text>
+              <rect x="223" y="116" width="16" height="4"  fill="#cfe0dd"/><text x="225" y="112">.5</text>
+              <rect x="246" y="98"  width="16" height="22" fill="#9cc4b8"/><text x="248" y="94">3</text>
+              <rect x="269" y="88"  width="16" height="32" fill="#9cc4b8"/><text x="271" y="84">4</text>
+              <rect x="292" y="92"  width="16" height="28" fill="#9cc4b8"/><text x="294" y="88">3.5</text>
+              <rect x="315" y="34"  width="16" height="86" fill="#e8a13c"/><text x="317" y="30">10</text>
+            </g>
+          </svg>
+          <div class="chart-legend">
+            <span><i style="background:#cfe0dd"></i>Light</span>
+            <span><i style="background:#9cc4b8"></i>Moderate</span>
+            <span><i style="background:#2e7d4f"></i>Heavy</span>
+            <span><i style="background:#e8a13c"></i>Yesterday</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIFT STATUS ============ -->
+<section id="lifts">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-num">02 — Lift Status</div>
+        <h2>11 of 14 lines running. Wind's got the rest.</h2>
+      </div>
+      <p class="sec-note">Hold list refreshes every 15 minutes from the lift yard. Times are real waits at the ticket tower, not estimates.</p>
+    </div>
+
+    <div class="lift-list reveal">
+      <div class="lift-head">
+        <span>Lift</span><span class="h-type">Type</span><span style="text-align:right" class="h-wait">Wait</span><span class="h-type">Vertical</span><span style="text-align:right">Status</span>
+      </div>
+      <div class="lift"><div class="lname">Cable Car<small>Open-gondola · 42 min ride</small></div><div class="ltype">Panoramic tram, heated cars</div><div class="lwait"><b>18 min</b></div><div class="ltype">4,200'</div><div class="lstat"><span class="pill open">Open</span></div></div>
+      <div class="lift"><div class="lname">North Ridge Express<small>High-speed six-pack</small></div><div class="ltype">Fastest line on the mountain</div><div class="lwait"><b>22 min</b></div><div class="ltype">2,400'</div><div class="lstat"><span class="pill open">Open</span></div></div>
+      <div class="lift"><div class="lname">Ridgeline Quad<small>High-speed quad</small></div><div class="ltype">Feeds the black-diamond spine</div><div class="lwait"><b>6 min</b></div><div class="ltype">1,850'</div><div class="lstat"><span class="pill open">Open</span></div></div>
+      <div class="lift held"><div class="lname">Kestrel Chair<small>Double chair</small></div><div class="ltype">Direct to Kestrel Face</div><div class="lwait">—</div><div class="ltype">1,600'</div><div class="lstat"><span class="pill hold"><span class="pulse-dot"></span>Wind Hold</span></div></div>
+      <div class="lift"><div class="lname">Piney T-Bar<small>High-speed double</small></div><div class="ltype">The warm-up line, forever reliable</div><div class="lwait"><b>3 min</b></div><div class="ltype">520'</div><div class="lstat"><span class="pill open">Open</span></div></div>
+      <div class="lift"><div class="lname">Marmot Carpet<small>Beginner rope tow</small></div><div class="ltype">First snow, first lap, first win</div><div class="lwait"><b>0 min</b></div><div class="ltype">180'</div><div class="lstat"><span class="pill open">Open</span></div></div>
+    </div>
+    <p class="lift-note reveal">▲ <b>Crag Aerial</b> and <b>Kestrel Chair</b> are under wind hold (26+ mph at the summit). Forecast lift: 4 PM today. The face can wait; your powder lines can't.</p>
+  </div>
+</section>
+
+<!-- ============ TRAIL MAP ============ -->
+<section id="map">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-num">03 — Trail Map · Kestrel Ridge</div>
+        <h2 style="color:var(--paper)">One ridge. Four ways down.</h2>
+      </div>
+      <p class="sec-note">Tap a legend chip to isolate a difficulty level. This is the north face — the east bowl and Marmot Meadows sit below the fold of this sheet.</p>
+    </div>
+
+    <div class="map-shell reveal" id="mapShell">
+      <div class="map-frame">
+        <svg viewBox="0 0 960 560" role="img" aria-label="Schematic trail map of Kestrel Ridge">
+          <rect width="960" height="560" fill="#f2efe7"/>
+          <!-- contour lines -->
+          <g stroke="#d8d2c2" stroke-width="1" fill="none">
+            <ellipse cx="470" cy="120" rx="150" ry="42"/>
+            <ellipse cx="470" cy="160" rx="230" ry="72"/>
+            <ellipse cx="460" cy="220" rx="330" ry="110"/>
+            <ellipse cx="450" cy="300" rx="430" ry="160"/>
+            <ellipse cx="445" cy="400" rx="530" ry="210"/>
+          </g>
+          <!-- base valley snow -->
+          <path d="M0 505 Q 240 480 480 492 Q 720 504 960 486 L960 560 L0 560 Z" fill="#e9e5d9"/>
+          <!-- peak -->
+          <path d="M470 42 L400 150 L540 150 Z" fill="#dfe3dc" stroke="#8a9a90" stroke-width="1.5"/>
+          <path d="M470 42 L448 78 L462 72 L472 84 L486 74 L498 88 Z" fill="#14352b"/>
+          <text x="470" y="30" text-anchor="middle" class="map-elev">KESTREL RIDGE · 6,870'</text>
+          <text x="560" y="140" class="map-elev">5,600'</text>
+          <text x="180" y="330" class="map-elev">4,200'</text>
+          <text x="130" y="470" class="map-elev">2,140'</text>
+
+          <!-- LIFTS -->
+          <g stroke="#8a6d2f" stroke-width="2.5" stroke-dasharray="7 6" fill="none" opacity=".9">
+            <path d="M480 512 L480 60"/>
+            <path d="M310 512 L560 165"/>
+            <path d="M660 512 L560 165"/>
+            <path d="M420 512 L455 470"/>
+          </g>
+          <g fill="#8a6d2f">
+            <rect x="476" y="508" width="8" height="8"/><rect x="476" y="60" width="8" height="8"/>
+            <rect x="306" y="508" width="8" height="8"/><rect x="556" y="161" width="8" height="8"/>
+            <rect x="656" y="508" width="8" height="8"/>
+            <rect x="416" y="508" width="7" height="7"/><rect x="452" y="466" width="7" height="7"/>
+          </g>
+          <text x="492" y="290" class="map-elev" fill="#8a6d2f">CABLE CAR</text>
+          <text x="255" y="330" class="map-elev" fill="#8a6d2f">N. RIDGE EXPRESS</text>
+          <text x="610" y="330" class="map-elev" fill="#8a6d2f">RIDGELINE QUAD</text>
+          <text x="380" y="492" class="map-elev" fill="#8a6d2f">PINEY T-BAR</text>
+
+          <!-- TRAILS -->
+          <g fill="none" stroke-linecap="round">
+            <path class="trail tr-green" data-lv="green" d="M330 508 C 250 470 230 400 285 340 C 330 292 400 250 452 210 C 470 196 478 120 480 70" stroke="#2e7d4f" stroke-width="5.5"/>
+            <path class="trail tr-blue" data-lv="blue" d="M560 170 C 545 240 500 260 505 320 C 509 366 470 380 468 430 C 466 470 476 490 480 508" stroke="#2b5ea7" stroke-width="5.5"/>
+            <path class="trail tr-blue" data-lv="blue" d="M480 66 C 492 160 512 260 518 340 C 523 410 528 470 530 508" stroke="#2b5ea7" stroke-width="5.5"/>
+            <path class="trail tr-black" data-lv="black" d="M480 64 C 520 130 590 180 620 260 C 648 336 652 440 660 508" stroke="#14161a" stroke-width="5.5"/>
+            <path class="trail tr-double" data-lv="double" d="M556 170 C 580 210 640 230 690 280 C 715 305 730 330 738 352" stroke="#14161a" stroke-width="5.5" stroke-dasharray="0"/>
+            <path class="trail tr-double" data-lv="double" d="M738 352 L 742 380" stroke="#14161a" stroke-width="5.5"/>
+            <path class="trail tr-green" data-lv="green" d="M418 510 C 400 500 380 495 370 480 C 360 465 372 455 395 452 C 425 449 448 458 452 468" stroke="#2e7d4f" stroke-width="5.5"/>
+          </g>
+
+          <!-- trail labels -->
+          <text x="150" y="300" class="map-label">GROUSE LOOP · G</text>
+          <text x="352" y="446" class="map-label">LARCH CHUTE · B</text>
+          <text x="530" y="250" class="map-label" transform="rotate(76 530 250)">MORRINE STRETCH · B</text>
+          <text x="580" y="410" class="map-label" transform="rotate(72 580 410)">KESTREL FACE · D</text>
+          <text x="640" y="222" class="map-label">THE CRAG · D/D</text>
+          <text x="300" y="530" class="map-label">PINEY BOTTOM · G</text>
+          <text x="702" y="342" class="map-label">SADDLE CORNER</text>
+
+          <!-- terrain feature -->
+          <path d="M738 380 L760 420 L720 420 Z" fill="none" stroke="#d9502b" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <text x="700" y="445" class="map-elev" fill="#d9502b">DANGER ZONE 4</text>
+
+          <!-- base lodge -->
+          <g>
+            <rect x="455" y="512" width="50" height="20" fill="#14352b"/>
+            <path d="M450 512 L480 494 L510 512 Z" fill="#8a4a2b"/>
+            <path d="M450 512 L480 494 L510 512 L500 512 L480 500 L460 512 Z" fill="#f2efe7"/>
+            <text x="480" y="550" text-anchor="middle" class="map-elev">TIMBER LODGE · BASE 2,140'</text>
+          </g>
+
+          <!-- summit lift top -->
+          <rect x="466" y="46" width="28" height="14" fill="#14161a" rx="2"/>
+          <text x="480" y="105" text-anchor="middle" class="map-elev">SUMMIT HOUSE</text>
+        </svg>
+      </div>
+
+      <div class="legend" role="group" aria-label="Trail difficulty filter">
+        <h4>Filter by difficulty</h4>
+        <div class="legend-item" data-lv="green"><span class="ic beginner"></span>Beginner<small>24 trails</small></div>
+        <div class="legend-item" data-lv="blue"><span class="ic intermediate"></span>Intermediate<small>58 trails</small></div>
+        <div class="legend-item" data-lv="black"><span class="ic advanced"></span>Advanced<small>30 trails</small></div>
+        <div class="legend-item" data-lv="double"><span class="ic expert"><i></i><i></i></span>Expert / Double<small>6 lines</small></div>
+        <div class="legend-item" data-lv="lift"><span class="ic liftic"></span>Lift lines<small>14 lifts</small></div>
+        <p style="margin-top:auto;font-size:12px;color:#a9c6ba;line-height:1.6">The Crag drops 900' in 1,100. Check-in at the base hut is mandatory — helmets not optional.</p>
+      </div>
+    </div>
+    <div class="map-foot"><span>Scale: schematic, not survey-grade</span><span>Full 22-sheet map at the ticket tower</span></div>
+  </div>
+</section>
+
+<!-- ============ LODGING ============ -->
+<section id="lodging">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-num">04 — Stay on the Mountain</div>
+        <h2>Sleep within rope-tow reach of first light.</h2>
+      </div>
+      <p class="sec-note">All three properties are on the resort lot — no shuttle, no parking hunt, no 5 AM alarm. Rates per night, taxes included.</p>
+    </div>
+
+    <div class="cards">
+      <article class="card reveal">
+        <div class="card-art" aria-hidden="true">
+          <svg viewBox="0 0 400 190" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="dusk1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b3a55"/><stop offset="1" stop-color="#7a5a4a"/></linearGradient></defs>
+            <rect width="400" height="190" fill="url(#dusk1)"/>
+            <circle cx="320" cy="46" r="20" fill="#e8a13c" opacity=".9"/>
+            <path d="M0 190 L0 130 L90 90 L170 140 L260 96 L340 150 L400 118 L400 190 Z" fill="#182420" opacity=".75"/>
+            <path d="M150 150 L210 96 L270 150 Z" fill="#3a2a1e"/>
+            <path d="M143 150 L210 90 L277 150 L258 150 L210 106 L162 150 Z" fill="#f2efe7"/>
+            <rect x="196" y="118" width="14" height="14" fill="#e8a13c"/>
+            <rect x="222" y="126" width="12" height="12" fill="#e8a13c" opacity=".85"/>
+            <rect x="205" y="140" width="12" height="10" fill="#e8a13c"/>
+            <g fill="#14352b"><path d="M60 190 L60 120 L78 120 L96 190 Z"/><path d="M300 190 L300 108 L322 108 L340 190 Z"/><path d="M330 190 L330 132 L348 132 L362 190 Z"/></g>
+            <path d="M0 190 L0 172 Q 200 158 400 176 L400 190 Z" fill="#f2efe7"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Timber · From $289</div>
+          <h3>The Cabin Row</h3>
+          <p>Twelve hand-hewn log cabins on a private snow-cleared lane above the base lodge. Wood stove, clawfoot tub, and a kitchen stocked for slow breakfasts.</p>
+          <div class="card-feats"><span>2–4 guests</span><span>Wood stove</span><span>Patio firepit</span><span>Dog friendly</span></div>
+          <div class="card-foot"><b>$289<em> / night</em></b><a href="#pass">Reserve →</a></div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-art" aria-hidden="true">
+          <svg viewBox="0 0 400 190" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="night2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d241d"/><stop offset="1" stop-color="#2b4a3e"/></linearGradient></defs>
+            <rect width="400" height="190" fill="url(#night2)"/>
+            <g fill="#f2efe7" opacity=".8"><circle cx="60" cy="30" r="1.5"/><circle cx="130" cy="52" r="1.2"/><circle cx="210" cy="24" r="1.5"/><circle cx="350" cy="40" r="1.3"/><circle cx="280" cy="60" r="1"/></g>
+            <rect x="90" y="70" width="220" height="100" fill="#182420"/>
+            <path d="M82 70 L200 34 L318 70 Z" fill="#0d241d"/>
+            <path d="M82 70 L200 34 L318 70 L300 70 L200 42 L100 70 Z" fill="#e9e5d9"/>
+            <g fill="#e8a13c">
+              <rect x="110" y="86" width="16" height="20"/><rect x="140" y="86" width="16" height="20"/><rect x="170" y="86" width="16" height="20"/><rect x="200" y="86" width="16" height="20" opacity=".4"/><rect x="230" y="86" width="16" height="20"/><rect x="260" y="86" width="16" height="20"/><rect x="285" y="86" width="14" height="20" opacity=".55"/>
+              <rect x="110" y="118" width="16" height="20" opacity=".5"/><rect x="140" y="118" width="16" height="20"/><rect x="200" y="118" width="16" height="20" opacity=".6"/><rect x="230" y="118" width="16" height="20"/><rect x="285" y="118" width="14" height="20"/>
+            </g>
+            <rect x="186" y="134" width="28" height="36" fill="#0d241d" stroke="#e8a13c" stroke-width="1"/>
+            <path d="M0 190 L0 170 Q 200 156 400 172 L400 190 Z" fill="#f2efe7"/>
+            <ellipse cx="200" cy="182" rx="120" ry="6" fill="#cfe0dd" opacity=".5"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Alpine · From $412</div>
+          <h3>Ridgeline Grand Hotel</h3>
+          <p>The 1927 timber-and-stone hotel at 4,200 feet, rebuilt room by room. Ski-in to Larch Junction, a wood-fired sauna, and the best fondue table in the range.</p>
+          <div class="card-feats"><span>Ski-in / ski-out</span><span>Sauna &amp; hot tubs</span><span>Full restaurant</span><span>47 rooms</span></div>
+          <div class="card-foot"><b>$412<em> / night</em></b><a href="#pass">Reserve →</a></div>
+        </div>
+      </article>
+
+      <article class="card reveal">
+        <div class="card-art" aria-hidden="true">
+          <svg viewBox="0 0 400 190" preserveAspectRatio="xMidYMid slice">
+            <defs><linearGradient id="blue3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3d5a6e"/><stop offset="1" stop-color="#8fa3ad"/></linearGradient></defs>
+            <rect width="400" height="190" fill="url(#blue3)"/>
+            <path d="M0 190 L0 140 L120 100 L230 150 L330 108 L400 148 L400 190 Z" fill="#2b4a3e" opacity=".7"/>
+            <path d="M140 148 Q 200 96 260 148 Z" fill="#e9e5d9"/>
+            <rect x="152" y="112" width="96" height="36" fill="#8a4a2b"/>
+            <g stroke="#5a2f1a" stroke-width="1.5"><line x1="168" y1="112" x2="168" y2="148"/><line x1="184" y1="112" x2="184" y2="148"/><line x1="200" y1="112" x2="200" y2="148"/><line x1="216" y1="112" x2="216" y2="148"/><line x1="232" y1="112" x2="232" y2="148"/></g>
+            <rect x="192" y="126" width="16" height="22" fill="#e8a13c"/>
+            <path d="M0 190 L0 168 Q 200 154 400 170 L400 190 Z" fill="#f2efe7"/>
+            <circle cx="70" cy="52" r="14" fill="#f2efe7" opacity=".55"/><circle cx="86" cy="56" r="10" fill="#f2efe7" opacity=".45"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="card-tag">Backcountry · From $158</div>
+          <h3>Marmot Meadow Yurts</h3>
+          <p>Six canvas yurts at the foot of Piney Bottom with a shared sauna and a cook-out ring. Wake up to a meadow of bluebird and snow, six hundred feet from the carpet.</p>
+          <div class="card-feats"><span>1–2 guests</span><span>Shared sauna</span><span>Fireside cookout</span><span>Stargazing deck</span></div>
+          <div class="card-foot"><b>$158<em> / night</em></b><a href="#pass">Reserve →</a></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LESSONS & PASS ============ -->
+<section id="pass">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="sec-num">05 — Learn &amp; Lift Access</div>
+        <h2>First snow or first summit. We meet you there.</h2>
+      </div>
+      <p class="sec-note">Certified instructors, 8:1 ratio on group runs, and gear included at every level. Passes are valid on all four terrain zones.</p>
+    </div>
+
+    <div class="pass-grid">
+      <div class="lessons reveal">
+        <div class="lessons-head">
+          <h3>Lessons &amp; Clinics</h3>
+          <p>Bookable at the ticket tower or online up to 48 hours out.</p>
+        </div>
+        <div class="lesson"><div><b>First Tracks — Group Beginner</b><small>4 hrs · Marmot Meadows · gear included</small></div><div class="price">$189 / person</div></div>
+        <div class="lesson"><div><b>Private Instruction</b><small>3 hrs · any zone · one on one, or two</small></div><div class="price">$340 / hr</div></div>
+        <div class="lesson"><div><b>Backcountry Clinic</b><small>Half day · avalanche 101 + skinning line on The Crag approach</small></div><div class="price">$260 / person</div></div>
+        <div class="lesson"><div><b>Snow Camp (Ages 6–12)</b><small>Full day · lunch &amp; hot cocoa included</small></div><div class="price">$215 / week</div></div>
+        <div class="lesson"><div><b>Adults' Social — Night of the Ridge</b><small>Fridays · 19:00–21:30 · lift tickets &amp; wine included</small></div><div class="price">$95 / person</div></div>
+      </div>
+
+      <div class="pass-panel reveal">
+        <div class="kicker">Lift Access · Winter 25/26</div>
+        <h3>One pass.<br><em>Every peak.</em></h3>
+        <p>Every ticket, day or season, includes the Cable Car, all terrain zones, the night runs, and the summit house. No zone upcharges, ever.</p>
+        <div class="tiers">
+          <div class="tier"><span>Day Pass</span><b>$139</b></div>
+          <div class="tier"><span>5-Day Flex</span><b>$589</b></div>
+          <div class="tier"><span>Alpenglow Season</span><b>$549 <i>/ yr</i></b></div>
+        </div>
+        <div>
+          <button class="btn" type="button">Buy a Pass <span class="arrow">→</span></button>
+          <button class="btn btn-ghost" type="button">Find a Lesson</button>
+        </div>
+        <p class="pass-fine">Kids under 6 free with a paying adult · Season pass transferable once per year · Snow guarantee: 20" by Dec 20 or your last 10 days refunded.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="wordmark">SKI<span class="slash">/</span>RESORT <small>Kestrel Ridge</small></div>
+        <p>2,140 to 6,870 feet of wind-scoured backcountry, minus the helicopter. Open every day the mountain says so.</p>
+      </div>
+      <div>
+        <h5>Mountain</h5>
+        <a href="#snow">Snow Report</a>
+        <a href="#lifts">Lift Status</a>
+        <a href="#map">Trail Map</a>
+        <a href="#">Avalanche Advisory</a>
+      </div>
+      <div>
+        <h5>Visit</h5>
+        <a href="#lodging">Lodging</a>
+        <a href="#pass">Lessons</a>
+        <a href="#pass">Lift Tickets</a>
+        <a href="#">Summit House Dining</a>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <a href="#">(555) 014-6870</a>
+        <a href="#">hello@ski-resort.example</a>
+        <a href="#">1 Ridge Road, Kestrel, MT</a>
+        <a href="#">N 44°52′ · W 119°08′</a>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span>© 25/26 Ski/Resort Kestrel Ridge — a fictional mountain</span>
+      <span>Gates 8:30–15:30 · Night runs Fri &amp; Sat to 21:30</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- clock ---------- */
+function tickClock(){
+  const now = new Date();
+  const t = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',hour12:false});
+  const c = document.getElementById('clock'); if(c) c.textContent = t;
+  const ct = document.getElementById('condTime'); if(ct) ct.textContent = 'Updated ' + t;
+}
+tickClock(); setInterval(tickClock, 15000);
+
+/* ---------- hero snow ---------- */
+(function(){
+  const cv = document.getElementById('snowCanvas');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ctx = cv.getContext('2d');
+  let W,H,flakes=[];
+  function size(){
+    const r = cv.parentElement.getBoundingClientRect();
+    W = cv.width = r.width; H = cv.height = r.height;
+  }
+  function seed(){
+    flakes = [];
+    const n = Math.min(140, Math.floor(W/11));
+    for(let i=0;i<n;i++){
+      flakes.push({x:Math.random()*W, y:Math.random()*H, r:.8+Math.random()*2.4, s:.4+Math.random()*1.1, d:Math.random()*1.2, o:.35+Math.random()*.55});
+    }
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle = '#ffffff';
+    for(const f of flakes){
+      ctx.globalAlpha = f.o;
+      ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, 6.283); ctx.fill();
+      f.y += f.s; f.x += Math.sin(f.y*0.01)*f.d*0.5;
+      if(f.y > H+4){ f.y = -4; f.x = Math.random()*W; }
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  size(); seed();
+  window.addEventListener('resize', ()=>{size();seed();});
+  if(!reduce) draw(); else { // one static frame
+    ctx.fillStyle='#fff';
+    for(const f of flakes){ ctx.globalAlpha=f.o; ctx.beginPath(); ctx.arc(f.x,f.y,f.r,0,6.283); ctx.fill(); }
+  }
+})();
+
+/* ---------- forecast tabs ---------- */
+const days = [
+  {h:'22° / 8°',  s:'1–3" <em>flurries</em>', w:'N 18 <em>gust 26</em>', note:'Sun through lunch, then a light spatter off the north range. Groomers on the upper field by 15:00 — catch Moraine Stretch before the corduroy drops.'},
+  {h:'18° / 6°',  s:'3–6" <em>sustained</em>', w:'NW 22 <em>gust 31</em>', note:'A proper cycle off the Cascades from noon. Expect Kestrel Chair to stay on wind hold until the morning shift clears. Bundle up — this is the one you remember.'},
+  {h:'25° / 14°', s:'0" <em>dry &amp; bright</em>', w:'SW 8 <em>calm PM</em>', note:'Bluebird repair day. Soft snow holds on the east aspect into the afternoon. The Crag opens at first light — 900 feet of it, freshly loaded.'}
+];
+document.querySelectorAll('.day-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.day-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const d = days[+btn.dataset.day];
+    const cells = document.querySelectorAll('#dayData .cell b');
+    cells[0].innerHTML = d.h; cells[1].innerHTML = d.s; cells[2].innerHTML = d.w;
+    document.getElementById('dayNote').textContent = d.note;
+  });
+});
+
+/* ---------- trail map legend filter ---------- */
+const shell = document.getElementById('mapShell');
+const items = document.querySelectorAll('.legend-item');
+let activeLv = null;
+items.forEach(item=>{
+  item.addEventListener('click', ()=>{
+    const lv = item.dataset.lv;
+    if(activeLv === lv){ // clear
+      activeLv = null;
+      items.forEach(i=>i.classList.remove('on'));
+      shell.classList.remove('dimmed');
+      document.querySelectorAll('.trail').forEach(t=>t.classList.remove('lit'));
+      return;
+    }
+    activeLv = lv;
+    items.forEach(i=>i.classList.toggle('on', i===item));
+    shell.classList.add('dimmed');
+    document.querySelectorAll('.trail').forEach(t=>{
+      t.classList.toggle('lit', t.dataset.lv === lv);
+    });
+  });
+});
+
+/* ---------- scroll reveal ---------- */
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

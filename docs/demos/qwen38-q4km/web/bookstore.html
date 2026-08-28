@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Margin Notes — Independent Bookshop, Portland</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=Caveat:wght@500;600&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f0e4;
+  --paper-2:#efe8d7;
+  --ink:#211b13;
+  --ink-soft:#4c4335;
+  --rust:#a23e2c;
+  --rust-deep:#7d2e21;
+  --gold:#c08a2d;
+  --olive:#5c6a45;
+  --slate:#3e5165;
+  --line:#cfc5ad;
+  --display:"Fraunces", Georgia, serif;
+  --body:"Newsreader", Georgia, serif;
+  --hand:"Caveat", cursive;
+  --mono:"IBM Plex Mono", monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:18px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* paper grain */
+body::after{
+  content:"";
+  position:fixed; inset:0;
+  pointer-events:none;
+  z-index:999;
+  opacity:.5;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.4 0 0 0 0.045 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+::selection{background:var(--gold);color:var(--ink)}
+a{color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+
+/* ---------- ticker ---------- */
+.ticker{
+  background:var(--ink);
+  color:var(--paper);
+  overflow:hidden;
+  white-space:nowrap;
+  padding:7px 0;
+}
+.ticker__track{
+  display:inline-flex;
+  gap:0;
+  animation:tick 34s linear infinite;
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.ticker__track span{padding:0 26px;position:relative}
+.ticker__track span::after{content:"✳";position:absolute;right:-8px;color:var(--gold)}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- header ---------- */
+header{
+  border-bottom:1.5px solid var(--ink);
+  position:sticky; top:0; z-index:50;
+  background:color-mix(in srgb, var(--paper) 92%, transparent);
+  backdrop-filter:blur(6px);
+}
+.header__inner{
+  display:flex;align-items:center;gap:32px;
+  padding:16px 40px;max-width:1240px;margin:0 auto;
+}
+.wordmark{
+  font-family:var(--display);
+  font-weight:640;
+  font-size:25px;
+  letter-spacing:.01em;
+  text-decoration:none;
+  display:flex;align-items:baseline;gap:9px;
+  flex-shrink:0;
+}
+.wordmark em{
+  font-style:italic;font-weight:400;color:var(--rust);
+}
+.wordmark small{font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft)}
+nav{display:flex;gap:26px;flex:1;justify-content:center}
+nav a{
+  text-decoration:none;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-soft);
+  padding:6px 2px;
+  border-bottom:1.5px solid transparent;
+  transition:color .2s,border-color .2s;
+}
+nav a:hover{color:var(--rust);border-color:var(--rust)}
+.header__tools{display:flex;align-items:center;gap:16px;flex-shrink:0}
+.search{
+  display:flex;align-items:center;gap:8px;
+  border:1.5px solid var(--ink);
+  background:var(--paper-2);
+  padding:7px 12px;
+  min-width:210px;
+}
+.search svg{flex-shrink:0;opacity:.7}
+.search input{
+  border:none;background:none;outline:none;
+  font-family:var(--body);font-style:italic;font-size:15px;color:var(--ink);
+  width:100%;
+}
+.search input::placeholder{color:#8d8168}
+.shelf-btn{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  background:var(--ink);color:var(--paper);
+  border:none;padding:9px 14px;cursor:pointer;
+  transition:background .2s;
+}
+.shelf-btn:hover{background:var(--rust-deep)}
+.shelf-btn b{background:var(--gold);color:var(--ink);border-radius:50%;width:18px;height:18px;display:grid;place-items:center;font-size:10px}
+
+/* ---------- hero ---------- */
+.hero{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:56px;
+  padding:64px 40px 72px;
+  max-width:1240px;margin:0 auto;
+  align-items:center;
+  min-height:740px;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--rust);
+  margin-bottom:22px;
+}
+.eyebrow::before{content:"";width:34px;height:1.5px;background:var(--rust)}
+.hero h1{
+  font-family:var(--display);
+  font-weight:480;
+  font-size:clamp(40px,4.6vw,64px);
+  line-height:1.04;
+  letter-spacing:-.01em;
+  margin-bottom:22px;
+}
+.hero h1 em{font-style:italic;font-weight:380;color:var(--rust)}
+.hero .lede{
+  font-size:19px;
+  color:var(--ink-soft);
+  max-width:46ch;
+  margin-bottom:34px;
+}
+.hero .lede b{color:var(--ink);font-weight:600}
+.catlabel{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px}
+.pill{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  border:1.5px solid var(--ink);
+  background:transparent;color:var(--ink);
+  padding:8px 16px;cursor:pointer;
+  transition:all .18s;
+}
+.pill:hover{background:var(--paper-2)}
+.pill.active{background:var(--ink);color:var(--paper)}
+.hero__meta{
+  display:flex;gap:36px;flex-wrap:wrap;
+  border-top:1.5px dotted var(--line);
+  padding-top:22px;
+}
+.hero__meta div span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:4px}
+.hero__meta div strong{font-family:var(--display);font-weight:560;font-size:17px}
+
+/* featured typographic book */
+.hero__bookzone{position:relative;display:flex;justify-content:center}
+.book-plate{
+  position:absolute;
+  inset:34px -14px -22px 30px;
+  background:var(--olive);
+  transform:rotate(2.2deg);
+  opacity:.9;
+}
+.book-plate::after{
+  content:"Nº 028";
+  position:absolute;bottom:18px;right:20px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;
+  color:var(--paper);opacity:.8;
+}
+.book{
+  position:relative;
+  width:330px;height:478px;
+  transform:rotate(-1.6deg);
+  box-shadow:0 34px 60px -18px rgba(33,27,19,.45), 0 10px 22px rgba(33,27,19,.25);
+  display:flex;
+  transition:transform .5s cubic-bezier(.2,.8,.3,1);
+}
+.hero__bookzone:hover .book{transform:rotate(0deg) translateY(-6px)}
+.book__spine{
+  width:40px;flex-shrink:0;
+  background:var(--rust-deep);
+  border-right:1.5px solid rgba(245,240,228,.35);
+  display:flex;align-items:center;justify-content:center;
+}
+.book__spine span{
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  font-family:var(--display);
+  font-size:13px;letter-spacing:.14em;
+  color:var(--paper);
+  white-space:nowrap;
+  opacity:.9;
+}
+.book__face{
+  flex:1;
+  background:
+    radial-gradient(120% 90% at 30% 10%, rgba(255,244,224,.12), transparent 55%),
+    var(--rust);
+  color:var(--paper);
+  padding:30px 26px;
+  display:flex;flex-direction:column;
+  position:relative;
+}
+.book__face::before{
+  content:"";position:absolute;inset:12px;
+  border:1px solid rgba(245,240,228,.55);
+  pointer-events:none;
+}
+.book__face::after{
+  content:"";position:absolute;inset:15px;
+  border:.5px solid rgba(245,240,228,.35);
+  pointer-events:none;
+}
+.book__imprint{
+  font-family:var(--mono);font-size:9px;letter-spacing:.32em;text-transform:uppercase;
+  text-align:center;opacity:.85;
+  padding-top:4px;
+}
+.book__title{
+  font-family:var(--display);
+  font-weight:560;
+  font-size:40px;
+  line-height:1.02;
+  text-align:center;
+  letter-spacing:-.01em;
+  margin-top:auto;
+  margin-bottom:14px;
+}
+.book__title .thin{font-weight:320;font-style:italic;display:block;font-size:30px;letter-spacing:.02em}
+.book__rule{
+  width:44px;height:1.5px;background:var(--paper);
+  margin:0 auto 14px;opacity:.85;
+}
+.book__author{
+  text-align:center;
+  font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+  opacity:.9;
+}
+.book__star{
+  width:22px;height:22px;margin:22px auto 0;opacity:.9;
+}
+.hero__note{
+  position:absolute;
+  right:-14px;top:-30px;
+  font-family:var(--hand);
+  font-size:23px;
+  color:var(--slate);
+  transform:rotate(5deg);
+  max-width:190px;
+  line-height:1.15;
+}
+.hero__note::after{
+  content:"";position:absolute;left:14px;bottom:-16px;
+  border-left:1.5px solid var(--slate);
+  height:26px;transform:rotate(-14deg);
+}
+
+/* ---------- section scaffolding ---------- */
+section{padding:74px 0}
+.sec-head{
+  display:flex;align-items:baseline;gap:22px;
+  margin-bottom:40px;
+}
+.sec-head h2{
+  font-family:var(--display);
+  font-weight:520;
+  font-size:clamp(30px,3vw,42px);
+  letter-spacing:-.01em;
+}
+.sec-head h2 em{font-style:italic;font-weight:360;color:var(--rust)}
+.sec-head .rule{flex:1;height:1.5px;background:var(--ink);opacity:.85;align-self:center}
+.sec-head .num{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--ink-soft)}
+
+/* ---------- staff picks ---------- */
+#picks{background:var(--paper-2);border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink)}
+.picks-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:38px;
+}
+.pick{position:relative;padding-top:14px}
+.pick:nth-child(2){transform:translateY(18px)}
+.pick:nth-child(3){transform:translateY(6px)}
+.mini-book{
+  width:118px;height:168px;
+  display:flex;
+  box-shadow:0 14px 26px -10px rgba(33,27,19,.4);
+  margin-bottom:20px;
+  transition:transform .4s cubic-bezier(.2,.8,.3,1);
+  position:relative;
+}
+.pick:hover .mini-book{transform:rotate(0deg) translateY(-5px)}
+.mini-book__spine{width:11px;background:rgba(0,0,0,.22);border-right:1px solid rgba(245,240,228,.4)}
+.mini-book__face{
+  flex:1;background:var(--c);color:var(--paper);
+  display:flex;flex-direction:column;
+  padding:14px 10px;
+  position:relative;
+}
+.mini-book__face::before{content:"";position:absolute;inset:6px;border:1px solid rgba(245,240,228,.5)}
+.mini-book__face .t{
+  font-family:var(--display);font-weight:560;font-size:15px;line-height:1.1;
+  text-align:center;margin:auto 0;
+}
+.mini-book__face .a{
+  font-family:var(--mono);font-size:7px;letter-spacing:.22em;text-transform:uppercase;
+  text-align:center;opacity:.85;
+}
+.mini-book__face .s{width:12px;height:12px;margin:8px auto 0;opacity:.85}
+.pick h3{font-family:var(--display);font-weight:560;font-size:19px;line-height:1.2;margin-bottom:3px}
+.pick .author{font-style:italic;color:var(--ink-soft);font-size:15.5px;margin-bottom:8px}
+.pick .price{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--rust)}
+.pick .note{
+  font-family:var(--hand);
+  font-size:19px;line-height:1.15;
+  color:var(--slate);
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px dotted var(--line);
+  transform:rotate(-.6deg);
+}
+.pick .note b{color:var(--ink);font-weight:600}
+
+/* ---------- arrivals ---------- */
+.arrivals-top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.result-count{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.list{border-top:1.5px solid var(--ink)}
+.row{
+  display:flex;align-items:baseline;gap:16px;
+  padding:19px 8px;
+  border-bottom:1.5px solid var(--line);
+  transition:background .18s;
+}
+.row:hover{background:rgba(192,138,45,.09)}
+.row .dot{width:7px;height:7px;background:var(--rust);border-radius:50%;flex-shrink:0;transform:translateY(-2px)}
+.row .title{font-family:var(--display);font-weight:520;font-size:20px;line-height:1.2;min-width:200px}
+.row .title a{text-decoration:none}
+.row .title a:hover{color:var(--rust);text-decoration:underline;text-underline-offset:4px;text-decoration-style:wavy}
+.row .by{font-style:italic;color:var(--ink-soft);font-size:16px;white-space:nowrap}
+.tag{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid var(--ink-soft);color:var(--ink-soft);
+  padding:3px 9px;white-space:nowrap;
+}
+.leader{flex:1;border-bottom:1.5px dotted var(--line);transform:translateY(-5px);min-width:30px}
+.row .price{font-family:var(--mono);font-size:13.5px;white-space:nowrap}
+.row .date{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-soft);white-space:nowrap;width:80px;text-align:right}
+.no-results{
+  display:none;
+  padding:36px 8px;
+  font-family:var(--hand);
+  font-size:24px;color:var(--slate);
+}
+.no-results.show{display:block}
+
+/* ---------- event ---------- */
+#event{background:var(--ink);color:var(--paper)}
+#event .sec-head h2{color:var(--paper)}
+#event .sec-head h2 em{color:var(--gold)}
+#event .sec-head .rule{background:var(--paper)}
+#event .sec-head .num{color:#a99c82}
+.event-grid{display:grid;grid-template-columns:200px 1fr 300px;gap:52px;align-items:start}
+.dateblock{
+  border:1.5px solid var(--paper);
+  text-align:center;
+  padding:26px 12px 22px;
+  transform:rotate(-1.4deg);
+  background:rgba(245,240,228,.04);
+}
+.dateblock .mon{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.dateblock .day{font-family:var(--display);font-weight:640;font-size:72px;line-height:1;margin:6px 0}
+.dateblock .dow{font-family:var(--hand);font-size:21px;color:#cbbf9f}
+.event-main h3{
+  font-family:var(--display);font-weight:520;font-size:clamp(26px,2.6vw,38px);
+  line-height:1.12;margin-bottom:6px;
+}
+.event-main h3 em{font-style:italic;font-weight:360;color:var(--gold)}
+.event-main .with{font-style:italic;color:#cbbf9f;font-size:17px;margin-bottom:18px}
+.event-main p{color:#d8cfb9;max-width:56ch;margin-bottom:26px}
+.event-facts{
+  display:flex;gap:32px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:#cbbf9f;margin-bottom:30px;
+}
+.event-facts b{display:block;color:var(--paper);font-weight:500}
+.rsvp{
+  font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  background:var(--rust);color:var(--paper);
+  border:none;padding:15px 30px;cursor:pointer;
+  transition:background .2s,transform .2s;
+}
+.rsvp:hover{background:var(--gold);color:var(--ink);transform:translateY(-2px)}
+.calendar h4{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:18px;
+}
+.cal-item{
+  display:flex;gap:14px;padding:14px 0;
+  border-bottom:1px dotted rgba(245,240,228,.3);
+  font-size:15px;
+}
+.cal-item .d{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:#a99c82;width:64px;flex-shrink:0;padding-top:3px}
+.cal-item strong{font-family:var(--display);font-weight:520;font-size:16.5px;display:block;line-height:1.25}
+.cal-item span{color:#cbbf9f;font-style:italic;font-size:14px}
+
+/* ---------- reading list ---------- */
+#list .sec-head .lede2{max-width:44ch;font-style:italic;color:var(--ink-soft);font-size:16.5px;align-self:center}
+.list-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
+.card{
+  border:1.5px solid var(--ink);
+  background:var(--paper);
+  padding:20px 18px 18px;
+  position:relative;
+  display:flex;flex-direction:column;
+  transition:transform .25s,box-shadow .25s;
+}
+.card:nth-child(odd){transform:rotate(-.8deg)}
+.card:nth-child(even){transform:rotate(.7deg)}
+.card:hover{transform:rotate(0) translateY(-4px);box-shadow:0 16px 28px -14px rgba(33,27,19,.35)}
+.card .idx{
+  position:absolute;top:-13px;left:14px;
+  background:var(--gold);color:var(--ink);
+  font-family:var(--mono);font-size:10px;letter-spacing:.1em;
+  padding:3px 9px;
+}
+.card h3{font-family:var(--display);font-weight:560;font-size:18.5px;line-height:1.2;margin:8px 0 2px}
+.card .author{font-style:italic;color:var(--ink-soft);font-size:14.5px;margin-bottom:12px}
+.card p{font-size:14.5px;color:var(--ink-soft);line-height:1.5;margin-bottom:18px;flex:1}
+.shelf-add{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
+  border:1.5px solid var(--ink);background:transparent;color:var(--ink);
+  padding:10px 12px;cursor:pointer;width:100%;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:all .18s;
+}
+.shelf-add .box{
+  width:11px;height:11px;border:1.5px solid currentColor;display:inline-block;flex-shrink:0;
+}
+.shelf-add:hover{background:var(--paper-2)}
+.card.shelved .shelf-add{background:var(--olive);border-color:var(--olive);color:var(--paper)}
+.card.shelved .shelf-add .box{background:var(--paper);border-color:var(--paper)}
+.card.shelved h3::after{
+  content:" ✓";color:var(--olive);font-size:15px;
+}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:#cbbf9f;border-top:6px solid var(--rust)}
+.news-band{
+  display:flex;justify-content:space-between;align-items:center;gap:32px;
+  padding:44px 40px;
+  max-width:1240px;margin:0 auto;
+  border-bottom:1px dotted rgba(245,240,228,.25);
+  flex-wrap:wrap;
+}
+.news-band h3{font-family:var(--display);font-weight:480;font-size:28px;color:var(--paper);font-style:italic}
+.news-band h3 span{color:var(--gold)}
+.news-form{display:flex;gap:0;flex:1;max-width:420px;min-width:260px}
+.news-form input{
+  flex:1;background:transparent;border:1.5px solid rgba(245,240,228,.5);border-right:none;
+  color:var(--paper);font-family:var(--body);font-size:15px;padding:13px 16px;outline:none;
+}
+.news-form input::placeholder{color:#8d8168;font-style:italic}
+.news-form button{
+  background:var(--gold);color:var(--ink);border:none;cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  padding:0 22px;transition:background .2s;
+}
+.news-form button:hover{background:var(--paper)}
+.foot-grid{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:48px;
+  max-width:1240px;margin:0 auto;
+  padding:52px 40px;
+}
+.foot-grid h4{
+  font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:18px;
+}
+.foot-grid a{display:block;text-decoration:none;color:#cbbf9f;font-size:15.5px;padding:4px 0;transition:color .15s}
+.foot-grid a:hover{color:var(--paper);text-decoration:underline;text-underline-offset:4px}
+.foot-brand .wm{font-family:var(--display);font-weight:640;font-size:26px;color:var(--paper);margin-bottom:14px}
+.foot-brand .wm em{font-style:italic;font-weight:400;color:var(--gold)}
+.foot-brand p{font-size:15px;max-width:36ch;line-height:1.65}
+.hours{font-size:15px;line-height:1.8}
+.hours b{color:var(--paper);font-weight:500}
+.foot-bottom{
+  border-top:1px dotted rgba(245,240,228,.25);
+  max-width:1240px;margin:0 auto;
+  padding:22px 40px 30px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:#8d8168;
+}
+.foot-bottom .heart{color:var(--rust)}
+
+/* toast */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translate(-50%,80px);
+  background:var(--ink);color:var(--paper);
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;
+  padding:13px 22px;z-index:1000;
+  border-left:4px solid var(--gold);
+  opacity:0;transition:transform .35s cubic-bezier(.2,.8,.3,1),opacity .35s;
+  pointer-events:none;
+  max-width:90vw;
+}
+.toast.show{transform:translate(-50%,0);opacity:1}
+.toast em{color:var(--gold);font-style:italic}
+
+@media (max-width:1080px){
+  .picks-grid{grid-template-columns:repeat(2,1fr)}
+  .list-grid{grid-template-columns:repeat(3,1fr)}
+  .event-grid{grid-template-columns:160px 1fr}
+  .calendar{grid-column:1/-1}
+  nav{display:none}
+}
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;min-height:0;padding-top:44px}
+  .hero__bookzone{margin-top:16px}
+  .list-grid{grid-template-columns:repeat(2,1fr)}
+  .row .date{display:none}
+  .header__inner{flex-wrap:wrap;gap:14px}
+  .search{min-width:160px}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ticker -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker__track" id="tickerTrack">
+    <span>Free U.S. shipping over $40</span>
+    <span>New translations every Friday</span>
+    <span>Used &amp; rare bin restocked weekly</span>
+    <span>Book club · Thursdays 7 pm</span>
+    <span>Every book is read before it is shelved</span>
+    <span>Gift wrapping — brown paper &amp; string, free</span>
+  </div>
+</div>
+
+<!-- header -->
+<header>
+  <div class="header__inner">
+    <a class="wordmark" href="#">Margin <em>Notes</em> <small>est. 2011</small></a>
+    <nav>
+      <a href="#picks">Staff Picks</a>
+      <a href="#arrivals">Arrivals</a>
+      <a href="#event">Events</a>
+      <a href="#list">Reading List</a>
+      <a href="#visit">Visit</a>
+    </nav>
+    <div class="header__tools">
+      <div class="search">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="#211b13" stroke-width="1.5"/><line x1="10.5" y1="10.5" x2="14" y2="14" stroke="#211b13" stroke-width="1.5"/></svg>
+        <input id="searchInput" type="search" placeholder="Title or author…" aria-label="Search the shelves">
+      </div>
+      <button class="shelf-btn" id="shelfBtn" aria-label="Your shelf">Shelf <b id="shelfCount">0</b></button>
+    </div>
+  </div>
+</header>
+
+<!-- hero -->
+<div class="hero">
+  <div>
+    <span class="eyebrow">This week's cover · Nº 028</span>
+    <h1>A small bookshop with <em>generous margins.</em></h1>
+    <p class="lede">We're a neighborhood independent on Lantern Street in Portland. Every book on our shelves has been opened, read, and argued about before it earns a place here — <b>this one included.</b></p>
+    <div class="catlabel">Browse the shelves</div>
+    <div class="pills" id="pills" role="group" aria-label="Filter by category">
+      <button class="pill active" data-filter="all">All</button>
+      <button class="pill" data-filter="fiction">Fiction</button>
+      <button class="pill" data-filter="nonfiction">Nonfiction</button>
+      <button class="pill" data-filter="poetry">Poetry</button>
+      <button class="pill" data-filter="translated">Translated</button>
+      <button class="pill" data-filter="used">Used &amp; Rare</button>
+    </div>
+    <div class="hero__meta">
+      <div><span>Featured</span><strong>“The Cartography of Small Hours”</strong></div>
+      <div><span>By</span><strong>Maren Holt</strong></div>
+      <div><span>Price</span><strong>$26.00</strong></div>
+    </div>
+  </div>
+  <div class="hero__bookzone">
+    <div class="book-plate"></div>
+    <div class="book" aria-label="Featured book: The Cartography of Small Hours by Maren Holt">
+      <div class="book__spine"><span>THE CARTOGRAPHY OF SMALL HOURS · MAREN HOLT · HEMLOCK &amp; VANE</span></div>
+      <div class="book__face">
+        <div class="book__imprint">Hemlock &amp; Vane · A Novel</div>
+        <h2 class="book__title">The<br><span class="thin">Cartography</span><br>of Small<br>Hours</h2>
+        <div class="book__rule"></div>
+        <div class="book__author">Maren&nbsp;Holt</div>
+        <svg class="book__star" viewBox="0 0 22 22" fill="none"><path d="M11 1v20M1 11h20M4 4l14 14M18 4L4 18" stroke="#f5f0e4" stroke-width="1.4"/></svg>
+      </div>
+    </div>
+    <div class="hero__note">the 3 a.m. chapters — read by candlelight, p. 214</div>
+  </div>
+</div>
+
+<!-- staff picks -->
+<section id="picks">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">01</span>
+      <h2>Staff picks, <em>annotated</em></h2>
+      <div class="rule"></div>
+      <span class="num">the notes are real</span>
+    </div>
+    <div class="picks-grid">
+      <article class="pick">
+        <div class="mini-book" style="--c:#3e5165;transform:rotate(-1.5deg)">
+          <div class="mini-book__spine"></div>
+          <div class="mini-book__face"><div class="t">Night<br>Water</div><svg class="s" viewBox="0 0 12 12" fill="none"><path d="M6 0v12M0 6h12" stroke="#f5f0e4" stroke-width="1"/></svg><div class="a">Marchant</div></div>
+        </div>
+        <h3>Night Water</h3>
+        <p class="author">Odile Marchant, trans. from the French</p>
+        <span class="price">$21.00</span>
+        <p class="note">Read it in one sitting on the ferry, then re-read the last line <b>eleven times.</b> — June</p>
+      </article>
+      <article class="pick">
+        <div class="mini-book" style="--c:#5c6a45;transform:rotate(1.2deg)">
+          <div class="mini-book__spine"></div>
+          <div class="mini-book__face"><div class="t">The Orchard Ledger</div><svg class="s" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4.5" stroke="#f5f0e4" stroke-width="1"/></svg><div class="a">Okafor</div></div>
+        </div>
+        <h3>The Orchard Ledger</h3>
+        <p class="author">Sam Okafor</p>
+        <span class="price">$24.00</span>
+        <p class="note">Every page smells like apple skin. A novel about <b>keeping accounts</b> — with family. — R.T.</p>
+      </article>
+      <article class="pick">
+        <div class="mini-book" style="--c:#a23e2c;transform:rotate(-.8deg)">
+          <div class="mini-book__spine"></div>
+          <div class="mini-book__face"><div class="t">Field Guide to Grief</div><svg class="s" viewBox="0 0 12 12" fill="none"><path d="M2 10C4 4 8 4 10 10" stroke="#f5f0e4" stroke-width="1"/></svg><div class="a">Tate</div></div>
+        </div>
+        <h3>Field Guide to Grief</h3>
+        <p class="author">essays by R. Tate</p>
+        <span class="price">$19.50</span>
+        <p class="note">We keep recommending it, then catching ourselves recommending it. <b>That's the tell.</b> — M.</p>
+      </article>
+      <article class="pick">
+        <div class="mini-book" style="--c:#c08a2d;transform:rotate(1.8deg)">
+          <div class="mini-book__spine"></div>
+          <div class="mini-book__face" style="color:#211b13"><div class="t">Salt &amp; Circuitry</div><svg class="s" viewBox="0 0 12 12" fill="none"><path d="M6 1l1.6 3.6L11 6l-3.4 1.4L6 11 4.4 7.4 1 6l3.4-1.4z" fill="#211b13"/></svg><div class="a">Nand</div></div>
+        </div>
+        <h3>Salt &amp; Circuitry</h3>
+        <p class="author">poems by Priya Nand</p>
+        <span class="price">$16.00</span>
+        <p class="note">The best poem we've read this year is on <b>page 74.</b> Buy it blind. — Priya's fan, K.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- new arrivals -->
+<section id="arrivals">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">02</span>
+      <h2>New <em>arrivals</em></h2>
+      <div class="rule"></div>
+      <span class="num" id="freshNote">as of this morning</span>
+    </div>
+    <div class="arrivals-top">
+      <p style="font-style:italic;color:var(--ink-soft);max-width:52ch">Fresh from the trucks, listed newest first. Search the box above or pick a shelf — the list keeps up.</p>
+      <span class="result-count" id="resultCount"></span>
+    </div>
+    <div class="list" id="arrivalList">
+      <div class="row" data-cat="fiction" data-search="vermilion lila farrow">
+        <span class="dot"></span>
+        <span class="title"><a href="#">Vermilion</a></span>
+        <span class="by">Lila Farrow</span>
+        <span class="tag">Fiction</span>
+        <span class="leader"></span>
+        <span class="price">$18.00</span>
+        <span class="date">FEB 28</span>
+      </div>
+      <div class="row" data-cat="nonfiction" data-search="how rivers remember dana whitfield">
+        <span class="dot"></span>
+        <span class="title"><a href="#">How Rivers Remember</a></span>
+        <span class="by">Dana Whitfield</span>
+        <span class="tag">Nonfiction</span>
+        <span class="leader"></span>
+        <span class="price">$24.00</span>
+        <span class="date">FEB 27</span>
+      </div>
+      <div class="row" data-cat="poetry" data-search="copper antenna yusuf adeyemi">
+        <span class="dot"></span>
+        <span class="title"><a href="#">Copper Antenna</a></span>
+        <span class="by">Yusuf Adeyemi</span>
+        <span class="tag">Poetry</span>
+        <span class="leader"></span>
+        <span class="price">$16.00</span>
+        <span class="date">FEB 26</span>
+      </div>
+      <div class="row" data-cat="translated" data-search="the quiet cartographer odile marchant varga">
+        <span class="dot"></span>
+        <span class="title"><a href="#">The Quiet Cartographer</a></span>
+        <span class="by">trans. Odile Marchant</span>
+        <span class="tag">Translated</span>
+        <span class="leader"></span>
+        <span class="price">$19.50</span>
+        <span class="date">FEB 25</span>
+      </div>
+      <div class="row" data-cat="fiction" data-search="butter and iron marguerite solen">
+        <span class="dot"></span>
+        <span class="title"><a href="#">Butter &amp; Iron</a></span>
+        <span class="by">Marguerite Solen</span>
+        <span class="tag">Fiction</span>
+        <span class="leader"></span>
+        <span class="price">$21.00</span>
+        <span class="date">FEB 24</span>
+      </div>
+      <div class="row" data-cat="nonfiction" data-search="on keeping a commonplace book harlan pike essays">
+        <span class="dot"></span>
+        <span class="title"><a href="#">On Keeping a Commonplace Book</a></span>
+        <span class="by">Harlan Pike</span>
+        <span class="tag">Nonfiction</span>
+        <span class="leader"></span>
+        <span class="price">$17.00</span>
+        <span class="date">FEB 22</span>
+      </div>
+      <div class="row" data-cat="poetry" data-search="north of nowhere s m oyelaran">
+        <span class="dot"></span>
+        <span class="title"><a href="#">North of Nowhere</a></span>
+        <span class="by">S. M. Oyelaran</span>
+        <span class="tag">Poetry</span>
+        <span class="leader"></span>
+        <span class="price">$15.00</span>
+        <span class="date">FEB 21</span>
+      </div>
+      <div class="row" data-cat="translated" data-search="a field in winter elena varga">
+        <span class="dot"></span>
+        <span class="title"><a href="#">A Field in Winter</a></span>
+        <span class="by">trans. Elena Varga</span>
+        <span class="tag">Translated</span>
+        <span class="leader"></span>
+        <span class="price">$22.00</span>
+        <span class="date">FEB 20</span>
+      </div>
+      <div class="no-results" id="noResults">Nothing on this shelf for that — try “poetry”, “Marchant”, or ask us in person. We like questions.</div>
+    </div>
+  </div>
+</section>
+
+<!-- author event -->
+<section id="event">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">03</span>
+      <h2>In the <em>shop</em></h2>
+      <div class="rule"></div>
+      <span class="num">free, but bring a coat</span>
+    </div>
+    <div class="event-grid">
+      <div class="dateblock">
+        <div class="mon">Mar</div>
+        <div class="day">13</div>
+        <div class="dow">a thursday, as always</div>
+      </div>
+      <div class="event-main">
+        <h3>Odile Marchant on translation, distance, <em>&amp; the long sentence</em></h3>
+        <p class="with">in conversation with June Ellis, owner &amp; chief re-shelver</p>
+        <p>Marchant will talk about translating for the third time, why she keeps a margin column of “wrong but lovely” words, and what happens to a sentence when it crosses an ocean. Bring a copy of <em>Night Water</em> — we'll sign the margins, obviously.</p>
+        <div class="event-facts">
+          <div><b>7:00 pm</b>doors at 6:45</div>
+          <div><b>Free</b>seating for 40</div>
+          <div><b>Lantern St.</b>the usual nook</div>
+        </div>
+        <button class="rsvp" id="rsvpBtn">Reserve a seat</button>
+      </div>
+      <div class="calendar">
+        <h4>Also on the calendar</h4>
+        <div class="cal-item"><span class="d">MAR 19</span><div><strong>Slow Poetry Night</strong><span>open mic, six minutes each</span></div></div>
+        <div class="cal-item"><span class="d">MAR 20</span><div><strong>Winter List book club</strong><span>on “The Orchard Ledger”</span></div></div>
+        <div class="cal-item"><span class="d">MAR 27</span><div><strong>Brown paper workshops</strong><span>learn to fold a book cover</span></div></div>
+        <div class="cal-item"><span class="d">MAR 29</span><div><strong>Used &amp; rare swap</strong><span>first come, first read</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- reading list -->
+<section id="list">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="num">04</span>
+      <h2>The winter list, <em>Nº 14</em></h2>
+      <div class="rule"></div>
+      <p class="lede2">Five books we can't stop lending out. Tap to add them to your shelf.</p>
+    </div>
+    <div class="list-grid">
+      <article class="card" data-book="The Orchard Ledger">
+        <span class="idx">1</span>
+        <h3>The Orchard Ledger</h3>
+        <p class="author">Sam Okafor</p>
+        <p>Three generations keep the books of a fading apple farm. Nobody is doing the math right, including the narrator.</p>
+        <button class="shelf-add" aria-pressed="false"><span class="box"></span> Add to shelf</button>
+      </article>
+      <article class="card" data-book="Salt and Circuitry">
+        <span class="idx">2</span>
+        <h3>Salt &amp; Circuitry</h3>
+        <p class="author">Priya Nand</p>
+        <p>Seventeen poems about repair: boards, bodies, and everything that carries a current you can't see.</p>
+        <button class="shelf-add" aria-pressed="false"><span class="box"></span> Add to shelf</button>
+      </article>
+      <article class="card" data-book="Field Guide to Grief">
+        <span class="idx">3</span>
+        <h3>Field Guide to Grief</h3>
+        <p class="author">R. Tate</p>
+        <p>Essays written the year everything moved. Practical, unsentimental, and a little bit funny — which surprised us most.</p>
+        <button class="shelf-add" aria-pressed="false"><span class="box"></span> Add to shelf</button>
+      </article>
+      <article class="card" data-book="Night Water">
+        <span class="idx">4</span>
+        <h3>Night Water</h3>
+        <p class="author">Odile Marchant</p>
+        <p>A lighthouse keeper, a drowned map, and the year the tide stopped asking permission. The best translation of the year.</p>
+        <button class="shelf-add" aria-pressed="false"><span class="box"></span> Add to shelf</button>
+      </article>
+      <article class="card" data-book="The Quiet Cartographer">
+        <span class="idx">5</span>
+        <h3>The Quiet Cartographer</h3>
+        <p class="author">trans. Odile Marchant</p>
+        <p>A quiet novel from the Baltic: a mapmaker who erases her own village from every chart. Untranslatable, and translated anyway.</p>
+        <button class="shelf-add" aria-pressed="false"><span class="box"></span> Add to shelf</button>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer id="visit">
+  <div class="news-band">
+    <h3>Marginalia, <span>monthly</span> — one letter a month, no algorithms.</h3>
+    <form class="news-form" id="newsForm">
+      <input type="email" required placeholder="your@address.com" aria-label="Email address">
+      <button type="submit">Sign up</button>
+    </form>
+  </div>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <div class="wm">Margin <em>Notes</em></div>
+      <p>An independent bookshop since 2011. We read everything, annotate what we love, and never, ever put a book in a bin before a human has held it.</p>
+    </div>
+    <div>
+      <h4>Visit us</h4>
+      <div class="hours">
+        <b>214 Lantern Street</b><br>Portland, OR 97204<br><br>
+        Tue–Fri · 9–8<br>Sat · 10–7<br>Sun · 12–6<br>Mon · closed (we're reading)
+      </div>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <a href="#picks">Staff picks</a>
+      <a href="#arrivals">New arrivals</a>
+      <a href="#">Used &amp; rare</a>
+      <a href="#">Translated fiction</a>
+      <a href="#">Gift cards</a>
+    </div>
+    <div>
+      <h4>Help</h4>
+      <a href="#">Order lookup</a>
+      <a href="#">Shipping &amp; returns</a>
+      <a href="#">Book requests</a>
+      <a href="#">Wholesale</a>
+      <a href="#">Work at Margin Notes</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2025 Margin Notes Bookshop · (503) 555-0147 · hello@marginnotes.shop</span>
+    <span>Set in Fraunces &amp; Newsreader · wrapped with <span class="heart">✳</span> since 2011</span>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  // ticker: duplicate track for seamless loop
+  var track = document.getElementById('tickerTrack');
+  track.innerHTML += track.innerHTML;
+
+  // toast helper
+  var toast = document.getElementById('toast'), toastTimer;
+  function showToast(html){
+    toast.innerHTML = html;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  }
+
+  // ---- filtering: category pills + search ----
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#arrivalList .row'));
+  var pills = document.querySelectorAll('#pills .pill');
+  var searchInput = document.getElementById('searchInput');
+  var noResults = document.getElementById('noResults');
+  var resultCount = document.getElementById('resultCount');
+  var activeCat = 'all';
+
+  function applyFilter(){
+    var q = searchInput.value.trim().toLowerCase();
+    var shown = 0;
+    rows.forEach(function(row){
+      var catOk = activeCat === 'all' || row.dataset.cat === activeCat;
+      var qOk = !q || row.dataset.search.indexOf(q) !== -1;
+      var visible = catOk && qOk;
+      row.style.display = visible ? '' : 'none';
+      if(visible) shown++;
+    });
+    noResults.classList.toggle('show', shown === 0);
+    resultCount.textContent = shown + (shown === 1 ? ' book listed' : ' books listed');
+  }
+
+  pills.forEach(function(pill){
+    pill.addEventListener('click', function(){
+      pills.forEach(function(p){ p.classList.remove('active'); });
+      pill.classList.add('active');
+      activeCat = pill.dataset.filter;
+      if(activeCat === 'used'){
+        showToast('The used &amp; rare bin lives <em>in the shop</em> — refreshed every Tuesday. Come see it.');
+        applyFilter();
+        return;
+      }
+      applyFilter();
+      document.getElementById('arrivals').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  searchInput.addEventListener('input', applyFilter);
+  searchInput.addEventListener('focus', function(){
+    // keep the list visible while typing
+    if(activeCat === 'all') document.getElementById('arrivals').scrollIntoView({behavior:'smooth'});
+  });
+  applyFilter();
+
+  // ---- shelf ----
+  var shelfCountEl = document.getElementById('shelfCount');
+  var shelfSize = 0;
+  var cards = document.querySelectorAll('.card[data-book]');
+  cards.forEach(function(card){
+    var btn = card.querySelector('.shelf-add');
+    btn.addEventListener('click', function(){
+      var shelved = card.classList.toggle('shelved');
+      btn.setAttribute('aria-pressed', String(shelved));
+      shelfSize += shelved ? 1 : -1;
+      shelfCountEl.textContent = shelfSize;
+      shelfCountEl.parentElement.animate(
+        [{transform:'scale(1)'},{transform:'scale(1.18)'},{transform:'scale(1)'}],
+        {duration:280, easing:'ease-out'}
+      );
+      var title = card.querySelector('h3').textContent;
+      showToast(shelved
+        ? 'Added <em>“' + title + '”</em> to your shelf'
+        : 'Removed <em>“' + title + '”</em> from your shelf');
+    });
+  });
+
+  document.getElementById('shelfBtn').addEventListener('click', function(){
+    if(shelfSize === 0){
+      showToast('Your shelf is empty — the winter list below has five good candidates.');
+    } else {
+      showToast('Your shelf: <em>' + shelfSize + '</em> book' + (shelfSize>1?'s':'') + ' and counting. Checkout coming soon.');
+    }
+  });
+
+  // ---- rsvp + newsletter ----
+  var rsvp = document.getElementById('rsvpBtn');
+  rsvp.addEventListener('click', function(){
+    rsvp.textContent = 'Seat reserved ✳';
+    rsvp.disabled = true;
+    rsvp.style.background = 'var(--olive)';
+    showToast('Reserved a seat for <em>March 13, 7 pm</em>. We saved you the good chair.');
+  });
+
+  document.getElementById('newsForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    this.reset();
+    showToast('Welcome to the margin. First letter arrives <em>the first of the month</em>.');
+  });
+})();
+</script>
+</body>
+</html>

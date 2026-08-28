@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AIRLINE / LOUNGE — Land softer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B1119;
+    --ink-2:#101a27;
+    --ink-3:#16233a;
+    --line:rgba(243,238,227,.12);
+    --line-2:rgba(243,238,227,.07);
+    --bone:#F3EEE3;
+    --bone-dim:#c9c2b2;
+    --muted:#8b98ac;
+    --brass:#E0A34E;
+    --brass-2:#F1C177;
+    --signal:#FF5A3C;
+    --open:#5BCF8C;
+    --maxw:1240px;
+    --disp:"Fraunces",Georgia,serif;
+    --body:"Space Grotesk",system-ui,sans-serif;
+    --mono:"Space Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--body);
+    background:var(--ink);
+    color:var(--bone);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+    position:relative;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(900px 600px at 82% -6%, rgba(224,163,78,.14), transparent 60%),
+      radial-gradient(700px 700px at 8% 8%, rgba(91,207,140,.06), transparent 55%),
+      radial-gradient(1200px 800px at 50% 120%, rgba(255,90,60,.07), transparent 60%);
+  }
+  ::selection{background:var(--brass);color:#1a1204}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 40px;position:relative;z-index:2}
+  .mono{font-family:var(--mono);letter-spacing:.02em}
+
+  /* ---------- NAV ---------- */
+  header{position:sticky;top:0;z-index:50;
+    background:linear-gradient(to bottom, rgba(11,17,25,.92), rgba(11,17,25,.72));
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--line-2)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .brand{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-weight:700;letter-spacing:.06em;font-size:15px}
+  .mark{width:38px;height:38px;border-radius:9px;flex:none;position:relative;
+    background:linear-gradient(150deg,#1a2a44,#0e1622);border:1px solid var(--line);
+    display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+  .mark svg{width:22px;height:22px}
+  .brand b{color:var(--brass-2)}
+  .navlinks{display:flex;gap:34px;align-items:center}
+  .navlinks a{font-size:13.5px;letter-spacing:.04em;color:var(--bone-dim);font-weight:500;position:relative;padding:4px 0;transition:color .25s}
+  .navlinks a:hover{color:var(--bone)}
+  .navlinks a::after{content:"";position:absolute;left:0;bottom:-2px;height:1.5px;width:0;background:var(--brass);transition:width .3s}
+  .navlinks a:hover::after{width:100%}
+  .nav-right{display:flex;align-items:center;gap:20px}
+  .status-dot{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.08em}
+  .pulse{width:8px;height:8px;border-radius:50%;background:var(--open);box-shadow:0 0 0 0 rgba(91,207,140,.6);animation:pulse 2.4s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(91,207,140,.5)}70%{box-shadow:0 0 0 8px rgba(91,207,140,0)}100%{box-shadow:0 0 0 0 rgba(91,207,140,0)}}
+
+  /* ---------- BUTTONS ---------- */
+  .btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--body);font-weight:600;
+    font-size:14px;letter-spacing:.02em;padding:14px 22px;border-radius:11px;cursor:pointer;
+    border:1px solid transparent;transition:transform .2s,box-shadow .25s,background .25s,border-color .25s;white-space:nowrap}
+  .btn .arw{transition:transform .25s}
+  .btn:hover .arw{transform:translateX(4px)}
+  .btn-ghost{background:transparent;border-color:var(--line);color:var(--bone)}
+  .btn-ghost:hover{border-color:var(--brass);background:rgba(224,163,78,.08)}
+  .btn-solid{background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#221503;box-shadow:0 8px 26px -8px rgba(224,163,78,.6)}
+  .btn-solid:hover{transform:translateY(-2px);box-shadow:0 14px 34px -8px rgba(224,163,78,.7)}
+  .btn-sm{padding:11px 18px;font-size:13px;border-radius:9px}
+
+  /* ---------- HERO ---------- */
+  .hero{min-height:calc(100vh - 74px);display:flex;align-items:center;padding:56px 0 64px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;width:100%}
+  .eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11.5px;
+    letter-spacing:.2em;color:var(--brass-2);text-transform:uppercase;margin-bottom:26px}
+  .eyebrow .bar{width:34px;height:1px;background:var(--brass)}
+  .hero h1{font-family:var(--disp);font-weight:400;font-size:clamp(52px,6.4vw,96px);line-height:.94;
+    letter-spacing:-.02em;margin-bottom:24px}
+  .hero h1 em{font-style:italic;font-weight:500;color:var(--brass-2);position:relative}
+  .hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.09em;background:var(--brass);opacity:.5}
+  .lede{font-size:18px;color:var(--bone-dim);max-width:520px;margin-bottom:34px;font-weight:300}
+  .lede b{color:var(--bone);font-weight:500}
+
+  .search{background:linear-gradient(160deg,rgba(22,35,58,.7),rgba(16,26,39,.7));
+    border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7);position:relative;overflow:hidden}
+  .search::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(224,163,78,.5),transparent)}
+  .search-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding:0 4px}
+  .search-top span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;color:var(--muted)}
+  .search-fields{display:grid;grid-template-columns:1.6fr 1fr auto;gap:12px}
+  .field{position:relative}
+  .field label{position:absolute;top:-9px;left:14px;background:var(--ink-2);padding:0 7px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+  .field input,.field select{width:100%;background:rgba(11,17,25,.6);border:1px solid var(--line);color:var(--bone);
+    font-family:var(--body);font-size:15px;padding:15px 14px;border-radius:10px;transition:border-color .25s,box-shadow .25s}
+  .field input::placeholder{color:var(--muted)}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--brass);box-shadow:0 0 0 3px rgba(224,163,78,.15)}
+  .chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px;padding:0 2px}
+  .chip{font-family:var(--mono);font-size:12px;padding:7px 14px;border-radius:20px;border:1px solid var(--line);
+    color:var(--bone-dim);cursor:pointer;transition:all .2s;background:transparent}
+  .chip:hover{border-color:var(--brass);color:var(--brass-2);background:rgba(224,163,78,.06)}
+  .search-result{display:none;margin-top:16px;padding:13px 16px;border-radius:11px;font-size:14px;
+    background:rgba(91,207,140,.09);border:1px solid rgba(91,207,140,.28);align-items:center;gap:12px}
+  .search-result.show{display:flex;animation:fadeUp .4s ease}
+  .search-result .st{width:9px;height:9px;border-radius:50%;background:var(--open);flex:none}
+  .trust{display:flex;gap:26px;margin-top:26px;flex-wrap:wrap}
+  .trust div{font-size:13px;color:var(--muted)}
+  .trust b{display:block;font-family:var(--disp);font-size:22px;font-weight:500;color:var(--bone);margin-bottom:2px}
+
+  /* ---------- BOARD (availability) ---------- */
+  .board{background:linear-gradient(165deg,#132036,#0c1420);border:1px solid var(--line);border-radius:18px;
+    padding:0;overflow:hidden;box-shadow:0 40px 90px -40px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.05);position:relative}
+  .board::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.06) 3px,rgba(0,0,0,.06) 4px)}
+  .board-head{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line-2)}
+  .board-head h3{font-family:var(--mono);font-size:12px;letter-spacing:.18em;font-weight:700;color:var(--bone)}
+  .board-head .live{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--open)}
+  .board-cols{display:grid;grid-template-columns:56px 1.5fr .8fr 84px 90px;padding:12px 22px;font-family:var(--mono);
+    font-size:9.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--line-2)}
+  .row{display:grid;grid-template-columns:56px 1.5fr .8fr 84px 90px;padding:15px 22px;align-items:center;
+    border-bottom:1px solid var(--line-2);position:relative;transition:background .3s}
+  .row:hover{background:rgba(224,163,78,.05)}
+  .row:last-child{border-bottom:none}
+  .gate{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--brass-2)}
+  .lg-name{font-size:14.5px;font-weight:500;color:var(--bone)}
+  .lg-route{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px}
+  .cap{justify-self:end;width:100%;max-width:82px}
+  .cap-bar{height:6px;border-radius:4px;background:rgba(255,255,255,.09);overflow:hidden}
+  .cap-fill{height:100%;width:0;border-radius:4px;transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+  .cap-txt{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:5px;text-align:right}
+  .badge{justify-self:end;font-family:var(--mono);font-size:10px;letter-spacing:.12em;padding:5px 10px;border-radius:6px;font-weight:700}
+  .badge.open{background:rgba(91,207,140,.14);color:var(--open);border:1px solid rgba(91,207,140,.3)}
+  .badge.filling{background:rgba(224,163,78,.14);color:var(--brass-2);border:1px solid rgba(224,163,78,.3)}
+  .badge.full{background:rgba(255,90,60,.14);color:#ff7a61;border:1px solid rgba(255,90,60,.3)}
+  .board-foot{padding:16px 22px;display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .board-foot a{color:var(--brass-2);border-bottom:1px solid rgba(224,163,78,.4)}
+
+  /* ---------- SECTION SHELL ---------- */
+  section.block{padding:104px 0;position:relative}
+  .sec-head{max-width:640px;margin-bottom:56px}
+  .sec-head .eyebrow{margin-bottom:20px}
+  .sec-head h2{font-family:var(--disp);font-weight:400;font-size:clamp(34px,4vw,54px);line-height:1.04;letter-spacing:-.02em;margin-bottom:18px}
+  .sec-head h2 em{font-style:italic;color:var(--brass-2)}
+  .sec-head p{color:var(--muted);font-size:17px;font-weight:300}
+
+  /* ---------- AMENITIES ---------- */
+  .amen-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .amen{background:var(--ink-2);padding:30px 26px;transition:background .35s;position:relative;overflow:hidden}
+  .amen::before{content:"";position:absolute;top:0;left:0;width:34px;height:2px;background:var(--brass);transition:width .4s}
+  .amen:hover{background:var(--ink-3)}
+  .amen:hover::before{width:100%}
+  .amen .ic{width:46px;height:46px;border-radius:11px;background:rgba(224,163,78,.1);border:1px solid rgba(224,163,78,.22);display:grid;place-items:center;margin-bottom:20px;transition:transform .3s}
+  .amen:hover .ic{transform:translateY(-4px);background:rgba(224,163,78,.18)}
+  .amen .ic svg{width:24px;height:24px;stroke:var(--brass-2);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .amen h4{font-size:17px;font-weight:600;margin-bottom:8px;letter-spacing:-.01em}
+  .amen p{font-size:13.5px;color:var(--muted);line-height:1.55}
+  .amen .tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--brass-2);margin-top:14px;display:block}
+
+  /* ---------- MEMBERSHIP ---------- */
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+  .tier{background:linear-gradient(165deg,var(--ink-2),#0d1522);border:1px solid var(--line);border-radius:18px;padding:36px 32px;position:relative;display:flex;flex-direction:column;transition:transform .35s,border-color .35s,box-shadow .35s}
+  .tier:hover{transform:translateY(-6px);border-color:rgba(224,163,78,.4)}
+  .tier.featured{background:linear-gradient(165deg,#1a2740,#101a2c);border-color:var(--brass);box-shadow:0 40px 80px -40px rgba(224,163,78,.4)}
+  .tier.featured::before{content:"MOST CHOSEN";position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    font-family:var(--mono);font-size:10px;letter-spacing:.18em;background:linear-gradient(150deg,var(--brass-2),var(--brass));color:#221503;padding:6px 16px;border-radius:20px;font-weight:700}
+  .tier .tname{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--brass-2);margin-bottom:14px}
+  .tier .price{font-family:var(--disp);font-size:46px;font-weight:500;line-height:1;letter-spacing:-.02em}
+  .tier .price span{font-family:var(--body);font-size:14px;color:var(--muted);font-weight:400}
+  .tier .tdesc{color:var(--muted);font-size:14px;margin:16px 0 26px;min-height:42px}
+  .tier ul{list-style:none;margin:0 0 30px;flex:1}
+  .tier li{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line-2);font-size:14px;color:var(--bone-dim)}
+  .tier li:last-child{border-bottom:none}
+  .tick{width:19px;height:19px;border-radius:50%;flex:none;display:grid;place-items:center;background:rgba(91,207,140,.15);margin-top:1px}
+  .tier li.no .tick{background:rgba(255,255,255,.06)}
+  .tier li.no{color:var(--muted);opacity:.6}
+  .tick svg{width:11px;height:11px;stroke:var(--open);stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+  .tier li.no .tick svg{stroke:var(--muted)}
+  .tier .btn{width:100%;justify-content:center}
+
+  /* ---------- PERKS ---------- */
+  .perks{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  .perk-list{list-style:none;counter-reset:p}
+  .perk-list li{display:flex;gap:22px;padding:24px 0;border-bottom:1px solid var(--line-2);transition:padding .3s}
+  .perk-list li:first-child{padding-top:0}
+  .perk-list li:hover{padding-left:8px}
+  .perk-list .num{font-family:var(--disp);font-size:30px;font-weight:400;color:var(--brass);width:52px;flex:none;line-height:1}
+  .perk-list h4{font-size:19px;font-weight:600;margin-bottom:6px;letter-spacing:-.01em}
+  .perk-list p{color:var(--muted);font-size:14.5px;font-weight:300}
+
+  .pass{background:linear-gradient(155deg,#152238,#0d1522);border:1px solid var(--line);border-radius:20px;padding:34px;position:relative;overflow:hidden;box-shadow:0 50px 100px -50px rgba(0,0,0,.9)}
+  .pass::before{content:"";position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(135deg,transparent,transparent 22px,rgba(243,238,227,.03) 22px,rgba(243,238,227,.03) 23px)}
+  .pass-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;position:relative}
+  .pass-top .code{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--brass-2)}
+  .pass-top h4{font-family:var(--disp);font-size:26px;font-weight:400;margin-top:6px}
+  .pass-map{height:190px;position:relative;margin-bottom:26px;border:1px solid var(--line-2);border-radius:12px;overflow:hidden;
+    background:radial-gradient(400px 200px at 50% 40%,rgba(91,207,140,.06),transparent),linear-gradient(180deg,#0e1a2b,#0a121e)}
+  .arc-path{stroke:var(--brass);opacity:.5}
+  .arc-dots{stroke:var(--muted);opacity:.4}
+  .plane{offset-path:path("M30 150 C 120 30, 260 30, 350 150");offset-rotate:auto 45deg;animation:fly 7s linear infinite}
+  @keyframes fly{0%{offset-distance:0%}100%{offset-distance:100%}}
+  .dot-city{fill:var(--brass-2)}
+  .pass-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;position:relative}
+  .pstat{border-left:2px solid var(--brass);padding-left:12px}
+  .pstat b{font-family:var(--disp);font-size:24px;font-weight:500;display:block}
+  .pstat span{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted)}
+
+  /* ---------- BOOKING CTA ---------- */
+  .cta{position:relative;padding:110px 0;overflow:hidden}
+  .cta::before{content:"";position:absolute;inset:0;z-index:1;
+    background:radial-gradient(800px 500px at 70% 20%,rgba(224,163,78,.16),transparent 60%),
+              radial-gradient(700px 500px at 20% 90%,rgba(255,90,60,.1),transparent 60%)}
+  .cta-inner{position:relative;z-index:2;background:linear-gradient(160deg,rgba(19,32,54,.85),rgba(12,20,32,.85));
+    border:1px solid var(--line);border-radius:24px;padding:56px;backdrop-filter:blur(4px);overflow:hidden}
+  .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .cta h2{font-family:var(--disp);font-weight:400;font-size:clamp(38px,4.4vw,60px);line-height:1.02;letter-spacing:-.02em;margin-bottom:20px}
+  .cta h2 em{font-style:italic;color:var(--brass-2)}
+  .cta p{color:var(--bone-dim);font-size:17px;font-weight:300;margin-bottom:30px;max-width:440px}
+  .cta-note{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:24px}
+  .cta-note svg{width:18px;height:18px;stroke:var(--open);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+  .book-form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .book-form .full{grid-column:1/-1}
+  .book-form .field label{top:-8px}
+  .book-form input,.book-form select{font-size:15px}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line-2);padding:64px 0 40px;position:relative;z-index:2}
+  .foot-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+  .foot-brand p{color:var(--muted);font-size:14px;font-weight:300;max-width:300px;margin-top:20px}
+  .foot-col h5{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--bone);margin-bottom:18px;text-transform:uppercase}
+  .foot-col a{display:block;color:var(--muted);font-size:14px;padding:7px 0;transition:color .2s}
+  .foot-col a:hover{color:var(--brass-2)}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:30px;border-top:1px solid var(--line-2);font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em;flex-wrap:wrap;gap:12px}
+
+  /* ---------- REVEAL ---------- */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:1080px){
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .hero{min-height:auto;padding:56px 0}
+    .amen-grid{grid-template-columns:repeat(2,1fr)}
+    .tiers{grid-template-columns:1fr;max-width:520px;margin:0 auto}
+    .tier.featured{order:-1}
+    .perks{grid-template-columns:1fr;gap:44px}
+    .cta-grid{grid-template-columns:1fr;gap:40px}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+  }
+  @media(max-width:720px){
+    .wrap{padding:0 22px}
+    .navlinks,.status-dot{display:none}
+    .search-fields{grid-template-columns:1fr}
+    .board-cols,.row{grid-template-columns:44px 1.3fr 70px;gap:8px}
+    .board-cols .c-route,.board-cols .c-cap,.row .lg-route,.row .cap{display:none}
+    .amen-grid{grid-template-columns:1fr}
+    .book-form{grid-template-columns:1fr}
+    .cta-inner{padding:32px 24px}
+    .foot-grid{grid-template-columns:1fr}
+    .pass{padding:26px}
+    .pass-stats{grid-template-columns:repeat(3,1fr);gap:8px}
+    .pass-stat b{font-size:19px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#" class="brand">
+        <span class="mark">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M3 15l18-7-7 7 7 7-18-7z" stroke="#F1C177" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 15h9" stroke="#F1C177" stroke-width="1.6"/></svg>
+        </span>
+        <span>AIRLINE <b>/</b> LOUNGE</span>
+      </a>
+      <div class="navlinks">
+        <a href="#availability">Availability</a>
+        <a href="#amenities">Amenities</a>
+        <a href="#membership">Membership</a>
+        <a href="#perks">Perks</a>
+      </div>
+      <div class="nav-right">
+        <div class="status-dot"><span class="pulse"></span>TERMINAL 3 · OPEN</div>
+        <a href="#book" class="btn btn-solid btn-sm">Book access <span class="arw">→</span></a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <!-- Left -->
+      <div>
+        <span class="eyebrow"><span class="bar"></span>Gate B12 · Now boarding</span>
+        <h1>Land<br><em>softer.</em></h1>
+        <p class="lede">AIRLINE / LOUNGE is the quiet hour before take-off — <b>showers, slow food, and a glass you didn't know you needed.</b> At 120 gates across four continents.</p>
+
+        <form class="search" id="searchForm">
+          <div class="search-top">
+            <span>DESTINATION SEARCH</span>
+            <span>120+ LOUNGES · 4.9★</span>
+          </div>
+          <div class="search-fields">
+            <div class="field"><label>Where you're landing</label>
+              <input id="dest" type="text" placeholder="e.g. Singapore Changi, Terminal 1" autocomplete="off" /></div>
+            <div class="field"><label>Travel class</label>
+              <select id="klass">
+                <option>Any class</option>
+                <option>First</option>
+                <option>Business</option>
+                <option>Premium Economy</option>
+                <option>Economy</option>
+              </select></div>
+            <button class="btn btn-solid" type="submit">Find my lounge <span class="arw">→</span></button>
+          </div>
+          <div class="chips">
+            <button type="button" class="chip">Heathrow</button>
+            <button type="button" class="chip">Dubai</button>
+            <button type="button" class="chip">Singapore</button>
+            <button type="button" class="chip">Tokyo Haneda</button>
+            <button type="button" class="chip">New York JFK</button>
+          </div>
+          <div class="search-result" id="searchResult">
+            <span class="st"></span><span id="searchText"></span>
+          </div>
+        </form>
+
+        <div class="trust">
+          <div><b>120+</b>lounges worldwide</div>
+          <div><b>4.9 / 5</b>member rating</div>
+          <div><b>2009</b>operating since</div>
+        </div>
+      </div>
+
+      <!-- Right: live availability board -->
+      <div class="board" id="availability">
+        <div class="board-head">
+          <h3>LOUNGE AVAILABILITY</h3>
+          <span class="live"><span class="pulse"></span>LIVE · UPD 09:42Z</span>
+        </div>
+        <div class="board-cols">
+          <span>Gate</span><span>Lounge / Route</span><span class="c-route">Zone</span><span class="c-cap">Capacity</span><span>Status</span>
+        </div>
+        <div id="boardRows">
+          <div class="row" data-base="open">
+            <span class="gate">B12</span>
+            <div><div class="lg-name">Crown Bar Lounge</div><div class="lg-route">DXB · Emirates</div></div>
+            <span class="lg-route">West Wing</span>
+            <div class="cap"><div class="cap-bar"><div class="cap-fill" data-w="62" style="background:linear-gradient(90deg,var(--open),#7fe0ac)"></div></div><div class="cap-txt">62% full</div></div>
+            <span class="badge open">OPEN</span>
+          </div>
+          <div class="row" data-base="filling">
+            <span class="gate">A04</span>
+            <div><div class="lg-name">Meridian Spa</div><div class="lg-route">SIN · Changi T1</div></div>
+            <span class="lg-route">Level 5</span>
+            <div class="cap"><div class="cap-bar"><div class="cap-fill" data-w="84" style="background:linear-gradient(90deg,var(--brass),var(--brass-2))"></div></div><div class="cap-txt">84% full</div></div>
+            <span class="badge filling">FILLING</span>
+          </div>
+          <div class="row" data-base="full">
+            <span class="gate">C21</span>
+            <div><div class="lg-name">Quiet Pod Suite</div><div class="lg-route">HND · Haneda T3</div></div>
+            <span class="lg-route">North</span>
+            <div class="cap"><div class="cap-bar"><div class="cap-fill" data-w="98" style="background:linear-gradient(90deg,var(--signal),#ff8a70)"></div></div><div class="cap-txt">98% full</div></div>
+            <span class="badge full">FULL</span>
+          </div>
+          <div class="row" data-base="open">
+            <span class="gate">B03</span>
+            <div><div class="lg-name">Champagne Rail</div><div class="lg-route">CDG · Paris T2E</div></div>
+            <span class="lg-route">Deck 2</span>
+            <div class="cap"><div class="cap-bar"><div class="cap-fill" data-w="40" style="background:linear-gradient(90deg,var(--open),#7fe0ac)"></div></div><div class="cap-txt">40% full</div></div>
+            <span class="badge open">OPEN</span>
+          </div>
+          <div class="row" data-base="open">
+            <span class="gate">D08</span>
+            <div><div class="lg-name">First Deck</div><div class="lg-route">JFK · New York T4</div></div>
+            <span class="lg-route">Sky Bridge</span>
+            <div class="cap"><div class="cap-bar"><div class="cap-fill" data-w="55" style="background:linear-gradient(90deg,var(--open),#7fe0ac)"></div></div><div class="cap-txt">55% full</div></div>
+            <span class="badge open">OPEN</span>
+          </div>
+        </div>
+        <div class="board-foot">
+          <span>Showing 5 of 120 lounges</span>
+          <a href="#">View all lounges →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AMENITIES ============ -->
+<section class="block" id="amenities">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="bar"></span>What's inside</span>
+      <h2>Everything a long layover / <em>should</em> have.</h2>
+      <p>Each lounge is designed around one idea: turn the wait into the part of the trip you'll actually remember.</p>
+    </div>
+    <div class="amen-grid">
+      <div class="amen reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3c2.5 3 4 5.5 4 8a4 4 0 01-8 0c0-2.5 1.5-5 4-8z"/></svg></div><h4>Shower &amp; spa suites</h4><p>Private rain showers, robes, and a full amenity bar in every major hub.</p><span class="tag">24/7 · 40 SUITES</span></div>
+      <div class="amen reveal d1"><div class="ic"><svg viewBox="0 0 24 24"><path d="M6 4h12l-1.5 7a4.5 4.5 0 01-9 0L6 4z"/><path d="M12 16v4M8 20h8"/></svg></div><h4>Champagne &amp; cellar</h4><p>Open bar from 6am, a 600-bottle cellar, and a sommelier on weekends.</p><span class="tag">COMPLIMENTARY</span></div>
+      <div class="amen reveal d2"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 4a4 4 0 014 4v1H8V8a4 4 0 014-4z"/><path d="M5 12h14v2a6 6 0 01-6 6h-2a6 6 0 01-6-6v-2z"/></svg></div><h4>Quiet work pods</h4><p>Bookable pods with dual monitors, 1 Gbps fibre, and total silence.</p><span class="tag">RESERVABLE</span></div>
+      <div class="amen reveal d3"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 18v-6a3 3 0 013-3h12a3 3 0 013 3v6"/><path d="M3 18h18M7 12V9"/></svg></div><h4>Plush lounge beds</h4><p>Day beds and nap suites — the closest a flight will get to a hotel.</p><span class="tag">WEST WING</span></div>
+      <div class="amen reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 12a10 10 0 0114 0M8 15a6 6 0 018 0M12 18h.01"/></svg></div><h4>1 Gbps fibre wifi</h4><p>Business-grade network with a private guest network for sensitive work.</p><span class="tag">UNLIMITED</span></div>
+      <div class="amen reveal d1"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 18h16M6 18a6 6 0 0112 0M12 12v-2M9 10h6"/></svg></div><h4>Personal concierge</h4><p>Rebookings, visas, last-minute spa — one call to a person who knows the airport.</p><span class="tag">24/7 · IN-PERSON</span></div>
+      <div class="amen reveal d2"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0116 0M4 12h16M8 12v3M16 12v3"/></svg></div><h4>Gourmet dining</h4><p>Live kitchen, local menus, and dietary options that are actually considered.</p><span class="tag">6AM – 11PM</span></div>
+      <div class="amen reveal d3"><div class="ic"><svg viewBox="0 0 24 24"><path d="M9 3h6v3a3 3 0 01-6 0V3zM12 8v11M9 19h6"/></svg></div><h4>Champagne at boarding</h4><p>Meet at the gate for a final pour before you roll — our little send-off.</p><span class="tag">CONCORDE TIER</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEMBERSHIP ============ -->
+<section class="block" id="membership">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><span class="bar"></span>Membership</span>
+      <h2>Three ways / to belong.</h2>
+      <p>Pay per visit, or unlock the whole network. Every tier includes the showers, the bar, and the calm.</p>
+    </div>
+    <div class="tiers">
+      <!-- Transit -->
+      <div class="tier reveal">
+        <div class="tname">TRANSIT</div>
+        <div class="price">$45<span> / visit</span></div>
+        <p class="tdesc">For the occasional traveller who wants one perfect gate-side pause.</p>
+        <ul>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Access to one lounge</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Standard bar &amp; dining</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>One shower per visit</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Unlimited fibre wifi</li>
+          <li class="no"><span class="tick"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6"/></svg></span>Complimentary guest</li>
+          <li class="no"><span class="tick"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6"/></svg></span>Priority boarding</li>
+        </ul>
+        <a href="#book" class="btn btn-ghost">Book a visit <span class="arw">→</span></a>
+      </div>
+
+      <!-- Crown (featured) -->
+      <div class="tier featured reveal d1">
+        <div class="tname">CROWN</div>
+        <div class="price">$490<span> / year</span></div>
+        <p class="tdesc">The whole network, whenever you fly. Our most-loved tier.</p>
+        <ul>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Unlimited lounge access</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>All 120 lounges worldwide</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>One complimentary guest</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Priority boarding</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Unlimited showers &amp; spa</li>
+          <li class="no"><span class="tick"><svg viewBox="0 0 12 12"><path d="M3 3l6 6M9 3l-6 6"/></svg></span>Private suite &amp; transfer</li>
+        </ul>
+        <a href="#book" class="btn btn-solid">Become a member <span class="arw">→</span></a>
+      </div>
+
+      <!-- Concorde -->
+      <div class="tier reveal d2">
+        <div class="tname">CONCORDE</div>
+        <div class="price">$1,200<span> / year</span></div>
+        <p class="tdesc">For the frequent flyer who wants the airport to feel like it's theirs.</p>
+        <ul>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Everything in Crown</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Up to 3 complimentary guests</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Private suite &amp; family room</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Door-to-gate transfer</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Champagne at boarding</li>
+          <li><span class="tick"><svg viewBox="0 0 12 12"><path d="M2 6.5L4.5 9 10 3"/></svg></span>Dedicated concierge line</li>
+        </ul>
+        <a href="#book" class="btn btn-ghost">Apply now <span class="arw">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PERKS ============ -->
+<section class="block" id="perks">
+  <div class="wrap">
+    <div class="perks">
+      <div>
+        <div class="sec-head reveal" style="margin-bottom:40px">
+          <span class="eyebrow"><span class="bar"></span>Travel perks</span>
+          <h2>Made for the / <em>in-between.</em></h2>
+        </div>
+        <ul class="perk-list">
+          <li class="reveal"><span class="num">01</span><div><h4>Skip the line, always</h4><p>Express check-in and boarding across 40 partner airlines. You'll be on the plane while everyone else is finding their passport.</p></div></li>
+          <li class="reveal d1"><span class="num">02</span><div><h4>One key, 120 lounges</h4><p>Your membership opens every lounge in the network — Heathrow to Haneda, without a second card or a second booking.</p></div></li>
+          <li class="reveal d2"><span class="num">03</span><div><h4>Miles that respect you</h4><p>Earn status and miles on every stay. Lounge nights count toward annual tier, just like the flights you take.</p></div></li>
+          <li class="reveal d3"><span class="num">04</span><div><h4>A person, not an app</h4><p>Call a real concierge 24/7 for rebookings, visas, car hire, or a table at a restaurant you'll be too far away to reach in time.</p></div></li>
+        </ul>
+      </div>
+
+      <div class="pass reveal d2">
+        <div class="pass-top">
+          <div>
+            <div class="code">AL-2024 · MEMBER CARD</div>
+            <h4>Your year, at a glance</h4>
+          </div>
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M3 15l18-7-7 7 7 7-18-7z" stroke="#F1C177" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="pass-map">
+          <svg viewBox="0 0 380 190" width="100%" height="100%">
+            <g class="arc-dots">
+              <line x1="60" y1="150" x2="60" y2="40" /><line x1="140" y1="150" x2="140" y2="40" />
+              <line x1="220" y1="150" x2="220" y2="40" /><line x1="300" y1="150" x2="300" y2="40" />
+              <line x1="20" y1="70" x2="360" y2="70" /><line x1="20" y1="110" x2="360" y2="110" />
+            </g>
+            <path class="arc-path" d="M30 150 C 120 30, 260 30, 350 150" fill="none" stroke-width="1.5" stroke-dasharray="2 7"/>
+            <circle class="dot-city" cx="30" cy="150" r="4"/><circle class="dot-city" cx="350" cy="150" r="4"/>
+            <g class="plane">
+              <path d="M0 -6 L5 0 L0 6 L-1 1 L-6 1 L-3 -2 L-6 -1 L-1 -1 Z" fill="#F1C177"/>
+            </g>
+          </svg>
+        </div>
+        <div class="pass-stats">
+          <div class="pstat"><b>142</b><span>HOURS SAVED</span></div>
+          <div class="pstat"><b>38</b><span>CITIES VISITED</span></div>
+          <div class="pstat"><b>Gold</b><span>TIER STATUS</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BOOKING CTA ============ -->
+<section class="cta" id="book">
+  <div class="wrap">
+    <div class="cta-inner">
+      <div class="cta-grid">
+        <div>
+          <span class="eyebrow reveal"><span class="bar"></span>Reserve your seat</span>
+          <h2 class="reveal d1">Book the hour / <em>before</em> the flight.</h2>
+          <p class="reveal d2">Tell us where you're landing and when. We'll hold your shower, your seat, and your glass until you arrive.</p>
+          <div class="cta-note reveal d3">
+            <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+            No charge until 24 hours before your arrival.
+          </div>
+        </div>
+        <form class="book-form reveal d2" onsubmit="return bookNow(event)">
+          <div class="field full"><label>Destination lounge</label>
+            <select required><option value="">Select a lounge…</option><option>Dubai DXB · Crown Bar (B12)</option><option>Singapore SIN · Meridian Spa (A04)</option><option>Tokyo HND · Quiet Pod (C21)</option><option>Paris CDG · Champagne Rail (B03)</option><option>New York JFK · First Deck (D08)</option></select></div>
+          <div class="field"><label>Arrival date</label><input type="date" required></div>
+          <div class="field"><label>Party size</label><select required><option>1 guest</option><option>2 guests</option><option>3 guests</option><option>4 guests</option></select></div>
+          <div class="field"><label>Membership</label><select><option>Single visit</option><option>Crown — $490/yr</option><option>Concorde — $1,200/yr</option></select></div>
+          <div class="field"><label>Gate / terminal</label><input type="text" placeholder="e.g. T1 · Gate 214"></div>
+          <button class="btn btn-solid full" type="submit">Reserve my access <span class="arw">→</span></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="brand">
+          <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M3 15l18-7-7 7 7 7-18-7z" stroke="#F1C177" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 15h9" stroke="#F1C177" stroke-width="1.6"/></svg></span>
+          <span>AIRLINE <b>/</b> LOUNGE</span>
+        </a>
+        <p>The quiet hour before boarding. 120 lounges, four continents, one key. Land softer.</p>
+      </div>
+      <div class="foot-col"><h5>Lounge</h5><a href="#availability">Availability</a><a href="#amenities">Amenities</a><a href="#">Lounge finder</a><a href="#">Hours &amp; zones</a></div>
+      <div class="foot-col"><h5>Members</h5><a href="#membership">Membership</a><a href="#perks">Perks</a><a href="#">Manage account</a><a href="#">Gift a membership</a></div>
+      <div class="foot-col"><h5>Company</h5><a href="#">About</a><a href="#">Partner airlines</a><a href="#">Careers</a><a href="#">Press &amp; media</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2024 AIRLINE / LOUNGE · A FICTIONAL CONCEPT</span>
+      <span>TERMINAL 3 · GATE B12 · OPEN UNTIL 04:00</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ---------- Reveal on scroll ---------- */
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        // animate capacity bars within revealed board
+        if(e.target.id==='availability' || e.target.contains && e.target.querySelector && e.target.querySelector('.cap-fill')){
+          e.target.querySelectorAll('.cap-fill').forEach(f=>f.style.width=f.dataset.w+'%');
+        }
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.15});
+  document.querySelectorAll('.reveal, .board').forEach(el=>io.observe(el));
+  // board bars (observed as .board) — ensure filled when hero visible
+  window.addEventListener('load',()=>{
+    const b=document.getElementById('availability');
+    if(b){ // hero visible on load
+      setTimeout(()=>b.querySelectorAll('.cap-fill').forEach(f=>f.style.width=f.dataset.w+'%'),300);
+    }
+  });
+
+  /* ---------- Live status rotation ---------- */
+  const states=['open','filling','full'];
+  const labels={open:'OPEN',filling:'FILLING',full:'FULL'};
+  const rows=[...document.querySelectorAll('#boardRows .row')];
+  function setRow(row,state){
+    row.dataset.base=state;
+    const b=row.querySelector('.badge');
+    b.className='badge '+state; b.textContent=labels[state];
+    const f=row.querySelector('.cap-fill');
+    const txt=row.querySelector('.cap-txt');
+    let w;
+    if(state==='open') w=35+Math.round(Math.random()*40);
+    if(state==='filling') w=70+Math.round(Math.random()*15);
+    if(state==='full') w=94+Math.round(Math.random()*6);
+    f.dataset.w=w; f.style.width=w+'%';
+    f.style.background = state==='open'
+      ? 'linear-gradient(90deg,var(--open),#7fe0ac)'
+      : state==='filling' ? 'linear-gradient(90deg,var(--brass),var(--brass-2))'
+      : 'linear-gradient(90deg,var(--signal),#ff8a70)';
+    txt.textContent=w+'% full';
+  }
+  setInterval(()=>{
+    const r=rows[Math.floor(Math.random()*rows.length)];
+    const cur=r.dataset.base;
+    const next=states[(states.indexOf(cur)+1)%states.length];
+    if(next==='full' && Math.random()<.4) return; // don't over-stuff
+    setRow(r,next);
+  },4200);
+
+  /* ---------- Destination search ---------- */
+  const form=document.getElementById('searchForm');
+  const res=document.getElementById('searchResult');
+  const resTxt=document.getElementById('searchText');
+  const lounges=[
+    ['B12','Crown Bar Lounge','DXB','open',62],
+    ['A04','Meridian Spa','SIN','filling',84],
+    ['B03','Champagne Rail','CDG','open',40],
+    ['D08','First Deck','JFK','open',55],
+    ['C21','Quiet Pod Suite','HND','full',98]
+  ];
+  const wordMap={heathrow:'LHR',dubai:'DXB',singapore:'SIN',tokyo:'HND',new york:'JFK',jfk:'JFK',paris:'CDG',cdg:'CDG'};
+  form.addEventListener('submit',(e)=>{
+    e.preventDefault();
+    const dest=(document.getElementById('dest').value||'your gate').trim();
+    const code=wordMap[dest.toLowerCase().split(' ')[0]]||
+      dest.slice(0,3).toUpperCase();
+    // pick a lounge matching code if present else random open
+    let l=lounges.find(x=>x[2]===code)||lounges.find(x=>x[3]==='open')||lounges[0];
+    const label=labels[l[3]];
+    resTxt.innerHTML=`<b>${dest} (${l[2]})</b> — nearest is <b>${l[1]}</b> at Gate ${l[0]}, currently <b style="color:${l[3]==='open'?'var(--open)':l[3]==='filling'?'var(--brass-2)':'#ff7a61'}">${label}</b> · ${l[4]}% full.`;
+    res.classList.remove('show'); void res.offsetWidth; res.classList.add('show');
+  });
+  document.querySelectorAll('.chip').forEach(c=>{
+    c.addEventListener('click',()=>{
+      document.getElementById('dest').value=c.textContent;
+      form.dispatchEvent(new Event('submit'));
+    });
+  });
+
+  /* ---------- Booking CTA ---------- */
+  function bookNow(e){
+    e.preventDefault();
+    const btn=e.target.querySelector('button');
+    const old=btn.innerHTML;
+    btn.innerHTML='Holding your seat…';
+    btn.style.opacity='.8';
+    setTimeout(()=>{
+      btn.innerHTML='✓ Access reserved — see you at the gate';
+      btn.style.opacity='1';
+      setTimeout(()=>{btn.innerHTML=old;},3200);
+    },1100);
+    return false;
+  }
+</script>
+</body>
+</html>

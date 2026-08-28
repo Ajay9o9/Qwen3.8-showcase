@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Class — Your dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F2EC;
+  --paper-2:#FBFAF7;
+  --panel:#FFFFFF;
+  --ink:#22201B;
+  --ink-2:#4C4840;
+  --muted:#857E71;
+  --line:#E4DFD4;
+  --line-2:#D6D0C2;
+  --moss:#4A5D4E;
+  --moss-soft:#E7ECE5;
+  --clay:#B4764C;
+  --clay-soft:#F3E7DD;
+  --gold:#C9A24B;
+  --shadow:0 1px 2px rgba(34,32,27,.04), 0 8px 24px -12px rgba(34,32,27,.12);
+  --serif:"Fraunces", Georgia, serif;
+  --sans:"Inter", -apple-system, sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  font-size:14px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--moss-soft)}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:inherit;text-decoration:none}
+
+/* ============ TOP BAR ============ */
+.topbar{
+  height:64px;
+  background:var(--paper-2);
+  border-bottom:1px solid var(--line);
+  display:flex;align-items:center;
+  padding:0 28px;
+  gap:24px;
+  position:sticky;top:0;z-index:20;
+}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{
+  width:32px;height:32px;border-radius:9px;
+  background:linear-gradient(135deg, var(--moss) 0%, #6B7F63 60%, var(--clay) 130%);
+  display:grid;place-items:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25);
+}
+.brand-mark svg{display:block}
+.brand-name{
+  font-family:var(--serif);
+  font-weight:600;font-size:15px;
+  letter-spacing:.14em;text-transform:uppercase;
+}
+.brand-name span{color:var(--muted);font-weight:400}
+.topnav{display:flex;gap:4px;margin-left:8px}
+.topnav a{
+  font-size:13px;font-weight:500;color:var(--muted);
+  padding:7px 13px;border-radius:8px;
+  transition:all .15s;
+}
+.topnav a:hover{color:var(--ink);background:#EFEAE0}
+.topnav a.active{color:var(--ink);background:#EDE8DC}
+.top-right{margin-left:auto;display:flex;align-items:center;gap:14px}
+.search{
+  display:flex;align-items:center;gap:9px;
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:9px;padding:8px 13px;width:240px;
+  color:var(--muted);transition:border-color .15s, box-shadow .15s;
+}
+.search:focus-within{border-color:var(--line-2);box-shadow:0 0 0 3px var(--moss-soft)}
+.search input{border:none;outline:none;background:none;font-family:inherit;font-size:13px;color:var(--ink);width:100%}
+.search kbd{
+  font-family:var(--sans);font-size:10.5px;font-weight:500;
+  color:var(--muted);background:var(--paper);
+  border:1px solid var(--line);border-radius:5px;padding:1px 6px;
+}
+.icon-btn{
+  width:36px;height:36px;border-radius:9px;
+  display:grid;place-items:center;color:var(--ink-2);
+  position:relative;transition:background .15s;
+}
+.icon-btn:hover{background:#EFEAE0}
+.icon-btn .dot{
+  position:absolute;top:8px;right:9px;width:7px;height:7px;
+  background:var(--clay);border-radius:50%;border:2px solid var(--paper-2);
+}
+.user{
+  display:flex;align-items:center;gap:10px;
+  padding:5px 12px 5px 6px;border-radius:10px;
+  border:1px solid transparent;transition:all .15s;
+}
+.user:hover{border-color:var(--line);background:var(--panel)}
+.avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:linear-gradient(140deg,#C9A24B,#B4764C 70%);
+  display:grid;place-items:center;
+  font-size:11.5px;font-weight:600;color:#fff;letter-spacing:.03em;
+}
+.user-meta{line-height:1.25}
+.user-meta strong{display:block;font-size:12.5px;font-weight:600}
+.user-meta small{font-size:11px;color:var(--muted)}
+
+/* ============ SHELL ============ */
+.shell{display:flex;min-height:calc(100vh - 64px)}
+
+/* ============ SIDEBAR ============ */
+.sidebar{
+  width:302px;flex-shrink:0;
+  border-right:1px solid var(--line);
+  background:var(--paper-2);
+  padding:26px 20px 32px;
+  overflow-y:auto;
+}
+.course-eyebrow{
+  font-size:10.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--clay);
+  margin-bottom:7px;
+}
+.course-title{
+  font-family:var(--serif);font-size:19px;font-weight:500;
+  line-height:1.3;margin-bottom:20px;
+}
+.course-meta{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 15px;background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;
+  margin-bottom:26px;box-shadow:var(--shadow);
+}
+.ring{position:relative;width:52px;height:52px;flex-shrink:0}
+.ring svg{transform:rotate(-90deg)}
+.ring .track{stroke:var(--line)}
+.ring .fill{
+  stroke:var(--moss);stroke-linecap:round;
+  transition:stroke-dashoffset 1.1s cubic-bezier(.25,.8,.3,1);
+}
+.ring-label{
+  position:absolute;inset:0;display:grid;place-items:center;
+  font-size:11px;font-weight:600;
+}
+.course-meta-text strong{display:block;font-size:13px;font-weight:600}
+.course-meta-text span{font-size:11.5px;color:var(--muted)}
+.nav-group-label{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-size:10.5px;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted);
+  margin:20px 8px 8px;
+}
+.nav-group-label span{color:var(--line-2);letter-spacing:0}
+.lesson{
+  display:flex;align-items:center;gap:11px;
+  width:100%;text-align:left;
+  padding:9px 10px;border-radius:9px;
+  font-size:13px;color:var(--ink-2);
+  transition:background .13s;
+  margin-bottom:2px;
+}
+.lesson:hover{background:#EFEAE0}
+.lesson .tick{
+  width:19px;height:19px;flex-shrink:0;border-radius:50%;
+  border:1.5px solid var(--line-2);
+  display:grid;place-items:center;color:transparent;
+  transition:all .15s;
+}
+.lesson.done .tick{background:var(--moss);border-color:var(--moss);color:#fff}
+.lesson .l-name{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lesson .l-dur{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.lesson.active{background:var(--moss-soft);color:var(--moss)}
+.lesson.active .tick{border-color:var(--moss);background:#fff}
+.lesson.active .tick::after{
+  content:"";width:8px;height:8px;border-radius:50%;background:var(--moss);
+}
+.lesson.active .l-dur{color:var(--moss)}
+.lesson.locked{opacity:.45;cursor:default}
+.lesson.locked:hover{background:none}
+.lesson.locked .tick{border-style:dashed}
+
+/* ============ MAIN ============ */
+.main{flex:1;padding:28px 34px 40px;min-width:0}
+.page-head{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:22px;gap:20px;flex-wrap:wrap;
+}
+.greeting{
+  font-family:var(--serif);font-size:27px;font-weight:400;
+  letter-spacing:-.01em;
+}
+.greeting em{font-style:italic;color:var(--moss)}
+.sub-line{font-size:13px;color:var(--muted);margin-top:4px}
+.sub-line b{color:var(--ink-2);font-weight:600}
+.head-actions{display:flex;gap:10px;align-items:center}
+.btn{
+  font-size:13px;font-weight:600;
+  padding:10px 18px;border-radius:9px;
+  transition:all .15s;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary{background:var(--ink);color:#F7F4EE}
+.btn-primary:hover{background:#3A362E}
+.btn-primary.completed{background:var(--moss)}
+.btn-ghost{border:1px solid var(--line-2);color:var(--ink-2);background:var(--panel)}
+.btn-ghost:hover{border-color:var(--muted)}
+
+.grid{
+  display:grid;grid-template-columns:repeat(12,1fr);
+  gap:18px;
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px 0;
+}
+.card-tag{
+  font-size:10.5px;font-weight:600;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--muted);
+}
+.card-title{
+  font-family:var(--serif);font-size:17px;font-weight:500;
+  margin-top:3px;
+}
+.card-body{padding:14px 20px 20px}
+.card-link{font-size:12.5px;font-weight:600;color:var(--moss);display:inline-flex;align-items:center;gap:4px}
+.card-link:hover{gap:7px}
+.card-link{transition:gap .15s}
+
+/* ---- next lesson ---- */
+.next-lesson{grid-column:span 8}
+.next-inner{display:flex;gap:20px;padding:20px}
+.artwork{
+  width:238px;flex-shrink:0;border-radius:10px;
+  position:relative;overflow:hidden;
+  background:
+    radial-gradient(120% 80% at 78% 12%, rgba(255,244,220,.9) 0%, rgba(255,244,220,0) 55%),
+    radial-gradient(90% 60% at 20% 30%, rgba(214,178,140,.55) 0%, rgba(214,178,140,0) 60%),
+    linear-gradient(180deg, #EFE3D0 0%, #E3CDAF 34%, #B9A184 52%, #7E8A76 66%, #4E6052 100%);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.06), 0 6px 18px -8px rgba(34,32,27,.3);
+}
+.artwork::before{ /* sun */
+  content:"";position:absolute;top:15%;right:22%;
+  width:52px;height:52px;border-radius:50%;
+  background:radial-gradient(circle, #FFF3D6 0%, #F4DCAC 60%, rgba(244,220,172,0) 72%);
+}
+.artwork::after{ /* hills */
+  content:"";position:absolute;left:-10%;bottom:14%;width:120%;height:44%;
+  border-radius:50% 50% 0 0;
+  background:linear-gradient(180deg, rgba(62,78,64,.85), rgba(44,58,48,.95));
+  filter:blur(.3px);
+}
+.artwork .ridge{
+  position:absolute;left:-15%;bottom:34%;width:130%;height:40%;
+  border-radius:50% 50% 0 0;
+  background:linear-gradient(180deg, rgba(122,138,116,.7), rgba(96,112,94,.8));
+}
+.artwork .water{
+  position:absolute;left:0;bottom:0;width:100%;height:15%;
+  background:linear-gradient(180deg, #5C7168, #3F5148);
+}
+.artwork .water::before{
+  content:"";position:absolute;top:18%;left:20%;width:60%;height:3px;
+  background:rgba(255,248,230,.4);border-radius:3px;filter:blur(1px);
+  box-shadow:0 10px 0 -1px rgba(255,248,230,.25), 0 22px 0 -1px rgba(255,248,230,.15);
+}
+.play{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;
+  width:58px;height:58px;border-radius:50%;
+  background:rgba(251,250,247,.92);
+  display:grid;place-items:center;
+  box-shadow:0 8px 24px -6px rgba(34,32,27,.45);
+  transition:transform .18s;
+}
+.play:hover{transform:translate(-50%,-50%) scale(1.07)}
+.play svg{margin-left:3px}
+.play.playing{background:var(--moss)}
+.lesson-badge{
+  position:absolute;top:12px;left:12px;z-index:2;
+  font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  background:rgba(34,32,27,.72);color:#F7F4EE;
+  padding:4px 9px;border-radius:6px;backdrop-filter:blur(2px);
+}
+.lesson-info{flex:1;display:flex;flex-direction:column;min-width:0}
+.module-line{font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--clay);margin-bottom:8px}
+.lesson-name{
+  font-family:var(--serif);font-size:25px;font-weight:500;line-height:1.22;
+  letter-spacing:-.01em;margin-bottom:10px;
+}
+.lesson-desc{font-size:13.5px;color:var(--ink-2);max-width:46ch}
+.lesson-facts{display:flex;gap:22px;margin:16px 0;flex-wrap:wrap}
+.fact small{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.fact span{font-size:13.5px;font-weight:600;font-variant-numeric:tabular-nums}
+.lesson-progress{margin-top:auto}
+.lp-top{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-bottom:7px}
+.lp-top b{color:var(--ink-2)}
+.bar{height:6px;background:var(--paper);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--moss);border-radius:4px;width:0;transition:width 1s cubic-bezier(.25,.8,.3,1)}
+.lesson-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 20px;border-top:1px solid var(--line);background:var(--paper-2);
+}
+.instr-mini{display:flex;align-items:center;gap:10px}
+.instr-mini .avatar{width:30px;height:30px;font-size:10.5px;background:linear-gradient(140deg,#4A5D4E,#6B7F63)}
+.instr-mini strong{font-size:12.5px;font-weight:600;display:block}
+.instr-mini small{font-size:11px;color:var(--muted)}
+
+/* ---- right column ---- */
+.col-right{grid-column:span 4;display:flex;flex-direction:column;gap:18px}
+
+/* instructor */
+.instructor{flex-shrink:0}
+.inst-body{display:flex;gap:14px;padding:16px 20px 18px}
+.inst-avatar{
+  width:54px;height:54px;border-radius:50%;flex-shrink:0;
+  background:
+    radial-gradient(circle at 32% 30%, #E8CFA8 0%, #C99A6B 55%, #8A5F3D 100%);
+  display:grid;place-items:center;
+  font-family:var(--serif);font-size:18px;font-weight:600;color:#FDFBF7;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.4);
+}
+.inst-name{font-family:var(--serif);font-size:16px;font-weight:500}
+.inst-role{font-size:12px;color:var(--muted);margin-top:2px}
+.inst-stats{
+  display:flex;gap:0;margin-top:12px;padding:9px 0 0;
+  border-top:1px solid var(--line);
+}
+.inst-stat{flex:1;padding-right:12px}
+.inst-stat + .inst-stat{border-left:1px solid var(--line);padding-left:12px}
+.inst-stat b{display:block;font-size:13.5px;font-variant-numeric:tabular-nums}
+.inst-stat small{font-size:10.5px;color:var(--muted);letter-spacing:.04em}
+.inst-actions{display:flex;gap:8px;padding:0 20px 20px}
+.inst-actions .btn{padding:8px 14px;font-size:12.5px;flex:1;justify-content:center}
+
+/* milestones */
+.milestone{flex:1}
+.mile-due{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:600;color:var(--clay);
+  background:var(--clay-soft);padding:4px 10px;border-radius:20px;
+}
+.mile-list{list-style:none;position:relative;padding:6px 0 2px}
+.mile-list::before{
+  content:"";position:absolute;left:19px;top:14px;bottom:16px;
+  width:2px;background:var(--line);
+}
+.mile{position:relative;display:flex;gap:14px;padding:9px 0 9px 0}
+.mile-dot{
+  width:12px;height:12px;border-radius:50%;flex-shrink:0;
+  margin-top:4px;margin-left:14px;z-index:1;
+  background:#fff;border:2px solid var(--line-2);
+}
+.mile.done .mile-dot{background:var(--moss);border-color:var(--moss)}
+.mile.current .mile-dot{
+  background:var(--clay);border-color:var(--clay);
+  box-shadow:0 0 0 4px var(--clay-soft);
+}
+.mile h4{font-size:13.5px;font-weight:600}
+.mile p{font-size:12px;color:var(--muted);margin-top:1px}
+.mile p b{color:var(--ink-2);font-weight:600}
+.mile .status-chip{
+  margin-left:auto;align-self:flex-start;
+  font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:5px;
+  background:var(--moss-soft);color:var(--moss);white-space:nowrap;
+}
+.mile .status-chip.open{background:var(--paper);color:var(--muted);border:1px solid var(--line)}
+
+/* ---- notes ---- */
+.notes{grid-column:span 5}
+.notes textarea{
+  width:100%;min-height:132px;resize:vertical;
+  border:1px solid var(--line);border-radius:10px;
+  padding:13px 15px;font-family:var(--sans);font-size:13.5px;
+  color:var(--ink);line-height:1.6;background:var(--paper-2);
+  outline:none;transition:border-color .15s, box-shadow .15s;
+}
+.notes textarea:focus{border-color:var(--moss);box-shadow:0 0 0 3px var(--moss-soft)}
+.notes-foot{display:flex;justify-content:space-between;align-items:center;margin-top:11px}
+.saved{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:6px;transition:color .3s}
+.saved .pulse{width:6px;height:6px;border-radius:50%;background:var(--line-2);transition:background .3s}
+.saved.on{color:var(--moss)}
+.saved.on .pulse{background:var(--moss)}
+
+/* ---- discussion ---- */
+.discussion{grid-column:span 4}
+.thread{display:flex;flex-direction:column;gap:14px}
+.post{display:flex;gap:11px}
+.post .avatar{width:30px;height:30px;font-size:10.5px;flex-shrink:0}
+.av-ana{background:linear-gradient(140deg,#7E8A9C,#4E5A68)}
+.av-tom{background:linear-gradient(140deg,#C0925B,#8C5E2F)}
+.post-body{flex:1;min-width:0}
+.post-head{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
+.post-head b{font-size:12.5px;font-weight:600}
+.post-head time{font-size:11px;color:var(--muted)}
+.post p{font-size:13px;color:var(--ink-2)}
+.post p b{font-weight:600;color:var(--ink)}
+.replies{padding-left:41px}
+.reply-row{
+  display:flex;gap:9px;align-items:center;margin-top:14px;
+  border-top:1px solid var(--line);padding-top:13px;
+}
+.reply-row input{
+  flex:1;border:1px solid var(--line);border-radius:8px;
+  padding:8px 12px;font-family:inherit;font-size:12.5px;
+  outline:none;background:var(--paper-2);transition:all .15s;
+}
+.reply-row input:focus{border-color:var(--moss);box-shadow:0 0 0 3px var(--moss-soft)}
+.reply-row button{
+  background:var(--ink);color:#F7F4EE;font-size:12px;font-weight:600;
+  padding:8px 14px;border-radius:8px;transition:background .15s;
+}
+.reply-row button:hover{background:#3A362E}
+
+/* ---- resources ---- */
+.resources{grid-column:span 3}
+.res-list{list-style:none}
+.res{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 20px;border-top:1px solid var(--line);
+  transition:background .13s;cursor:pointer;
+}
+.res:first-child{border-top:none}
+.res:hover{background:var(--paper-2)}
+.res-ico{
+  width:34px;height:34px;border-radius:8px;flex-shrink:0;
+  display:grid;place-items:center;font-size:9.5px;font-weight:700;letter-spacing:.05em;
+}
+.res-ico.pdf{background:var(--clay-soft);color:var(--clay)}
+.res-ico.ph{background:var(--moss-soft);color:var(--moss)}
+.res-ico.vid{background:#EAE6DA;color:var(--ink-2)}
+.res-ico.xl{background:#E4E8EF;color:#4E5A68}
+.res-txt{flex:1;min-width:0}
+.res-txt strong{display:block;font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.res-txt small{font-size:11px;color:var(--muted)}
+.res-dl{color:var(--line-2);transition:color .13s}
+.res:hover .res-dl{color:var(--moss)}
+
+@media (max-width:1200px){
+  .next-lesson{grid-column:span 12}
+  .col-right{grid-column:span 12;flex-direction:row}
+  .col-right .card{flex:1}
+  .notes{grid-column:span 12}
+  .discussion{grid-column:span 7}
+  .resources{grid-column:span 5}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3C8 8 5 11 5 15a7 7 0 0 0 14 0c0-4-3-7-7-12Z" fill="#F5F2EC"/>
+        <path d="M12 9c-2.2 2.8-3.6 4.6-3.6 6.4A3.6 3.6 0 0 0 12 19" stroke="#4A5D4E" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="brand-name">Studio <span>Class</span></div>
+  </div>
+  <nav class="topnav">
+    <a href="#">My courses</a>
+    <a href="#" class="active">Dashboard</a>
+    <a href="#">Library</a>
+    <a href="#">Community</a>
+  </nav>
+  <div class="top-right">
+    <label class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="text" placeholder="Search lessons, notes…">
+      <kbd>⌘K</kbd>
+    </label>
+    <button class="icon-btn" aria-label="Notifications">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 21a2 2 0 0 0 4 0"/></svg>
+      <span class="dot"></span>
+    </button>
+    <button class="user">
+      <span class="avatar">JW</span>
+      <span class="user-meta"><strong>June Whitfield</strong><small>Enrolled · Spring term</small></span>
+    </button>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="course-eyebrow">Watercolor · Intermediate</div>
+    <h1 class="course-title">Watercolor Landscapes — The Coastal Series</h1>
+
+    <div class="course-meta">
+      <div class="ring">
+        <svg width="52" height="52" viewBox="0 0 52 52">
+          <circle class="track" cx="26" cy="26" r="21" fill="none" stroke-width="5"/>
+          <circle class="fill" cx="26" cy="26" r="21" fill="none" stroke-width="5"
+                  stroke-dasharray="131.9" stroke-dashoffset="131.9" id="ringFill"/>
+        </svg>
+        <span class="ring-label" id="ringLabel">0%</span>
+      </div>
+      <div class="course-meta-text">
+        <strong>4 of 10 lessons</strong>
+        <span>6h 12m of 15h 30m total</span>
+      </div>
+    </div>
+
+    <div class="nav-group-label">Week 1 — Foundations <span>3/3</span></div>
+    <button class="lesson done" data-lesson="Welcome to the studio"><span class="tick"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5 4.8 9 10 3.5"/></svg></span><span class="l-name">Welcome to the studio</span><span class="l-dur">06m</span></button>
+    <button class="lesson done" data-lesson="Building a workable palette"><span class="tick"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5 4.8 9 10 3.5"/></svg></span><span class="l-name">Building a workable palette</span><span class="l-dur">19m</span></button>
+    <button class="lesson done" data-lesson="Color temperature in landscape"><span class="tick"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5 4.8 9 10 3.5"/></svg></span><span class="l-name">Color temperature in landscape</span><span class="l-dur">23m</span></button>
+
+    <div class="nav-group-label">Week 2 — Light &amp; land <span>1/4</span></div>
+    <button class="lesson done" data-lesson="Reading light outdoors"><span class="tick"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5 4.8 9 10 3.5"/></svg></span><span class="l-name">Reading light outdoors</span><span class="l-dur">18m</span></button>
+    <button class="lesson active" data-lesson="Wet-on-wet washes"><span class="tick"></span><span class="l-name">Wet-on-wet washes</span><span class="l-dur">21m</span></button>
+    <button class="lesson" data-lesson="Layering mid-ground tones"><span class="tick"></span><span class="l-name">Layering mid-ground tones</span><span class="l-dur">26m</span></button>
+    <button class="lesson" data-lesson="Drying, lifting &amp; control"><span class="tick"></span><span class="l-name">Drying, lifting &amp; control</span><span class="l-dur">22m</span></button>
+
+    <div class="nav-group-label">Week 3 — Composing the view <span>0/3</span></div>
+    <button class="lesson" data-lesson="Foreground detail &amp; texture"><span class="tick"></span><span class="l-name">Foreground detail &amp; texture</span><span class="l-dur">28m</span></button>
+    <button class="lesson" data-lesson="Editing your composition"><span class="tick"></span><span class="l-name">Editing your composition</span><span class="l-dur">17m</span></button>
+    <button class="lesson locked" data-lesson="Final review &amp; studio critique"><span class="tick"></span><span class="l-name">Final review &amp; studio critique</span><span class="l-dur">40m</span></button>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+
+    <div class="page-head">
+      <div>
+        <h2 class="greeting">Good morning, June — <em>let's keep the washes wet.</em></h2>
+        <p class="sub-line">Tuesday, 4 June · You're <b>4 lessons</b> into the Coastal Series · Streak: <b>6 days</b></p>
+      </div>
+      <div class="head-actions">
+        <button class="btn btn-ghost">Download syllabus</button>
+        <button class="btn btn-primary" id="completeBtn">
+          <svg width="13" height="13" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5 4.8 9 10 3.5"/></svg>
+          <span id="completeLabel">Mark lesson complete</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <!-- Next lesson -->
+      <section class="card next-lesson">
+        <div class="next-inner">
+          <div class="artwork">
+            <span class="lesson-badge">Lesson 5</span>
+            <div class="ridge"></div>
+            <button class="play" id="playBtn" aria-label="Play lesson">
+              <svg id="playIcon" width="18" height="18" viewBox="0 0 24 24" fill="#22201B"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg>
+            </button>
+            <div class="water"></div>
+          </div>
+          <div class="lesson-info">
+            <div class="module-line">Week 2 · Light &amp; land</div>
+            <h3 class="lesson-name" id="lessonName">Wet-on-wet washes</h3>
+            <p class="lesson-desc" id="lessonDesc">Drop pigment into a damp sheet and learn to steer it — this lesson covers bloom control, edge behaviour, and why the coastal sky is the perfect first subject for losing control on purpose.</p>
+            <div class="lesson-facts">
+              <div class="fact"><small>Duration</small><span id="lessonDur">21 min</span></div>
+              <div class="fact"><small>Type</small><span>Video + live demo</span></div>
+              <div class="fact"><small>Materials</small><span>300 gsm · round brush</span></div>
+            </div>
+            <div class="lesson-progress">
+              <div class="lp-top"><span>Position in lesson</span><b id="posLabel">Not started</b></div>
+              <div class="bar"><i id="posBar"></i></div>
+            </div>
+          </div>
+        </div>
+        <div class="lesson-foot">
+          <div class="instr-mini">
+            <span class="avatar">MO</span>
+            <div><strong>Maren Okafor</strong><small>Instructor · replies in ~4h</small></div>
+          </div>
+          <a class="card-link" href="#">Resume where you left off →</a>
+        </div>
+      </section>
+
+      <!-- Right column -->
+      <div class="col-right">
+
+        <!-- Instructor -->
+        <section class="card instructor">
+          <div class="card-head"><div><div class="card-tag">Your instructor</div><div class="card-title">The studio lead</div></div></div>
+          <div class="inst-body">
+            <div class="inst-avatar">M</div>
+            <div>
+              <div class="inst-name">Maren Okafor</div>
+              <div class="inst-role">Watercolourist &amp; printmaker · 12 yrs teaching</div>
+            </div>
+          </div>
+          <div class="inst-stats">
+            <div class="inst-stat"><b>96%</b><small>Completion</small></div>
+            <div class="inst-stat"><b>4.9 ★</b><small>412 reviews</small></div>
+            <div class="inst-stat"><b>~4 h</b><small>Reply time</small></div>
+          </div>
+          <div class="inst-actions">
+            <button class="btn btn-ghost">Message Maren</button>
+            <button class="btn btn-primary">Office hours ↗</button>
+          </div>
+        </section>
+
+        <!-- Assignment milestone -->
+        <section class="card milestone">
+          <div class="card-head">
+            <div><div class="card-tag">Assignment · Milestone</div><div class="card-title">Coastal light study</div></div>
+            <span class="mile-due">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+              Due Thu 6 Jun
+            </span>
+          </div>
+          <div class="card-body">
+            <ul class="mile-list">
+              <li class="mile done">
+                <span class="mile-dot"></span>
+                <div><h4>Brief released</h4><p>Opened <b>Mon 28 May</b> · 1 page, 2 references</p></div>
+                <span class="status-chip">Done</span>
+              </li>
+              <li class="mile done">
+                <span class="mile-dot"></span>
+                <div><h4>First sketch</h4><p>Submitted <b>Sat 31 May</b> · 8 min in</p></div>
+                <span class="status-chip">Submitted</span>
+              </li>
+              <li class="mile current">
+                <span class="mile-dot"></span>
+                <div><h4>Wet-on-wet sky test</h4><p><b>Next step</b> · one study, A5 or larger</p></div>
+                <span class="status-chip open">In progress</span>
+              </li>
+              <li class="mile">
+                <span class="mile-dot"></span>
+                <div><h4>Final submission</h4><p>Due <b>Thu 6 Jun, 11:59</b> · graded by Maren</p></div>
+                <span class="status-chip open">Upcoming</span>
+              </li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Notes -->
+      <section class="card notes">
+        <div class="card-head">
+          <div><div class="card-tag">Lesson 5</div><div class="card-title">Field notes</div></div>
+          <a class="card-link" href="#">All notes →</a>
+        </div>
+        <div class="card-body">
+          <textarea id="noteText">Wet-on-wet: keep the wash only 2–3 drops thick, not a puddle. Pigment dropped in the first 40 seconds moves freely — after that it just settles.
+Try: cadmium yellow + alizarin, tilted left 15°. Sky reads warmer than it should. Next time, lift the horizon with a dry brush at 70% dry.
+Reference: photos from Tuesday's walk — gull line at low tide is the shape to copy, not the cliffs.</textarea>
+          <div class="notes-foot">
+            <span class="saved" id="savedState"><span class="pulse"></span><span id="savedText">Saved · just now</span></span>
+            <a class="card-link" href="#">Attach photo</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Discussion -->
+      <section class="card discussion">
+        <div class="card-head">
+          <div><div class="card-tag">Discussion</div><div class="card-title">Studio floor</div></div>
+          <span class="mile-due" style="background:var(--moss-soft);color:var(--moss)">3 new</span>
+        </div>
+        <div class="card-body">
+          <div class="thread">
+            <div class="post">
+              <span class="avatar av-ana">AR</span>
+              <div class="post-body">
+                <div class="post-head"><b>Ana Rivas</b><time>2 h ago</time></div>
+                <p>My washes keep bleeding <b>past</b> the horizon line even when I stop early. Is that a humidity thing, or am I tilting too aggressively?</p>
+              </div>
+            </div>
+            <div class="post">
+              <span class="avatar" style="background:linear-gradient(140deg,#4A5D4E,#6B7F63)">MO</span>
+              <div class="post-body">
+                <div class="post-head"><b>Maren Okafor</b><time>Instructor · 1 h ago</time></div>
+                <p>Humidity, Ana — and a hair of extra water in the sky. In week 2 we switch to a <b>resist barrier</b> for hard horizons. Preview it in tomorrow's lesson, 03:40.</p>
+              </div>
+            </div>
+            <div class="replies">
+              <div class="post">
+                <span class="avatar av-tom">TK</span>
+                <div class="post-body">
+                  <div class="post-head"><b>Tom Kelleher</b><time>24 min ago</time></div>
+                  <p>Seconding the humidity note — same behaviour on my studio wall after the shower.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="reply-row">
+            <input type="text" placeholder="Add to the discussion…">
+            <button>Reply</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Resources -->
+      <section class="card resources">
+        <div class="card-head">
+          <div><div class="card-tag">Lesson 5</div><div class="card-title">Resources</div></div>
+          <a class="card-link" href="#">All 9 →</a>
+        </div>
+        <ul class="res-list">
+          <li class="res">
+            <span class="res-ico pdf">PDF</span>
+            <div class="res-txt"><strong>Wash practice sheet</strong><small>Printable · A4 · 2 pages</small></div>
+            <span class="res-dl"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg></span>
+          </li>
+          <li class="res">
+            <span class="res-ico ph">24</span>
+            <div class="res-txt"><strong>Coastal dawn references</strong><small>Photo set · 24 images</small></div>
+            <span class="res-dl"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg></span>
+          </li>
+          <li class="res">
+            <span class="res-ico xl">MIX</span>
+            <div class="res-txt"><strong>Pigment mixing chart</strong><small>Interactive · 14 colours</small></div>
+            <span class="res-dl"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg></span>
+          </li>
+          <li class="res">
+            <span class="res-ico vid">08:12</span>
+            <div class="res-txt"><strong>Extra: resist barrier demo</strong><small>Bonus video · 8 min</small></div>
+            <span class="res-dl"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12m0 0-5-5m5 5 5-5M5 20h14"/></svg></span>
+          </li>
+        </ul>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+(function(){
+  // Progress ring + lesson position bar
+  var pct = 40;
+  requestAnimationFrame(function(){
+    var r = document.getElementById('ringFill');
+    var C = 131.9;
+    r.style.strokeDashoffset = (C * (1 - pct/100)).toFixed(1);
+    var label = document.getElementById('ringLabel'), cur = 0;
+    var t = setInterval(function(){
+      cur += 2; if(cur >= pct){ cur = pct; clearInterval(t); }
+      label.textContent = cur + '%';
+    }, 22);
+    document.getElementById('posBar').style.width = '0%';
+  });
+
+  // Lesson selection
+  var lessons = [
+    {n:'Welcome to the studio', d:'Orientation for the Coastal Series: how the weeks stack, what the milestone asks for, and the studio's three house rules.', durs:'06 min', pos:100},
+    {n:'Building a workable palette', d:'Choosing a 14-pigment palette that covers every coastal scene — earths for dunes, a cool blue-green family for water and distance.', durs:'19 min', pos:100},
+    {n:'Color temperature in landscape', d:'Warm vs. cool is the quiet engine of every landscape. We place temperature on the value scale, then paint a temperature test chart to memory.', durs:'23 min', pos:100},
+    {n:'Reading light outdoors', d:'A short walk and twelve quick sketches: finding the light source, the shadow edge, and the single shadow tone that holds a scene together.', durs:'18 min', pos:100},
+    {n:'Wet-on-wet washes', d:'Drop pigment into a damp sheet and learn to steer it — bloom control, edge behaviour, and why the coastal sky is the perfect first subject.', durs:'21 min', pos:0},
+    {n:'Layering mid-ground tones', d:'Building depth with glazes: two or three transparent layers over a dry ground, timed so each passes through a clean 50% dry window.', durs:'26 min', pos:0},
+    {n:'Drying, lifting & control', d:'The discipline lesson. Drying order, lifting mistakes with a damp brush, and when to stop a painting while it is still slightly wrong.', durs:'22 min', pos:0},
+    {n:'Foreground detail & texture', d:'Grass, shingle and tide lines — texture added last, and only where the eye lands. Less is the whole rule here.', durs:'28 min', pos:0},
+    {n:'Editing your composition', d:'Flipping, cropping and removing: an editorial pass that turns a pleasant painting into a committed one before the milestone.', durs:'17 min', pos:0},
+    {n:'Final review & studio critique', d:'The Coastal Series concludes with a live group critique. Bring your finished coastal light study — Maren reviews every submission.', durs:'40 min', pos:0}
+  ];
+  var btns = document.querySelectorAll('.lesson');
+  btns.forEach(function(b, i){
+    b.addEventListener('click', function(){
+      btns.forEach(function(x){ x.classList.remove('active'); });
+      b.classList.add('active');
+      var L = lessons[i];
+      document.getElementById('lessonName').textContent = L.n;
+      document.getElementById('lessonDesc').textContent = L.d;
+      document.getElementById('lessonDur').textContent = L.durs;
+      var bar = document.getElementById('posBar'), lbl = document.getElementById('posLabel');
+      bar.style.width = '0%';
+      setTimeout(function(){ bar.style.width = L.pos + '%'; }, 60);
+      lbl.textContent = L.pos === 100 ? 'Completed' : (L.pos > 0 ? L.pos + '%' : 'Not started');
+    });
+  });
+
+  // Play toggle
+  var playing = false;
+  document.getElementById('playBtn').addEventListener('click', function(){
+    playing = !playing;
+    this.classList.toggle('playing', playing);
+    document.getElementById('playIcon').outerHTML = playing
+      ? '<svg id="playIcon" width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>'
+      : '<svg id="playIcon" width="18" height="18" viewBox="0 0 24 24" fill="#22201B"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg>';
+  });
+
+  // Mark complete
+  var done = false;
+  document.getElementById('completeBtn').addEventListener('click', function(){
+    done = !done;
+    this.classList.toggle('completed', done);
+    document.getElementById('completeLabel').textContent = done ? 'Completed — nicely done ✓' : 'Mark lesson complete';
+    var bar = document.getElementById('posBar'), lbl = document.getElementById('posLabel');
+    if(done){
+      bar.style.width = '100%'; lbl.textContent = 'Completed';
+      var b = document.querySelector('.lesson.active');
+      if(b){ b.classList.add('done'); b.querySelector('.tick').innerHTML = '<svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5 4.8 9 10 3.5"/></svg>'; }
+    } else {
+      bar.style.width = '0%'; lbl.textContent = 'Not started';
+      var b2 = document.querySelector('.lesson.active');
+      if(b2){ b2.classList.remove('done'); b2.querySelector('.tick').innerHTML = ''; }
+    }
+  });
+
+  // Notes autosave
+  var note = document.getElementById('noteText'), savedState = document.getElementById('savedState'), savedText = document.getElementById('savedText'), timer;
+  note.addEventListener('input', function(){
+    savedState.classList.remove('on');
+    savedText.textContent = 'Editing…';
+    clearTimeout(timer);
+    timer = setTimeout(function(){
+      savedState.classList.add('on');
+      savedText.textContent = 'Saved · just now';
+    }, 700);
+  });
+})();
+</script>
+</body>
+</html>

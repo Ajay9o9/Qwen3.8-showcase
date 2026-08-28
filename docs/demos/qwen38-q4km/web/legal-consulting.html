@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VANTAGE LAW — Counsel of Consequence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Archivo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14171c;
+  --ink-2:#1c2027;
+  --ink-3:#242a33;
+  --parchment:#f3ecdf;
+  --parchment-2:#ece2cf;
+  --parchment-3:#e2d5ba;
+  --copper:#b4713a;
+  --copper-light:#d29a63;
+  --copper-deep:#8a5226;
+  --muted:#6d6455;
+  --line:rgba(20,23,28,.14);
+  --line-light:rgba(243,236,223,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Archivo',sans-serif;
+  background:var(--parchment);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.6;
+}
+h1,h2,h3,.serif{font-family:'Fraunces',serif;font-weight:400}
+.wrap{max-width:1240px;margin:0 auto;padding:0 48px}
+.eyebrow{
+  font-family:'Archivo',sans-serif;
+  font-size:11px;font-weight:600;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--copper-deep);
+  display:flex;align-items:center;gap:14px;
+}
+.eyebrow::before{content:"";width:36px;height:1px;background:var(--copper)}
+.copper-eyebrow{color:var(--copper-light)}
+.copper-eyebrow::before{background:var(--copper-light)}
+
+/* ============ NAV ============ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(20,23,28,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line-light);
+}
+.nav-inner{
+  max-width:1240px;margin:0 auto;padding:0 48px;
+  height:76px;display:flex;align-items:center;justify-content:space-between;
+}
+.logo{display:flex;align-items:center;gap:14px;text-decoration:none}
+.logo-mark{
+  width:38px;height:38px;border:1px solid var(--copper);
+  display:grid;place-items:center;
+}
+.logo-mark span{
+  font-family:'Fraunces',serif;font-size:19px;color:var(--copper-light);line-height:1;
+}
+.logo-text{
+  font-family:'Fraunces',serif;font-size:19px;letter-spacing:.18em;
+  color:var(--parchment);
+}
+.logo-text em{font-style:normal;color:var(--copper-light)}
+.nav-links{display:flex;gap:38px;list-style:none}
+.nav-links a{
+  color:var(--parchment-2);text-decoration:none;font-size:13px;
+  letter-spacing:.08em;font-weight:500;
+  padding-bottom:5px;position:relative;transition:color .25s;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;width:0;height:1px;
+  background:var(--copper-light);transition:width .3s;
+}
+.nav-links a:hover{color:var(--parchment)}
+.nav-links a:hover::after{width:100%}
+.btn{
+  display:inline-flex;align-items:center;gap:12px;text-decoration:none;
+  font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;
+  padding:15px 28px;border:1px solid var(--copper);
+  color:var(--parchment);background:transparent;
+  cursor:pointer;transition:all .3s;
+}
+.btn .arrow{transition:transform .3s;font-size:14px}
+.btn:hover{background:var(--copper)}
+.btn:hover .arrow{transform:translateX(5px)}
+.btn-solid{background:var(--copper);color:#fff}
+.btn-solid:hover{background:var(--copper-deep);border-color:var(--copper-deep)}
+.btn-ink{border-color:var(--ink);color:var(--ink)}
+.btn-ink:hover{background:var(--ink);color:var(--parchment)}
+
+/* ============ HERO ============ */
+.hero{
+  background:var(--ink);
+  color:var(--parchment);
+  padding:170px 0 90px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(180,113,58,.22), transparent 60%),
+    radial-gradient(700px 600px at -10% 110%, rgba(180,113,58,.10), transparent 55%);
+}
+.hero::after{
+  content:"";position:absolute;inset:0;
+  background-image:repeating-linear-gradient(90deg, rgba(243,236,223,.03) 0 1px, transparent 1px 124px);
+  pointer-events:none;
+}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.25fr .75fr;gap:80px;align-items:end}
+.hero h1{
+  font-size:clamp(44px,5.2vw,72px);
+  line-height:1.06;font-weight:300;letter-spacing:-.01em;
+  margin:28px 0 26px;
+}
+.hero h1 em{font-style:italic;color:var(--copper-light)}
+.hero-sub{
+  font-size:17px;line-height:1.75;color:rgba(243,236,223,.72);
+  max-width:560px;font-weight:300;
+}
+.hero-actions{display:flex;gap:18px;margin-top:42px;flex-wrap:wrap}
+.hero-card{
+  border:1px solid var(--line-light);
+  background:rgba(243,236,223,.035);
+  backdrop-filter:blur(6px);
+  padding:38px 36px;
+}
+.hero-card h3{font-size:21px;margin-bottom:6px;color:var(--parchment)}
+.hero-card .avail{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--copper-light);font-weight:600;margin-bottom:22px;display:flex;align-items:center;gap:10px}
+.avail .dot{width:7px;height:7px;border-radius:50%;background:var(--copper-light);animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.hero-card ul{list-style:none;border-top:1px solid var(--line-light)}
+.hero-card li{
+  display:flex;justify-content:space-between;gap:20px;
+  padding:14px 0;border-bottom:1px solid var(--line-light);
+  font-size:13.5px;
+}
+.hero-card li span:first-child{color:rgba(243,236,223,.55);letter-spacing:.05em}
+.hero-card li span:last-child{color:var(--parchment);font-weight:500;text-align:right}
+.hero-card .btn{width:100%;justify-content:center;margin-top:24px}
+
+/* ============ TRUST STRIP ============ */
+.trust{
+  border-bottom:1px solid var(--line);
+  background:var(--parchment-2);
+}
+.trust .wrap{
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.trust-item{
+  padding:26px 32px;border-left:1px solid var(--line);
+  font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;
+  color:var(--muted);
+}
+.trust-item:first-child{border-left:none}
+.trust-item b{display:block;font-family:'Fraunces',serif;font-size:15px;letter-spacing:.06em;color:var(--ink);font-weight:500;margin-top:3px}
+
+/* ============ SECTION SCAFFOLD ============ */
+section{position:relative}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:64px}
+.sec-head h2{font-size:clamp(34px,3.4vw,50px);line-height:1.12;font-weight:300;margin-top:20px;letter-spacing:-.01em}
+.sec-head h2 em{font-style:italic;color:var(--copper-deep)}
+.sec-head p{max-width:340px;color:var(--muted);font-size:15px;font-weight:300}
+
+/* ============ PRACTICE AREAS ============ */
+.practice{padding:110px 0}
+.practice-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--ink);
+}
+.practice-card{
+  border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:44px 36px 40px;position:relative;cursor:pointer;
+  transition:background .35s;min-height:380px;
+  display:flex;flex-direction:column;
+}
+.practice-card:nth-child(3n){border-right:none}
+.practice-card:hover{background:#fff}
+.practice-num{font-family:'Fraunces',serif;font-style:italic;font-size:14px;color:var(--copper);margin-bottom:28px}
+.practice-card h3{font-size:25px;line-height:1.25;margin-bottom:16px;font-weight:400;transition:color .3s}
+.practice-card:hover h3{color:var(--copper-deep)}
+.practice-card p{font-size:14px;color:var(--muted);font-weight:300;line-height:1.75;flex:1}
+.practice-card .tag-row{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap}
+.tag{
+  font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  padding:6px 12px;border:1px solid var(--line);color:var(--muted);
+}
+.practice-card .go{
+  position:absolute;top:44px;right:36px;width:34px;height:34px;
+  border:1px solid var(--line);display:grid;place-items:center;
+  font-size:14px;color:var(--muted);transition:all .3s;
+}
+.practice-card:hover .go{background:var(--copper);border-color:var(--copper);color:#fff;transform:rotate(45deg)}
+
+/* ============ FEATURED INSIGHT ============ */
+.insight{background:var(--ink);color:var(--parchment);padding:120px 0}
+.insight .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:90px;align-items:center}
+.insight-visual{
+  aspect-ratio:4/4.6;position:relative;border:1px solid var(--line-light);
+  background:
+    linear-gradient(160deg, rgba(180,113,58,.28), rgba(28,32,39,.4) 55%),
+    var(--ink-2);
+  overflow:hidden;display:grid;place-items:center;
+}
+.insight-visual::before{
+  content:"";position:absolute;inset:22px;border:1px solid rgba(210,154,99,.35);
+}
+.insight-visual svg{width:52%;opacity:.9}
+.insight-visual .no{
+  position:absolute;bottom:36px;right:36px;
+  font-family:'Fraunces',serif;font-style:italic;font-size:64px;color:rgba(210,154,99,.5);
+}
+.insight-body h2{font-size:clamp(30px,3vw,44px);line-height:1.15;font-weight:300;margin:22px 0 20px}
+.insight-body h2 em{font-style:italic;color:var(--copper-light)}
+.insight-body .lead{color:rgba(243,236,223,.72);font-size:16px;font-weight:300;line-height:1.8;max-width:520px}
+.insight-meta{display:flex;gap:28px;margin:34px 0 38px;padding:20px 0;border-top:1px solid var(--line-light);border-bottom:1px solid var(--line-light)}
+.insight-meta div{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(243,236,223,.5);font-weight:500}
+.insight-meta b{display:block;font-family:'Fraunces',serif;font-size:15px;letter-spacing:.04em;text-transform:none;color:var(--parchment);font-weight:400;margin-top:4px}
+.insight .btn{margin-top:6px}
+
+/* ============ METRICS ============ */
+.metrics{padding:120px 0;background:var(--parchment)}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink)}
+.metric{
+  padding:44px 36px 48px;border-right:1px solid var(--line);
+  position:relative;
+}
+.metric:last-child{border-right:none}
+.metric .val{
+  font-family:'Fraunces',serif;font-size:58px;font-weight:300;line-height:1;
+  color:var(--ink);letter-spacing:-.02em;
+}
+.metric .val sup{font-size:24px;color:var(--copper);top:-1.4em;position:relative}
+.metric .lbl{
+  margin-top:14px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--copper-deep);font-weight:600;
+}
+.metric .desc{margin-top:12px;font-size:13px;color:var(--muted);font-weight:300;line-height:1.65}
+
+/* ============ PARTNERS ============ */
+.partners{background:var(--parchment-2);padding:120px 0;border-top:1px solid var(--line)}
+.partners-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);background:#fff}
+.partner{
+  padding:0 0 34px;border-right:1px solid var(--line);
+  transition:background .35s;
+}
+.partner:last-child{border-right:none}
+.partner:hover{background:var(--parchment)}
+.portrait{
+  aspect-ratio:1/1.06;background:var(--ink-2);position:relative;overflow:hidden;
+  margin-bottom:26px;display:grid;place-items:center;
+}
+.portrait::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 20%, rgba(180,113,58,.35), transparent 65%);
+}
+.portrait svg{width:78%;height:78%;position:relative}
+.partner h3{font-size:21px;margin-bottom:4px}
+.partner .role{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--copper-deep);font-weight:600;margin-bottom:14px}
+.partner p{font-size:13px;color:var(--muted);font-weight:300;line-height:1.7;padding:0 26px}
+
+/* ============ OFFICES ============ */
+.offices{padding:120px 0}
+.offices-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.office{
+  border:1px solid var(--line);background:#fff;padding:38px 34px;position:relative;
+}
+.office .flag{
+  font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:600;
+  color:var(--copper-deep);margin-bottom:18px;
+}
+.office .flag::before{content:"— "}
+.office h3{font-size:26px;margin-bottom:6px}
+.office .addr{font-size:14px;color:var(--muted);font-weight:300;line-height:1.8;margin-bottom:24px}
+.office dl{border-top:1px solid var(--line);padding-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px 20px}
+.office dt{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--copper-deep);font-weight:600;margin-bottom:3px}
+.office dd{font-size:13.5px;font-weight:400}
+.office a{color:inherit;text-decoration:none;border-bottom:1px solid var(--copper);transition:color .25s}
+.office a:hover{color:var(--copper-deep)}
+.office .map{
+  position:absolute;top:34px;right:34px;width:30px;height:30px;
+  border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);
+  text-decoration:none;transition:all .3s;font-size:13px;
+}
+.office .map:hover{background:var(--ink);border-color:var(--ink);color:var(--parchment)}
+
+/* ============ CTA BAND ============ */
+.cta-band{
+  background:var(--copper);color:#17110b;padding:90px 0;position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(700px 300px at 90% 0%, rgba(255,255,255,.18), transparent 60%);
+}
+.cta-band .wrap{position:relative;display:grid;grid-template-columns:1.3fr .7fr;gap:60px;align-items:center}
+.cta-band h2{font-size:clamp(32px,3.4vw,48px);line-height:1.12;font-weight:300}
+.cta-band h2 em{font-style:italic}
+.cta-band p{margin-top:16px;font-size:15px;color:rgba(23,17,11,.75);max-width:520px;font-weight:400}
+.cta-actions{display:flex;flex-direction:column;gap:14px}
+.cta-actions .btn{border-color:#17110b;color:#17110b;justify-content:center}
+.cta-actions .btn:hover{background:#17110b;color:var(--parchment)}
+.cta-actions .btn-solid{background:#17110b;color:var(--parchment);border-color:#17110b}
+.cta-actions .btn-solid:hover{background:transparent;color:#17110b}
+
+/* ============ FOOTER ============ */
+footer{background:var(--ink);color:var(--parchment-2);padding:90px 0 0}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1.1fr;gap:48px;padding-bottom:70px;border-bottom:1px solid var(--line-light)}
+.foot-brand p{font-size:13.5px;font-weight:300;color:rgba(243,236,223,.6);line-height:1.8;margin:22px 0 28px;max-width:280px}
+.foot-col h4{
+  font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;
+  color:var(--copper-light);margin-bottom:22px;font-family:'Archivo',sans-serif;
+}
+.foot-col ul{list-style:none}
+.foot-col li{margin-bottom:12px}
+.foot-col a{
+  color:rgba(243,236,223,.68);text-decoration:none;font-size:14px;font-weight:300;
+  transition:color .25s;
+}
+.foot-col a:hover{color:var(--parchment)}
+.foot-col .office-mini{font-size:12.5px;color:rgba(243,236,223,.5);line-height:1.7;margin-bottom:18px}
+.foot-col .office-mini b{display:block;color:rgba(243,236,223,.85);font-weight:500;font-size:13px;letter-spacing:.05em}
+.foot-bottom{
+  display:flex;justify-content:space-between;align-items:center;gap:24px;
+  padding:30px 0 36px;font-size:12px;color:rgba(243,236,223,.45);
+}
+.foot-legal{display:flex;gap:26px}
+.foot-legal a{color:inherit;text-decoration:none}
+.foot-legal a:hover{color:var(--copper-light)}
+.disclaimer{
+  font-size:11px;color:rgba(243,236,223,.35);line-height:1.7;
+  padding:0 0 40px;max-width:860px;font-weight:300;
+}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1020px){
+  .hero .wrap,.insight .wrap,.cta-band .wrap{grid-template-columns:1fr;gap:56px}
+  .practice-grid{grid-template-columns:repeat(2,1fr)}
+  .practice-card:nth-child(3n){border-right:1px solid var(--line)}
+  .practice-card:nth-child(2n){border-right:none}
+  .metrics-grid,.partners-grid{grid-template-columns:repeat(2,1fr)}
+  .metric:nth-child(2){border-right:none}
+  .metric{border-bottom:1px solid var(--line)}
+  .partner:nth-child(2){border-right:none}
+  .partner{border-bottom:1px solid var(--line)}
+  .offices-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .trust .wrap{grid-template-columns:repeat(2,1fr)}
+  .trust-item{border-left:none;border-bottom:1px solid var(--line)}
+  .nav-links{display:none}
+  .wrap{padding:0 28px}
+}
+@media(max-width:640px){
+  .practice-grid,.metrics-grid,.partners-grid,.foot-grid{grid-template-columns:1fr}
+  .practice-card,.metric,.partner{border-right:none;border-bottom:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <span class="logo-mark"><span>V</span></span>
+      <span class="logo-text">VANTAGE <em>LAW</em></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#practice">Practice Areas</a></li>
+      <li><a href="#insight">Insights</a></li>
+      <li><a href="#expertise">Expertise</a></li>
+      <li><a href="#partners">Partners</a></li>
+      <li><a href="#offices">Offices</a></li>
+    </ul>
+    <a href="#consult" class="btn">Consultation <span class="arrow">→</span></a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow copper-eyebrow">Counsel of Consequence · Est. 1987</div>
+      <h1>Discretion, precision, and outcomes that <em>endure</em>.</h1>
+      <p class="hero-sub">Vantage Law advises founders, families, and institutions on the decisions that define their next generation. We practice law the way we practice judgment — quietly, thoroughly, and without compromise.</p>
+      <div class="hero-actions">
+        <a href="#consult" class="btn btn-solid">Request a Consultation <span class="arrow">→</span></a>
+        <a href="#practice" class="btn">Explore Practice Areas</a>
+      </div>
+    </div>
+    <aside class="hero-card reveal">
+      <h3>Direct counsel, without the queue.</h3>
+      <div class="avail"><span class="dot"></span> Accepting new matters this quarter</div>
+      <ul>
+        <li><span>First consultation</span><span>45 minutes</span></li>
+        <li><span>Confidentiality</span><span>Assured by engagement</span></li>
+        <li><span>Response time</span><span>Within one business day</span></li>
+        <li><span>Languages</span><span>English · Español · 日本語</span></li>
+      </ul>
+      <a href="#consult" class="btn">Begin <span class="arrow">→</span></a>
+    </aside>
+  </div>
+</header>
+
+<!-- TRUST STRIP -->
+<div class="trust">
+  <div class="wrap">
+    <div class="trust-item">Recognised by<b>The Legal 500, 12 yrs</b></div>
+    <div class="trust-item">Rated by<b>Chambers &amp; Partners</b></div>
+    <div class="trust-item">Retained by<b>Fortune 500 boards</b></div>
+    <div class="trust-item">Custodian of<b>Family offices since 1987</b></div>
+  </div>
+</div>
+
+<!-- PRACTICE AREAS -->
+<section class="practice" id="practice">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Practice Areas</div>
+        <h2>Six disciplines, one <em>standard</em> of care.</h2>
+      </div>
+      <p>Each practice is led by senior partners and staffed exclusively by counsel with a minimum of a decade in the field.</p>
+    </div>
+    <div class="practice-grid">
+      <article class="practice-card reveal">
+        <span class="go">↗</span>
+        <div class="practice-num">No. 01</div>
+        <h3>Corporate &amp; M&amp;A</h3>
+        <p>Transactions from seed-stage equity to cross-border carve-outs. We manage the full arc — term sheet, due diligence, negotiation, and the quiet work that closes deals after the signing ceremony.</p>
+        <div class="tag-row"><span class="tag">M&amp;A</span><span class="tag">Governance</span><span class="tag">Restructuring</span></div>
+      </article>
+      <article class="practice-card reveal">
+        <span class="go">↗</span>
+        <div class="practice-num">No. 02</div>
+        <h3>Private Client &amp; Estate</h3>
+        <p>Succession, trusts, and fiduciary architecture for families with intergenerational interests. We design structures that protect wealth, not merely transfer it.</p>
+        <div class="tag-row"><span class="tag">Trusts</span><span class="tag">Succession</span><span class="tag">Tax</span></div>
+      </article>
+      <article class="practice-card reveal">
+        <span class="go">↗</span>
+        <div class="practice-num">No. 03</div>
+        <h3>Disputes &amp; Arbitration</h3>
+        <p>Commercial litigation, international arbitration, and enforcement across nineteen jurisdictions. Our dispute team has sat on both sides of the table — and won the one that matters.</p>
+        <div class="tag-row"><span class="tag">Litigation</span><span class="tag">Arbitration</span><span class="tag">Enforcement</span></div>
+      </article>
+      <article class="practice-card reveal">
+        <span class="go">↗</span>
+        <div class="practice-num">No. 04</div>
+        <h3>Regulatory &amp; Compliance</h3>
+        <p>Advising boards through enforcement risk, regulatory transition, and government investigation — before the letter arrives and long after it lands.</p>
+        <div class="tag-row"><span class="tag">SEC</span><span class="tag">FCA</span><span class="tag">Data</span></div>
+      </article>
+      <article class="practice-card reveal">
+        <span class="go">↗</span>
+        <div class="practice-num">No. 05</div>
+        <h3>Real Assets &amp; Infrastructure</h3>
+        <p>Acquisition, joint venture, and project finance for real estate and critical infrastructure, with in-house counsel on cross-border land title and permitting.</p>
+        <div class="tag-row"><span class="tag">JVs</span><span class="tag">Project Finance</span><span class="tag">Title</span></div>
+      </article>
+      <article class="practice-card reveal">
+        <span class="go">↗</span>
+        <div class="practice-num">No. 06</div>
+        <h3>Technology &amp; IP</h3>
+        <p>Portfolio strategy, licensing, and defense for companies whose value lives in the code. From founder vesting to platform-scale licensing, we draft for the exit.</p>
+        <div class="tag-row"><span class="tag">Licensing</span><span class="tag">Patent</span><span class="tag">Data Law</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED INSIGHT -->
+<section class="insight" id="insight">
+  <div class="wrap">
+    <div class="insight-visual reveal">
+      <svg viewBox="0 0 200 200" fill="none" aria-hidden="true">
+        <circle cx="100" cy="100" r="78" stroke="#d29a63" stroke-width="1"/>
+        <circle cx="100" cy="100" r="56" stroke="#d29a63" stroke-width=".6" stroke-dasharray="3 5"/>
+        <path d="M100 22 L100 178 M22 100 L178 100" stroke="#d29a63" stroke-width=".5" opacity=".55"/>
+        <path d="M100 40 A60 60 0 0 1 160 100 L100 100 Z" fill="#b4713a" opacity=".55"/>
+        <path d="M100 160 A60 60 0 0 1 40 100 L100 100 Z" fill="#d29a63" opacity=".35"/>
+        <circle cx="100" cy="100" r="4" fill="#f3ecdf"/>
+      </svg>
+      <span class="no">07</span>
+    </div>
+    <div class="insight-body reveal">
+      <div class="eyebrow copper-eyebrow">Featured Insight · Memorandum 07</div>
+      <h2>The quiet restructuring of <em>family governance</em> post-2024</h2>
+      <p class="lead">As estate tax thresholds tighten in three major jurisdictions and fiduciary standards evolve under the uniform acts, the family office must reposition. Our partners examine the five structural moves sophisticated families are making now — and the three they should not.</p>
+      <div class="insight-meta">
+        <div>Author<b>Eleanor V. Whitmore</b></div>
+        <div>Practice<b>Private Client</b></div>
+        <div>Reading<b>14 min</b></div>
+        <div>Published<b>October 2024</b></div>
+      </div>
+      <a href="#consult" class="btn">Read the Full Memorandum <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section class="metrics" id="expertise">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Expertise, Measured</div>
+        <h2>A record kept <em>in ink</em>, not in adjectives.</h2>
+      </div>
+      <p>We report what clients can verify. These figures are audited annually and shared without rounding up.</p>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric reveal">
+        <div class="val"><span data-count="37">0</span></div>
+        <div class="lbl">Years of Practice</div>
+        <p class="desc">Founded in 1987, unaffiliated, and independent of any larger group.</p>
+      </div>
+      <div class="metric reveal">
+        <div class="val"><span data-count="2.4" data-decimals="1">0</span><sup>B</sup></div>
+        <div class="lbl">Assets Under Counsel</div>
+        <p class="desc">Across corporate, private client, and institutional mandates.</p>
+      </div>
+      <div class="metric reveal">
+        <div class="val"><span data-count="19">0</span></div>
+        <div class="lbl">Jurisdictions</div>
+        <p class="desc">Enforcement and litigation capability across three continents.</p>
+      </div>
+      <div class="metric reveal">
+        <div class="val"><span data-count="94">0</span><sup>%</sup></div>
+        <div class="lbl">Client Retention</div>
+        <p class="desc">Measured on a rolling five-year basis, self-reported engagements.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners" id="partners">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">The Partners</div>
+        <h2>The people who will <em>sign</em> your name to it.</h2>
+      </div>
+      <p>Every Vantage engagement is led personally by a named partner. No hand-offs, no juniors drafting your term sheet.</p>
+    </div>
+    <div class="partners-grid reveal">
+      <div class="partner">
+        <div class="portrait">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <ellipse cx="50" cy="38" rx="17" ry="19" fill="#8a5226"/>
+            <path d="M20 92 Q22 62 50 60 Q78 62 80 92 Z" fill="#b4713a"/>
+            <path d="M42 62 L50 84 L58 62 Z" fill="#14171c"/>
+          </svg>
+        </div>
+        <h3>Adrian K. Voss</h3>
+        <div class="role">Managing Partner · M&amp;A</div>
+        <p>Closed over $40B in transactions. Formerly of the New York bar, trained at Cambridge. Leads the cross-border practice.</p>
+      </div>
+      <div class="partner">
+        <div class="portrait">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <ellipse cx="50" cy="36" rx="16" ry="18" fill="#8a5226"/>
+            <path d="M18 92 Q20 60 50 58 Q80 60 82 92 Z" fill="#b4713a"/>
+            <path d="M34 22 Q50 4 66 22 L66 40 Q50 30 34 40 Z" fill="#6d431f"/>
+          </svg>
+        </div>
+        <h3>Eleanor V. Whitmore</h3>
+        <div class="role">Senior Partner · Private Client</div>
+        <p>Three decades designing fiduciary structures for intergenerational families. Author of the firm's governance memoranda series.</p>
+      </div>
+      <div class="partner">
+        <div class="portrait">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <ellipse cx="50" cy="38" rx="17" ry="19" fill="#8a5226"/>
+            <path d="M20 92 Q22 62 50 60 Q78 62 80 92 Z" fill="#b4713a"/>
+            <path d="M50 60 L50 92 M42 62 L50 84 L58 62 Z" stroke="#14171c" stroke-width="2.5" fill="none"/>
+          </svg>
+        </div>
+        <h3>Kenji A. Morrow</h3>
+        <div class="role">Partner · Disputes</div>
+        <p>140 arbitrations, 61 enforcement actions. Dual-qualified across common and civil law systems; speaks four languages.</p>
+      </div>
+      <div class="partner">
+        <div class="portrait">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <ellipse cx="50" cy="36" rx="16" ry="18" fill="#8a5226"/>
+            <path d="M18 92 Q20 60 50 58 Q80 60 82 92 Z" fill="#b4713a"/>
+            <path d="M30 16 Q50 0 70 16 L68 44 Q50 34 32 44 Z" fill="#6d431f"/>
+          </svg>
+        </div>
+        <h3>Isabel R. Fontaine</h3>
+        <div class="role">Partner · Regulatory</div>
+        <p>Former senior counsel to two financial regulators. Advises boards through 30+ government inquiries without public disclosure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFICES -->
+<section class="offices" id="offices">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <div class="eyebrow">Offices</div>
+        <h2>Three rooms where <em>difficult</em> conversations go well.</h2>
+      </div>
+      <p>Every office operates as a full practice. Engaged locally, counseled globally, staffed without dilution.</p>
+    </div>
+    <div class="offices-grid">
+      <div class="office reveal">
+        <a href="#consult" class="map" aria-label="View New York office">↗</a>
+        <div class="flag">Flagship</div>
+        <h3>New York</h3>
+        <p class="addr">40 Park Avenue, 31st Floor<br>New York, NY 10016</p>
+        <dl>
+          <div><dt>Telephone</dt><dd><a href="tel:+12125550187">+1 (212) 555-0187</a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:newyork@vantage.law">newyork@vantage.law</a></dd></div>
+          <div><dt>Hours</dt><dd>Mon–Fri · 8:30–18:30</dd></div>
+          <div><dt>Matter intake</dt><dd>Confidential line available</dd></div>
+        </dl>
+      </div>
+      <div class="office reveal">
+        <a href="#consult" class="map" aria-label="View London office">↗</a>
+        <div class="flag">European Hub</div>
+        <h3>London</h3>
+        <p class="addr">One Breda Place, 4th Floor<br>London EC4A 2DT, United Kingdom</p>
+        <dl>
+          <div><dt>Telephone</dt><dd><a href="tel:+442075550142">+44 (20) 7555 0142</a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:London@vantage.law">london@vantage.law</a></dd></div>
+          <div><dt>Hours</dt><dd>Mon–Fri · 9:00–18:00</dd></div>
+          <div><dt>Matter intake</dt><dd>By appointment only</dd></div>
+        </dl>
+      </div>
+      <div class="office reveal">
+        <a href="#consult" class="map" aria-label="View Singapore office">↗</a>
+        <div class="flag">APAC</div>
+        <h3>Singapore</h3>
+        <p class="addr">8 Marina View, #35-01<br>Singapore 018960</p>
+        <dl>
+          <div><dt>Telephone</dt><dd><a href="tel:+6565550193">+65 6555 0193</a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:singapore@vantage.law">singapore@vantage.law</a></dd></div>
+          <div><dt>Hours</dt><dd>Mon–Fri · 9:00–18:00 SGT</dd></div>
+          <div><dt>Matter intake</dt><dd>Multilingual counsel</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band" id="consult">
+  <div class="wrap">
+    <div class="reveal">
+      <h2>Some decisions deserve counsel that has seen them <em>before</em>.</h2>
+      <p>Request a confidential consultation. A senior partner — never a business developer — will review your matter personally and respond within one business day.</p>
+    </div>
+    <div class="cta-actions reveal">
+      <a href="mailto:consult@vantage.law?subject=Consultation%20Request" class="btn btn-solid">Request a Consultation <span class="arrow">→</span></a>
+      <a href="tel:+12125550187" class="btn">Call the Intake Line · +1 (212) 555-0187</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="logo">
+          <span class="logo-mark"><span>V</span></span>
+          <span class="logo-text">VANTAGE <em>LAW</em></span>
+        </a>
+        <p>An independent firm of counsel to boards, founders, and families. Est. 1987. Unaffiliated, and proud of it.</p>
+        <a href="mailto:consult@vantage.law" class="btn" style="padding:12px 22px">consult@vantage.law <span class="arrow">→</span></a>
+      </div>
+      <div class="foot-col">
+        <h4>Practice</h4>
+        <ul>
+          <li><a href="#practice">Corporate &amp; M&amp;A</a></li>
+          <li><a href="#practice">Private Client &amp; Estate</a></li>
+          <li><a href="#practice">Disputes &amp; Arbitration</a></li>
+          <li><a href="#practice">Regulatory &amp; Compliance</a></li>
+          <li><a href="#practice">Real Assets</a></li>
+          <li><a href="#practice">Technology &amp; IP</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Firm</h4>
+        <ul>
+          <li><a href="#partners">Our Partners</a></li>
+          <li><a href="#insight">Insights &amp; Memoranda</a></li>
+          <li><a href="#expertise">The Firm in Numbers</a></li>
+          <li><a href="#consult">Careers</a></li>
+          <li><a href="#offices">Offices</a></li>
+          <li><a href="#consult">Client Login</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Offices</h4>
+        <div class="office-mini"><b>New York</b>40 Park Avenue, 31st Fl<br>+1 (212) 555-0187</div>
+        <div class="office-mini"><b>London</b>One Breda Place, 4th Fl<br>+44 (20) 7555 0142</div>
+        <div class="office-mini"><b>Singapore</b>8 Marina View, #35-01<br>+65 6555 0193</div>
+      </div>
+      <div class="foot-col">
+        <h4>Confidential Line</h4>
+        <ul>
+          <li><a href="tel:+12125550187">24-hour intake · +1 (212) 555-0187</a></li>
+          <li><a href="mailto:confidential@vantage.law">confidential@vantage.law</a></li>
+        </ul>
+        <p style="font-size:12px;color:rgba(243,236,223,.5);margin-top:22px;line-height:1.7;font-weight:300">All inquiries are treated as privileged from first contact. Do not include sensitive matter detail in initial correspondence.</p>
+      </div>
+    </div>
+    <p class="disclaimer">Attorney advertising. Prior results do not guarantee a similar outcome. This website is provided for general information only and does not constitute legal advice; no attorney–client relationship is formed by its use. Vantage Law LLP is licensed in New York, England &amp; Wales, and the Republic of Singapore; matters are admitted to practice under the laws of the applicable jurisdiction.</p>
+    <div class="foot-bottom">
+      <span>© <span id="yr">2025</span> Vantage Law LLP. All rights reserved.</span>
+      <div class="foot-legal">
+        <a href="#">Privacy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Accessibility</a>
+        <a href="#">Ethics &amp; Disclosure</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Year
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Reveal on scroll
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Count-up metrics
+const fmt=(v,dec)=>dec? v.toFixed(dec) : Math.round(v).toString();
+const cio = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el=e.target, target=parseFloat(el.dataset.count), dec=parseInt(el.dataset.decimals||0);
+    const dur=1400, t0=performance.now();
+    const tick=t=>{
+      const p=Math.min((t-t0)/dur,1), ease=1-Math.pow(1-p,3);
+      el.textContent=fmt(target*ease,dec);
+      if(p<1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+    cio.unobserve(el);
+  });
+},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+</script>
+</body>
+</html>

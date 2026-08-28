@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIREN HOUSE — Coastal Sanctuary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --stone-50:#f7f4ef;
+  --stone-100:#efe9e0;
+  --stone-200:#e2d9cb;
+  --stone-300:#cfc2af;
+  --stone-400:#a99a82;
+  --stone-500:#8a7a63;
+  --deep-900:#0e2233;
+  --deep-800:#133049;
+  --deep-700:#1a4059;
+  --deep-600:#255a7a;
+  --deep-500:#33718f;
+  --coral:#ff7b6b;
+  --coral-soft:#ffb4a8;
+  --coral-deep:#e05a49;
+  --ink:#1d262c;
+  --serif:'Fraunces',serif;
+  --sans:'Jost',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--ink);background:var(--stone-50);line-height:1.6;-webkit-font-smoothing:antialiased}
+img{max-width:100%}
+a{text-decoration:none;color:inherit}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:absolute;top:0;left:0;right:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:28px 56px;color:#fdf9f3;
+}
+.brand{display:flex;flex-direction:column;line-height:1.15}
+.brand-name{font-family:var(--serif);font-size:24px;letter-spacing:.42em;font-weight:400}
+.brand-sub{font-size:10px;letter-spacing:.34em;text-transform:uppercase;opacity:.75;margin-top:3px}
+.nav-links{display:flex;gap:44px;font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:400}
+.nav-links a{position:relative;padding:4px 0;opacity:.9;transition:opacity .25s}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--coral);transition:width .35s ease}
+.nav-links a:hover{opacity:1}
+.nav-links a:hover::after{width:100%}
+.nav-reserve{
+  font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  border:1px solid rgba(253,249,243,.55);padding:11px 26px;border-radius:2px;
+  transition:background .3s,color .3s,border-color .3s;
+}
+.nav-reserve:hover{background:var(--coral);border-color:var(--coral);color:#fff}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;height:100vh;min-height:720px;overflow:hidden;
+  background:linear-gradient(180deg,#0a1a2a 0%,#133049 32%,#255a7a 52%,#6d8b98 63%,#e8a184 72%,#ff7b6b 78%,#ffd9a8 86%);}
+.sun{
+  position:absolute;left:50%;top:56%;transform:translate(-50%,-50%);
+  width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,#fff3dd 0%,#ffe1b0 34%,rgba(255,200,140,.55) 58%,rgba(255,160,120,0) 72%);
+  filter:blur(2px);
+}
+.sun-core{
+  position:absolute;left:50%;top:57.5%;transform:translate(-50%,-50%);
+  width:96px;height:96px;border-radius:50%;
+  background:radial-gradient(circle at 42% 38%,#fffdf6,#ffe9c4 60%,#ffcf96);
+  box-shadow:0 0 80px 30px rgba(255,220,170,.55);
+}
+.clouds{position:absolute;inset:0;pointer-events:none}
+.cloud{position:absolute;border-radius:50%;background:rgba(253,245,235,.14);filter:blur(24px)}
+.cloud.c1{width:520px;height:70px;top:22%;left:8%;animation:drift 90s linear infinite}
+.cloud.c2{width:380px;height:52px;top:36%;right:6%;animation:drift 120s linear infinite reverse}
+.cloud.c3{width:640px;height:80px;top:14%;left:38%;animation:drift 140s linear infinite}
+@keyframes drift{from{transform:translateX(-60px)}to{transform:translateX(60px)}}
+
+.waves{position:absolute;left:0;right:0;bottom:0;height:38vh;min-height:280px}
+.waves svg{position:absolute;left:0;bottom:0;width:200%;height:100%}
+.w1{animation:waveShift 14s linear infinite;opacity:.55;bottom:34%}
+.w2{animation:waveShift 11s linear infinite reverse;opacity:.75;bottom:18%}
+.w3{animation:waveShift 8s linear infinite;bottom:0}
+@keyframes waveShift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.hero-content{
+  position:absolute;left:50%;top:34%;transform:translateX(-50%);
+  text-align:center;color:#fdf9f3;width:min(880px,90vw);z-index:10;
+}
+.hero-eyebrow{font-size:12px;letter-spacing:.5em;text-transform:uppercase;opacity:.85;margin-bottom:26px;display:flex;align-items:center;justify-content:center;gap:18px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:52px;height:1px;background:rgba(253,249,243,.5)}
+.hero-title{font-family:var(--serif);font-weight:300;font-size:clamp(44px,6.2vw,84px);line-height:1.05;letter-spacing:.04em}
+.hero-title em{font-style:italic;color:var(--coral-soft)}
+.hero-tag{font-size:15px;font-weight:300;letter-spacing:.14em;margin-top:22px;opacity:.9}
+
+/* ---------- BOOKING BAR ---------- */
+.booking{
+  position:absolute;left:50%;bottom:56px;transform:translateX(-50%);
+  width:min(1080px,92vw);z-index:20;
+  background:rgba(14,34,51,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border:1px solid rgba(253,249,243,.22);border-radius:4px;
+  display:grid;grid-template-columns:1.1fr 1.1fr 1fr auto;
+  box-shadow:0 30px 60px -20px rgba(10,22,35,.55);
+}
+.bk-field{padding:20px 28px;border-right:1px solid rgba(253,249,243,.14);color:#fdf9f3}
+.bk-label{display:block;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--coral-soft);margin-bottom:6px}
+.bk-field input,.bk-field select{
+  width:100%;background:transparent;border:none;outline:none;
+  color:#fdf9f3;font-family:var(--sans);font-size:15px;font-weight:300;letter-spacing:.03em;
+}
+.bk-field select option{color:var(--ink)}
+.bk-field input::placeholder{color:rgba(253,249,243,.55)}
+.bk-field input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.9);opacity:.7;cursor:pointer}
+.bk-btn{
+  border:none;cursor:pointer;background:var(--coral);color:#fff;
+  font-family:var(--sans);font-size:12px;letter-spacing:.26em;text-transform:uppercase;font-weight:500;
+  padding:0 44px;display:flex;align-items:center;gap:12px;transition:background .3s;border-radius:0 3px 3px 0;
+}
+.bk-btn:hover{background:var(--coral-deep)}
+.bk-btn svg{transition:transform .3s}
+.bk-btn:hover svg{transform:translateX(4px)}
+
+/* ---------- SECTION SHELL ---------- */
+section{padding:110px 56px}
+.wrap{max-width:1240px;margin:0 auto}
+.sec-head{max-width:640px;margin-bottom:64px}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.eyebrow{font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:16px;display:inline-flex;align-items:center;gap:14px}
+.eyebrow::before{content:'';width:34px;height:1px;background:var(--coral)}
+.sec-head.center .eyebrow::after{content:'';width:34px;height:1px;background:var(--coral)}
+h2{font-family:var(--serif);font-weight:300;font-size:clamp(32px,3.4vw,46px);line-height:1.12;letter-spacing:.01em}
+.sec-head p{margin-top:18px;color:#5b6570;font-weight:300;font-size:16px;max-width:520px}
+.sec-head.center p{margin-left:auto;margin-right:auto}
+
+/* ---------- ROOMS ---------- */
+.rooms{background:var(--stone-50)}
+.room-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+.room{background:#fff;border:1px solid var(--stone-200);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;transition:transform .4s ease,box-shadow .4s ease}
+.room:hover{transform:translateY(-8px);box-shadow:0 34px 50px -28px rgba(19,48,73,.35)}
+.room-art{height:230px;position:relative;overflow:hidden}
+.room-art .art-base{position:absolute;inset:0}
+.art-garden{background:linear-gradient(180deg,#cfe0dd 0%,#e9ede4 55%,#dfd3ba 100%)}
+.art-ocean{background:linear-gradient(180deg,#a9c4d4 0%,#d9e6ea 50%,#e8d3bd 100%)}
+.art-cliff{background:linear-gradient(180deg,#7fa3b8 0%,#b9cdd4 45%,#e0b8a0 100%)}
+.room-art svg{position:absolute;bottom:0;left:0;width:100%;height:46%}
+.room-art .room-sun{position:absolute;width:54px;height:54px;border-radius:50%;background:radial-gradient(circle at 40% 36%,#fff,#ffe2b8 65%,#ffc290);top:26%;left:68%;box-shadow:0 0 30px 8px rgba(255,225,180,.7)}
+.room-body{padding:30px 30px 34px;display:flex;flex-direction:column;flex:1}
+.room-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.room-name{font-family:var(--serif);font-size:24px;font-weight:400}
+.room-price{font-size:14px;letter-spacing:.04em;color:var(--deep-700);white-space:nowrap}
+.room-price b{font-weight:500;font-size:17px}
+.room-desc{margin-top:12px;font-size:14.5px;font-weight:300;color:#5b6570;flex:1}
+.room-meta{display:flex;gap:18px;margin-top:20px;padding-top:20px;border-top:1px solid var(--stone-100);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--stone-500)}
+.room-meta span{display:flex;align-items:center;gap:7px}
+.room-link{margin-top:22px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--coral-deep);display:inline-flex;align-items:center;gap:10px}
+.room-link svg{transition:transform .3s}
+.room:hover .room-link svg{transform:translateX(5px)}
+
+/* ---------- AMENITIES ---------- */
+.amenities{background:var(--stone-100)}
+.amen-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--stone-300);border:1px solid var(--stone-300)}
+.amen{background:var(--stone-100);padding:44px 38px;transition:background .35s}
+.amen:hover{background:#fff}
+.amen-icon{width:44px;height:44px;color:var(--deep-700);margin-bottom:22px}
+.amen-icon svg{width:100%;height:100%;stroke:currentColor;fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.amen h3{font-family:var(--serif);font-weight:400;font-size:21px;margin-bottom:10px}
+.amen p{font-size:14px;font-weight:300;color:#5b6570}
+
+/* ---------- EXPERIENCES ---------- */
+.experiences{background:linear-gradient(180deg,var(--deep-900) 0%,var(--deep-800) 100%);color:#f2ede4;position:relative;overflow:hidden}
+.experiences::before{
+  content:'';position:absolute;inset:0;opacity:.08;
+  background-image:radial-gradient(circle at 20% 30%,#fff 1px,transparent 1.4px),radial-gradient(circle at 70% 60%,#fff 1px,transparent 1.4px);
+  background-size:90px 90px,130px 130px;
+}
+.exp-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:70px;flex-wrap:wrap}
+.exp-head .eyebrow{color:var(--coral-soft)}
+.exp-head h2{color:#fdf9f3}
+.exp-head p{color:rgba(242,237,228,.7)}
+.exp-list{display:grid;grid-template-columns:1fr 1fr;gap:0;position:relative}
+.exp-item{display:grid;grid-template-columns:86px 1fr;gap:28px;padding:34px 20px 34px 0;border-bottom:1px solid rgba(253,249,243,.14);align-items:baseline;transition:background .3s,padding .3s;position:relative}
+.exp-item:nth-child(odd){padding-right:44px}
+.exp-item:nth-child(even){padding-left:44px}
+.exp-item:hover{background:rgba(255,255,255,.04)}
+.exp-num{font-family:var(--serif);font-style:italic;font-size:30px;color:var(--coral-soft);font-weight:300}
+.exp-item h3{font-family:var(--serif);font-weight:400;font-size:22px;color:#fdf9f3}
+.exp-item p{font-size:14px;font-weight:300;color:rgba(242,237,228,.68);margin-top:6px}
+.exp-duration{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);margin-top:12px}
+
+/* ---------- CTA ---------- */
+.cta{background:var(--stone-50);text-align:center}
+.cta-inner{max-width:720px;margin:0 auto;position:relative}
+.cta h2{font-size:clamp(36px,4vw,56px)}
+.cta p{margin:24px auto 44px;max-width:480px;color:#5b6570;font-weight:300;font-size:16.5px}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:14px;background:var(--deep-800);color:#fff;
+  font-size:13px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;
+  padding:20px 48px;border-radius:2px;transition:background .3s,transform .3s;
+}
+.btn-primary:hover{background:var(--coral);transform:translateY(-3px)}
+.btn-ghost{display:inline-block;margin-left:26px;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--deep-800);border-bottom:1px solid var(--deep-800);padding-bottom:5px;transition:color .3s,border-color .3s}
+.btn-ghost:hover{color:var(--coral-deep);border-color:var(--coral-deep)}
+.cta-note{margin-top:34px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--stone-400)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--deep-900);color:rgba(242,237,228,.72);padding:90px 56px 0}
+.foot-top{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:56px;padding-bottom:70px;border-bottom:1px solid rgba(253,249,243,.12)}
+.foot-brand .brand-name{color:#fdf9f3}
+.foot-brand p{font-size:14px;font-weight:300;margin-top:22px;max-width:300px;line-height:1.8}
+.foot-col h4{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--coral-soft);font-weight:500;margin-bottom:24px}
+.foot-col ul{list-style:none}
+.foot-col li{margin-bottom:13px;font-size:14.5px;font-weight:300}
+.foot-col a{transition:color .25s;position:relative}
+.foot-col a:hover{color:#fdf9f3}
+.foot-contact li{display:flex;gap:12px;align-items:flex-start;font-size:14px;line-height:1.6}
+.foot-contact svg{width:16px;height:16px;flex:none;margin-top:5px;stroke:var(--coral-soft);fill:none;stroke-width:1.4}
+.newsletter{margin-top:8px}
+.newsletter form{display:flex;border-bottom:1px solid rgba(253,249,243,.3);margin-top:4px}
+.newsletter input{flex:1;background:transparent;border:none;outline:none;color:#fdf9f3;font-family:var(--sans);font-size:14px;font-weight:300;padding:12px 2px}
+.newsletter input::placeholder{color:rgba(242,237,228,.4)}
+.newsletter button{background:none;border:none;color:var(--coral);cursor:pointer;font-size:18px;padding:0 4px;transition:transform .25s}
+.newsletter button:hover{transform:translateX(4px)}
+.foot-bottom{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:34px 0;font-size:12px;letter-spacing:.12em;flex-wrap:wrap;gap:14px}
+.foot-bottom a{margin-left:26px;transition:color .25s}
+.foot-bottom a:hover{color:#fdf9f3}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:34px;transform:translate(-50%,140%);background:var(--deep-900);color:#fdf9f3;padding:16px 30px;border-left:3px solid var(--coral);font-size:14px;letter-spacing:.05em;border-radius:3px;box-shadow:0 20px 40px rgba(10,22,35,.4);transition:transform .5s cubic-bezier(.2,.9,.3,1.2);z-index:100}
+.toast.show{transform:translate(-50%,0)}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:1080px){
+  .nav{padding:24px 32px}
+  .nav-links{display:none}
+  section{padding:80px 32px}
+  .foot-top{grid-template-columns:1fr 1fr;padding:0 32px}
+  footer{padding:70px 32px 0}
+  .booking{grid-template-columns:1fr 1fr;gap:0;border-radius:4px}
+  .bk-field{border-bottom:1px solid rgba(253,249,243,.14)}
+  .bk-field:nth-child(odd){border-right:1px solid rgba(253,249,243,.14)}
+  .bk-btn{grid-column:1/-1;justify-content:center;padding:20px}
+  .room-grid,.amen-grid{grid-template-columns:1fr 1fr}
+  .exp-list{grid-template-columns:1fr}
+  .exp-item:nth-child(odd),.exp-item:nth-child(even){padding-left:0;padding-right:0}
+}
+@media(max-width:640px){
+  .room-grid,.amen-grid,.foot-top{grid-template-columns:1fr}
+  .booking{grid-template-columns:1fr}
+  .bk-field{border-right:none!important}
+  .hero-content{top:26%}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="clouds">
+    <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+  </div>
+  <div class="sun"></div>
+  <div class="sun-core"></div>
+
+  <nav class="nav">
+    <a href="#top" class="brand">
+      <span class="brand-name">MIREN</span>
+      <span class="brand-sub">House · Coastal</span>
+    </a>
+    <div class="nav-links">
+      <a href="#rooms">Rooms</a>
+      <a href="#amenities">Amenities</a>
+      <a href="#experiences">Experiences</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#reserve" class="nav-reserve">Reserve</a>
+  </nav>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Est. 1962 · Kastron Bay</div>
+    <h1 class="hero-title">Where the stone <em>meets</em> the sea</h1>
+    <p class="hero-tag">Nine rooms carved into the cliff. One horizon, endlessly yours.</p>
+  </div>
+
+  <div class="waves" aria-hidden="true">
+    <svg class="w1" viewBox="0 0 2880 320" preserveAspectRatio="none">
+      <path fill="#255a7a" d="M0,160 C240,200 480,120 720,150 C960,180 1200,110 1440,150 C1680,190 1920,120 2160,150 C2400,180 2640,110 2880,160 L2880,320 L0,320 Z"/>
+    </svg>
+    <svg class="w2" viewBox="0 0 2880 320" preserveAspectRatio="none">
+      <path fill="#1a4059" d="M0,140 C240,180 480,110 720,140 C960,170 1200,100 1440,140 C1680,180 1920,110 2160,140 C2400,170 2640,100 2880,140 L2880,320 L0,320 Z"/>
+    </svg>
+    <svg class="w3" viewBox="0 0 2880 320" preserveAspectRatio="none">
+      <path fill="#0e2233" d="M0,150 C240,120 480,190 720,160 C960,130 1200,190 1440,150 C1680,110 1920,190 2160,160 C2400,130 2640,190 2880,150 L2880,320 L0,320 Z"/>
+    </svg>
+  </div>
+
+  <!-- AVAILABILITY SEARCH -->
+  <form class="booking" id="bookingForm">
+    <div class="bk-field">
+      <label class="bk-label" for="checkin">Arrival</label>
+      <input type="date" id="checkin" required>
+    </div>
+    <div class="bk-field">
+      <label class="bk-label" for="checkout">Departure</label>
+      <input type="date" id="checkout" required>
+    </div>
+    <div class="bk-field">
+      <label class="bk-label" for="guests">Guests</label>
+      <select id="guests">
+        <option>1 Guest</option>
+        <option selected>2 Guests</option>
+        <option>3 Guests</option>
+        <option>4 Guests</option>
+      </select>
+    </div>
+    <button type="submit" class="bk-btn">
+      Check Availability
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M1 6h13M10 1l5 5-5 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </form>
+</header>
+
+<!-- ============ ROOMS ============ -->
+<section class="rooms" id="rooms">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Stay With Us</span>
+      <h2>Rooms of stone, light &amp; salt air</h2>
+      <p>Each of our nine rooms is shaped from the hillside itself — limestone floors, hand-limed walls, and windows that frame the bay like a painting.</p>
+    </div>
+
+    <div class="room-grid">
+      <article class="room">
+        <div class="room-art">
+          <div class="art-base art-garden"></div>
+          <div class="room-sun"></div>
+          <svg viewBox="0 0 600 200" preserveAspectRatio="none">
+            <path fill="#c9bfa4" d="M0,120 C100,90 200,140 300,115 C400,90 500,135 600,110 L600,200 L0,200 Z"/>
+            <path fill="#b7ab8d" opacity=".6" d="M0,150 C120,130 240,165 360,145 C480,125 540,160 600,148 L600,200 L0,200 Z"/>
+          </svg>
+        </div>
+        <div class="room-body">
+          <div class="room-top">
+            <h3 class="room-name">Garden Terrace</h3>
+            <div class="room-price">from <b>€290</b>/night</div>
+          </div>
+          <p class="room-desc">A sun-warmed ground-floor suite opening onto the olive grove, with a marble soaking tub and morning coffee delivered to the terrace.</p>
+          <div class="room-meta">
+            <span>◇ 42 m²</span><span>◇ Sleeps 2</span><span>◇ Terrace</span>
+          </div>
+          <a class="room-link" href="#reserve">View Room
+            <svg width="14" height="10" viewBox="0 0 16 12" fill="none"><path d="M1 6h13M10 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="room">
+        <div class="room-art">
+          <div class="art-base art-ocean"></div>
+          <div class="room-sun" style="left:18%;top:20%"></div>
+          <svg viewBox="0 0 600 200" preserveAspectRatio="none">
+            <path fill="#33718f" opacity=".55" d="M0,110 C100,135 200,95 300,115 C400,135 500,100 600,118 L600,200 L0,200 Z"/>
+            <path fill="#1a4059" opacity=".7" d="M0,145 C120,125 240,160 360,140 C480,120 540,155 600,142 L600,200 L0,200 Z"/>
+          </svg>
+        </div>
+        <div class="room-body">
+          <div class="room-top">
+            <h3 class="room-name">Bay Window Suite</h3>
+            <div class="room-price">from <b>€420</b>/night</div>
+          </div>
+          <p class="room-desc">Our signature suite faces the open sea. Floor-to-ceiling glass, a deep limestone bath, and a private reading nook for slow afternoons.</p>
+          <div class="room-meta">
+            <span>◇ 58 m²</span><span>◇ Sleeps 2–3</span><span>◇ Sea view</span>
+          </div>
+          <a class="room-link" href="#reserve">View Room
+            <svg width="14" height="10" viewBox="0 0 16 12" fill="none"><path d="M1 6h13M10 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="room">
+        <div class="room-art">
+          <div class="art-base art-cliff"></div>
+          <div class="room-sun" style="left:72%;top:22%"></div>
+          <svg viewBox="0 0 600 200" preserveAspectRatio="none">
+            <path fill="#8a7a63" d="M0,90 C150,140 300,60 450,120 C520,145 570,120 600,130 L600,200 L0,200 Z"/>
+            <path fill="#255a7a" opacity=".6" d="M0,155 C120,140 260,170 380,152 C500,134 560,162 600,155 L600,200 L0,200 Z"/>
+          </svg>
+        </div>
+        <div class="room-body">
+          <div class="room-top">
+            <h3 class="room-name">Cliff House Villa</h3>
+            <div class="room-price">from <b>€680</b>/night</div>
+          </div>
+          <p class="room-desc">The whole upper floor, alone with the horizon. Two bedrooms, a wood-fire hearth, and a plunge pool set into the cliff edge at dusk.</p>
+          <div class="room-meta">
+            <span>◇ 120 m²</span><span>◇ Sleeps 4</span><span>◇ Pool</span>
+          </div>
+          <a class="room-link" href="#reserve">View Room
+            <svg width="14" height="10" viewBox="0 0 16 12" fill="none"><path d="M1 6h13M10 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ AMENITIES ============ -->
+<section class="amenities" id="amenities">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">House Amenities</span>
+      <h2>Every small thing, quietly cared for</h2>
+      <p>We keep the house unhurried. No concierge desk, no queue — just a team that learns your name by the second morning.</p>
+    </div>
+
+    <div class="amen-grid">
+      <div class="amen">
+        <div class="amen-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M6 6.5c3.5 3 8.5 3 12 0M6 17.5c3.5-3 8.5-3 12 0"/></svg></div>
+        <h3>Sea-Facing Infinity Pool</h3>
+        <p>Heated to 27°, open at dawn. The waterline disappears into the horizon — or you do, briefly.</p>
+      </div>
+      <div class="amen">
+        <div class="amen-icon"><svg viewBox="0 0 24 24"><path d="M4 19c4-1 6-4 6-8M12 19c4-1 6-4 6-8M8 11c2-2 4-5 8-6M8 11c-2 0-4-1-5-3"/></svg></div>
+        <h3>The Fig &amp; Vine Kitchen</h3>
+        <p>A daily-changing five-course menu built on the day's boats, our orchard and the market at Vathi village.</p>
+      </div>
+      <div class="amen">
+        <div class="amen-icon"><svg viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="10" rx="2"/><path d="M8 8V6a4 4 0 0 1 8 0v2M4 13h16"/></svg></div>
+        <h3>Stone Bathhouse &amp; Spa</h3>
+        <p>Two treatment rooms, a cedar hammam and cold seawater showers. Book the sunset ritual — it sells out.</p>
+      </div>
+      <div class="amen">
+        <div class="amen-icon"><svg viewBox="0 0 24 24"><path d="M7 4v16M17 4v16M4 9h6M14 15h6M4 15h6M14 9h6"/></svg></div>
+        <h3>Private Chef &amp; Cellar</h3>
+        <p>Table on the rocks, cypress shade, and a cellar of 300 bottles of island and coastal Greece.</p>
+      </div>
+      <div class="amen">
+        <div class="amen-icon"><svg viewBox="0 0 24 24"><path d="M3 15c2-2 4-2 6 0s4 2 6 0 4-2 6 0M3 19c2-2 4-2 6 0s4 2 6 0 4-2 6 0M12 3v5M10 5h4"/></svg></div>
+        <h3>Boat &amp; Kayak Hire</h3>
+        <p>A classic wooden ketch, glass-bottom kayaks and paddleboards, launched from our private cove.</p>
+      </div>
+      <div class="amen">
+        <div class="amen-icon"><svg viewBox="0 0 24 24"><path d="M5 11l7-7 7 7M7 10v10h10V10M10 20v-6h4v6"/></svg></div>
+        <h3>Warm Welcome, Warm Staff</h3>
+        <p>Seven people, all of them here on purpose. They will remember how you take your coffee.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCES ============ -->
+<section class="experiences" id="experiences">
+  <div class="wrap">
+    <div class="exp-head">
+      <div class="sec-head" style="margin-bottom:0">
+        <span class="eyebrow">Beyond the House</span>
+        <h2>Local experiences, arranged with care</h2>
+      </div>
+      <p style="max-width:380px">We know this coast the way it should be known — slowly. Ask your host; we will arrange it all, quietly.</p>
+    </div>
+
+    <div class="exp-list">
+      <div class="exp-item">
+        <div class="exp-num">01</div>
+        <div>
+          <h3>Dawn Sailing on the Miren</h3>
+          <p>Three hours aboard our 1968 wooden ketch, past the monk-seal cove and a swim at the hidden islet. Coffee on board, always.</p>
+          <div class="exp-duration">3 hours · from the pier</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-num">02</div>
+        <div>
+          <h3>The Fisherman's Table</h3>
+          <p>Board the day-boat with Nikos, cook over the coals what he catches, and eat it where he landed it. No menu. No hurry.</p>
+          <div class="exp-duration">Half day · seasonal</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-num">03</div>
+        <div>
+          <h3>Olive Grove &amp; Mill Visit</h3>
+          <p>A morning with the Papadaki family pressing first-crop oil, followed by lunch in the shade of two hundred-year-old trees.</p>
+          <div class="exp-duration">4 hours · October–November</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-num">04</div>
+        <div>
+          <h3>Stargazing in the Cave</h3>
+          <p>After dark, we walk to the sea cave where no light reaches. Our astronomer-guide charts the constellations overhead.</p>
+          <div class="exp-duration">2 hours · new moon nights</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-num">05</div>
+        <div>
+          <h3>Celadon Clay Workshop</h3>
+          <p>Throw your own cup at the ceramics house in Vathi. It's fired and sent home to you in the winter — a little piece of the coast.</p>
+          <div class="exp-duration">3 hours · by appointment</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-num">06</div>
+        <div>
+          <h3>The Long Lunch</h3>
+          <p>Nothing is planned, which is the plan. A basket, a blanket, and an hour of the most unbothered swimming you'll find.</p>
+          <div class="exp-duration">Unscheduled · on request</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="reserve">
+  <div class="cta-inner">
+    <span class="eyebrow" style="justify-content:center;display:flex">Reserve Your Stay</span>
+    <h2>The sea is quiet.<br><em style="font-weight:300">Come and hear it.</em></h2>
+    <p>Our season is small on purpose — nine rooms, one coast, no noise. Dates this year are filling faster than the tide.</p>
+    <a href="#top" class="btn-primary">Book Now
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M1 6h13M10 1l5 5-5 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <a href="tel:+302100000000" class="btn-ghost">Or call the house</a>
+    <div class="cta-note">Free cancellation up to 14 days · Best rate, always, when booked directly</div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact">
+  <div class="foot-top">
+    <div class="foot-brand">
+      <div class="brand">
+        <span class="brand-name">MIREN</span>
+        <span class="brand-sub">House · Coastal</span>
+      </div>
+      <p>A family-run house of nine rooms, set in the cliffs above Kastron Bay. Independently owned since 1962, still by the same family.</p>
+    </div>
+    <div class="foot-col">
+      <h4>The House</h4>
+      <ul>
+        <li><a href="#rooms">Rooms &amp; Suites</a></li>
+        <li><a href="#amenities">Amenities</a></li>
+        <li><a href="#experiences">Experiences</a></li>
+        <li><a href="#">Gift Cards</a></li>
+        <li><a href="#">Our Story</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Practical</h4>
+      <ul>
+        <li><a href="#">Getting Here</a></li>
+        <li><a href="#">Cancellation Policy</a></li>
+        <li><a href="#">Accessibility</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Visit</h4>
+      <ul class="foot-contact">
+        <li>
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <span>Cliff Path 7, Kastron Bay<br>37001, Cyclades, Greece</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24"><path d="M4 5c0 9 6 15 15 15l2-4-5-2-2 2c-2-1-4-3-5-5l2-2-2-5-5 1z"/></svg>
+          <span>+30 22860 04491<br>daily 08:00 – 21:00</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 8l9 6 9-6"/></svg>
+          <span>stay@mirenhouse.gr</span>
+        </li>
+      </ul>
+      <div class="newsletter">
+        <h4 style="margin-top:28px">The Tidal Letter</h4>
+        <form id="newsForm">
+          <input type="email" placeholder="Your email address" required aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">→</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2025 Miren House S.A. · All rights reserved</span>
+    <span>
+      <a href="#">Privacy</a><a href="#">Terms</a><a href="#">Instagram</a><a href="#">Pinterest</a>
+    </span>
+  </div>
+</footer>
+
+<div class="toast" id="toast">Thank you — our host will be in touch shortly.</div>
+
+<script>
+// Date defaults
+(function(){
+  const ci=document.getElementById('checkin'),co=document.getElementById('checkout');
+  const today=new Date(),soon=new Date();soon.setDate(soon.getDate()+3);
+  const fmt=d=>d.toISOString().split('T')[0];
+  ci.min=fmt(today);ci.value=fmt(today);
+  co.min=fmt(today);co.value=fmt(soon);
+  ci.addEventListener('change',()=>{
+    const next=new Date(ci.value);next.setDate(next.getDate()+1);
+    co.min=next.toISOString().split('T')[0];
+    if(co.value<co.min)co.value=next.toISOString().split('T')[0];
+  });
+})();
+
+// Toast helper
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),4200);
+}
+
+document.getElementById('bookingForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const g=document.getElementById('guests').value;
+  showToast('Checking availability for '+g+'… we\'ll hold your dates for 24 hours.');
+});
+
+document.getElementById('newsForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  e.target.reset();
+  showToast('Welcome to the Tidal Letter. First post arrives with the next tide.');
+});
+
+// Subtle parallax on hero content
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY,hero=document.querySelector('.hero');
+  if(y<hero.offsetHeight){
+    document.querySelector('.hero-content').style.transform='translate(-50%,'+(y*0.22)+'px)';
+    document.querySelector('.hero-content').style.opacity=Math.max(0,1-y/520);
+  }
+},{passive:true});
+</script>
+</body>
+</html>

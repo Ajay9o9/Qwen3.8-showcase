@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STILL / FORM — A Studio for Quiet Movement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bone:#F4EEE3;
+  --bone-2:#EDE4D4;
+  --sand:#E2D3BC;
+  --clay:#B0673F;
+  --clay-deep:#8F4E2C;
+  --terracotta:#C97E52;
+  --sage:#8E9179;
+  --sage-deep:#6E7360;
+  --stone:#D8CCB8;
+  --espresso:#3B322A;
+  --espresso-soft:#5C5044;
+  --line:rgba(59,50,42,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bone);
+  color:var(--espresso);
+  font-weight:400;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+h1,h2,h3,.serif{font-family:'Fraunces',serif;font-weight:400}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;padding:0 48px}
+.eyebrow{
+  font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--clay);font-weight:600;display:flex;align-items:center;gap:14px;
+}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--clay);display:inline-block}
+.eyebrow.center{justify-content:center}
+.eyebrow.center::after{content:"";width:34px;height:1px;background:var(--clay);display:inline-block}
+
+/* ---------- NAV ---------- */
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(244,238,227,.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo{font-family:'Fraunces',serif;font-size:21px;letter-spacing:.12em;display:flex;align-items:center;gap:12px}
+.logo .mark{width:26px;height:34px;flex:none}
+.nav-links{display:flex;gap:38px;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.nav-links a{position:relative;padding:6px 0;color:var(--espresso-soft);transition:color .25s}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--clay);transition:width .3s}
+.nav-links a:hover{color:var(--espresso)}
+.nav-links a:hover::after{width:100%}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;
+  padding:14px 28px;border-radius:999px;cursor:pointer;border:none;
+  transition:transform .25s ease, box-shadow .25s ease, background .25s;
+}
+.btn-primary{background:var(--clay);color:#FBF6EE;box-shadow:0 10px 24px -12px rgba(143,78,44,.55)}
+.btn-primary:hover{background:var(--clay-deep);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--espresso);border:1px solid var(--espresso)}
+.btn-ghost:hover{background:var(--espresso);color:var(--bone);transform:translateY(-2px)}
+.btn .arrow{font-family:'Fraunces',serif;font-size:15px}
+.nav-cta{padding:11px 22px}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;padding:72px 0 90px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center}
+.hero h1{
+  font-size:clamp(48px,5.6vw,84px);
+  line-height:1.04;letter-spacing:-.01em;margin:26px 0 28px;
+}
+.hero h1 em{font-style:italic;color:var(--clay)}
+.hero p.lead{font-size:17px;color:var(--espresso-soft);max-width:520px;font-weight:300;line-height:1.8}
+.hero-actions{display:flex;gap:18px;margin-top:40px;align-items:center}
+.hero-note{font-size:12px;color:var(--espresso-soft);letter-spacing:.05em}
+.hero-visual{position:relative;height:560px}
+.arch{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(255,255,255,.5), transparent 40%),
+    linear-gradient(165deg,#D9A87C 0%, var(--terracotta) 42%, var(--clay-deep) 100%);
+  border-radius:280px 280px 14px 14px;
+  box-shadow:0 40px 80px -30px rgba(143,78,44,.45);
+}
+.arch .sun{
+  position:absolute;top:120px;left:50%;transform:translateX(-50%);
+  width:150px;height:150px;border-radius:50%;
+  background:radial-gradient(circle at 35% 32%, #F8E9D2, #EFCB9C 70%);
+  box-shadow:0 0 60px 18px rgba(248,233,210,.55);
+  animation:breathe 7s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.06)}}
+.horizon{
+  position:absolute;left:0;right:0;bottom:130px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,248,238,.7),transparent);
+}
+.wave{position:absolute;left:0;bottom:40px;width:100%}
+.ring{
+  position:absolute;left:-70px;bottom:-60px;width:230px;height:230px;border-radius:50%;
+  border:1px solid var(--clay);opacity:.5;
+}
+.ring::after{content:"";position:absolute;inset:26px;border-radius:50%;border:1px solid var(--clay);opacity:.6}
+.hero-badge{
+  position:absolute;right:-26px;bottom:96px;
+  background:var(--bone);border:1px solid var(--line);
+  border-radius:14px;padding:18px 24px;box-shadow:0 24px 40px -24px rgba(59,50,42,.35);
+}
+.hero-badge .n{font-family:'Fraunces',serif;font-size:30px;color:var(--clay);line-height:1}
+.hero-badge .l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-soft);margin-top:6px}
+.hero-stats{
+  display:flex;gap:0;margin-top:64px;border-top:1px solid var(--line);
+}
+.stat{padding:26px 40px 0 0;margin-right:40px;border-right:1px solid var(--line)}
+.stat:last-child{border-right:none;margin-right:0}
+.stat .v{font-family:'Fraunces',serif;font-size:30px;color:var(--espresso)}
+.stat .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--espresso-soft);margin-top:4px}
+
+/* ---------- RITUAL ---------- */
+.ritual{padding:110px 0;position:relative}
+.ritual-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:90px;align-items:center}
+.ritual-visual{position:relative;height:520px}
+.big-circle{
+  position:absolute;top:30px;left:30px;width:400px;height:400px;border-radius:50%;
+  background:linear-gradient(140deg,#CDD0BB 0%, var(--sage) 60%, var(--sage-deep) 100%);
+  box-shadow:0 40px 70px -34px rgba(110,115,96,.5);
+}
+.big-circle::before{
+  content:"";position:absolute;inset:34px;border-radius:50%;
+  border:1px dashed rgba(244,238,227,.55);
+}
+.big-circle::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 30% 26%, rgba(255,255,255,.35), transparent 45%);
+}
+.orbit{
+  position:absolute;top:30px;left:30px;width:400px;height:400px;
+  animation:spin 40s linear infinite;
+}
+.orbit .dot{
+  position:absolute;top:-7px;left:50%;width:14px;height:14px;border-radius:50%;
+  background:var(--clay);box-shadow:0 0 0 5px rgba(176,103,63,.2);
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stone-arc{
+  position:absolute;bottom:0;right:0;width:200px;height:100px;
+  border-radius:200px 200px 0 0;
+  background:linear-gradient(180deg,#E0C9A8,#D3B48C);
+}
+.ritual h2{font-size:clamp(34px,3.4vw,52px);line-height:1.12;margin:22px 0 24px}
+.ritual h2 em{font-style:italic;color:var(--sage-deep)}
+.ritual p{color:var(--espresso-soft);font-weight:300;font-size:16px;max-width:520px}
+.ritual-steps{margin-top:40px;display:grid;gap:0}
+.step{display:grid;grid-template-columns:64px 1fr;gap:20px;padding:24px 0;border-top:1px solid var(--line)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step .num{font-family:'Fraunces',serif;font-style:italic;font-size:26px;color:var(--clay);line-height:1}
+.step h3{font-size:19px;margin-bottom:4px}
+.step p{font-size:14px;margin:0}
+
+/* ---------- SCHEDULE ---------- */
+.schedule{padding:110px 0;background:var(--bone-2);position:relative}
+.schedule::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line),transparent);
+}
+.sched-head{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;margin-bottom:44px}
+.sched-head h2{font-size:clamp(34px,3.4vw,50px);margin-top:20px}
+.sched-head p{max-width:380px;color:var(--espresso-soft);font-weight:300;font-size:15px}
+.day-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:36px}
+.day-tab{
+  font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  padding:12px 22px;border-radius:999px;border:1px solid var(--line);
+  background:transparent;color:var(--espresso-soft);cursor:pointer;transition:all .25s;
+}
+.day-tab:hover{border-color:var(--clay);color:var(--clay)}
+.day-tab.active{background:var(--espresso);border-color:var(--espresso);color:var(--bone)}
+.classes{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.class-card{
+  background:var(--bone);border:1px solid var(--line);border-radius:18px;
+  padding:28px 30px;display:flex;justify-content:space-between;gap:24px;align-items:center;
+  transition:transform .3s ease, box-shadow .3s ease, border-color .3s;
+}
+.class-card:hover{transform:translateY(-4px);box-shadow:0 26px 44px -28px rgba(59,50,42,.4);border-color:rgba(176,103,63,.4)}
+.class-time{font-family:'Fraunces',serif;font-size:26px;color:var(--clay);line-height:1;white-space:nowrap}
+.class-time small{display:block;font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--espresso-soft);margin-top:8px}
+.class-info{flex:1}
+.class-info h3{font-size:21px;margin-bottom:4px}
+.class-info .meta{font-size:13px;color:var(--espresso-soft)}
+.tag{
+  display:inline-block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+  padding:6px 12px;border-radius:999px;margin-top:10px;
+}
+.tag.rest{background:#E7E9DD;color:var(--sage-deep)}
+.tag.flow{background:#F0DCC8;color:var(--clay-deep)}
+.tag.still{background:#DDD8C8;color:var(--espresso-soft)}
+.class-book{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:var(--clay);white-space:nowrap;display:flex;align-items:center;gap:6px;
+}
+.class-book .a{transition:transform .3s}
+.class-card:hover .class-book .a{transform:translateX(5px)}
+.sched-empty{
+  grid-column:1/-1;text-align:center;padding:70px 0;color:var(--espresso-soft);
+  font-family:'Fraunces',serif;font-style:italic;font-size:22px;
+}
+
+/* ---------- CTA BANNER ---------- */
+.cta{padding:110px 0;position:relative;overflow:hidden}
+.cta-panel{
+  position:relative;border-radius:28px;overflow:hidden;
+  background:linear-gradient(150deg,#3B322A 0%,#4A3E32 55%,#5C4634 100%);
+  padding:84px 70px;color:var(--bone);
+  display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:center;
+}
+.cta-panel::before{
+  content:"";position:absolute;right:-140px;top:-140px;width:420px;height:420px;border-radius:50%;
+  border:1px solid rgba(244,238,227,.18);
+}
+.cta-panel::after{
+  content:"";position:absolute;right:-70px;top:-70px;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,126,82,.35),transparent 70%);
+}
+.cta-panel h2{font-size:clamp(32px,3.2vw,48px);line-height:1.15;margin:18px 0 18px}
+.cta-panel h2 em{font-style:italic;color:#E0A87C}
+.cta-panel p{color:rgba(244,238,227,.7);font-weight:300;max-width:440px}
+.cta-side{display:grid;gap:16px;position:relative;z-index:1}
+.cta-row{
+  display:flex;justify-content:space-between;align-items:center;
+  border:1px solid rgba(244,238,227,.18);border-radius:14px;padding:18px 24px;
+  background:rgba(244,238,227,.05);backdrop-filter:blur(4px);
+}
+.cta-row .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(244,238,227,.6)}
+.cta-row .v{font-family:'Fraunces',serif;font-size:18px}
+.cta-panel .btn-primary{margin-top:34px}
+
+/* ---------- INSTRUCTORS ---------- */
+.instructors{padding:110px 0}
+.inst-head{text-align:center;max-width:640px;margin:0 auto 60px}
+.inst-head h2{font-size:clamp(34px,3.4vw,50px);margin-top:20px}
+.inst-head p{color:var(--espresso-soft);font-weight:300;margin-top:14px}
+.inst-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.inst-card{text-align:center}
+.inst-arch{
+  position:relative;width:100%;aspect-ratio:4/5;border-radius:150px 150px 16px 16px;
+  overflow:hidden;margin-bottom:20px;transition:transform .35s ease, box-shadow .35s ease;
+}
+.inst-card:hover .inst-arch{transform:translateY(-6px);box-shadow:0 30px 50px -28px rgba(59,50,42,.4)}
+.inst-arch svg{position:absolute;inset:0;width:100%;height:100%}
+.inst-card h3{font-size:22px}
+.inst-card .role{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);margin:6px 0 10px;font-weight:600}
+.inst-card .bio{font-size:13.5px;color:var(--espresso-soft);font-weight:300;line-height:1.65}
+
+/* ---------- MEMBERSHIPS ---------- */
+.memberships{padding:110px 0;background:var(--bone-2);position:relative}
+.mem-head{text-align:center;max-width:600px;margin:0 auto 60px}
+.mem-head h2{font-size:clamp(34px,3.4vw,50px);margin-top:20px}
+.mem-head p{color:var(--espresso-soft);font-weight:300;margin-top:14px}
+.mem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch}
+.mem-card{
+  background:var(--bone);border:1px solid var(--line);border-radius:22px;
+  padding:44px 38px;display:flex;flex-direction:column;
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.mem-card:hover{transform:translateY(-6px);box-shadow:0 30px 50px -30px rgba(59,50,42,.35)}
+.mem-card.featured{
+  background:linear-gradient(165deg,#C97E52,#B0673F 70%,#9A5533);
+  color:#FBF4EA;border:none;position:relative;
+}
+.mem-card.featured .mem-sub,.mem-card.featured .mem-feats li{color:rgba(251,244,234,.75)}
+.mem-card.featured .mem-price{color:#FBF4EA}
+.mem-name{font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:var(--clay)}
+.mem-card.featured .mem-name{color:#F6D9BC}
+.mem-sub{font-size:13px;font-weight:300;color:var(--espresso-soft);margin-top:6px}
+.mem-price{font-family:'Fraunces',serif;font-size:52px;margin:26px 0 4px;line-height:1}
+.mem-price span{font-size:16px;font-family:'Inter',sans-serif;font-weight:300;color:var(--espresso-soft)}
+.mem-card.featured .mem-price span{color:rgba(251,244,234,.7)}
+.mem-feats{list-style:none;margin:26px 0 36px;display:grid;gap:12px;flex:1}
+.mem-feats li{font-size:14px;font-weight:300;display:flex;gap:12px;align-items:baseline;color:var(--espresso-soft)}
+.mem-feats li::before{content:"—";color:var(--clay);font-family:'Fraunces',serif}
+.mem-card.featured .mem-feats li::before{color:#F6D9BC}
+.mem-card .btn{justify-content:center;width:100%}
+.mem-card.featured .btn-primary{background:var(--espresso);color:var(--bone)}
+.mem-card.featured .btn-primary:hover{background:#2B241E}
+
+/* ---------- LOCATION ---------- */
+.location{padding:110px 0}
+.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.loc-info h2{font-size:clamp(34px,3.2vw,48px);margin:20px 0 22px;line-height:1.12}
+.loc-info p{color:var(--espresso-soft);font-weight:300;max-width:460px}
+.loc-rows{margin-top:36px;display:grid;gap:0}
+.loc-row{
+  display:grid;grid-template-columns:120px 1fr;gap:24px;padding:20px 0;
+  border-top:1px solid var(--line);
+}
+.loc-row:last-child{border-bottom:1px solid var(--line)}
+.loc-row .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);font-weight:600;padding-top:3px}
+.loc-row .v{font-size:15px}
+.loc-row .v small{display:block;color:var(--espresso-soft);font-weight:300;font-size:13px;margin-top:2px}
+.loc-map{
+  position:relative;height:480px;border-radius:240px 240px 20px 20px;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 62%, rgba(201,126,82,.16), transparent 45%),
+    linear-gradient(160deg,#E6DCC9 0%, #DCCFB6 60%, #D3C2A4 100%);
+  border:1px solid var(--line);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.4);
+}
+.map-svg{position:absolute;inset:0;width:100%;height:100%}
+.map-pin{
+  position:absolute;top:58%;left:50%;transform:translate(-50%,-50%);
+  width:18px;height:18px;border-radius:50%;background:var(--clay);
+  box-shadow:0 0 0 8px rgba(176,103,63,.22), 0 0 0 18px rgba(176,103,63,.1);
+  animation:pin 3s ease-in-out infinite;
+}
+@keyframes pin{0%,100%{box-shadow:0 0 0 8px rgba(176,103,63,.22),0 0 0 18px rgba(176,103,63,.1)}50%{box-shadow:0 0 0 10px rgba(176,103,63,.28),0 0 0 26px rgba(176,103,63,.05)}}
+.map-label{
+  position:absolute;top:calc(58% + 30px);left:50%;transform:translateX(-50%);
+  background:var(--bone);border:1px solid var(--line);border-radius:999px;
+  padding:8px 18px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;
+  white-space:nowrap;color:var(--espresso);
+}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--espresso);color:rgba(244,238,227,.72);padding:80px 0 40px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:50px;padding-bottom:60px;border-bottom:1px solid rgba(244,238,227,.12)}
+.foot-logo{font-family:'Fraunces',serif;font-size:24px;color:var(--bone);letter-spacing:.1em;display:flex;align-items:center;gap:12px}
+.foot-grid p{font-size:14px;font-weight:300;max-width:280px;margin-top:16px;line-height:1.8}
+.foot-h{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#E0A87C;margin-bottom:20px;font-weight:600}
+.foot-links{list-style:none;display:grid;gap:12px;font-size:14px;font-weight:300}
+.foot-links a{transition:color .25s}
+.foot-links a:hover{color:var(--bone)}
+.news{display:flex;margin-top:8px;border:1px solid rgba(244,238,227,.22);border-radius:999px;overflow:hidden}
+.news input{
+  flex:1;background:transparent;border:none;outline:none;color:var(--bone);
+  padding:13px 20px;font-family:'Inter',sans-serif;font-size:13px;min-width:0;
+}
+.news input::placeholder{color:rgba(244,238,227,.4)}
+.news button{
+  background:#E0A87C;border:none;color:var(--espresso);padding:0 22px;cursor:pointer;
+  font-family:'Fraunces',serif;font-size:16px;transition:background .25s;
+}
+.news button:hover{background:#F0C69E}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:34px;font-size:12px;letter-spacing:.06em;color:rgba(244,238,227,.45)}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:1020px){
+  .hero-grid,.ritual-grid,.loc-grid,.cta-panel{grid-template-columns:1fr}
+  .classes,.inst-grid,.mem-grid{grid-template-columns:repeat(2,1fr)}
+  .hero-visual{height:440px}
+  .nav-links{display:none}
+  .sched-head{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:640px){
+  .wrap{padding:0 24px}
+  .classes,.inst-grid,.mem-grid{grid-template-columns:1fr}
+  .hero-stats{flex-wrap:wrap}
+  .stat{margin-right:24px;padding-right:24px}
+  .cta-panel{padding:50px 32px}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="wrap nav-inner">
+    <a href="#" class="logo">
+      <svg class="mark" viewBox="0 0 26 34" fill="none">
+        <path d="M1 33V14C1 6.8 6.4 1 13 1s12 5.8 12 13v18" stroke="#B0673F" stroke-width="2"/>
+        <circle cx="13" cy="19" r="5.5" fill="#C97E52"/>
+      </svg>
+      STILL / FORM
+    </a>
+    <div class="nav-links">
+      <a href="#schedule">Schedule</a>
+      <a href="#ritual">The Ritual</a>
+      <a href="#instructors">Instructors</a>
+      <a href="#memberships">Memberships</a>
+      <a href="#location">Visit</a>
+    </div>
+    <a href="#schedule" class="btn btn-primary nav-cta">Book a Class</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Movement studio · Est. 2016</span>
+        <h1>Find the form<br>within the <em>stillness</em>.</h1>
+        <p class="lead">A quiet room in the heart of the city where breath leads and movement follows. Slow yoga, conscious stretching, and restorative practice — built for people who want less noise and more ground.</p>
+        <div class="hero-actions">
+          <a href="#schedule" class="btn btn-primary">Reserve a class <span class="arrow">→</span></a>
+          <a href="#ritual" class="btn btn-ghost">Our philosophy</a>
+        </div>
+        <p class="hero-note" style="margin-top:18px">First visit? Your trial class is on us.</p>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="arch">
+          <div class="sun"></div>
+          <div class="horizon"></div>
+          <svg class="wave" viewBox="0 0 560 40" preserveAspectRatio="none">
+            <path d="M0 22 Q70 6 140 22 T280 22 T420 22 T560 22 V40 H0 Z" fill="rgba(59,50,42,.22)"/>
+            <path d="M0 30 Q70 16 140 30 T280 30 T420 30 T560 30 V40 H0 Z" fill="rgba(59,50,42,.35)"/>
+          </svg>
+        </div>
+        <div class="ring"></div>
+        <div class="hero-badge">
+          <div class="n">6:30</div>
+          <div class="l">Next · Dawn Flow</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="v">22</div><div class="k">Classes weekly</div></div>
+      <div class="stat"><div class="v">4</div><div class="k">Instructors</div></div>
+      <div class="stat"><div class="v">15 min</div><div class="k">From Union Station</div></div>
+      <div class="stat"><div class="v">4.9 ★</div><div class="k">Member rating</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ RITUAL ============ -->
+<section class="ritual" id="ritual">
+  <div class="wrap ritual-grid">
+    <div class="ritual-visual" aria-hidden="true">
+      <div class="big-circle"></div>
+      <div class="orbit"><div class="dot"></div></div>
+      <div class="stone-arc"></div>
+    </div>
+    <div>
+      <span class="eyebrow">The ritual</span>
+      <h2>Every class begins the same way, and that is <em>the point</em>.</h2>
+      <p>Ritual is how the nervous system learns it is safe to soften. At STILL / FORM, each session opens with a shared silence, a settling of breath, and a clear intention — so you can arrive exactly as you are and leave somewhere steadier.</p>
+      <div class="ritual-steps">
+        <div class="step">
+          <div class="num">01</div>
+          <div><h3>Arrive &amp; settle</h3><p>Five unhurried minutes of seated breath. No phones, no rush, no catching up. Just the room.</p></div>
+        </div>
+        <div class="step">
+          <div class="num">02</div>
+          <div><h3>Move with intention</h3><p>Slow, deliberate sequences that meet your body where it is — never more, never less.</p></div>
+        </div>
+        <div class="step">
+          <div class="num">03</div>
+          <div><h3>Close in stillness</h3><p>Every class ends in savasana, every single time. The rest is part of the practice.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCHEDULE ============ -->
+<section class="schedule" id="schedule">
+  <div class="wrap">
+    <div class="sched-head">
+      <div>
+        <span class="eyebrow">This week</span>
+        <h2>Daily schedule</h2>
+      </div>
+      <p>Seven days, three tempos. Early classes hold morning light; evening classes hold the day still. Book ahead — classes cap at 16.</p>
+    </div>
+    <div class="day-tabs" id="dayTabs"></div>
+    <div class="classes" id="classList"></div>
+  </div>
+</section>
+
+<!-- ============ CTA BANNER ============ -->
+<section class="cta">
+  <div class="wrap">
+    <div class="cta-panel">
+      <div>
+        <span class="eyebrow" style="color:#E0A87C">Begin today</span>
+        <h2>Your first class is <em>on us</em>.</h2>
+        <p>Choose any class this week and come as you are. Mats, blankets, and tea are waiting in the studio. If it feels like the right room, we'll keep a space for you.</p>
+        <a href="#memberships" class="btn btn-primary">Claim your trial <span class="arrow">→</span></a>
+      </div>
+      <div class="cta-side">
+        <div class="cta-row"><span class="k">Trial class</span><span class="v">Free</span></div>
+        <div class="cta-row"><span class="k">Equipment</span><span class="v">All provided</span></div>
+        <div class="cta-row"><span class="k">Arrive</span><span class="v">10 min early</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INSTRUCTORS ============ -->
+<section class="instructors" id="instructors">
+  <div class="wrap">
+    <div class="inst-head">
+      <span class="eyebrow center">The teachers</span>
+      <h2>Hands that have<br>learned to hold still</h2>
+      <p>Each of our instructors has spent a decade or more in the practice, and a lifetime in the listening.</p>
+    </div>
+    <div class="inst-grid">
+      <div class="inst-card">
+        <div class="inst-arch">
+          <svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMax slice">
+            <rect width="200" height="250" fill="#D8B48F"/>
+            <circle cx="100" cy="88" r="42" fill="#3B322A"/>
+            <path d="M40 250 C40 180 60 158 100 158 s60 22 60 92 Z" fill="#3B322A"/>
+            <circle cx="138" cy="46" r="18" fill="#F4EEE3" opacity=".5"/>
+          </svg>
+        </div>
+        <h3>Mara Ellison</h3>
+        <div class="role">Slow Yoga &amp; Yin</div>
+        <p class="bio">Former dancer. Teaches the body to let go of everything it holds for a living.</p>
+      </div>
+      <div class="inst-card">
+        <div class="inst-arch">
+          <svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMax slice">
+            <rect width="200" height="250" fill="#8E9179"/>
+            <circle cx="100" cy="92" r="40" fill="#F4EEE3"/>
+            <path d="M44 250 C44 184 64 162 100 162 s56 22 56 88 Z" fill="#6E7360"/>
+            <circle cx="64" cy="52" r="16" fill="#F4EEE3" opacity=".4"/>
+          </svg>
+        </div>
+        <h3>David Okafor</h3>
+        <div class="role">Breath &amp; Restorative</div>
+        <p class="bio">A therapist turned teacher. His rooms are quiet, his cues fewer, and both are deliberate.</p>
+      </div>
+      <div class="inst-card">
+        <div class="inst-arch">
+          <svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMax slice">
+            <rect width="200" height="250" fill="#C97E52"/>
+            <circle cx="100" cy="86" r="44" fill="#F4EEE3"/>
+            <path d="M38 250 C38 178 60 156 100 156 s62 22 62 94 Z" fill="#8F4E2C"/>
+            <path d="M56 30 A44 44 0 0 1 144 30" fill="none" stroke="#3B322A" stroke-width="6"/>
+          </svg>
+        </div>
+        <h3>Lena Hart</h3>
+        <div class="role">Dawn Flow &amp; Vinyasa</div>
+        <p class="bio">Teaches the 6:30 am class and has never missed one. Warmth with a steady spine.</p>
+      </div>
+      <div class="inst-card">
+        <div class="inst-arch">
+          <svg viewBox="0 0 200 250" preserveAspectRatio="xMidYMax slice">
+            <rect width="200" height="250" fill="#E2D3BC"/>
+            <circle cx="100" cy="90" r="41" fill="#8E9179"/>
+            <path d="M42 250 C42 182 62 160 100 160 s58 22 58 90 Z" fill="#5C5044"/>
+            <circle cx="146" cy="58" r="20" fill="#C97E52" opacity=".55"/>
+          </svg>
+        </div>
+        <h3>Tomás Vega</h3>
+        <div class="role">Groundwork &amp; Stretch</div>
+        <p class="bio">Works with athletes and desk-workers alike. Believes flexibility is mostly patience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEMBERSHIPS ============ -->
+<section class="memberships" id="memberships">
+  <div class="wrap">
+    <div class="mem-head">
+      <span class="eyebrow center">Memberships</span>
+      <h2>Choose how often you<br>come back to still</h2>
+      <p>Simple plans, no lock-in, cancel anytime. Every membership includes the studio store and our herbal tea bar.</p>
+    </div>
+    <div class="mem-grid">
+      <div class="mem-card">
+        <div class="mem-name">Drift</div>
+        <div class="mem-sub">For the occasional return</div>
+        <div class="mem-price">$69<span>/mo</span></div>
+        <ul class="mem-feats">
+          <li>2 classes per month</li>
+          <li>Any day, any level</li>
+          <li>Freeze anytime</li>
+          <li>10% off workshops</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Choose Drift</a>
+      </div>
+      <div class="mem-card featured">
+        <div class="mem-name">Settle</div>
+        <div class="mem-sub">Our most loved rhythm</div>
+        <div class="mem-price">$139<span>/mo</span></div>
+        <ul class="mem-feats">
+          <li>Unlimited classes</li>
+          <li>Priority booking (24h)</li>
+          <li>2 guest passes / month</li>
+          <li>Use of rest lounge &amp; tea bar</li>
+          <li>1 free seasonal workshop</li>
+        </ul>
+        <a href="#" class="btn btn-primary">Choose Settle</a>
+      </div>
+      <div class="mem-card">
+        <div class="mem-name">Ground</div>
+        <div class="mem-sub">For the deeply committed</div>
+        <div class="mem-price">$219<span>/mo</span></div>
+        <ul class="mem-feats">
+          <li>Everything in Settle</li>
+          <li>1 private session / month</li>
+          <li>Early access to retreats</li>
+          <li>Reserved lounge chair</li>
+          <li>20% off workshops</li>
+        </ul>
+        <a href="#" class="btn btn-ghost">Choose Ground</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOCATION ============ -->
+<section class="location" id="location">
+  <div class="wrap loc-grid">
+    <div class="loc-info">
+      <span class="eyebrow">Visit us</span>
+      <h2>A small room on a<br>quiet street</h2>
+      <p>Tucked into a restored 1920s apothecary on Alder Street. Oak floors, warm light, and the sound of the fountain in the courtyard. Easy to find; impossible to hear from the street.</p>
+      <div class="loc-rows">
+        <div class="loc-row">
+          <div class="k">Address</div>
+          <div class="v">14 Alder Street, Suite 2<small>Portland, OR 97205</small></div>
+        </div>
+        <div class="loc-row">
+          <div class="k">Studio hours</div>
+          <div class="v">Mon – Fri · 6:00 am – 9:00 pm<small>Sat · 8:00 am – 2:00 pm &nbsp;·&nbsp; Sun · 9:00 am – 12:00 pm</small></div>
+        </div>
+        <div class="loc-row">
+          <div class="k">Contact</div>
+          <div class="v">hello@stillform.studio<small>(503) 555-0184</small></div>
+        </div>
+        <div class="loc-row">
+          <div class="k">Getting here</div>
+          <div class="v">Free 2-hr parking on Alder<small>Bus 15 &amp; 20 · 15 min walk from Union Station</small></div>
+        </div>
+      </div>
+    </div>
+    <div class="loc-map" aria-label="Stylised map of the studio location">
+      <svg class="map-svg" viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" fill="none">
+        <!-- streets -->
+        <path d="M-10 120 H410" stroke="#F4EEE3" stroke-width="14"/>
+        <path d="M-10 250 H410" stroke="#F4EEE3" stroke-width="20"/>
+        <path d="M-10 380 H410" stroke="#F4EEE3" stroke-width="14"/>
+        <path d="M110 -10 V490" stroke="#F4EEE3" stroke-width="16"/>
+        <path d="M290 -10 V490" stroke="#F4EEE3" stroke-width="12"/>
+        <!-- blocks -->
+        <rect x="26" y="140" width="66" height="92" rx="8" fill="#CDBCA0"/>
+        <rect x="136" y="150" width="130" height="82" rx="8" fill="#C2B194"/>
+        <rect x="306" y="140" width="70" height="92" rx="8" fill="#CDBCA0"/>
+        <rect x="26" y="272" width="66" height="92" rx="8" fill="#C2B194"/>
+        <rect x="306" y="272" width="70" height="92" rx="8" fill="#CDBCA0"/>
+        <rect x="136" y="400" width="130" height="70" rx="8" fill="#CDBCA0"/>
+        <rect x="26" y="400" width="66" height="70" rx="8" fill="#C2B194"/>
+        <!-- river -->
+        <path d="M340 -10 C320 100 380 200 350 300 C330 370 370 440 350 490" stroke="#A8AD93" stroke-width="26" opacity=".7"/>
+        <!-- park -->
+        <circle cx="70" cy="70" r="42" fill="#A8AD93" opacity=".55"/>
+        <circle cx="96" cy="52" r="26" fill="#A8AD93" opacity=".45"/>
+        <!-- studio block -->
+        <rect x="150" y="272" width="100" height="92" rx="10" fill="#B0673F" opacity=".85"/>
+        <!-- street labels -->
+        <text x="20" y="246" font-family="Inter" font-size="10" letter-spacing="3" fill="#8F4E2C" opacity=".8">ALDER ST</text>
+      </svg>
+      <div class="map-pin"></div>
+      <div class="map-label">STILL / FORM · 14 Alder St</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">
+          <svg width="22" height="30" viewBox="0 0 26 34" fill="none">
+            <path d="M1 33V14C1 6.8 6.4 1 13 1s12 5.8 12 13v18" stroke="#E0A87C" stroke-width="2"/>
+            <circle cx="13" cy="19" r="5.5" fill="#C97E52"/>
+          </svg>
+          STILL / FORM
+        </div>
+        <p>A studio for quiet movement in Portland, Oregon. Breath first, always.</p>
+      </div>
+      <div>
+        <div class="foot-h">Studio</div>
+        <ul class="foot-links">
+          <li><a href="#schedule">Class schedule</a></li>
+          <li><a href="#instructors">Instructors</a></li>
+          <li><a href="#memberships">Memberships</a></li>
+          <li><a href="#ritual">Our philosophy</a></li>
+          <li><a href="#location">Visit</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-h">Beyond the mat</div>
+        <ul class="foot-links">
+          <li><a href="#">Workshops &amp; teacher trainings</a></li>
+          <li><a href="#">Seasonal retreats</a></li>
+          <li><a href="#">Gift cards</a></li>
+          <li><a href="#">The Still Notes journal</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="foot-h">Stay in the quiet</div>
+        <p style="max-width:none">One letter a month. Seasonal schedule changes, new offerings, and one good question to sit with.</p>
+        <form class="news" onsubmit="return false">
+          <input type="email" placeholder="your@email.com" aria-label="Email address">
+          <button type="submit" aria-label="Subscribe">→</button>
+        </form>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 STILL / FORM Movement Studio · 14 Alder Street, Portland OR</span>
+      <span>Instagram · Privacy · Accessibility</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- Daily schedule data ---------- */
+const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const SCHEDULE = {
+  "Monday":[
+    {t:"6:30 AM", d:"50 min", n:"Dawn Flow", m:"Lena Hart · Room One", tag:"flow", tl:"Beginner+"},
+    {t:"12:15 PM", d:"45 min", n:"Midday Reset", m:"David Okafor · Room Two", tag:"still", tl:"All levels"},
+    {t:"6:00 PM", d:"60 min", n:"Groundwork & Stretch", m:"Tomás Vega · Main Floor", tag:"rest", tl:"All levels"}
+  ],
+  "Tuesday":[
+    {t:"7:00 AM", d:"60 min", n:"Slow Vinyasa", m:"Mara Ellison · Room One", tag:"flow", tl:"Intermediate"},
+    {t:"1:00 PM", d:"45 min", n:"Breath & Restore", m:"David Okafor · Room Two", tag:"still", tl:"All levels"},
+    {t:"7:00 PM", d:"75 min", n:"Deep Yin", m:"Mara Ellison · Main Floor", tag:"rest", tl:"All levels"}
+  ],
+  "Wednesday":[
+    {t:"6:30 AM", d:"50 min", n:"Dawn Flow", m:"Lena Hart · Room One", tag:"flow", tl:"Beginner+"},
+    {t:"12:15 PM", d:"45 min", n:"Midday Reset", m:"Tomás Vega · Room Two", tag:"still", tl:"All levels"},
+    {t:"6:30 PM", d:"60 min", n:"Slow Vinyasa", m:"Mara Ellison · Main Floor", tag:"flow", tl:"Intermediate"}
+  ],
+  "Thursday":[
+    {t:"7:00 AM", d:"60 min", n:"Groundwork & Stretch", m:"Tomás Vega · Room One", tag:"rest", tl:"All levels"},
+    {t:"1:00 PM", d:"45 min", n:"Breath & Restore", m:"David Okafor · Room Two", tag:"still", tl:"All levels"},
+    {t:"7:00 PM", d:"75 min", n:"Deep Yin", m:"Mara Ellison · Main Floor", tag:"rest", tl:"All levels"}
+  ],
+  "Friday":[
+    {t:"6:30 AM", d:"50 min", n:"Dawn Flow", m:"Lena Hart · Room One", tag:"flow", tl:"Beginner+"},
+    {t:"12:15 PM", d:"45 min", n:"Midday Reset", m:"David Okafor · Room Two", tag:"still", tl:"All levels"},
+    {t:"5:30 PM", d:"60 min", n:"Weekend Unwind", m:"Tomás Vega · Main Floor", tag:"rest", tl:"All levels"}
+  ],
+  "Saturday":[
+    {t:"8:30 AM", d:"75 min", n:"Long Sit · Extended Practice", m:"Mara Ellison · Main Floor", tag:"rest", tl:"All levels"},
+    {t:"10:30 AM", d:"60 min", n:"Family & Beginners", m:"Lena Hart · Room One", tag:"flow", tl:"Beginner"}
+  ],
+  "Sunday":[
+    {t:"9:30 AM", d:"75 min", n:"Restorative & Sound", m:"David Okafor · Main Floor", tag:"still", tl:"All levels"},
+    {t:"11:30 AM", d:"45 min", n:"Quiet Breathwork", m:"David Okafor · Room Two", tag:"still", tl:"All levels"}
+  ]
+};
+const TAG_LABEL = {rest:"Restorative", flow:"Flowing", still:"Stillness"};
+
+const tabsEl = document.getElementById("dayTabs");
+const listEl = document.getElementById("classList");
+
+DAYS.forEach((d,i)=>{
+  const b = document.createElement("button");
+  b.className = "day-tab" + (i===0 ? " active" : "");
+  b.textContent = d.slice(0,3);
+  b.title = d;
+  b.addEventListener("click", ()=>{
+    tabsEl.querySelectorAll(".day-tab").forEach(t=>t.classList.remove("active"));
+    b.classList.add("active");
+    render(d);
+  });
+  tabsEl.appendChild(b);
+});
+
+function render(day){
+  const classes = SCHEDULE[day];
+  if(!classes.length){
+    listEl.innerHTML = '<div class="sched-empty">A day of intentional rest. The studio is closed; the practice continues.</div>';
+    return;
+  }
+  listEl.innerHTML = classes.map(c => `
+    <div class="class-card">
+      <div class="class-time">${c.t}<small>${c.d}</small></div>
+      <div class="class-info">
+        <h3>${c.n}</h3>
+        <div class="meta">${c.m}</div>
+        <span class="tag ${c.tag}">${TAG_LABEL[c.tag]} · ${c.tl}</span>
+      </div>
+      <a href="#memberships" class="class-book">Book <span class="a">→</span></a>
+    </div>`).join("");
+}
+render("Monday");
+</script>
+</body>
+</html>

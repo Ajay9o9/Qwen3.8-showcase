@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HALF-LIGHT — Mirela Anand · The Meridian Museum of Modern Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bone:#F1ECE1;
+  --bone-2:#E9E2D2;
+  --ink:#161511;
+  --ink-soft:#3B3A33;
+  --slate:#72705F;
+  --verm:#DE431E;
+  --verm-deep:#B23015;
+  --cobalt:#22348F;
+  --sand:#D9C9A5;
+  --hair:rgba(22,21,17,.18);
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Space Grotesk",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bone);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--verm);color:var(--bone)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;background:none;border:0;color:inherit}
+img{display:block;max-width:100%}
+.wrap{width:min(1360px,92vw);margin:0 auto}
+
+/* ---------- type ---------- */
+.eyebrow{
+  font-size:.68rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--slate);
+}
+.serif{font-family:var(--serif)}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:60;
+  background:var(--bone);
+  border-bottom:1px solid transparent;
+  transition:border-color .3s, box-shadow .3s;
+}
+header.scrolled{border-color:var(--hair);box-shadow:0 6px 24px -18px rgba(22,21,17,.4)}
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  height:72px;
+}
+.wordmark{display:flex;align-items:center;gap:.8rem;font-weight:600;letter-spacing:.06em}
+.wordmark .mark{
+  width:30px;height:30px;border:1.5px solid var(--ink);border-radius:50%;
+  background:linear-gradient(90deg,var(--ink) 50%,transparent 50%);
+  flex:none;
+}
+.wordmark small{display:block;font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:var(--slate);font-weight:500}
+.nav-links{display:flex;gap:2.2rem;align-items:center}
+.nav-links a{font-size:.8rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;position:relative;padding:.3rem 0}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:1.5px;background:var(--verm);
+  transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.7,0,.3,1);
+}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.btn{
+  display:inline-flex;align-items:center;gap:.65rem;
+  font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  padding:.85rem 1.5rem;border-radius:999px;border:1.5px solid var(--ink);
+  transition:transform .25s, background .25s, color .25s, border-color .25s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-ink{background:var(--ink);color:var(--bone)}
+.btn-ink:hover{background:var(--verm);border-color:var(--verm)}
+.btn-ghost:hover{background:var(--ink);color:var(--bone)}
+.btn .dot{width:7px;height:7px;border-radius:50%;background:var(--verm);flex:none}
+.btn-ink .dot{background:var(--bone)}
+
+/* ---------- hero ---------- */
+.hero{position:relative}
+.hero-grid{
+  display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);
+  gap:clamp(2rem,5vw,5.5rem);
+  align-items:stretch;
+  min-height:calc(100vh - 73px);
+  padding:clamp(1.5rem,4vh,3rem) 0 2rem;
+}
+.hero-copy{display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2}
+.hero-title{
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(4rem,9.2vw,10.2rem);
+  line-height:.92;
+  letter-spacing:-.02em;
+  margin:1.1rem 0 1.4rem;
+}
+.hero-title em{font-style:italic;font-weight:300;color:var(--verm)}
+.hero-title .slash{color:var(--verm);font-weight:300}
+.hero-sub{
+  font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:clamp(1.15rem,1.8vw,1.6rem);color:var(--ink-soft);max-width:34ch;
+}
+.hero-meta{
+  display:flex;gap:2.5rem;flex-wrap:wrap;margin-top:2.2rem;padding-top:1.4rem;
+  border-top:1px solid var(--hair);
+}
+.hero-meta div{display:flex;flex-direction:column;gap:.25rem}
+.hero-meta b{font-size:.92rem;font-weight:600;letter-spacing:.02em}
+.hero-meta span{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--slate)}
+.hero-cta{display:flex;gap:1rem;margin-top:2.4rem;flex-wrap:wrap}
+.hero-index{
+  position:absolute;left:0;bottom:-.5rem;writing-mode:vertical-rl;
+  font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:var(--slate);
+  display:none;
+}
+/* the light-panel artwork */
+.hero-art{
+  position:relative;border:1.5px solid var(--ink);border-radius:14px;overflow:hidden;
+  min-height:520px;
+  background:
+    radial-gradient(120% 60% at 50% 108%, rgba(222,67,30,.28), transparent 55%),
+    linear-gradient(180deg,#1c1a14 0%,#2a2517 34%,#8a5a2c 62%,#d8b877 82%,#f1e6c8 100%);
+}
+.hero-art::before{
+  content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(90deg, transparent 46%, rgba(255,246,224,.9) 49.6%, rgba(255,246,224,.9) 50.4%, transparent 54%);
+  filter:blur(1px);
+  animation:ray 9s ease-in-out infinite alternate;
+  mix-blend-mode:screen;
+}
+.hero-art::after{
+  content:"";position:absolute;left:50%;top:14%;width:38%;aspect-ratio:1;transform:translateX(-50%);
+  border-radius:50%;
+  background:radial-gradient(circle at 38% 34%, #fff3d9, #f5c86a 45%, var(--verm) 78%);
+  box-shadow:0 0 90px 30px rgba(222,67,30,.45);
+  animation:sun 11s ease-in-out infinite alternate;
+}
+.hero-art .floor{
+  position:absolute;left:0;right:0;bottom:0;height:17%;
+  background:linear-gradient(180deg, rgba(22,21,17,0), rgba(22,21,17,.55));
+}
+.hero-art .plate{
+  position:absolute;left:1.1rem;bottom:1.1rem;z-index:2;
+  font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+  color:#f1e6c8;mix-blend-mode:difference;
+}
+@keyframes ray{from{transform:translateX(-6px);opacity:.75}to{transform:translateX(6px);opacity:1}}
+@keyframes sun{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-50%) translateY(14px)}}
+
+/* ---------- ticker ---------- */
+.ticker{
+  border-top:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);
+  overflow:hidden;background:var(--ink);color:var(--bone);
+}
+.ticker-track{display:flex;width:max-content;animation:tick 28s linear infinite}
+.ticker span{
+  padding:.8rem 1.6rem;font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  display:flex;align-items:center;gap:1.6rem;white-space:nowrap;
+}
+.ticker i{color:var(--verm);font-style:normal;font-size:.9rem}
+@keyframes tick{to{transform:translateX(-50%)}}
+
+/* ---------- statement ---------- */
+.statement{padding:clamp(4rem,9vh,7rem) 0}
+.statement-grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(2rem,5vw,5rem)}
+.statement-side{position:sticky;top:110px;align-self:start}
+.portrait{
+  margin-top:1.6rem;aspect-ratio:4/5;border-radius:10px;border:1.5px solid var(--ink);overflow:hidden;
+  background:
+    radial-gradient(90% 70% at 70% 20%, #e8d3ac 0 38%, transparent 39%),
+    linear-gradient(160deg,#22348F 0%,#38406e 45%,#161511 100%);
+  position:relative;
+}
+.portrait::after{
+  content:"";position:absolute;left:8%;bottom:12%;width:44%;height:52%;border-radius:45% 55% 0 0;
+  background:linear-gradient(180deg,#DE431E,#7c1e08);opacity:.92;
+}
+.portrait figcaption, .portrait + figcaption{font-size:.7rem;color:var(--slate);margin-top:.7rem;letter-spacing:.06em}
+.pull{
+  font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:clamp(1.6rem,2.7vw,2.6rem);line-height:1.28;letter-spacing:-.01em;
+  margin:1.4rem 0 2rem;
+}
+.pull b{font-style:normal;font-weight:500;color:var(--verm)}
+.statement-body p{font-size:1.02rem;color:var(--ink-soft);max-width:58ch;margin-bottom:1.2rem}
+.statement-body p:first-of-type::first-letter{
+  font-family:var(--serif);font-size:3.4em;float:left;line-height:.82;padding:.06em .12em 0 0;color:var(--verm);
+}
+.sig{margin-top:2rem;display:flex;align-items:center;gap:1rem}
+.sig .line{width:56px;height:1.5px;background:var(--verm)}
+.sig b{font-family:var(--serif);font-size:1.25rem;font-weight:500;font-style:italic}
+.sig span{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--slate)}
+
+/* ---------- works ---------- */
+.works{background:var(--bone-2);border-top:1.5px solid var(--ink);padding:clamp(4rem,9vh,7rem) 0}
+.works-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:3rem;flex-wrap:wrap}
+.works-head h2, .sec-title{
+  font-family:var(--serif);font-weight:400;font-size:clamp(2.2rem,4.2vw,3.8rem);line-height:1.02;letter-spacing:-.015em;
+}
+.works-count{font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--slate);white-space:nowrap;padding-bottom:.6rem}
+.works-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1.4rem}
+.art-card{position:relative}
+.art-card figure{overflow:hidden;border:1.5px solid var(--ink);border-radius:10px;background:var(--ink)}
+.art-card .art{width:100%;height:100%;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.art-card:hover .art{transform:scale(1.045)}
+.art-card figcaption{padding:.9rem .2rem 0;display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
+.art-card .t{font-family:var(--serif);font-size:1.05rem;font-weight:500}
+.art-card .m{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);text-align:right;white-space:nowrap}
+.art-card .no{
+  position:absolute;top:-.4rem;left:.4rem;z-index:3;font-size:.62rem;font-weight:600;letter-spacing:.2em;
+  background:var(--bone);border:1.5px solid var(--ink);border-radius:999px;padding:.15rem .7rem;
+}
+.w-a{grid-column:span 7}.w-a figure{aspect-ratio:16/10}
+.w-b{grid-column:span 5}.w-b figure{aspect-ratio:16/10}
+.w-c{grid-column:span 5}.w-c figure{aspect-ratio:4/4.4}
+.w-d{grid-column:span 7}.w-d figure{aspect-ratio:16/10}
+.w-e{grid-column:span 6}.w-e figure{aspect-ratio:16/10.5}
+.w-f{grid-column:span 6}.w-f figure{aspect-ratio:16/10.5}
+/* artwork 1 — bands */
+.a1{background:linear-gradient(180deg,#161511 0 22%,#DE431E 22% 34%,#f1ece1 34% 58%,#22348F 58% 72%,#161511 72% 100%)}
+.a1::after{content:"";position:absolute;left:52%;top:10%;width:14%;aspect-ratio:1;border-radius:50%;background:#f1ece1}
+/* artwork 2 — meridian */
+.a2{background:linear-gradient(180deg,#e9e2d2 0 55%,#22348F 55% 100%)}
+.a2::before{content:"";position:absolute;left:50%;top:55%;width:58%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle at 35% 30%,#f6d98f,#DE431E 75%)}
+.a2::after{content:"";position:absolute;left:0;right:0;top:55%;height:3px;background:#161511}
+/* artwork 3 — canvas salt field */
+.a3 canvas{width:100%;height:100%;display:block}
+/* artwork 4 — undertone sliver */
+.a4{background:radial-gradient(130% 110% at 50% 120%,#3a2c14,#161511 65%)}
+.a4::after{
+  content:"";position:absolute;left:18%;right:18%;top:47%;height:2.2%;
+  background:linear-gradient(90deg,transparent,#f5d98b 20% 80%,transparent);
+  box-shadow:0 0 42px 10px rgba(245,217,139,.5);border-radius:4px;
+}
+/* artwork 5 — arches */
+.a5{background:#f1ece1}
+/* artwork 6 — afterimage */
+.a6{background:#101009}
+.a6 i{position:absolute;border-radius:50%;mix-blend-mode:screen}
+.a6 i:nth-child(1){left:14%;top:18%;width:52%;aspect-ratio:1;background:radial-gradient(circle,rgba(222,67,30,.95),transparent 68%)}
+.a6 i:nth-child(2){left:38%;top:30%;width:56%;aspect-ratio:1;background:radial-gradient(circle,rgba(34,52,143,.95),transparent 68%)}
+.a6 i:nth-child(3){left:30%;top:12%;width:34%;aspect-ratio:1;background:radial-gradient(circle,rgba(245,217,139,.8),transparent 65%)}
+
+/* ---------- visit ---------- */
+.visit{padding:clamp(4rem,9vh,7rem) 0}
+.visit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;margin-top:3rem}
+.v-card{border:1.5px solid var(--ink);border-radius:12px;padding:1.6rem;background:var(--bone);display:flex;flex-direction:column;gap:.9rem;min-height:300px}
+.v-card h3{font-family:var(--serif);font-weight:500;font-size:1.35rem}
+.v-card p{font-size:.88rem;color:var(--ink-soft)}
+.v-card .tag{font-size:.62rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--verm)}
+.hours{list-style:none;font-size:.88rem}
+.hours li{display:flex;justify-content:space-between;padding:.55rem 0;border-bottom:1px dashed var(--hair)}
+.hours li b{font-weight:600}
+.hours .closed{color:var(--verm)}
+.v-card .map{
+  margin-top:auto;border:1px solid var(--hair);border-radius:8px;overflow:hidden;
+}
+.price{font-family:var(--serif);font-size:2.1rem;font-weight:500;line-height:1}
+.price small{font-size:.85rem;font-family:var(--sans);color:var(--slate);font-weight:400}
+
+/* ---------- programs ---------- */
+.programs{background:var(--ink);color:var(--bone);padding:clamp(4rem,9vh,7rem) 0}
+.programs .sec-title{color:var(--bone)}
+.programs .eyebrow{color:#a8a596}
+.prog-list{margin-top:2.6rem;border-top:1px solid rgba(241,236,225,.25)}
+.prog{
+  display:grid;grid-template-columns:130px 1fr auto;gap:1.6rem;align-items:center;
+  padding:1.5rem 1rem;border-bottom:1px solid rgba(241,236,225,.25);
+  transition:background .3s,padding .3s;
+}
+.prog:hover{background:rgba(241,236,225,.06);padding-left:1.6rem}
+.prog .date{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--verm);font-weight:600}
+.prog .date b{display:block;font-family:var(--serif);font-size:1.7rem;letter-spacing:0;color:var(--bone);text-transform:none;font-weight:400}
+.prog h4{font-family:var(--serif);font-weight:500;font-size:1.3rem}
+.prog p{font-size:.85rem;color:#b6b3a4;max-width:56ch;margin-top:.2rem}
+.prog .go{font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;border-bottom:1.5px solid var(--verm);padding-bottom:.2rem;opacity:.85;transition:opacity .2s}
+.prog .go:hover{opacity:1}
+
+/* ---------- ticket band ---------- */
+.ticket{
+  background:linear-gradient(115deg,var(--verm) 0%,var(--verm-deep) 100%);
+  color:var(--bone);padding:clamp(4.5rem,11vh,8rem) 0;position:relative;overflow:hidden;
+}
+.ticket::before{
+  content:"";position:absolute;right:-12%;top:-40%;width:60%;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(241,236,225,.22),transparent 65%);
+}
+.ticket-inner{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:3rem;align-items:center;position:relative;z-index:2}
+.ticket h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.6rem,5.4vw,4.8rem);line-height:1;letter-spacing:-.02em}
+.ticket h2 em{font-style:italic;color:#ffe0b0}
+.ticket p{margin-top:1.1rem;max-width:44ch;color:#f7d9c8;font-size:.98rem}
+.ticket-actions{display:flex;flex-direction:column;gap:1rem;align-items:flex-start}
+.btn-big{
+  background:var(--bone);color:var(--ink);border:1.5px solid var(--ink);
+  font-size:.9rem;padding:1.15rem 2.2rem;border-radius:999px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  display:inline-flex;gap:.7rem;align-items:center;transition:transform .25s,box-shadow .25s;
+}
+.btn-big:hover{transform:translateY(-3px);box-shadow:0 14px 30px -12px rgba(0,0,0,.4)}
+.ticket .note{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#f3c9ad}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:#b6b3a4;padding:3.5rem 0 2.2rem}
+.foot{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;align-items:flex-end}
+.foot .wm{font-family:var(--serif);font-size:clamp(2.4rem,6vw,4.4rem);color:var(--bone);font-weight:400;letter-spacing:-.02em;line-height:1}
+.foot .wm em{font-style:italic;color:var(--verm)}
+.foot nav{display:flex;gap:1.6rem;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase}
+.foot nav a:hover{color:var(--bone)}
+.legal{font-size:.68rem;margin-top:2rem;border-top:1px solid rgba(241,236,225,.15);padding-top:1.2rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;color:#7d7a6b}
+
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.rv-d1{transition-delay:.1s}.rv-d2{transition-delay:.2s}.rv-d3{transition-delay:.3s}
+
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:1.2rem}
+.modal.open{display:flex}
+.modal-bg{position:absolute;inset:0;background:rgba(22,21,17,.65);backdrop-filter:blur(4px)}
+.modal-card{
+  position:relative;background:var(--bone);border:1.5px solid var(--ink);border-radius:16px;
+  width:min(520px,100%);padding:2.2rem;box-shadow:0 40px 80px -30px rgba(0,0,0,.5);
+  animation:pop .35s cubic-bezier(.2,1.4,.4,1);
+}
+@keyframes pop{from{transform:scale(.94) translateY(14px);opacity:0}}
+.modal-card h3{font-family:var(--serif);font-weight:400;font-size:1.7rem;line-height:1.1}
+.modal-card .sub{font-size:.8rem;color:var(--slate);margin:.4rem 0 1.4rem}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem}
+.slot{
+  border:1.5px solid var(--hair);border-radius:10px;padding:.7rem .4rem;text-align:center;
+  font-size:.76rem;font-weight:600;letter-spacing:.06em;transition:all .2s;
+}
+.slot small{display:block;font-weight:400;color:var(--slate);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.2rem}
+.slot:hover{border-color:var(--ink)}
+.slot.sel{background:var(--ink);color:var(--bone);border-color:var(--ink)}
+.slot.sel small{color:var(--sand)}
+.slot:disabled{opacity:.35;cursor:not-allowed}
+.modal-foot{display:flex;justify-content:space-between;align-items:center;margin-top:1.6rem;gap:1rem}
+.modal-foot .sum{font-size:.8rem;color:var(--ink-soft)}
+.modal-x{position:absolute;top:1rem;right:1rem;font-size:1.3rem;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--hair);display:grid;place-items:center;transition:all .2s}
+.modal-x:hover{background:var(--ink);color:var(--bone)}
+.confirm{display:none;text-align:center;padding:1.5rem 0 .5rem}
+.confirm .tick{width:56px;height:56px;border-radius:50%;background:var(--verm);margin:0 auto 1.1rem;display:grid;place-items:center;color:var(--bone);font-size:1.5rem}
+.confirm h3{margin-bottom:.5rem}
+
+/* ---------- responsive ---------- */
+@media(max-width:1020px){
+  .hero-grid{grid-template-columns:1fr;min-height:0}
+  .hero-art{min-height:380px;order:-1}
+  .works-grid{grid-template-columns:repeat(2,1fr)}
+  .w-a,.w-b,.w-c,.w-d,.w-e,.w-f{grid-column:span 1}
+  .visit-grid{grid-template-columns:repeat(2,1fr)}
+  .ticket-inner{grid-template-columns:1fr}
+  .statement-grid{grid-template-columns:1fr}
+  .statement-side{position:static;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+  .portrait{max-width:280px}
+}
+@media(max-width:720px){
+  .nav-links{display:none}
+  .works-grid{grid-template-columns:1fr}
+  .visit-grid{grid-template-columns:1fr}
+  .v-card{min-height:0}
+  .prog{grid-template-columns:1fr;gap:.6rem}
+  .statement-side{grid-template-columns:1fr}
+  .hero-meta{gap:1.4rem}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header id="header">
+  <div class="wrap nav">
+    <a class="wordmark" href="#top" aria-label="The Meridian Museum home">
+      <span class="mark" aria-hidden="true"></span>
+      <span>The Meridian<small>Museum of Modern Art</small></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#statement">Statement</a>
+      <a href="#works">Works</a>
+      <a href="#visit">Visit</a>
+      <a href="#programs">Programs</a>
+    </nav>
+    <button class="btn btn-ink" data-ticket><span class="dot"></span>Get tickets</button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-label="Exhibition">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow rv in">Exhibition Hall 2 · Through 4 May 2025</p>
+      <h1 class="hero-title rv in">HALF<em>-</em>LIGHT<span class="slash">.</span></h1>
+      <p class="hero-sub rv in rv-d1">Works in passage, 2019–2024, by Mirela Anand — thirty-two paintings, one long exposure.</p>
+      <div class="hero-meta rv in rv-d2">
+        <div><span>Opening</span><b>22 February 2025</b></div>
+        <div><span>Location</span><b>Hall 2, Upper Level</b></div>
+        <div><span>Hours</span><b>Thu–Mon, 10:00–18:00</b></div>
+        <div><span>Admission</span><b>From $14 · U18 free</b></div>
+      </div>
+      <div class="hero-cta rv in rv-d3">
+        <button class="btn btn-ink" data-ticket><span class="dot"></span>Reserve a time</button>
+        <a class="btn btn-ghost" href="#statement">Read the statement ↓</a>
+      </div>
+    </div>
+    <figure class="hero-art rv in rv-d1" role="img" aria-label="Installation view: a single shaft of warm daylight falls through a darkened room toward a low horizon, lit from below in vermilion.">
+      <div class="floor"></div>
+      <figcaption class="plate">Installation view, Hall 2</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="tickerTrack">
+    <span>Half-Light now open <i>◐</i> Opening-night tour 22 Feb, 19:30 <i>◐</i> Artist talk with Mirela Anand, 14 Mar <i>◐</i> Members' preview every Thursday 9:00 <i>◐</i> Audio guide in 6 languages <i>◐</i> Free for under-18s, always <i>◐</i></span>
+  </div>
+</div>
+
+<!-- ============ ARTIST STATEMENT ============ -->
+<section class="statement" id="statement">
+  <div class="wrap statement-grid">
+    <aside class="statement-side rv">
+      <div>
+        <p class="eyebrow">Artist Statement · 01</p>
+        <figure class="portrait" role="img" aria-label="Abstract study fragment: a cobalt field with a warm crescent and a vermilion form at its base."></figure>
+        <figcaption style="font-size:.7rem;color:var(--slate);margin-top:.7rem;letter-spacing:.06em">Study fragment, <em>Half-Light</em>, 2024</figcaption>
+      </div>
+    </aside>
+    <div class="statement-body">
+      <p class="eyebrow rv">On the work</p>
+      <blockquote class="pull rv rv-d1">
+        “I am not interested in the light itself. I paint the <b>moment it gives up</b> — the half-second before a room stops being bright, when everything you own is briefly, unfairly, yours.”
+      </blockquote>
+      <p class="rv rv-d1">Over five years, Mirela Anand has painted from the same unglazed window in her Rotterdam studio, usually at dusk, usually alone. <em>Half-Light</em> gathers thirty-two of the resulting canvases — oils, encaustics, and pigment on linen — into a single slow procession. The paintings are hung in order of the clock, not of date: the room begins at 16:41 and does not let you leave until 19:03.</p>
+      <p class="rv rv-d2">Anand works in what she calls "second light" — the residual glow a room keeps after the sun has passed. Her brushwork strips the scene to a horizon, a sliver, a residue of colour. What remains feels less like a landscape than a memory of one, or the exact tone of a song you can no longer name.</p>
+      <p class="rv rv-d2">The exhibition is the first full survey of the series and includes eight works never shown publicly, along with the studio notebooks in which Anand recorded the weather, the temperature, and the time of day for each painting.</p>
+      <div class="sig rv rv-d3">
+        <span class="line"></span>
+        <b>Mirela Anand</b>
+        <span>Rotterdam, 1976 — </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORKS ============ -->
+<section class="works" id="works">
+  <div class="wrap">
+    <div class="works-head">
+      <div>
+        <p class="eyebrow rv">Selected works · 02</p>
+        <h2 class="rv rv-d1">Six from the procession</h2>
+      </div>
+      <p class="works-count rv rv-d2">32 works in total · hung by clock time · 16:41 → 19:03</p>
+    </div>
+    <div class="works-grid">
+      <div class="art-card w-a rv">
+        <span class="no">No. 07</span>
+        <figure><div class="art a1" role="img" aria-label="Vermilion Study No. 4: hard horizontal bands of ink black, vermilion, bone and cobalt, with a small bone circle in the upper field."></div></figure>
+        <figcaption><span class="t">Vermilion Study No. 4</span><span class="m">Oil &amp; graphite on panel · 2024</span></figcaption>
+      </div>
+      <div class="art-card w-b rv rv-d1">
+        <span class="no">No. 11</span>
+        <figure><div class="art a2" role="img" aria-label="The Quiet Meridian: a bone sky over a cobalt field, split by a black horizon line, with a large warm sun sunk halfway behind it."></div></figure>
+        <figcaption><span class="t">The Quiet Meridian</span><span class="m">Pigment on linen · 2023</span></figcaption>
+      </div>
+      <div class="art-card w-c rv">
+        <span class="no">No. 14</span>
+        <figure><div class="art a3" role="img" aria-label="Salt Field (Afternoon): layered dune forms in sand tones beneath a pale sky, with fine drifting grain."><canvas id="saltCanvas" aria-hidden="true"></canvas></div></figure>
+        <figcaption><span class="t">Salt Field (Afternoon)</span><span class="m">Oil on panel · 2023</span></figcaption>
+      </div>
+      <div class="art-card w-d rv rv-d1">
+        <span class="no">No. 21</span>
+        <figure><div class="art a4" role="img" aria-label="Undertone: an almost-black field with a single thin glowing gold sliver across its centre."></div></figure>
+        <figcaption><span class="t">Undertone</span><span class="m">Encaustic on board · 2022</span></figcaption>
+      </div>
+      <div class="art-card w-e rv">
+        <span class="no">No. 26</span>
+        <figure>
+          <div class="art a5" role="img" aria-label="Passage VII: repeating black arches of decreasing scale on a bone ground.">
+            <svg viewBox="0 0 400 250" preserveAspectRatio="none" style="width:100%;height:100%;display:block">
+              <rect width="400" height="250" fill="#F1ECE1"/>
+              <g fill="#161511">
+                <path d="M20 250 V120 Q20 40 120 40 Q220 40 220 120 V250 Z" opacity=".92"/>
+                <path d="M78 250 V150 Q78 84 148 84 Q218 84 218 150 V250 Z" fill="#F1ECE1"/>
+                <path d="M110 250 V164 Q110 108 148 108 Q186 108 186 164 V250 Z" fill="#DE431E"/>
+                <circle cx="330" cy="70" r="34" fill="#22348F"/>
+                <rect x="300" y="118" width="110" height="4" fill="#161511"/>
+              </g>
+            </svg>
+          </div>
+          <figcaption><span class="t">Passage VII</span><span class="m">Ink &amp; gesso on paper · 2024</span></figcaption>
+        </figure>
+      </div>
+      <div class="art-card w-f rv rv-d1">
+        <span class="no">No. 30</span>
+        <figure><div class="art a6" role="img" aria-label="Afterimage: overlapping translucent discs of vermilion, cobalt and gold dissolving into near-black."><i></i><i></i><i></i></div></figure>
+        <figcaption><span class="t">Afterimage</span><span class="m">Photogram &amp; pigment · 2024</span></figcaption>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISIT ============ -->
+<section class="visit" id="visit">
+  <div class="wrap">
+    <p class="eyebrow rv">Practical · 03</p>
+    <h2 class="sec-title rv rv-d1" style="margin-top:.6rem">Planning your visit</h2>
+    <div class="visit-grid">
+      <div class="v-card rv">
+        <span class="tag">Find us</span>
+        <h3>The Meridian</h3>
+        <p>14 Harbourfront Quay<br>Rotterdam 3011 AP<br>Netherlands</p>
+        <div class="map">
+          <svg viewBox="0 0 300 150" style="width:100%;display:block" aria-label="Stylised map of the harbourfront">
+            <rect width="300" height="150" fill="#E9E2D2"/>
+            <path d="M0 108 Q70 88 150 104 T300 92 V150 H0 Z" fill="#22348F" opacity=".85"/>
+            <g stroke="#161511" stroke-width="2" fill="none">
+              <path d="M30 20 H270"/><path d="M30 20 V104"/><path d="M110 20 V104"/><path d="M190 20 V100"/>
+              <path d="M30 62 H270"/>
+            </g>
+            <circle cx="190" cy="62" r="9" fill="#DE431E"/>
+            <text x="204" y="58" font-family="Space Grotesk" font-size="11" fill="#161511" font-weight="600">Quay 14</text>
+            <text x="30" y="132" font-family="Space Grotesk" font-size="9" fill="#F1ECE1" letter-spacing="2">HARBOUR</text>
+          </svg>
+        </div>
+      </div>
+      <div class="v-card rv rv-d1">
+        <span class="tag">Opening hours</span>
+        <h3>When we're on</h3>
+        <ul class="hours">
+          <li><b>Thursday</b><span>10:00 – 21:00</span></li>
+          <li><b>Friday – Sunday</b><span>10:00 – 18:00</span></li>
+          <li><b>Monday</b><span>12:00 – 18:00</span></li>
+          <li><span class="closed">Tuesday &amp; Wednesday</span><span class="closed">Closed</span></li>
+          <li><b>Members' preview</b><span>Thu, 9:00</span></li>
+        </ul>
+      </div>
+      <div class="v-card rv rv-d2">
+        <span class="tag">Admission</span>
+        <h3>Getting in</h3>
+        <p class="price">$14 <small>/ adults · $8 concessions</small></p>
+        <p>Under-18s free, always. Every last Thursday of the month, entry is free for everyone after 18:00.</p>
+        <p style="font-size:.78rem">Valid at all galleries for the day of entry. Booked times allow 45 minutes of priority entry.</p>
+      </div>
+      <div class="v-card rv rv-d3">
+        <span class="tag">Access</span>
+        <h3>Comfortable for all</h3>
+        <p>Step-free throughout, including Hall 2. Quiet room and seating every 40 metres. Assistance dogs welcome.</p>
+        <p>Audio guide in English, Dutch, German, French, Spanish and Japanese. Large-print wall text in every room.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMS ============ -->
+<section class="programs" id="programs">
+  <div class="wrap">
+    <p class="eyebrow rv">In the dark · 04</p>
+    <h2 class="sec-title rv rv-d1" style="margin-top:.6rem">Programs this season</h2>
+    <div class="prog-list">
+      <div class="prog rv">
+        <div class="date">Mar<b>14</b>Fri</div>
+        <div>
+          <h4>“Painting with my back to the sun” — an artist talk</h4>
+          <p>Mirela Anand in conversation with curator Ines Okoye, on the notebooks, the weather, and why every painting in the room is also a diary entry. Followed by a Q&amp;A and wine in the lobby.</p>
+        </div>
+        <a class="go" href="#" data-ticket>Book free</a>
+      </div>
+      <div class="prog rv rv-d1">
+        <div class="date">Mar<b>22</b>Sat</div>
+        <div>
+          <h4>Curator's late walk · 16:41 to 19:03</h4>
+          <p>Walk the room in the order the light did it, at walking pace, with the audio guide's quiet track. A slow, unhurried route of about forty minutes.</p>
+        </div>
+        <a class="go" href="#" data-ticket>Book free</a>
+      </div>
+      <div class="prog rv rv-d2">
+        <div class="date">Apr<b>05</b>Sat</div>
+        <div>
+          <h4>Small Lights: family workshop · ages 5–11</h4>
+          <p>A drop-in studio session where children paint a "half-light" of their own — one window, one hour, no correcting. Materials and a take-home canvas included.</p>
+        </div>
+        <a class="go" href="#" data-ticket>$6 · book</a>
+      </div>
+      <div class="prog rv rv-d3">
+        <div class="date">Apr<b>19</b>Sat</div>
+        <div>
+          <h4>Screening: <span style="font-style:italic;font-family:var(--serif)">Second Light</span>, a short film by Jonas Beek</h4>
+          <p>Twelve minutes, shot in the Rotterdam studio at dusk over a single summer, followed by an open conversation with the film-maker. Doors at 18:30.</p>
+        </div>
+        <a class="go" href="#" data-ticket>Book free</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TICKET CTA ============ -->
+<section class="ticket" aria-label="Tickets">
+  <div class="wrap ticket-inner">
+    <div>
+      <p class="eyebrow rv" style="color:#f7d9c8">Before the light goes</p>
+      <h2 class="rv rv-d1">Reserve your<br><em>half-hour of dusk.</em></h2>
+      <p class="rv rv-d2">Timed entry keeps Hall 2 to forty people at a time. Pick a window and we'll hold it — no queue, no fuss, just the room going quiet.</p>
+    </div>
+    <div class="ticket-actions rv rv-d2">
+      <button class="btn-big" data-ticket>Choose a time →</button>
+      <span class="note">From $14 · Under-18 free · Last entry 17:15</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <p class="wm">The <em>Meridian</em></p>
+      <nav aria-label="Footer">
+        <a href="#statement">Statement</a>
+        <a href="#works">Works</a>
+        <a href="#visit">Visit</a>
+        <a href="#programs">Programs</a>
+      </nav>
+    </div>
+    <div class="legal">
+      <span>© 2025 The Meridian Museum of Modern Art · 14 Harbourfront Quay, Rotterdam</span>
+      <span>Half-Light: Works in Passage, 2019–2024 · © Mirela Anand</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MODAL ============ -->
+<div class="modal" id="ticketModal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-card">
+    <button class="modal-x" data-close aria-label="Close">×</button>
+    <div id="bookView">
+      <h3 id="mTitle">Choose a time</h3>
+      <p class="sub">Hall 2 · timed entry · 45-minute priority window</p>
+      <div class="slots" id="slots"></div>
+      <div class="modal-foot">
+        <span class="sum" id="sum">No time selected</span>
+        <button class="btn btn-ink" id="confirmBtn" disabled style="opacity:.4">Confirm</button>
+      </div>
+    </div>
+    <div class="confirm" id="confirmView">
+      <div class="tick">✓</div>
+      <h3>You're on the list.</h3>
+      <p style="font-size:.9rem;color:var(--ink-soft)" id="confirmText"></p>
+      <p style="font-size:.78rem;color:var(--slate);margin-top:.8rem">A confirmation has been "sent". See you in the dark.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---- header shadow ---- */
+const header = document.getElementById('header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 8), {passive:true});
+
+/* ---- ticker: duplicate track for seamless loop ---- */
+const track = document.getElementById('tickerTrack');
+track.innerHTML += track.innerHTML;
+
+/* ---- reveal on scroll ---- */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+}), {threshold:.12, rootMargin:'0px 0px -6%'});
+document.querySelectorAll('.rv:not(.in)').forEach(el => io.observe(el));
+
+/* ---- canvas: Salt Field (Afternoon) ---- */
+const cv = document.getElementById('saltCanvas');
+if (cv){
+  const ctx = cv.getContext('2d');
+  let W,H,dust;
+  function size(){
+    const r = cv.getBoundingClientRect();
+    const dpr = Math.min(devicePixelRatio||1, 2);
+    W = cv.width = Math.max(1, r.width*dpr);
+    H = cv.height = Math.max(1, r.height*dpr);
+    dust = Array.from({length:60}, () => ({
+      x: Math.random()*W, y: Math.random()*H,
+      r: (Math.random()*1.4+.4)*dpr, s: (Math.random()*.25+.05)*dpr,
+      a: Math.random()*.5+.15
+    }));
+  }
+  function dune(y0, amp, freq, phase, fill){
+    ctx.beginPath();
+    ctx.moveTo(0, H);
+    for(let x=0; x<=W; x+=6){
+      const y = y0 + Math.sin(x/W*Math.PI*freq + phase)*amp + Math.sin(x/W*Math.PI*freq*2.7 + phase*1.6)*amp*.25;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(W, H); ctx.closePath();
+    ctx.fillStyle = fill; ctx.fill();
+  }
+  function frame(t){
+    const s = t*.00004;
+    const sky = ctx.createLinearGradient(0,0,0,H);
+    sky.addColorStop(0,'#efe7d2'); sky.addColorStop(.55,'#e6d5ae'); sky.addColorStop(1,'#d3b988');
+    ctx.fillStyle = sky; ctx.fillRect(0,0,W,H);
+    const sun = ctx.createRadialGradient(W*.68, H*.3, 0, W*.68, H*.3, W*.17);
+    sun.addColorStop(0,'#DE431E'); sun.addColorStop(.75,'#e0642f'); sun.addColorStop(1,'rgba(222,67,30,0)');
+    ctx.fillStyle = sun; ctx.beginPath(); ctx.arc(W*.68, H*.3, W*.17, 0, 7); ctx.fill();
+    dune(H*.52, H*.03, 1.6, s,     '#cbb086');
+    dune(H*.66, H*.04, 1.2, s*1.4+2,'#b99b6e');
+    dune(H*.82, H*.05, 0.9, s*.8+4, '#8f734d');
+    ctx.fillStyle = 'rgba(255,248,230,.6)';
+    dust.forEach(d => {
+      d.x += d.s; if (d.x > W) { d.x = -4; d.y = Math.random()*H; }
+      ctx.globalAlpha = d.a*(0.6+0.4*Math.sin(t*.001+d.x));
+      ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, 7); ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(frame);
+  }
+  size(); addEventListener('resize', size);
+  requestAnimationFrame(frame);
+}
+
+/* ---- ticket modal ---- */
+const modal = document.getElementById('ticketModal');
+const slotsEl = document.getElementById('slots');
+const sum = document.getElementById('sum');
+const confirmBtn = document.getElementById('confirmBtn');
+const bookView = document.getElementById('bookView');
+const confirmView = document.getElementById('confirmView');
+const days = [
+  {d:'Fri 28 Feb', times:['10:30','12:15','15:00','17:15']},
+  {d:'Sat 01 Mar', times:['10:30','12:15','15:00','17:15']},
+  {d:'Sun 02 Mar', times:['11:00','13:30','16:00']},
+  {d:'Thu 06 Mar', times:['10:00','12:00','16:30','19:45']},
+  {d:'Fri 07 Mar', times:['10:30','12:15','15:00','17:15']},
+  {d:'Sat 08 Mar', times:['10:30','13:30','15:00']}
+];
+let selected = null;
+function buildSlots(){
+  slotsEl.innerHTML = '';
+  days.forEach(day => {
+    const head = document.createElement('div');
+    head.style.gridColumn = '1 / -1';
+    head.style.cssText += 'font-size:.62rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--slate);padding-top:.4rem';
+    head.textContent = day.d;
+    slotsEl.appendChild(head);
+    day.times.forEach((tm,i) => {
+      const b = document.createElement('button');
+      b.className = 'slot';
+      b.innerHTML = '<small>' + day.d.split(' ')[1] + '</small>' + tm;
+      if ((day.d+'|'+tm) % 3 === 0 && Math.random() < .18){ b.disabled = true; }
+      b.onclick = () => {
+        slotsEl.querySelectorAll('.slot').forEach(s => s.classList.remove('sel'));
+        b.classList.add('sel');
+        selected = {day:day.d, time:tm};
+        sum.textContent = day.d + ' · ' + tm;
+        confirmBtn.disabled = false;
+        confirmBtn.style.opacity = 1;
+      };
+      slotsEl.appendChild(b);
+    });
+  });
+}
+function openModal(){
+  bookView.style.display = 'block';
+  confirmView.style.display = 'none';
+  selected = null; sum.textContent = 'No time selected';
+  confirmBtn.disabled = true; confirmBtn.style.opacity = .4;
+  buildSlots();
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('[data-ticket]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); openModal(); }));
+document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', closeModal));
+addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+confirmBtn.addEventListener('click', () => {
+  if (!selected) return;
+  document.getElementById('confirmText').textContent =
+    'Half-Light · Hall 2 — ' + selected.day + ' at ' + selected.time + '. One adult, $14.';
+  bookView.style.display = 'none';
+  confirmView.style.display = 'block';
+});
+</script>
+</body>
+</html>

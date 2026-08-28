@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FURNITURE / SHOWROOM — Considered objects for considered rooms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bone:#F3EDE1;
+  --bone-2:#EAE1CE;
+  --clay:#D9C6A5;
+  --rust:#B14A24;
+  --rust-deep:#8C3717;
+  --ink:#1C1913;
+  --ink-soft:#4A443A;
+  --olive:#5C5A3E;
+  --line:rgba(28,25,19,.18);
+  --serif:'Fraunces',serif;
+  --sans:'Space Grotesk',sans-serif;
+  --mono:'Space Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bone);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:400;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--rust);color:var(--bone)}
+.mono{font-family:var(--mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.02}
+a{color:inherit;text-decoration:none}
+img{display:block}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+
+/* ---------- header ---------- */
+header{
+  position:fixed;inset:0 0 auto 0;z-index:100;
+  transition:background .4s ease,box-shadow .4s ease,padding .4s ease;
+  padding:22px 0;
+}
+header.scrolled{
+  background:rgba(243,237,225,.92);
+  backdrop-filter:blur(10px);
+  box-shadow:0 1px 0 var(--line);
+  padding:12px 0;
+}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:24px}
+.logo{font-family:var(--mono);font-weight:700;font-size:.9rem;letter-spacing:.18em;display:flex;align-items:center;gap:10px}
+.logo .mark{width:30px;height:30px;background:var(--rust);display:grid;place-items:center;color:var(--bone);font-family:var(--serif);font-size:1.05rem;font-style:italic}
+.nav ul{display:flex;gap:clamp(14px,2.4vw,38px);list-style:none}
+.nav ul a{font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;position:relative;padding:4px 0}
+.nav ul a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--rust);transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.nav ul a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-cta{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid var(--ink);padding:10px 20px;border-radius:100px;
+  transition:background .3s,color .3s;
+}
+.nav-cta:hover{background:var(--ink);color:var(--bone)}
+@media(max-width:860px){.nav ul{display:none}}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding:120px 0 60px;
+  position:relative;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px,5vw,72px);
+  align-items:center;width:100%;
+}
+.hero-kicker{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.hero-kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--rust)}
+.hero h1{
+  font-size:clamp(3rem,6.6vw,6.2rem);
+  letter-spacing:-.02em;
+}
+.hero h1 em{font-style:italic;color:var(--rust)}
+.hero-sub{
+  margin-top:26px;max-width:44ch;
+  font-size:1.06rem;color:var(--ink-soft);font-weight:300;
+}
+.hero-meta{
+  margin-top:44px;display:flex;flex-wrap:wrap;gap:0;
+  border-top:1px solid var(--line);
+}
+.hero-meta div{
+  padding:18px 28px 4px 0;margin-right:28px;
+  border-right:1px solid var(--line);
+}
+.hero-meta div:last-child{border-right:none;margin-right:0}
+.hero-meta .n{font-family:var(--serif);font-size:1.5rem;font-style:italic}
+.hero-meta .l{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px}
+.scroll-hint{
+  position:absolute;bottom:34px;left:clamp(20px,4vw,48px);
+  display:flex;align-items:center;gap:12px;font-family:var(--mono);
+  font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);
+}
+.scroll-hint .line{width:52px;height:1px;background:var(--ink);position:relative;overflow:hidden}
+.scroll-hint .line::after{content:"";position:absolute;inset:0;background:var(--rust);animation:hint 2.2s ease-in-out infinite}
+@keyframes hint{0%{transform:translateX(-100%)}55%{transform:translateX(0)}100%{transform:translateX(100%)}}
+
+/* hero gallery frame */
+.hero-frame{
+  position:relative;
+  border:1px solid var(--ink);
+  border-radius:290px 290px 14px 14px;
+  overflow:hidden;
+  background:var(--clay);
+  aspect-ratio:6/7;
+  box-shadow:14px 14px 0 rgba(28,25,19,.12);
+}
+.hero-frame svg{width:100%;height:100%;display:block}
+.hero-tag{
+  position:absolute;bottom:-1px;left:-1px;
+  background:var(--ink);color:var(--bone);
+  font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  padding:10px 18px;border-radius:0 100px 0 10px;
+}
+.hero-frame-num{
+  position:absolute;top:22px;right:26px;
+  font-family:var(--serif);font-style:italic;font-size:1rem;color:var(--ink);
+}
+@media(max-width:920px){
+  .hero{padding-top:104px;min-height:auto}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-frame{max-width:440px;margin:0 auto}
+  .scroll-hint{display:none}
+}
+
+/* ---------- marquee ---------- */
+.marquee{
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+  background:var(--rust);color:var(--bone);
+  overflow:hidden;padding:14px 0;white-space:nowrap;
+}
+.marquee-track{display:inline-block;animation:mq 26s linear infinite}
+.marquee span{font-family:var(--mono);font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;margin:0 26px;display:inline-block}
+.marquee i{font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:0;font-size:.95rem}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- section scaffolding ---------- */
+section{padding:clamp(72px,9vw,120px) 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:clamp(36px,5vw,64px);flex-wrap:wrap}
+.sec-head .idx{font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--rust);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.sec-head .idx::before{content:"";width:34px;height:1px;background:var(--rust)}
+.sec-head h2{font-size:clamp(2.1rem,4vw,3.6rem);letter-spacing:-.015em;max-width:16ch}
+.sec-head p{max-width:38ch;color:var(--ink-soft);font-weight:300;font-size:.98rem}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.2s}.reveal.d3{transition-delay:.3s}
+
+/* ---------- collections ---------- */
+.collections{background:var(--bone)}
+.col-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4vw,30px)}
+.col-card{
+  border:1px solid var(--ink);background:var(--bone);
+  display:flex;flex-direction:column;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s;
+  position:relative;overflow:hidden;
+}
+.col-card:hover{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--ink)}
+.col-visual{aspect-ratio:4/3.4;border-bottom:1px solid var(--ink);position:relative;overflow:hidden}
+.col-visual svg{width:100%;height:100%;display:block;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.col-card:hover .col-visual svg{transform:scale(1.05)}
+.col-body{padding:24px 26px 28px;display:flex;flex-direction:column;gap:10px;flex:1}
+.col-body .cnum{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;color:var(--rust)}
+.col-body h3{font-size:1.7rem}
+.col-body h3 em{font-style:italic}
+.col-body p{font-size:.9rem;color:var(--ink-soft);font-weight:300;flex:1}
+.col-link{font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;margin-top:8px}
+.col-link .arr{transition:transform .3s}
+.col-card:hover .arr{transform:translateX(6px)}
+.col-card:nth-child(2) .col-visual{background:var(--bone-2)}
+.col-card:nth-child(3) .col-visual{background:#E4D6BC}
+@media(max-width:920px){.col-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}}
+
+/* ---------- materials ---------- */
+.materials{background:var(--ink);color:var(--bone)}
+.materials .sec-head h2 em{font-style:italic;color:var(--clay)}
+.materials .sec-head p{color:rgba(243,237,225,.6)}
+.mat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.swatch{
+  border:1px solid rgba(243,237,225,.25);
+  aspect-ratio:1/1.15;position:relative;overflow:hidden;
+  cursor:crosshair;
+  transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .4s;
+}
+.swatch:hover{transform:translateY(-8px);border-color:var(--rust)}
+.swatch .fill{position:absolute;inset:0;transition:transform .6s ease}
+.swatch:hover .fill{transform:scale(1.06)}
+.swatch .lab{
+  position:absolute;left:0;right:0;bottom:0;
+  background:rgba(28,25,19,.85);color:var(--bone);
+  padding:12px 14px;
+  transform:translateY(102%);transition:transform .45s cubic-bezier(.2,.8,.2,1);
+  backdrop-filter:blur(4px);
+}
+.swatch:hover .lab{transform:none}
+.swatch .lab b{font-family:var(--serif);font-style:italic;font-size:1.05rem;display:block;font-weight:400}
+.swatch .lab span{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--clay)}
+.sw-1 .fill{background:
+  repeating-linear-gradient(94deg,#B98A5C 0 7px,#A97848 7px 12px,#C29468 12px 19px),
+  linear-gradient(#B98A5C,#A97848)}
+.sw-2 .fill{background:
+  radial-gradient(circle at 30% 30%, #9C4A28 0 2px, transparent 2.5px),
+  radial-gradient(circle at 70% 60%, #8A3E1F 0 2px, transparent 2.5px),
+  linear-gradient(135deg,#A8512C,#8C3717);
+  background-size:26px 26px,34px 34px,100% 100%}
+.sw-3 .fill{background:
+  radial-gradient(circle at 20% 25%, rgba(255,255,255,.55) 0 2.5px, transparent 3px),
+  radial-gradient(circle at 60% 55%, rgba(255,255,255,.45) 0 2.5px, transparent 3px),
+  radial-gradient(circle at 40% 80%, rgba(255,255,255,.5) 0 2.5px, transparent 3px),
+  repeating-linear-gradient(45deg,#EFE6D4 0 3px,#E4D8C2 3px 6px);
+  background-size:22px 22px,28px 28px,24px 24px,100% 100%}
+.sw-4 .fill{background:
+  repeating-linear-gradient(0deg, transparent 0 5px, rgba(28,25,19,.08) 5px 6px),
+  linear-gradient(160deg,#DDD2BE,#C9BBA1)}
+.sw-5 .fill{background:
+  repeating-linear-gradient(90deg,#4E4C36 0 3px,#5C5A3E 3px 6px,#6B684A 6px 9px),
+  linear-gradient(#5C5A3E,#4E4C36)}
+.mat-note{margin-top:34px;font-family:var(--mono);font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,237,225,.5);display:flex;gap:12px;align-items:center}
+.mat-note::before{content:"";width:34px;height:1px;background:var(--rust)}
+@media(max-width:920px){.mat-grid{grid-template-columns:repeat(2,1fr)}.swatch .lab{transform:none;background:rgba(28,25,19,.7)}}
+@media(max-width:520px){.mat-grid{grid-template-columns:1fr 1fr;gap:10px}}
+
+/* ---------- product ---------- */
+.product{background:var(--bone-2)}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);align-items:center}
+.prod-visual{
+  border:1px solid var(--ink);background:var(--bone);
+  position:relative;aspect-ratio:1/1.02;overflow:hidden;
+}
+.prod-visual svg{width:100%;height:100%;display:block}
+.prod-badge{
+  position:absolute;top:18px;left:18px;background:var(--rust);color:var(--bone);
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  padding:8px 14px;
+}
+.prod-name{font-size:clamp(2rem,3.6vw,3.2rem);margin-top:10px}
+.prod-name em{font-style:italic;color:var(--rust)}
+.prod-desc{margin-top:18px;color:var(--ink-soft);font-weight:300;max-width:48ch}
+.price-row{display:flex;align-items:baseline;gap:16px;margin-top:28px;padding:20px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.price{font-family:var(--serif);font-size:2.2rem}
+.price small{font-size:1rem;font-style:italic;color:var(--ink-soft)}
+.price-row .ship{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--olive);margin-left:auto;text-align:right;line-height:1.7}
+.specs{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.specs div{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px dashed var(--line);font-size:.88rem}
+.specs dt{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);padding-top:4px}
+.specs dd{font-weight:500;text-align:right}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--ink);padding:9px 16px;border-radius:100px;background:transparent;
+  cursor:pointer;transition:all .25s;font-family:var(--mono);
+}
+.chip:hover{border-color:var(--rust);color:var(--rust)}
+.chip.on{background:var(--ink);color:var(--bone);border-color:var(--ink)}
+.prod-actions{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap}
+.btn{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
+  padding:16px 32px;border-radius:100px;border:1px solid var(--ink);cursor:pointer;
+  transition:all .3s;display:inline-flex;align-items:center;gap:10px;background:transparent;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:4px 4px 0 var(--ink)}
+.btn.primary{background:var(--rust);border-color:var(--rust);color:var(--bone)}
+.btn.primary:hover{background:var(--rust-deep);border-color:var(--rust-deep);box-shadow:4px 4px 0 var(--ink)}
+@media(max-width:920px){.prod-grid{grid-template-columns:1fr}.specs{grid-template-columns:1fr}}
+
+/* ---------- story ---------- */
+.story{background:var(--bone)}
+.story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(36px,6vw,90px);align-items:start}
+.story-quote{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.6rem,2.6vw,2.3rem);
+  line-height:1.28;border-left:3px solid var(--rust);padding-left:28px;
+  position:sticky;top:120px;
+}
+.story-quote .sig{display:block;margin-top:22px;font-family:var(--mono);font-style:normal;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.story-body p{font-size:1.04rem;font-weight:300;color:var(--ink-soft);margin-bottom:22px;max-width:58ch}
+.story-body p b{font-weight:600;color:var(--ink)}
+.story-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px}
+.story-stats div{background:var(--bone);padding:22px 18px}
+.story-stats .n{font-family:var(--serif);font-size:2rem;font-style:italic;color:var(--rust)}
+.story-stats .l{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin-top:4px;line-height:1.6}
+@media(max-width:920px){.story-grid{grid-template-columns:1fr}.story-quote{position:static}}
+
+/* ---------- inquiry ---------- */
+.inquiry{background:var(--ink);color:var(--bone);position:relative;overflow:hidden}
+.inquiry::before{
+  content:"";position:absolute;top:-180px;right:-180px;width:520px;height:520px;border-radius:50%;
+  border:1px solid rgba(243,237,225,.12);
+}
+.inquiry::after{
+  content:"";position:absolute;top:-110px;right:-110px;width:380px;height:380px;border-radius:50%;
+  border:1px solid rgba(177,74,36,.35);
+}
+.inq-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,80px);position:relative;z-index:1}
+.inq-left h2{font-size:clamp(2.4rem,4.4vw,4rem);letter-spacing:-.015em}
+.inq-left h2 em{font-style:italic;color:var(--rust);color:#E8814F}
+.inq-left p{margin-top:20px;color:rgba(243,237,225,.65);font-weight:300;max-width:44ch}
+.inq-info{margin-top:40px;display:grid;gap:0}
+.inq-info div{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(243,237,225,.16);font-size:.92rem}
+.inq-info .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,237,225,.5);padding-top:4px}
+form .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{margin-bottom:16px}
+.field label{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--clay);margin-bottom:8px}
+.field input,.field textarea,.field select{
+  width:100%;background:transparent;border:none;border-bottom:1px solid rgba(243,237,225,.35);
+  color:var(--bone);font-family:var(--sans);font-size:1rem;padding:10px 2px;outline:none;
+  transition:border-color .3s;border-radius:0;
+}
+.field select{appearance:none;cursor:pointer}
+.field select option{color:var(--ink)}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:#E8814F}
+.field textarea{resize:vertical;min-height:88px}
+.form-note{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(243,237,225,.4);margin-top:16px}
+.form-ok{
+  display:none;margin-top:20px;border:1px solid #E8814F;color:#E8814F;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  padding:14px 18px;
+}
+@media(max-width:920px){.inq-grid{grid-template-columns:1fr}form .row{grid-template-columns:1fr}}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:var(--bone);border-top:1px solid rgba(243,237,225,.16);padding:34px 0}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.foot .mono{color:rgba(243,237,225,.5)}
+.foot-links{display:flex;gap:26px;list-style:none}
+.foot-links a{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(243,237,225,.7);transition:color .3s}
+.foot-links a:hover{color:#E8814F}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="logo" href="#top"><span class="mark">F/</span> FURNITURE&nbsp;SHOWROOM</a>
+    <ul>
+      <li><a href="#collections">Collections</a></li>
+      <li><a href="#materials">Materials</a></li>
+      <li><a href="#piece">Featured Piece</a></li>
+      <li><a href="#story">Story</a></li>
+    </ul>
+    <a class="nav-cta" href="#inquiry">Book a Visit</a>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-kicker">
+        <span class="dot"></span>
+        <span class="mono">N°01 — The Winter Gallery · Est. 1987</span>
+      </div>
+      <h1>Furniture that <em>lives</em> quietly, and lasts a lifetime.</h1>
+      <p class="hero-sub">
+        A four-thousand-square-foot gallery of solid-wood, hand-finished pieces — each one
+        joined without a single screw, built by eleven makers who still answer to their work
+        by name.
+      </p>
+      <div class="hero-meta">
+        <div><div class="n">142</div><div class="l">Pieces in house</div></div>
+        <div><div class="n">11</div><div class="l">Resident makers</div></div>
+        <div><div class="n">38 yrs</div><div class="l">At the same address</div></div>
+      </div>
+    </div>
+
+    <div class="hero-frame">
+      <span class="hero-frame-num">Fig. 01 — Hallway, north room</span>
+      <svg viewBox="0 0 600 700" role="img" aria-label="Illustration of a rust-coloured sofa beneath an arched gallery wall with a floor lamp and framed print">
+        <defs>
+          <clipPath id="arch"><path d="M40 700 L40 300 A260 260 0 0 1 560 300 L560 700 Z"/></clipPath>
+        </defs>
+        <g clip-path="url(#arch)">
+          <rect x="0" y="0" width="600" height="700" fill="#D9C6A5"/>
+          <rect x="0" y="520" width="600" height="180" fill="#C9B48C"/>
+          <line x1="0" y1="520" x2="600" y2="520" stroke="#1C1913" stroke-width="2" opacity=".25"/>
+          <!-- framed print -->
+          <rect x="230" y="150" width="140" height="180" fill="none" stroke="#1C1913" stroke-width="3"/>
+          <path d="M250 300 Q300 210 350 300" fill="none" stroke="#B14A24" stroke-width="4"/>
+          <circle cx="300" cy="215" r="16" fill="#B14A24"/>
+          <!-- rug -->
+          <ellipse cx="300" cy="640" rx="235" ry="34" fill="#B14A24" opacity=".22"/>
+          <!-- sofa -->
+          <rect x="120" y="380" width="360" height="120" rx="26" fill="#B14A24"/>
+          <rect x="140" y="330" width="320" height="90" rx="20" fill="#C45A30"/>
+          <rect x="132" y="430" width="118" height="46" rx="12" fill="#8C3717"/>
+          <rect x="350" y="430" width="118" height="46" rx="12" fill="#8C3717"/>
+          <rect x="150" y="470" width="300" height="44" rx="10" fill="#8C3717"/>
+          <!-- pillows -->
+          <rect x="160" y="345" width="66" height="60" rx="14" fill="#F3EDE1" transform="rotate(-5 193 375)"/>
+          <rect x="376" y="345" width="66" height="60" rx="14" fill="#5C5A3E" transform="rotate(5 409 375)"/>
+          <!-- legs -->
+          <rect x="140" y="514" width="14" height="34" fill="#1C1913"/>
+          <rect x="446" y="514" width="14" height="34" fill="#1C1913"/>
+          <!-- floor lamp -->
+          <line x1="512" y1="330" x2="512" y2="556" stroke="#1C1913" stroke-width="4"/>
+          <path d="M478 330 h68 l-14 -56 h-40 z" fill="#F3EDE1" stroke="#1C1913" stroke-width="3"/>
+          <ellipse cx="512" cy="558" rx="30" ry="7" fill="#1C1913"/>
+          <!-- plant -->
+          <rect x="66" y="486" width="44" height="52" rx="6" fill="#5C5A3E"/>
+          <path d="M88 486 C70 440 66 420 92 396 C100 428 96 456 88 486 M88 486 C108 444 118 424 106 400 C96 434 90 460 88 486" fill="none" stroke="#5C5A3E" stroke-width="5" stroke-linecap="round"/>
+        </g>
+      </svg>
+      <span class="hero-tag">Marrow Sofa — Walnut / Rust Bouclé</span>
+    </div>
+  </div>
+  <div class="scroll-hint"><span class="line"></span> Scroll the gallery</div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Solid walnut</span><i>·</i><span>Full-grain leather</span><i>·</i><span>Hand-woven wool</span><i>·</i><span>Travertine tops</span><i>·</i><span>Mortise &amp; tenon, never a screw</span><i>·</i><span>Reupholstery for life</span><i>·</i>
+    <span>Solid walnut</span><i>·</i><span>Full-grain leather</span><i>·</i><span>Hand-woven wool</span><i>·</i><span>Travertine tops</span><i>·</i><span>Mortise &amp; tenon, never a screw</span><i>·</i><span>Reupholstery for life</span><i>·</i>
+  </div>
+</div>
+
+<!-- ============ COLLECTIONS ============ -->
+<section class="collections" id="collections">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="idx">N°02 — Room Collections</div>
+        <h2>Rooms, not shelves.</h2>
+      </div>
+      <p class="reveal d1">We style the gallery the way our clients live — three rooms, furnished end to end, swapped twice a year.</p>
+    </div>
+
+    <div class="col-grid">
+      <!-- Living -->
+      <article class="col-card reveal">
+        <div class="col-visual">
+          <svg viewBox="0 0 400 340" aria-label="Living room illustration with sofa and pendant">
+            <rect width="400" height="340" fill="#D9C6A5"/>
+            <rect y="250" width="400" height="90" fill="#C9B48C"/>
+            <circle cx="322" cy="86" r="24" fill="#F3EDE1" stroke="#1C1913" stroke-width="3"/>
+            <line x1="322" y1="0" x2="322" y2="62" stroke="#1C1913" stroke-width="3"/>
+            <rect x="70" y="150" width="200" height="70" rx="14" fill="#B14A24"/>
+            <rect x="84" y="118" width="172" height="52" rx="12" fill="#C45A30"/>
+            <rect x="80" y="186" width="180" height="26" rx="8" fill="#8C3717"/>
+            <rect x="84" y="212" width="10" height="26" fill="#1C1913"/>
+            <rect x="246" y="212" width="10" height="26" fill="#1C1913"/>
+            <rect x="298" y="176" width="52" height="62" rx="6" fill="#5C5A3E"/>
+            <path d="M324 176 C312 148 314 130 330 116 C336 142 332 160 324 176" fill="none" stroke="#5C5A3E" stroke-width="4" stroke-linecap="round"/>
+            <ellipse cx="200" cy="288" rx="150" ry="14" fill="#1C1913" opacity=".1"/>
+          </svg>
+        </div>
+        <div class="col-body">
+          <span class="cnum">Collection 01 / North Room</span>
+          <h3>The <em>Slow</em> Living Room</h3>
+          <p>Low seats, a deep armchair and a travertine coffee table sized for two coffees, not a magazine rack. Built for evenings that end late.</p>
+          <span class="col-link">Explore the room <span class="arr">→</span></span>
+        </div>
+      </article>
+
+      <!-- Dining -->
+      <article class="col-card reveal d1">
+        <div class="col-visual">
+          <svg viewBox="0 0 400 340" aria-label="Dining room illustration with table, chairs and pendant">
+            <rect width="400" height="340" fill="#EAE1CE"/>
+            <rect y="252" width="400" height="88" fill="#DCCDAF"/>
+            <line x1="200" y1="0" x2="200" y2="58" stroke="#1C1913" stroke-width="3"/>
+            <path d="M170 58 h60 l-12 -34 h-36 z" fill="#B14A24" stroke="#1C1913" stroke-width="3"/>
+            <rect x="60" y="168" width="280" height="16" rx="4" fill="#A97848" stroke="#1C1913" stroke-width="2"/>
+            <rect x="76" y="184" width="12" height="70" fill="#8A6138"/>
+            <rect x="312" y="184" width="12" height="70" fill="#8A6138"/>
+            <!-- chairs -->
+            <path d="M112 132 v36 M148 132 v36 M112 132 h36" fill="none" stroke="#1C1913" stroke-width="6" stroke-linecap="round"/>
+            <rect x="108" y="166" width="44" height="8" rx="3" fill="#5C5A3E"/>
+            <path d="M252 132 v36 M288 132 v36 M252 132 h36" fill="none" stroke="#1C1913" stroke-width="6" stroke-linecap="round"/>
+            <rect x="248" y="166" width="44" height="8" rx="3" fill="#5C5A3E"/>
+            <!-- bottle + glass -->
+            <rect x="182" y="138" width="12" height="30" rx="4" fill="#5C5A3E"/>
+            <rect x="164" y="152" width="10" height="16" rx="2" fill="none" stroke="#1C1913" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="col-body">
+          <span class="cnum">Collection 02 / East Room</span>
+          <h3>The Long <em>Table</em> Room</h3>
+          <p>A two-metre walnut slab on bread-board ends, eight chairs of four makers, and a light that swings. Set for Sunday; cleared by Monday.</p>
+          <span class="col-link">Explore the room <span class="arr">→</span></span>
+        </div>
+      </article>
+
+      <!-- Bedroom -->
+      <article class="col-card reveal d2">
+        <div class="col-visual">
+          <svg viewBox="0 0 400 340" aria-label="Bedroom illustration with bed, nightstand and arc lamp">
+            <rect width="400" height="340" fill="#E4D6BC"/>
+            <rect y="252" width="400" height="88" fill="#D4C2A0"/>
+            <rect x="52" y="108" width="220" height="66" rx="10" fill="#5C5A3E"/>
+            <rect x="60" y="168" width="204" height="66" rx="8" fill="#F3EDE1" stroke="#1C1913" stroke-width="2"/>
+            <rect x="72" y="150" width="70" height="30" rx="10" fill="#F3EDE1" stroke="#1C1913" stroke-width="2"/>
+            <rect x="152" y="150" width="70" height="30" rx="10" fill="#F3EDE1" stroke="#1C1913" stroke-width="2"/>
+            <rect x="60" y="196" width="204" height="10" fill="#B14A24"/>
+            <rect x="66" y="234" width="10" height="22" fill="#1C1913"/>
+            <rect x="248" y="234" width="10" height="22" fill="#1C1913"/>
+            <!-- nightstand -->
+            <rect x="308" y="192" width="62" height="56" rx="5" fill="#A97848" stroke="#1C1913" stroke-width="2"/>
+            <circle cx="339" cy="220" r="4" fill="#1C1913"/>
+            <!-- lamp on nightstand -->
+            <line x1="339" y1="192" x2="339" y2="172" stroke="#1C1913" stroke-width="3"/>
+            <path d="M323 172 h32 l-8 -20 h-16 z" fill="#B14A24"/>
+            <ellipse cx="200" cy="286" rx="140" ry="13" fill="#1C1913" opacity=".1"/>
+          </svg>
+        </div>
+        <div class="col-body">
+          <span class="cnum">Collection 03 / South Room</span>
+          <h3>The <em>Quiet</em> Bedroom</h3>
+          <p>A low oak platform, a wool throw loomed in Portugal, and a nightstand with one drawer — enough. The room is finished when nothing else is needed.</p>
+          <span class="col-link">Explore the room <span class="arr">→</span></span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MATERIALS ============ -->
+<section class="materials" id="materials">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="idx">N°03 — The Material Wall</div>
+        <h2>Touch first, <em>buy</em> second.</h2>
+      </div>
+      <p class="reveal d1">Five boards hang on our west wall, refreshed every season. Hover them here; run your hands over the real thing in the gallery.</p>
+    </div>
+
+    <div class="mat-grid">
+      <div class="swatch sw-1 reveal">
+        <div class="fill"></div>
+        <div class="lab"><b>Quarter-sawn walnut</b><span>Tennessee · oiled</span></div>
+      </div>
+      <div class="swatch sw-2 reveal d1">
+        <div class="fill"></div>
+        <div class="lab"><b>Rust, full-grain</b><span>Vegetable tanned · worn in</span></div>
+      </div>
+      <div class="swatch sw-3 reveal d2">
+        <div class="fill"></div>
+        <div class="lab"><b>Bone bouclé</b><span>Recycled cotton loop</span></div>
+      </div>
+      <div class="swatch sw-4 reveal d3">
+        <div class="fill"></div>
+        <div class="lab"><b>Tivoli travertine</b><span>Honed · sealed</span></div>
+      </div>
+      <div class="swatch sw-5 reveal d3">
+        <div class="fill"></div>
+        <div class="lab"><b>Moss wool</b><span>Flatweave · 8 mm pile</span></div>
+      </div>
+    </div>
+    <p class="mat-note">Every swatch is paired with a matching chair in the showroom — ask for the board, get the chair.</p>
+  </div>
+</section>
+
+<!-- ============ FEATURED PRODUCT ============ -->
+<section class="product" id="piece">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="reveal">
+        <div class="idx">N°04 — Featured Piece</div>
+        <h2>This month, the <em>Marrow</em> lounge chair.</h2>
+      </div>
+      <p class="reveal d1">Our longest-running design, now in its ninth year of continuous production. No change to the pattern since 2016 — by deliberate choice.</p>
+    </div>
+
+    <div class="prod-grid">
+      <div class="prod-visual reveal">
+        <span class="prod-badge">In production · 9th year</span>
+        <svg viewBox="0 0 600 612" aria-label="Line illustration of the Marrow lounge chair in profile">
+          <defs>
+            <clipPath id="pclip"><rect width="600" height="612"/></clipPath>
+          </defs>
+          <g clip-path="url(#pclip)">
+            <circle cx="300" cy="306" r="210" fill="#F3EDE1"/>
+            <!-- shadow -->
+            <ellipse cx="300" cy="520" rx="180" ry="16" fill="#1C1913" opacity=".1"/>
+            <!-- chair silhouette, profile -->
+            <path d="M190 200
+                     C190 150 230 120 268 122
+                     L268 330
+                     C268 356 252 372 228 372
+                     L190 372 Z"
+                  fill="#B14A24"/>
+            <path d="M262 128
+                     L262 330
+                     L410 330
+                     C436 330 452 346 452 372
+                     L452 400
+                     C452 424 436 440 410 440
+                     L268 440
+                     C230 440 208 416 208 380
+                     L208 300
+                     C208 240 220 160 262 128 Z"
+                  fill="#C45A30"/>
+            <!-- seat cushion -->
+            <path d="M256 352 L440 352 C452 352 458 360 458 372 L458 386 C458 398 450 404 438 404 L262 404 C250 404 244 396 244 384 L244 364 C244 356 248 352 256 352 Z"
+                  fill="#F3EDE1" stroke="#1C1913" stroke-width="2.5"/>
+            <!-- armrest top line -->
+            <path d="M200 214 C200 170 228 140 262 142" fill="none" stroke="#1C1913" stroke-width="3"/>
+            <path d="M262 142 L262 340" stroke="#1C1913" stroke-width="2.5" opacity=".35"/>
+            <!-- wooden frame + legs -->
+            <path d="M232 440 L222 512" stroke="#A97848" stroke-width="12" stroke-linecap="round"/>
+            <path d="M426 440 L438 512" stroke="#A97848" stroke-width="12" stroke-linecap="round"/>
+            <path d="M250 440 L244 512" stroke="#8A6138" stroke-width="8" stroke-linecap="round"/>
+            <path d="M404 440 L410 512" stroke="#8A6138" stroke-width="8" stroke-linecap="round"/>
+            <path d="M252 468 L402 468" stroke="#A97848" stroke-width="7" stroke-linecap="round"/>
+            <!-- stitch detail -->
+            <path d="M270 300 C310 312 380 312 436 298" fill="none" stroke="#8C3717" stroke-width="2" stroke-dasharray="4 6"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="reveal d1">
+        <div class="mono" style="color:var(--rust)">Marrow N°4 — Lounge Chair</div>
+        <h3 class="prod-name">Marrow, <em>the armchair</em></h3>
+        <p class="prod-desc">
+          A single piece of curved walnut rib, eight hours of hand-shaping, and a deep seat
+          cut at 41 cm so you can actually sit in. The shell is joined with doweled mortise
+          and tenon; the cushion is replaceable on its own, in any board on our material wall.
+        </p>
+        <div class="price-row">
+          <div class="price">$2,480 <small>USD</small></div>
+          <div class="ship">Ships in 6–8 weeks<br>White-glove, free in the region</div>
+        </div>
+        <dl class="specs">
+          <div><dt>Dimensions</dt><dd>78 × 74 × 82 cm</dd></div>
+          <div><dt>Weight</dt><dd>14.2 kg</dd></div>
+          <div><dt>Frame</dt><dd>Quarter-sawn walnut</dd></div>
+          <div><dt>Upholstery</dt><dd>Bouclé or full-grain</dd></div>
+          <div><dt>Joinery</dt><dd>Mortise &amp; tenon</dd></div>
+          <div><dt>Warranty</dt><dd>25 years, written</dd></div>
+        </dl>
+        <div class="chips" role="group" aria-label="Choose a finish">
+          <button class="chip on">Rust bouclé</button>
+          <button class="chip">Bone bouclé</button>
+          <button class="chip">Moss wool</button>
+          <button class="chip">Vegetable leather</button>
+        </div>
+        <div class="prod-actions">
+          <a class="btn primary" href="#inquiry">Enquire about Marrow</a>
+          <a class="btn" href="#materials">See the boards</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STORY ============ -->
+<section class="story" id="story">
+  <div class="wrap story-grid">
+    <blockquote class="story-quote reveal">
+      “We don’t sell furniture. We sell the fact that you will not have to buy this
+      chair again for thirty years.”
+      <span class="sig">— Ada Keller, founder &amp; lead joiner</span>
+    </blockquote>
+    <div class="story-body">
+      <p class="reveal"><b>It started with a broken dresser.</b> In 1987, Ada Keller carried a
+      splintered Victorian dresser into the back room of a rented workshop and refused to
+      throw it out. The repair took four evenings. A neighbour came in for glue and stayed for
+      a conversation that became the founding principle of the showroom: <b>things should be
+      worth repairing.</b></p>
+      <p class="reveal d1">Thirty-eight years later, the workshop has grown into a gallery, but
+      the rule hasn’t moved. Every piece in the building is designed to be opened up, sanded,
+      re-upholstered and re-oiled. We keep the original joinery drawings for everything we’ve
+      made, and our repair bench has been occupied, without interruption, since 1989.</p>
+      <p class="reveal d2">We buy our wood from three family-run mills within a day’s drive,
+      our wool from a single weaver in the Alentejo, and our leather from a tannery that still
+      uses chestnut bark. It makes us slower. We have chosen to be slower.</p>
+      <div class="story-stats reveal d2">
+        <div><div class="n">1</div><div class="l">Tannery, three generations old</div></div>
+        <div><div class="n">0</div><div class="l">Screws in any piece since 1987</div></div>
+        <div><div class="n">9,412</div><div class="l">Repairs logged and dated</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INQUIRY ============ -->
+<section class="inquiry" id="inquiry">
+  <div class="wrap inq-grid">
+    <div class="inq-left reveal">
+      <div class="mono" style="color:#E8814F;margin-bottom:16px">N°05 — Visit or Enquire</div>
+      <h2>Come sit. Take your time — <em>the coffee is slow-roasted</em> and the chairs are for sitting in.</h2>
+      <p>The gallery is open seven days a week. Enquiries are answered by a maker, not a bot,
+      usually within one working day.</p>
+      <div class="inq-info">
+        <div><span class="k">Address</span> 14 Foundry Lane, Old Mill District</div>
+        <div><span class="k">Hours</span> Mon–Sun, 9:00 – 18:30</div>
+        <div><span class="k">Telephone</span> +1 (555) 014-1987</div>
+        <div><span class="k">Email</span> hello@furnitureshowroom.co</div>
+      </div>
+    </div>
+    <form class="reveal d1" id="inqForm" novalidate>
+      <div class="row">
+        <div class="field">
+          <label for="fname">Full name</label>
+          <input id="fname" type="text" name="name" placeholder="Ada Keller" required>
+        </div>
+        <div class="field">
+          <label for="femail">Email</label>
+          <input id="femail" type="email" name="email" placeholder="you@example.com" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="ftopic">I’m interested in</label>
+        <select id="ftopic" name="topic">
+          <option>A piece in the gallery (Marrow chair, sofa…)</option>
+          <option>A full room or collection</option>
+          <option>Reupholstery or repair</option>
+          <option>Trade &amp; interior studio</option>
+          <option>Just visiting the gallery</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fmsg">Message</label>
+        <textarea id="fmsg" name="message" placeholder="Tell us about the room, the piece, or the chair you’d like repaired…"></textarea>
+      </div>
+      <button class="btn primary" type="submit">Send the enquiry</button>
+      <p class="form-note">No mailing lists. We write to you, then we stop.</p>
+      <div class="form-ok" id="formOk">Thank you — a maker will write to you within one working day.</div>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap foot">
+    <a class="logo" href="#top" style="color:var(--bone)"><span class="mark">F/</span> FURNITURE&nbsp;SHOWROOM</a>
+    <ul class="foot-links">
+      <li><a href="#collections">Collections</a></li>
+      <li><a href="#materials">Materials</a></li>
+      <li><a href="#story">Story</a></li>
+      <li><a href="#inquiry">Visit</a></li>
+    </ul>
+    <span class="mono">© 1987–2025 · No screws were harmed</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // header scroll state
+  var hdr = document.getElementById('hdr');
+  var onScroll = function(){ hdr.classList.toggle('scrolled', window.scrollY > 24); };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  // reveal on scroll
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  // finish chips (single-select)
+  var chips = document.querySelectorAll('.chip');
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      chips.forEach(function(c){ c.classList.remove('on'); });
+      chip.classList.add('on');
+    });
+  });
+
+  // inquiry form
+  var form = document.getElementById('inqForm');
+  var ok = document.getElementById('formOk');
+  form.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var name = form.name, email = form.email;
+    if (!name.value.trim() || !email.value.includes('@')){
+      (!name.value.trim() ? name : email).focus();
+      return;
+    }
+    ok.style.display = 'block';
+    form.querySelectorAll('input, textarea').forEach(function(f){ f.value=''; });
+    setTimeout(function(){ ok.style.display='none'; }, 6000);
+  });
+})();
+</script>
+</body>
+</html>

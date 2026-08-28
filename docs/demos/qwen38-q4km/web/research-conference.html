@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RESEARCH/CONFERENCE 2026 — Kyoto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2EEE2;
+  --paper-2:#E9E4D4;
+  --ink:#17150E;
+  --blue:#1F35E0;
+  --red:#E5432B;
+  --line:rgba(23,21,14,.16);
+  --line-strong:rgba(23,21,14,.55);
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Archivo",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--blue);color:var(--paper)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.wrap{width:min(1360px,100% - 72px);margin-inline:auto}
+.mono{font-family:var(--mono)}
+label,span.meta{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+
+/* ---------- grain overlay ---------- */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---------- nav ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:rgba(242,238,226,.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  transition:transform .35s ease;
+}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;font-weight:600}
+.brand .mark{
+  width:26px;height:26px;background:var(--blue);position:relative;flex:none;
+}
+.brand .mark::after{
+  content:"";position:absolute;inset:5px;border:1.5px solid var(--paper);
+  border-radius:50%;
+}
+.brand em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0}
+.navlinks{display:flex;gap:34px;font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase}
+.navlinks a{position:relative;padding:4px 0}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--ink);transition:width .25s}
+.navlinks a:hover::after{width:100%}
+.nav-cta{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--ink);padding:9px 18px;background:var(--ink);color:var(--paper);
+  transition:background .2s,color .2s;
+}
+.nav-cta:hover{background:var(--red);border-color:var(--red);color:#fff}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;
+  position:relative;padding-top:64px;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:end;
+  flex:1;padding-top:clamp(28px,5vh,64px);
+}
+.hero-kicker{display:flex;gap:18px;align-items:center;margin-bottom:26px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+.hero-kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 1.8s infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.45}}
+h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(64px,9.4vw,150px);
+  line-height:.88;letter-spacing:-.02em;text-transform:uppercase;
+}
+h1 .slash{color:var(--red);font-style:italic;font-weight:300}
+h1 .line2{
+  font-style:italic;font-weight:340;color:var(--blue);
+  padding-left:clamp(40px,8vw,120px);display:block;
+}
+.hero-sub{
+  margin-top:34px;max-width:52ch;font-size:17px;line-height:1.65;color:rgba(23,21,14,.78);
+}
+.hero-sub strong{font-weight:600;color:var(--ink)}
+.hero-fig{position:relative;align-self:center;width:100%}
+.hero-fig svg{width:100%;height:auto;display:block}
+.fig-label{
+  position:absolute;bottom:6px;right:0;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:rgba(23,21,14,.55);
+}
+.hero-stats{
+  border-top:1px solid var(--line-strong);
+  display:grid;grid-template-columns:repeat(4,1fr) auto;
+}
+.stat{
+  padding:20px 24px 22px;border-right:1px solid var(--line);
+}
+.stat:first-child{padding-left:0}
+.stat .num{font-family:var(--serif);font-size:clamp(26px,2.4vw,38px);font-weight:500;line-height:1}
+.stat .num sup{font-size:.5em;color:var(--red);font-weight:600}
+.stat .lbl{margin-top:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(23,21,14,.6)}
+.hero-cta{
+  display:flex;align-items:center;justify-content:center;gap:14px;padding:20px 24px;
+  background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;
+  letter-spacing:.14em;text-transform:uppercase;transition:background .2s;
+}
+.hero-cta:hover{background:var(--blue)}
+.hero-cta .arr{transition:transform .2s}
+.hero-cta:hover .arr{transform:translateX(6px)}
+
+/* marquee */
+.marquee{
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+  overflow:hidden;background:var(--paper-2);white-space:nowrap;
+}
+.marquee-track{display:inline-flex;gap:0;animation:scroll 30s linear infinite;padding:12px 0}
+.marquee span{
+  font-family:var(--serif);font-style:italic;font-size:19px;padding:0 26px;
+  display:inline-flex;align-items:center;gap:26px;
+}
+.marquee i{font-style:normal;color:var(--red);font-size:14px}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- section scaffolding ---------- */
+section{position:relative}
+.sec-head{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:32px;
+  padding:clamp(56px,8vh,96px) 0 clamp(28px,4vh,44px);
+  border-bottom:1px solid var(--line-strong);margin-bottom:clamp(32px,5vh,56px);
+}
+.sec-no{font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--red)}
+.sec-title{
+  font-family:var(--serif);font-weight:500;font-size:clamp(38px,4.6vw,68px);
+  line-height:.95;letter-spacing:-.015em;
+}
+.sec-title em{font-style:italic;color:var(--blue);font-weight:380}
+.sec-note{max-width:36ch;font-size:14.5px;color:rgba(23,21,14,.7);text-align:right}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- keynotes ---------- */
+.kgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.kcard{
+  border:1px solid var(--ink);background:var(--paper);display:flex;flex-direction:column;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.kcard:hover{transform:translateY(-8px);box-shadow:10px 10px 0 var(--ink)}
+.kcard .portrait{
+  aspect-ratio:4/4.6;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;border-bottom:1px solid var(--ink);
+}
+.kcard .portrait svg{width:78%;height:78%}
+.kcard .tag{
+  position:absolute;top:14px;left:14px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;background:var(--paper);padding:5px 9px;
+  border:1px solid var(--ink);
+}
+.kcard .kbody{padding:22px 22px 26px;display:flex;flex-direction:column;gap:8px;flex:1}
+.kcard h3{font-family:var(--serif);font-size:26px;font-weight:600;line-height:1.05}
+.kcard .role{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(23,21,14,.6)}
+.kcard .talk{
+  margin-top:8px;font-family:var(--serif);font-style:italic;font-size:16.5px;color:var(--blue);
+}
+.kcard .kfoot{
+  margin-top:auto;padding-top:16px;display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  border-top:1px dashed var(--line);
+}
+.kcard .kfoot b{color:var(--red)}
+.kmore{margin-top:34px;display:flex;justify-content:center}
+.link-more{
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  border-bottom:1px solid var(--ink);padding-bottom:3px;display:inline-flex;gap:10px;
+}
+.link-more:hover{color:var(--red);border-color:var(--red)}
+
+/* ---------- CFP ---------- */
+.cfp{background:var(--ink);color:var(--paper)}
+.cfp .sec-head{border-color:rgba(242,238,226,.35)}
+.cfp .sec-note{color:rgba(242,238,226,.65)}
+.cfp-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:56px;padding-bottom:clamp(56px,8vh,96px)}
+.cfp-copy p{font-size:16.5px;line-height:1.7;color:rgba(242,238,226,.82);max-width:56ch}
+.cfp-copy p+p{margin-top:18px}
+.cfp-copy .accent{color:#9FB0FF;font-weight:600}
+.cfp-btns{display:flex;gap:16px;margin-top:34px;flex-wrap:wrap}
+.btn{
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  padding:15px 26px;border:1px solid var(--paper);display:inline-flex;gap:10px;
+  transition:background .2s,color .2s,border-color .2s;cursor:pointer;background:transparent;
+}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn.solid{background:var(--red);border-color:var(--red);color:#fff}
+.btn.solid:hover{background:#fff;color:var(--ink);border-color:#fff}
+.deadline{list-style:none;border-top:1px solid rgba(242,238,226,.3)}
+.deadline li{
+  display:grid;grid-template-columns:120px 1fr auto;gap:18px;align-items:center;
+  padding:20px 4px;border-bottom:1px solid rgba(242,238,226,.3);
+  font-size:15px;
+}
+.deadline .d-date{font-family:var(--mono);font-size:12px;letter-spacing:.1em;color:#9FB0FF}
+.deadline .d-chip{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 10px;border:1px solid rgba(242,238,226,.4);
+}
+.deadline .d-chip.hot{background:var(--red);border-color:var(--red);color:#fff}
+.deadline .d-chip.done{opacity:.4}
+
+/* ---------- schedule ---------- */
+.tabs{display:flex;gap:0;border:1px solid var(--ink);margin-bottom:36px;width:max-content}
+.tab{
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  padding:14px 26px;border-right:1px solid var(--ink);cursor:pointer;background:var(--paper);
+  transition:background .2s,color .2s;
+}
+.tab:last-child{border-right:none}
+.tab.active{background:var(--ink);color:var(--paper)}
+.tab:hover:not(.active){background:var(--paper-2)}
+.day{display:none;animation:fadein .4s ease}
+.day.active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.slot{
+  display:grid;grid-template-columns:130px 60px 1fr 190px;gap:24px;align-items:baseline;
+  padding:22px 6px;border-bottom:1px solid var(--line);transition:background .2s;
+}
+.slot:hover{background:var(--paper-2)}
+.slot .s-time{font-family:var(--mono);font-size:13px;color:var(--ink)}
+.slot .s-type{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  padding:4px 8px;border:1px solid var(--line-strong);width:max-content;
+}
+.slot.keynote .s-type{background:var(--blue);border-color:var(--blue);color:#fff}
+.slot.talk .s-type{background:var(--red);border-color:var(--red);color:#fff}
+.slot .s-title{font-family:var(--serif);font-size:21px;font-weight:550;line-height:1.2}
+.slot .s-title small{display:block;font-family:var(--sans);font-size:13px;font-weight:400;color:rgba(23,21,14,.6);margin-top:4px}
+.slot .s-room{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(23,21,14,.55);text-align:right}
+
+/* ---------- tracks ---------- */
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--ink);margin-bottom:clamp(56px,8vh,96px)}
+.track{
+  padding:30px 28px 34px;border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);
+  position:relative;transition:background .25s;
+}
+.track:nth-child(3n){border-right:none}
+.track:nth-child(n+4){border-bottom:none}
+.track:hover{background:var(--paper-2)}
+.track .t-no{font-family:var(--serif);font-style:italic;font-size:44px;font-weight:300;color:var(--red);line-height:1}
+.track h4{font-family:var(--serif);font-size:22px;font-weight:600;margin:16px 0 10px}
+.track p{font-size:14px;color:rgba(23,21,14,.68);line-height:1.6}
+.track .t-meta{margin-top:18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+
+/* ---------- venue ---------- */
+.venue{background:var(--paper-2);border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+.venue-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:56px;align-items:center;padding-bottom:clamp(56px,8vh,96px)}
+.venue-info h3{font-family:var(--serif);font-size:30px;font-weight:600;line-height:1.15;margin-bottom:14px}
+.venue-info p{font-size:15px;color:rgba(23,21,14,.72);max-width:44ch}
+.vlist{list-style:none;margin-top:26px}
+.vlist li{
+  display:flex;justify-content:space-between;gap:20px;padding:13px 0;
+  border-bottom:1px dashed var(--line-strong);font-size:14px;
+}
+.vlist .mono{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(23,21,14,.55);text-align:right}
+.map-box{
+  border:1px solid var(--ink);background:#EDE8D8;position:relative;overflow:hidden;
+}
+.map-box svg{width:100%;height:auto;display:block}
+.map-tag{
+  position:absolute;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;background:var(--paper);padding:4px 8px;border:1px solid var(--ink);
+}
+
+/* ---------- register ---------- */
+.reg{background:var(--blue);color:var(--paper);position:relative;overflow:hidden}
+.reg::before{
+  content:"";position:absolute;right:-120px;top:-120px;width:480px;height:480px;border-radius:50%;
+  border:1.5px solid rgba(242,238,226,.28);
+}
+.reg::after{
+  content:"";position:absolute;right:-40px;top:-40px;width:320px;height:320px;border-radius:50%;
+  border:1.5px dashed rgba(242,238,226,.35);
+}
+.reg-inner{padding:clamp(72px,10vh,120px) 0;display:grid;grid-template-columns:1.3fr 1fr;gap:56px;align-items:center;position:relative;z-index:1}
+.reg h2{font-family:var(--serif);font-weight:500;font-size:clamp(42px,5.2vw,76px);line-height:.95;letter-spacing:-.015em}
+.reg h2 em{font-style:italic;color:#FFC99B;font-weight:380}
+.reg p{margin-top:20px;max-width:52ch;color:rgba(242,238,226,.85);font-size:16px}
+.tiers{border:1px solid rgba(242,238,226,.5);background:rgba(23,21,14,.14)}
+.tier{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:20px 24px;border-bottom:1px solid rgba(242,238,226,.35)}
+.tier:last-child{border-bottom:none}
+.tier .t-name{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.tier .t-price{font-family:var(--serif);font-size:26px;font-weight:600}
+.tier .t-desc{grid-column:1/-1;font-size:12.5px;color:rgba(242,238,226,.65)}
+.tier .t-price small{font-size:12px;font-family:var(--mono);font-weight:400;opacity:.65}
+.tier.featured{background:var(--paper);color:var(--ink)}
+.tier.featured .t-desc{color:rgba(23,21,14,.6)}
+.reg-btns{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap}
+.reg .btn{border-color:var(--paper)}
+.reg .btn:hover{background:var(--paper);color:var(--ink)}
+.reg .btn.solid{background:var(--red);border-color:var(--red);color:#fff}
+.reg .btn.solid:hover{background:#fff;color:var(--blue)}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:rgba(242,238,226,.75)}
+.foot-top{
+  display:flex;justify-content:space-between;align-items:flex-end;gap:32px;
+  padding:56px 0 40px;border-bottom:1px solid rgba(242,238,226,.2);flex-wrap:wrap;
+}
+.foot-word{font-family:var(--serif);font-size:clamp(40px,5vw,72px);font-weight:500;color:var(--paper);line-height:.9}
+.foot-word em{font-style:italic;color:#9FB0FF;font-weight:340}
+.foot-cols{display:flex;gap:64px;flex-wrap:wrap}
+.foot-col h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.foot-col a,.foot-col p{display:block;font-size:13.5px;line-height:2;color:rgba(242,238,226,.7)}
+.foot-col a:hover{color:#fff}
+.foot-bot{display:flex;justify-content:space-between;gap:20px;padding:22px 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,238,226,.4);flex-wrap:wrap}
+
+/* ---------- responsive ---------- */
+@media (max-width:1080px){
+  .hero-grid{grid-template-columns:1fr;gap:32px}
+  .hero-fig{max-width:460px}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .stat{border-bottom:1px solid var(--line);padding-left:0}
+  .hero-cta{grid-column:1/-1}
+  .kgrid{grid-template-columns:repeat(2,1fr)}
+  .tgrid{grid-template-columns:repeat(2,1fr)}
+  .track:nth-child(3n){border-right:1px solid var(--ink)}
+  .track:nth-child(2n){border-right:none}
+  .track:nth-child(n+4){border-bottom:1px solid var(--ink)}
+  .track:nth-child(n+5){border-bottom:none}
+}
+@media (max-width:820px){
+  .navlinks{display:none}
+  .cfp-grid,.venue-grid,.reg-inner{grid-template-columns:1fr}
+  .sec-note{text-align:left}
+  .slot{grid-template-columns:1fr;gap:6px}
+  .slot .s-room{text-align:left}
+  .kgrid,.tgrid{grid-template-columns:1fr}
+  .track{border-right:none!important;border-bottom:1px solid var(--ink)!important}
+  .track:last-child{border-bottom:none!important}
+  .tabs{width:100%}
+  .tab{flex:1;text-align:center;padding:12px 8px}
+  .deadline li{grid-template-columns:1fr;gap:6px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ======================= NAV ======================= -->
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="mark"></span>RESEARCH<em>/conf</em>&nbsp;’26</a>
+    <div class="navlinks">
+      <a href="#keynotes">Keynotes</a>
+      <a href="#cfp">Call for Papers</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#tracks">Tracks</a>
+      <a href="#venue">Venue</a>
+    </div>
+    <a class="nav-cta" href="#register">Register</a>
+  </div>
+</nav>
+
+<!-- ======================= HERO ======================= -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-kicker"><span class="dot"></span> 12th International Symposium · 09–11 October 2026 · Kyoto, Japan</div>
+      <h1>
+        Research<span class="slash">/</span>
+        <span class="line2">Conference</span>
+      </h1>
+      <p class="hero-sub">
+        Three days where <strong>open science, systems research, and computational
+        social inquiry</strong> collide. 320 submissions in review, 18 keynote lectures,
+        and a single rule: every claim comes with its code.
+      </p>
+    </div>
+
+    <div class="hero-fig" aria-hidden="true">
+      <svg viewBox="0 0 420 480" fill="none">
+        <!-- grid -->
+        <defs>
+          <pattern id="g" width="30" height="30" patternUnits="userSpaceOnUse">
+            <path d="M30 0H0V30" stroke="rgba(23,21,14,.14)" fill="none"/>
+          </pattern>
+        </defs>
+        <rect x="14" y="14" width="392" height="452" fill="url(#g)" stroke="#17150E"/>
+        <!-- orbit rings -->
+        <circle cx="210" cy="210" r="150" stroke="#1F35E0" stroke-width="1.5"/>
+        <circle cx="210" cy="210" r="104" stroke="rgba(23,21,14,.3)" stroke-dasharray="4 6"/>
+        <circle cx="210" cy="210" r="52" fill="#17150E"/>
+        <circle cx="210" cy="210" r="18" fill="#E5432B"/>
+        <!-- satellites -->
+        <circle cx="210" cy="60" r="9" fill="#1F35E0"/>
+        <circle cx="360" cy="210" r="7" fill="#17150E"/>
+        <circle cx="120" cy="300" r="6" fill="#E5432B"/>
+        <!-- crosshairs -->
+        <path d="M210 12v40 M210 428v40 M72 210h-40 M388 210h40" stroke="#17150E" stroke-width="1.5"/>
+        <!-- annotation lines -->
+        <path d="M226 196 L330 120 L392 120" stroke="#17150E" stroke-width="1"/>
+        <text x="336" y="112" font-family="IBM Plex Mono" font-size="10" fill="#17150E">n = 320</text>
+        <path d="M218 226 L300 380 L392 380" stroke="#17150E" stroke-width="1"/>
+        <text x="310" y="372" font-family="IBM Plex Mono" font-size="10" fill="#17150E">p &lt; .05</text>
+        <!-- bar spark -->
+        <g stroke="#17150E">
+          <rect x="42" y="360" width="14" height="60" fill="#E5432B" stroke="none"/>
+          <rect x="62" y="384" width="14" height="36" fill="#1F35E0" stroke="none"/>
+          <rect x="82" y="340" width="14" height="80" fill="#17150E" stroke="none"/>
+          <rect x="102" y="370" width="14" height="50" fill="#E5432B" stroke="none"/>
+          <path d="M36 420h92"/>
+        </g>
+        <text x="42" y="352" font-family="IBM Plex Mono" font-size="9" fill="#17150E">REJ. RATE ↓</text>
+      </svg>
+      <div class="fig-label">Fig. 01 — Conference field, as surveyed</div>
+    </div>
+  </div>
+
+  <div class="wrap hero-stats">
+    <div class="stat"><div class="num" data-count="320">0</div><div class="lbl">Submissions under review</div></div>
+    <div class="stat"><div class="num"><span data-count="18">0</span></div><div class="lbl">Keynotes &amp; plenaries</div></div>
+    <div class="stat"><div class="num"><span data-count="96">0</span><sup>+</sup></div><div class="lbl">Researchers on site</div></div>
+    <div class="stat"><div class="num">09–11</div><div class="lbl">Oct 2026 · Kyoto</div></div>
+    <a class="hero-cta" href="#register">Register <span class="arr">→</span></a>
+  </div>
+</header>
+
+<!-- marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="mtrack">
+    <span>Open science <i>✳</i></span><span>Reproducible by default <i>✳</i></span><span>Peer review, but faster <i>✳</i></span><span>Code alongside every paper <i>✳</i></span><span>Field notes from Kyoto <i>✳</i></span>
+  </div>
+</div>
+
+<!-- ======================= KEYNOTES ======================= -->
+<section id="keynotes">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-no">§ 01 — Keynotes</div>
+        <h2 class="sec-title">Voices that will <em>set the baseline</em></h2>
+      </div>
+      <p class="sec-note">Eighteen plenary slots across three mornings. Four of the confirmed speakers below — the rest announced monthly until May.</p>
+    </div>
+
+    <div class="kgrid">
+      <article class="kcard rv">
+        <div class="portrait" style="background:linear-gradient(160deg,#DDE3FF 0%,#F2EEE2 70%)">
+          <span class="tag">Keynote · Day 1</span>
+          <svg viewBox="0 0 200 230" aria-hidden="true">
+            <circle cx="100" cy="82" r="42" fill="#17150E"/>
+            <circle cx="100" cy="82" r="42" fill="none" stroke="#1F35E0" stroke-width="2" stroke-dasharray="6 8"/>
+            <circle cx="86" cy="76" r="5" fill="#F2EEE2"/><circle cx="114" cy="76" r="5" fill="#F2EEE2"/>
+            <path d="M84 98 Q100 108 116 98" stroke="#F2EEE2" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M38 230 Q42 150 100 148 Q158 150 162 230 Z" fill="#1F35E0"/>
+            <path d="M100 148 L100 230" stroke="#F2EEE2" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="kbody">
+          <h3>Dr. Amara Okonkwo</h3>
+          <div class="role">Institute for Data Society · Lagos</div>
+          <p class="talk">“The Replication Mandate: What 10,000 Reruns Taught Us”</p>
+          <div class="kfoot"><span>Tue 09:00</span><b>Hall A</b></div>
+        </div>
+      </article>
+
+      <article class="kcard rv">
+        <div class="portrait" style="background:linear-gradient(160deg,#FFD9CF 0%,#F2EEE2 70%)">
+          <span class="tag">Keynote · Day 2</span>
+          <svg viewBox="0 0 200 230" aria-hidden="true">
+            <rect x="58" y="40" width="84" height="84" fill="#17150E"/>
+            <rect x="58" y="40" width="84" height="84" fill="none" stroke="#E5432B" stroke-width="2" stroke-dasharray="6 8"/>
+            <circle cx="86" cy="76" r="5" fill="#F2EEE2"/><circle cx="114" cy="76" r="5" fill="#F2EEE2"/>
+            <path d="M84 100 L116 100" stroke="#F2EEE2" stroke-width="3" stroke-linecap="round"/>
+            <path d="M38 230 Q42 152 100 150 Q158 152 162 230 Z" fill="#E5432B"/>
+            <circle cx="100" cy="176" r="8" fill="#F2EEE2"/>
+          </svg>
+        </div>
+        <div class="kbody">
+          <h3>Prof. Hiroshi Tanaka</h3>
+          <div class="role">Kyoto Univ., Dept. of Systems</div>
+          <p class="talk">“Adaptive Cities: Infrastructure as a Research Instrument”</p>
+          <div class="kfoot"><span>Wed 09:00</span><b>Hall A</b></div>
+        </div>
+      </article>
+
+      <article class="kcard rv">
+        <div class="portrait" style="background:linear-gradient(160deg,#D6F2E4 0%,#F2EEE2 70%)">
+          <span class="tag">Plenary · Day 3</span>
+          <svg viewBox="0 0 200 230" aria-hidden="true">
+            <polygon points="100,34 146,68 128,122 72,122 54,68" fill="#17150E"/>
+            <polygon points="100,34 146,68 128,122 72,122 54,68" fill="none" stroke="#1F35E0" stroke-width="2" stroke-dasharray="6 8"/>
+            <circle cx="86" cy="78" r="5" fill="#F2EEE2"/><circle cx="114" cy="78" r="5" fill="#F2EEE2"/>
+            <path d="M86 100 Q100 110 114 100" stroke="#F2EEE2" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <path d="M38 230 Q42 152 100 150 Q158 152 162 230 Z" fill="#1F7A4D"/>
+            <path d="M78 176 L122 176" stroke="#F2EEE2" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="kbody">
+          <h3>Dr. Ines Marchetti</h3>
+          <div class="role">Open Science Collective · Zürich</div>
+          <p class="talk">“After Peer Review: The Next Twenty Years of Evaluation”</p>
+          <div class="kfoot"><span>Thu 09:00</span><b>Hall A</b></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="kmore rv"><a class="link-more" href="#cfp">View all 18 keynotes <span>→</span></a></div>
+  </div>
+</section>
+
+<!-- ======================= CFP ======================= -->
+<section class="cfp" id="cfp">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-no">§ 02 — Call for Papers</div>
+        <h2 class="sec-title" style="color:var(--paper)">Submit your <em style="color:#9FB0FF">working truth</em></h2>
+      </div>
+      <p class="sec-note">Double-blind, rolling review, decisions in 21 days. Abstracts open now; full papers due 30 April.</p>
+    </div>
+
+    <div class="cfp-grid">
+      <div class="cfp-copy rv">
+        <p>
+          We accept full papers (8–12 pages), short notes (3 pages), and <span class="accent">preliminary reports</span>
+          for the poster halls. Every accepted submission must ship with reproducible
+          code or a public data plan — this is not a suggestion, it is the house style.
+        </p>
+        <p>
+          Papers are reviewed by a rotated pool of <span class="accent">482 registered reviewers</span>,
+          with one guaranteed reviewer outside your subfield. Rejections include
+          structured feedback, and withdrawn papers may resubmit once with a rebuttal.
+        </p>
+        <div class="cfp-btns">
+          <a class="btn solid" href="#register">Submit abstract <span>→</span></a>
+          <a class="btn" href="#tracks">Formatting guide</a>
+        </div>
+      </div>
+
+      <ul class="deadline rv">
+        <li><span class="d-date">15 Feb 2026</span> Abstract submission opens <span class="d-chip">done</span></li>
+        <li><span class="d-date">30 Apr 2026</span> Full papers due, round one <span class="d-chip hot">Open</span></li>
+        <li><span class="d-date">21 May 2026</span> Author notifications &amp; camera-ready <span class="d-chip">Upcoming</span></li>
+        <li><span class="d-date">15 Jun 2026</span> Late-breaking results, round two <span class="d-chip">Upcoming</span></li>
+        <li><span class="d-date">09 Oct 2026</span> Conference begins, Kyoto <span class="d-chip">Mark it</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SCHEDULE ======================= -->
+<section id="schedule">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-no">§ 03 — Schedule</div>
+        <h2 class="sec-title">Three days, <em>no filler sessions</em></h2>
+      </div>
+      <p class="sec-note">Programme v0.7 — subject to the whims of the reviewers. Times in JST (UTC+9).</p>
+    </div>
+
+    <div class="tabs rv" role="tablist">
+      <button class="tab active" data-day="d1" role="tab">Day 01 · Tue</button>
+      <button class="tab" data-day="d2" role="tab">Day 02 · Wed</button>
+      <button class="tab" data-day="d3" role="tab">Day 03 · Thu</button>
+    </div>
+
+    <div class="day active" id="d1">
+      <div class="slot keynote"><span class="s-time">08:30</span><span class="s-type">Plenary</span><div class="s-title">Registration &amp; coffee, strictly unstructured<small>Concourse Level · name badges include your paper QR</small></div><span class="s-room">Concourse</span></div>
+      <div class="slot keynote"><span class="s-time">09:00</span><span class="s-type">Keynote</span><div class="s-title">Dr. Amara Okonkwo — The Replication Mandate<small>Opening lecture, 45 min + moderated Q&amp;A</small></div><span class="s-room">Hall A</span></div>
+      <div class="slot talk"><span class="s-time">10:30</span><span class="s-type">Paper</span><div class="s-title">Session 1A — Measurement &amp; Inference<small>Papers 0114, 0187, 0233 · chairs: R. Iyer, M. Duarte</small></div><span class="s-room">Rooms 1–3</span></div>
+      <div class="slot"><span class="s-time">14:00</span><span class="s-type">Workshop</span><div class="s-title">Reproducible Pipelines, Bootcamp Edition<small>Hands-on · bring a laptop, leave with a workflow</small></div><span class="s-room">Lab 2</span></div>
+      <div class="slot"><span class="s-time">18:30</span><span class="s-type">Social</span><div class="s-title">Riverside reception &amp; poster walk<small>Unmanned by the committee. Bring your own arguments.</small></div><span class="s-room">Kamo Deck</span></div>
+    </div>
+
+    <div class="day" id="d2">
+      <div class="slot keynote"><span class="s-time">09:00</span><span class="s-type">Keynote</span><div class="s-title">Prof. Hiroshi Tanaka — Adaptive Cities<small>Infrastructure as a research instrument, 45 min</small></div><span class="s-room">Hall A</span></div>
+      <div class="slot talk"><span class="s-time">10:30</span><span class="s-type">Paper</span><div class="s-title">Session 2B — Systems &amp; Scale<small>Papers 0302, 0341, 0377 · live code demos welcome</small></div><span class="s-room">Rooms 1–3</span></div>
+      <div class="slot"><span class="s-time">13:30</span><span class="s-type">Panel</span><div class="s-title">The Open Data Compromise<small>Five funders, one table, moderated by J. Lindqvist</small></div><span class="s-room">Hall B</span></div>
+      <div class="slot"><span class="s-time">15:30</span><span class="s-type">Poster</span><div class="s-title">Preliminary reports — poster hall opens<small>112 posters · review pins distributed at the desk</small></div><span class="s-room">Garden Hall</span></div>
+      <div class="slot"><span class="s-time">19:00</span><span class="s-type">Social</span><div class="s-title">Dinner &amp; the “Worst Figure” award<small>The least defensible chart wins. It’s worse than it sounds.</small></div><span class="s-room">Ryokan Kaya</span></div>
+    </div>
+
+    <div class="day" id="d3">
+      <div class="slot keynote"><span class="s-time">09:00</span><span class="s-type">Plenary</span><div class="s-title">Dr. Ines Marchetti — After Peer Review<small>The next twenty years of evaluation, 45 min</small></div><span class="s-room">Hall A</span></div>
+      <div class="slot talk"><span class="s-time">10:30</span><span class="s-type">Paper</span><div class="s-title">Session 3A — Society &amp; Methods<small>Papers 0410, 0455 · final paper slot before closing</small></div><span class="s-room">Rooms 1–2</span></div>
+      <div class="slot"><span class="s-time">13:00</span><span class="s-type">Roundtable</span><div class="s-title">Fellowships &amp; early-career routes<small>Open floor · 12 hosts from labs and labs-adjacent</small></div><span class="s-room">Hall B</span></div>
+      <div class="slot"><span class="s-time">15:30</span><span class="s-type">Closing</span><div class="s-title">Best paper prizes &amp; the Kyoto resolution<small>Awards, thank-yous, and one mildly contentious motion</small></div><span class="s-room">Hall A</span></div>
+      <div class="slot"><span class="s-time">17:00</span><span class="s-type">Social</span><div class="s-title">Closing drinks &amp; 2027 announcement<small>Wherever the next city is, you’ll hear it here first.</small></div><span class="s-room">Rooftop</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= TRACKS ======================= -->
+<section id="tracks">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-no">§ 04 — Tracks</div>
+        <h2 class="sec-title">Six rooms, <em>one argument</em></h2>
+      </div>
+      <p class="sec-note">Cross-track submissions allowed — a paper may sit in two rooms, never three.</p>
+    </div>
+
+    <div class="tgrid rv">
+      <div class="track"><div class="t-no">01</div><h4>Measurement &amp; Inference</h4><p>Designs that survive contact with data: estimators, field experiments, causal claims, and the audits that follow them.</p><div class="t-meta">64 accepted · Rooms 1–2</div></div>
+      <div class="track"><div class="t-no">02</div><h4>Systems &amp; Scale</h4><p>Where models meet machines: distributed datasets, compute economics, and infrastructure as a research object.</p><div class="t-meta">51 accepted · Room 3</div></div>
+      <div class="track"><div class="t-no">03</div><h4>Society &amp; Methods</h4><p>Social inquiry with new tools and old caution — survey design, behavioral data, and the ethics of both.</p><div class="t-meta">48 accepted · Room 1</div></div>
+      <div class="track"><div class="t-no">04</div><h4>Open Science Practice</h4><p>Publishing, review, licensing, and the messy machinery of making research legible to everyone.</p><div class="t-meta">39 accepted · Hall B</div></div>
+      <div class="track"><div class="t-no">05</div><h4>Preliminary Reports</h4><p>Half-baked on purpose. Early results, open questions, and posters built to be argued with.</p><div class="t-meta">112 posters · Garden Hall</div></div>
+      <div class="track"><div class="t-no">06</div><h4>Workshops &amp; Bootcamps</h4><p>Six hands-on sessions: reproducible pipelines, pre-registration, data plans, and code review culture.</p><div class="t-meta">6 labs · 24 seats each</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= VENUE ======================= -->
+<section class="venue" id="venue">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="sec-no">§ 05 — Venue</div>
+        <h2 class="sec-title">The Kamo <em>Riverside Institute</em></h2>
+      </div>
+      <p class="sec-note">A 1920s research station rebuilt for 2026. Seven minutes from Kyoto Station, one walk away from the river.</p>
+    </div>
+
+    <div class="venue-grid">
+      <div class="venue-info rv">
+        <h3>Concrete, timber, and a rooftop that holds 300 people at a time.</h3>
+        <p>
+          The Institute keeps its original lecture hall, its new lab floors, and an
+          unusually long garden. All sessions are captioned live, and the concourse
+          café serves the conference’s own (surprisingly good) pour-over.
+        </p>
+        <ul class="vlist">
+          <li>Kyoto Station → venue <span class="mono">7 min · Bus 26</span></li>
+          <li>KIX airport → venue <span class="mono">85 min · Haruka + Bus 26</span></li>
+          <li>Delegate rooms <span class="mono">410 · book before 30 Jun</span></li>
+          <li>Accessibility <span class="mono">Step-free, captioned, quiet room</span></li>
+        </ul>
+      </div>
+
+      <div class="map-box rv">
+        <svg viewBox="0 0 640 420" aria-hidden="true">
+          <rect width="640" height="420" fill="#EDE8D8"/>
+          <!-- river -->
+          <path d="M-10 330 C140 300 220 360 360 330 S560 260 660 290 L660 420 L-10 420 Z" fill="#BFD0EA"/>
+          <path d="M-10 330 C140 300 220 360 360 330 S560 260 660 290" stroke="#1F35E0" stroke-width="2" fill="none" opacity=".5"/>
+          <text x="430" y="392" font-family="IBM Plex Mono" font-size="11" fill="#1F35E0">KAMO RIVER</text>
+          <!-- street grid -->
+          <g stroke="rgba(23,21,14,.35)" stroke-width="1.5">
+            <path d="M60 0 V330 M180 0 V322 M300 0 V326 M420 0 V308 M540 0 V296"/>
+            <path d="M0 70 H640 M0 150 H640 M0 230 H640"/>
+          </g>
+          <!-- roads -->
+          <path d="M120 0 V326" stroke="#F2EEE2" stroke-width="10"/>
+          <path d="M0 110 H640" stroke="#F2EEE2" stroke-width="10"/>
+          <!-- blocks -->
+          <rect x="196" y="164" width="92" height="52" fill="rgba(23,21,14,.12)"/>
+          <rect x="432" y="78" width="90" height="58" fill="rgba(23,21,14,.12)"/>
+          <rect x="70" y="164" width="36" height="52" fill="rgba(23,21,14,.12)"/>
+          <!-- institute block -->
+          <rect x="308" y="162" width="100" height="56" fill="#17150E"/>
+          <rect x="318" y="172" width="80" height="36" fill="none" stroke="#F2EEE2" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <circle cx="358" cy="190" r="14" fill="#E5432B"/>
+          <text x="344" y="195" font-family="IBM Plex Mono" font-size="12" fill="#fff" font-weight="600">RC</text>
+          <!-- train line -->
+          <path d="M-10 40 H640" stroke="#17150E" stroke-width="3" stroke-dasharray="10 6"/>
+          <circle cx="120" cy="40" r="9" fill="#F2EEE2" stroke="#17150E" stroke-width="2.5"/>
+          <text x="134" y="34" font-family="IBM Plex Mono" font-size="10" fill="#17150E">KYOTO STN</text>
+          <!-- bus route -->
+          <path d="M120 40 C120 120 250 140 358 176" stroke="#E5432B" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+          <text x="180" y="140" font-family="IBM Plex Mono" font-size="10" fill="#E5432B">BUS 26 · 7 MIN</text>
+          <!-- compass -->
+          <g transform="translate(590 30)"><circle r="18" fill="none" stroke="#17150E" stroke-width="1.5"/><path d="M0 -12 L5 6 L0 2 L-5 6 Z" fill="#E5432B"/><text y="-24" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#17150E">N</text></g>
+        </svg>
+        <span class="map-tag" style="top:38%;left:47%">Institute — Hall A here</span>
+        <span class="map-tag" style="top:8%;left:14%">Kyoto Station</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= REGISTER ======================= -->
+<section class="reg" id="register">
+  <div class="wrap reg-inner">
+    <div class="rv">
+      <div class="sec-no" style="color:#FFC99B">§ 06 — Registration</div>
+      <h2 style="margin-top:14px">Save your seat at the <em>long table</em></h2>
+      <p>
+        Registration includes all sessions, the bootcamps, both dinners, and a print
+        copy of the proceedings — because some arguments deserve paper. Early rates
+        hold until 31 March 2026.
+      </p>
+      <div class="reg-btns">
+        <a class="btn solid" href="#top">Register now <span>→</span></a>
+        <a class="btn" href="#cfp">Group &amp; lab rates</a>
+      </div>
+    </div>
+
+    <div class="tiers rv">
+      <div class="tier">
+        <span class="t-name">Researcher · Early</span>
+        <span class="t-price">¥48,000 <small>/ $320</small></span>
+        <span class="t-desc">Full programme, workshops, dinners, proceedings</span>
+      </div>
+      <div class="tier featured">
+        <span class="t-name">Early-career · Early</span>
+        <span class="t-price">¥24,000 <small>/ $160</small></span>
+        <span class="t-desc">Students &amp; first-time presenters, with travel grant eligibility</span>
+      </div>
+      <div class="tier">
+        <span class="t-name">Remote pass</span>
+        <span class="t-price">¥8,000 <small>/ $55</small></span>
+        <span class="t-desc">Live streams of all keynotes, on-demand papers, caption archive</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FOOTER ======================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-word">RESEARCH<em>/conf</em></div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h5>Programme</h5>
+          <a href="#keynotes">Keynotes</a><a href="#cfp">Call for papers</a><a href="#schedule">Schedule</a><a href="#tracks">Tracks</a>
+        </div>
+        <div class="foot-col">
+          <h5>Venue</h5>
+          <p>Kamo Riverside Institute<br>47 Kamo-gawa, Higashiyama<br>Kyoto 605-0825, Japan</p>
+        </div>
+        <div class="foot-col">
+          <h5>Desk</h5>
+          <a href="#top">desk@research-conf.example</a><a href="#top">Reviewers portal</a><a href="#top">Press &amp; media</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Research/Conference Committee · Kyoto</span>
+      <span>Proceedings published under CC-BY 4.0 · v0.7</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ---- marquee duplication for seamless loop ----
+const mt = document.getElementById('mtrack');
+mt.innerHTML += mt.innerHTML;
+
+// ---- scroll reveal ----
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+}, {threshold:.12});
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// ---- stat count-up ----
+const cio = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(!e.isIntersecting) return;
+    const el = e.target, end = +el.dataset.count, t0 = performance.now(), dur = 1200;
+    (function tick(t){
+      const p = Math.min((t - t0)/dur, 1);
+      el.textContent = Math.round(end * (1 - Math.pow(1-p, 3))).toLocaleString();
+      if(p < 1) requestAnimationFrame(tick);
+    })(t0);
+    cio.unobserve(el);
+  });
+}, {threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+
+// ---- schedule tabs ----
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.day').forEach(d => d.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.day).classList.add('active');
+  });
+});
+
+// ---- subtle hero parallax on the figure ----
+const fig = document.querySelector('.hero-fig');
+if (fig && matchMedia('(prefers-reduced-motion: no-preference)').matches){
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight) fig.style.transform = `translateY(${y * 0.06}px)`;
+  }, {passive:true});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAWLINE — Premium Pet Care, Booked in Minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --terracotta:#C4593A;
+  --terracotta-deep:#A34229;
+  --terracotta-soft:#F3DED4;
+  --cream:#FBF5EC;
+  --cream-deep:#F3E9DA;
+  --moss:#7C8B5F;
+  --moss-deep:#5C6B43;
+  --moss-soft:#E4E8D6;
+  --ink:#33281F;
+  --ink-soft:#6E5E50;
+  --white:#FFFDF9;
+  --line:#E7DCCB;
+  --shadow:0 12px 32px rgba(51,40,31,.10);
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.serif{font-family:'Fraunces',serif}
+img{max-width:100%}
+a{color:inherit;text-decoration:none}
+.container{max-width:1180px;margin:0 auto;padding:0 32px}
+
+/* ---------- NAV ---------- */
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(251,245,236,.88);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:700;font-size:1.35rem;letter-spacing:.04em}
+.logo svg{width:34px;height:34px}
+.nav-links{display:flex;gap:32px;font-size:.92rem;font-weight:500;color:var(--ink-soft)}
+.nav-links a:hover{color:var(--terracotta)}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Inter',sans-serif;font-weight:600;font-size:.92rem;
+  padding:12px 22px;border-radius:999px;border:none;cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--terracotta);color:#fff;box-shadow:0 6px 16px rgba(196,89,58,.30)}
+.btn-primary:hover{background:var(--terracotta-deep)}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{border-color:var(--terracotta);color:var(--terracotta)}
+.btn-moss{background:var(--moss);color:#fff;box-shadow:0 6px 16px rgba(124,139,95,.30)}
+.btn-moss:hover{background:var(--moss-deep)}
+.nav-cta{display:flex;gap:12px;align-items:center}
+.nav-cta .signin{font-size:.9rem;font-weight:600;color:var(--ink-soft)}
+.nav-cta .signin:hover{color:var(--terracotta)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(600px 400px at 85% 10%, rgba(196,89,58,.08), transparent 60%),
+    radial-gradient(500px 400px at 5% 90%, rgba(124,139,95,.10), transparent 60%);
+  pointer-events:none;
+}
+.hero-grid{
+  display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;
+  padding:72px 0 88px;position:relative;
+}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--moss-deep);background:var(--moss-soft);
+  padding:7px 16px;border-radius:999px;margin-bottom:22px;
+}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--moss)}
+h1{font-size:3.35rem;line-height:1.12;font-weight:600;letter-spacing:-.01em;margin-bottom:20px}
+h1 em{font-style:italic;color:var(--terracotta)}
+.hero-sub{font-size:1.08rem;color:var(--ink-soft);max-width:480px;margin-bottom:30px}
+.hero-stats{display:flex;gap:36px;margin-bottom:34px}
+.hero-stats .stat b{display:block;font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600;color:var(--ink)}
+.hero-stats .stat span{font-size:.82rem;color:var(--ink-soft)}
+.hero-stats .div{width:1px;background:var(--line)}
+
+/* Quick booking card */
+.quick-card{
+  background:var(--white);border:1px solid var(--line);border-radius:22px;
+  box-shadow:var(--shadow);padding:30px;position:relative;
+}
+.quick-card::after{
+  content:"";position:absolute;inset:10px;border:1.5px dashed var(--terracotta-soft);
+  border-radius:15px;pointer-events:none;
+}
+.quick-card h3{font-size:1.35rem;font-weight:600;margin-bottom:4px;position:relative;z-index:1}
+.quick-card .qsub{font-size:.86rem;color:var(--ink-soft);margin-bottom:20px;position:relative;z-index:1}
+.qb-field{position:relative;z-index:1;margin-bottom:14px}
+.qb-field label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px}
+.qb-field select,.qb-field input{
+  width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;
+  font-family:'Inter',sans-serif;font-size:.94rem;color:var(--ink);background:var(--cream);
+  transition:border-color .15s;appearance:none;
+}
+.qb-field select:focus,.qb-field input:focus{outline:none;border-color:var(--terracotta)}
+.qb-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.qb-services{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1}
+.chip{
+  font-size:.82rem;font-weight:600;padding:8px 14px;border-radius:999px;
+  border:1.5px solid var(--line);background:var(--white);cursor:pointer;
+  color:var(--ink-soft);transition:all .15s;
+}
+.chip:hover{border-color:var(--terracotta);color:var(--terracotta)}
+.chip.active{background:var(--terracotta);border-color:var(--terracotta);color:#fff}
+.qb-foot{display:flex;align-items:center;justify-content:space-between;margin-top:20px;position:relative;z-index:1}
+.qb-note{font-size:.76rem;color:var(--ink-soft);display:flex;align-items:center;gap:6px}
+.qb-note svg{flex:none}
+#qb-btn{width:100%;justify-content:center;margin-top:12px;padding:14px;font-size:.98rem;position:relative;z-index:1}
+
+/* hero illustration */
+.hero-art{position:relative;display:flex;justify-content:center}
+.hero-art .blob{
+  width:430px;height:430px;border-radius:48% 52% 55% 45% / 52% 46% 54% 48%;
+  background:linear-gradient(140deg,var(--terracotta-soft),var(--moss-soft));
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.hero-art .blob svg{width:300px;height:300px;filter:drop-shadow(0 16px 24px rgba(51,40,31,.14))}
+.float-badge{
+  position:absolute;background:var(--white);border:1px solid var(--line);
+  border-radius:14px;padding:12px 16px;box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:600;
+  animation:floaty 5s ease-in-out infinite;
+}
+.float-badge small{display:block;font-weight:400;color:var(--ink-soft);font-size:.72rem}
+.fb1{top:38px;left:-30px}
+.fb2{bottom:56px;right:-24px;animation-delay:2.4s}
+.fb-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.fb-icon.moss{background:var(--moss-soft)}
+.fb-icon.terra{background:var(--terracotta-soft)}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* ---------- TRUST STRIP ---------- */
+.trust-strip{background:var(--ink);color:var(--cream)}
+.trust-inner{display:flex;align-items:center;justify-content:space-between;padding:26px 0;flex-wrap:wrap;gap:20px}
+.trust-item{display:flex;align-items:center;gap:12px;font-size:.9rem}
+.trust-item svg{flex:none;opacity:.9}
+.trust-item b{font-weight:600}
+.trust-item span{color:#CBB9A8;font-size:.8rem;display:block}
+
+/* ---------- SECTION HEADS ---------- */
+section{padding:88px 0}
+.sec-head{max-width:620px;margin-bottom:48px}
+.sec-head .kicker{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--terracotta);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.sec-head .kicker::before{content:"";width:28px;height:2px;background:var(--terracotta);border-radius:2px}
+.sec-head h2{font-size:2.4rem;font-weight:600;line-height:1.18;margin-bottom:12px}
+.sec-head p{color:var(--ink-soft);font-size:1rem}
+
+/* ---------- PET + UPCOMING ---------- */
+.dash{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.panel{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.panel-head{padding:22px 26px 0}
+.panel-head h3{font-size:1.3rem;font-weight:600;display:flex;align-items:center;justify-content:space-between}
+.panel-head h3 .tag{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--moss-deep);background:var(--moss-soft);padding:5px 12px;border-radius:999px}
+.pet-tabs{display:flex;gap:10px;padding:20px 26px 0}
+.pet-tab{
+  flex:1;border:1.5px solid var(--line);background:var(--cream);border-radius:14px;
+  padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;
+  font-family:'Inter',sans-serif;text-align:left;transition:all .15s;
+}
+.pet-tab:hover{border-color:var(--terracotta)}
+.pet-tab.active{border-color:var(--terracotta);background:var(--terracotta-soft)}
+.pet-avatar{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex:none}
+.pet-avatar.terra{background:var(--terracotta-soft)}
+.pet-avatar.moss{background:var(--moss-soft)}
+.pet-tab b{display:block;font-size:.94rem}
+.pet-tab small{color:var(--ink-soft);font-size:.76rem}
+.pet-body{padding:22px 26px 26px}
+.pet-detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 20px;margin-bottom:20px}
+.pd{background:var(--cream);border-radius:12px;padding:12px 14px}
+.pd span{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:3px}
+.pd b{font-size:.9rem;font-weight:600}
+.trait-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.trait{font-size:.78rem;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--cream-deep);color:var(--ink-soft)}
+.trait.love{background:var(--terracotta-soft);color:var(--terracotta-deep)}
+.pet-actions{display:flex;gap:10px}
+.pet-actions .btn{flex:1;justify-content:center;padding:11px}
+
+/* upcoming timeline */
+.booking-card{margin:20px 26px 26px;background:linear-gradient(135deg,var(--moss-soft),var(--cream-deep));border-radius:16px;padding:22px;position:relative;overflow:hidden}
+.booking-card::before{
+  content:"";position:absolute;right:-40px;top:-40px;width:150px;height:150px;border-radius:50%;
+  background:rgba(255,255,255,.35);
+}
+.bc-top{display:flex;align-items:center;gap:14px;margin-bottom:16px;position:relative}
+.bc-avatar{width:52px;height:52px;border-radius:16px;background:var(--white);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px rgba(51,40,31,.10)}
+.bc-top b{font-size:1rem;display:block}
+.bc-top small{color:var(--ink-soft);font-size:.8rem}
+.bc-status{margin-left:auto;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--moss);color:#fff;padding:6px 12px;border-radius:999px}
+.bc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;position:relative}
+.bc-cell{background:var(--white);border-radius:12px;padding:12px}
+.bc-cell span{font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);display:block}
+.bc-cell b{font-size:.88rem;font-weight:600}
+.bc-progress{margin-top:16px;position:relative}
+.bc-progress .bar{height:8px;background:rgba(255,255,255,.6);border-radius:99px;overflow:hidden}
+.bc-progress .bar i{display:block;height:100%;width:38%;background:var(--terracotta);border-radius:99px}
+.bc-progress p{font-size:.76rem;color:var(--ink-soft);margin-top:8px}
+
+/* ---------- SITTERS ---------- */
+.sitters{background:var(--cream-deep);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.search-bar{
+  display:flex;gap:12px;align-items:center;background:var(--white);
+  border:1.5px solid var(--line);border-radius:999px;padding:10px 12px 10px 24px;
+  max-width:640px;margin-bottom:16px;box-shadow:var(--shadow);
+}
+.search-bar svg{flex:none;color:var(--ink-soft)}
+.search-bar input{border:none;flex:1;font-family:'Inter',sans-serif;font-size:.94rem;background:transparent;color:var(--ink)}
+.search-bar input:focus{outline:none}
+.filter-row{display:flex;gap:8px;margin-bottom:36px;flex-wrap:wrap}
+.sitter-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.sitter-card{
+  background:var(--white);border:1.5px solid var(--line);border-radius:var(--radius);
+  padding:26px;transition:all .18s ease;position:relative;
+}
+.sitter-card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:var(--terracotta)}
+.sitter-card .fav{
+  position:absolute;top:20px;right:20px;width:34px;height:34px;border-radius:50%;
+  border:1.5px solid var(--line);background:var(--cream);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.sitter-card .fav.on{background:var(--terracotta);border-color:var(--terracotta)}
+.sitter-card .fav.on svg{fill:#fff;stroke:#fff}
+.s-top{display:flex;gap:16px;margin-bottom:16px}
+.s-avatar{width:68px;height:68px;border-radius:20px;flex:none;display:flex;align-items:center;justify-content:center}
+.s-avatar.a{background:var(--terracotta-soft)}
+.s-avatar.b{background:var(--moss-soft)}
+.s-avatar.c{background:var(--cream-deep)}
+.s-top b{font-size:1.05rem;display:block;margin-bottom:2px}
+.s-top .s-loc{font-size:.8rem;color:var(--ink-soft);display:flex;align-items:center;gap:5px}
+.s-rating{display:flex;align-items:center;gap:6px;font-size:.84rem;font-weight:600;margin-bottom:12px}
+.s-rating .stars{color:var(--terracotta);letter-spacing:1px}
+.s-rating small{color:var(--ink-soft);font-weight:400}
+.s-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.s-tag{font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--moss-soft);color:var(--moss-deep)}
+.s-tag.terra{background:var(--terracotta-soft);color:var(--terracotta-deep)}
+.s-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px dashed var(--line);padding-top:16px}
+.s-price{font-family:'Fraunces',serif;font-size:1.15rem;font-weight:600}
+.s-price small{font-family:'Inter',sans-serif;font-size:.74rem;color:var(--ink-soft);font-weight:400}
+.s-foot .btn{padding:9px 18px;font-size:.84rem}
+.avail-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--moss);margin-right:5px}
+
+/* ---------- CARE PLANS ---------- */
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+.plan{
+  background:var(--white);border:1.5px solid var(--line);border-radius:22px;padding:34px 30px;
+  display:flex;flex-direction:column;position:relative;transition:all .18s;
+}
+.plan:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.plan.featured{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.plan .ribbon{
+  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  background:var(--terracotta);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;padding:7px 16px;border-radius:999px;white-space:nowrap;
+}
+.plan .p-icon{width:54px;height:54px;border-radius:16px;background:var(--cream-deep);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.plan.featured .p-icon{background:rgba(255,255,255,.12)}
+.plan h3{font-size:1.4rem;font-weight:600;margin-bottom:6px}
+.plan .p-sub{font-size:.86rem;color:var(--ink-soft);margin-bottom:20px}
+.plan.featured .p-sub{color:#CBB9A8}
+.plan .p-price{font-family:'Fraunces',serif;font-size:2.4rem;font-weight:600;margin-bottom:4px}
+.plan .p-price small{font-family:'Inter',sans-serif;font-size:.84rem;font-weight:400;color:var(--ink-soft)}
+.plan.featured .p-price small{color:#CBB9A8}
+.plan ul{list-style:none;margin:20px 0 28px;flex:1}
+.plan li{display:flex;gap:10px;font-size:.9rem;padding:7px 0;color:var(--ink-soft)}
+.plan.featured li{color:#E9DCCC}
+.plan li svg{flex:none;margin-top:3px}
+.plan .btn{justify-content:center}
+
+/* ---------- REVIEWS ---------- */
+.reviews{background:linear-gradient(180deg,var(--cream),var(--moss-soft) 160%)}
+.review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.review{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius);
+  padding:28px;box-shadow:0 6px 18px rgba(51,40,31,.06);display:flex;flex-direction:column;
+}
+.review .r-stars{color:var(--terracotta);letter-spacing:2px;font-size:.9rem;margin-bottom:14px}
+.review p{font-size:.94rem;color:var(--ink);margin-bottom:22px;flex:1;font-style:italic}
+.r-who{display:flex;align-items:center;gap:12px}
+.r-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600;font-size:1rem;flex:none}
+.r-avatar.a{background:var(--terracotta-soft);color:var(--terracotta-deep)}
+.r-avatar.b{background:var(--moss-soft);color:var(--moss-deep)}
+.r-avatar.c{background:var(--cream-deep);color:var(--ink)}
+.r-who b{font-size:.9rem;display:block}
+.r-who small{color:var(--ink-soft);font-size:.76rem}
+.verify{margin-left:auto;font-size:.7rem;font-weight:700;color:var(--moss-deep);background:var(--moss-soft);padding:4px 10px;border-radius:999px;white-space:nowrap}
+
+/* ---------- FINAL CTA ---------- */
+.final-cta{padding:0 0 88px}
+.cta-panel{
+  background:var(--terracotta);border-radius:28px;padding:64px;color:#fff;
+  display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;
+  position:relative;overflow:hidden;
+}
+.cta-panel::before{
+  content:"";position:absolute;right:-80px;bottom:-120px;width:340px;height:340px;border-radius:50%;
+  background:rgba(255,255,255,.08);
+}
+.cta-panel::after{
+  content:"";position:absolute;right:110px;top:-90px;width:220px;height:220px;border-radius:50%;
+  background:rgba(255,255,255,.06);
+}
+.cta-panel h2{font-size:2.3rem;font-weight:600;line-height:1.2;margin-bottom:14px;position:relative;z-index:1}
+.cta-panel p{color:#FBE4DA;max-width:420px;position:relative;z-index:1}
+.cta-form{display:flex;gap:10px;position:relative;z-index:1}
+.cta-form input{
+  flex:1;padding:14px 18px;border-radius:999px;border:none;font-family:'Inter',sans-serif;font-size:.94rem;
+}
+.cta-form input:focus{outline:3px solid rgba(255,255,255,.4)}
+.cta-form .btn{background:var(--ink);color:var(--cream)}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink);color:#CBB9A8}
+.foot-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1.2fr;gap:44px;padding:72px 0 56px}
+.foot-brand .logo{color:var(--cream);margin-bottom:16px}
+.foot-brand p{font-size:.88rem;max-width:280px;margin-bottom:20px}
+.foot-social{display:flex;gap:10px}
+.foot-social a{
+  width:38px;height:38px;border-radius:50%;border:1px solid #4A3C30;display:flex;
+  align-items:center;justify-content:center;transition:all .15s;
+}
+.foot-social a:hover{border-color:var(--terracotta);background:rgba(196,89,58,.15)}
+.foot-col h4{font-family:'Fraunces',serif;color:var(--cream);font-size:1.05rem;font-weight:600;margin-bottom:18px}
+.foot-col a,.foot-col p{display:block;font-size:.88rem;padding:5px 0;transition:color .15s}
+.foot-col a:hover{color:var(--terracotta)}
+.hood-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 20px}
+.hood-grid a{font-size:.86rem}
+.foot-bottom{border-top:1px solid #4A3C30;padding:24px 0;display:flex;justify-content:space-between;align-items:center;font-size:.8rem;flex-wrap:wrap;gap:12px}
+.foot-bottom .pay{display:flex;gap:8px;align-items:center}
+.pay-chip{background:#4A3C30;border-radius:6px;padding:4px 10px;font-size:.7rem;font-weight:600;color:var(--cream)}
+
+/* toast */
+#toast{
+  position:fixed;bottom:28px;left:50%;transform:translate(-50%,80px);
+  background:var(--ink);color:var(--cream);padding:14px 24px;border-radius:999px;
+  font-size:.9rem;font-weight:600;box-shadow:0 12px 30px rgba(0,0,0,.25);
+  transition:transform .35s cubic-bezier(.2,.9,.3,1.2);z-index:100;display:flex;gap:10px;align-items:center;
+}
+#toast.show{transform:translate(-50%,0)}
+
+@media (max-width:960px){
+  .hero-grid,.dash,.plans-grid,.review-grid,.sitter-grid{grid-template-columns:1fr}
+  .hero-grid{padding:48px 0 64px}
+  .cta-panel{grid-template-columns:1fr;padding:44px 32px}
+  .foot-top{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  h1{font-size:2.5rem}
+  .hero-art .blob{width:320px;height:320px}
+  .fb1{left:0}.fb2{right:0}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="container nav-inner">
+    <a href="#" class="logo">
+      <svg viewBox="0 0 48 48" fill="none">
+        <circle cx="16" cy="13" r="5" fill="#C4593A"/>
+        <circle cx="32" cy="13" r="5" fill="#7C8B5F"/>
+        <circle cx="8" cy="24" r="4.4" fill="#7C8B5F"/>
+        <circle cx="40" cy="24" r="4.4" fill="#C4593A"/>
+        <path d="M24 24c-7 0-13 6-13 12 0 4 3 7 7 7 2 0 3.4-1 6-1s4 1 6 1c4 0 7-3 7-7 0-6-6-12-13-12z" fill="#C4593A"/>
+      </svg>
+      PAWLINE
+    </a>
+    <div class="nav-links">
+      <a href="#sitters">Find a Sitter</a>
+      <a href="#plans">Care Plans</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#bookings">My Bookings</a>
+      <a href="#neighborhoods">Neighborhoods</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="signin">Sign in</a>
+      <a href="#quick" class="btn btn-primary">Book Care</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow"><span class="dot"></span> Trusted in 42 neighborhoods</span>
+      <h1>Thoughtful pet care, <em>booked in minutes.</em></h1>
+      <p class="hero-sub">Meet verified sitters, dog walkers and vets in your area. Transparent pricing, live trip updates, and care reports for every walk, nap, and playdate.</p>
+      <div class="hero-stats">
+        <div class="stat"><b>12,400+</b><span>happiest pets</span></div>
+        <div class="div"></div>
+        <div class="stat"><b>4.97★</b><span>average rating</span></div>
+        <div class="div"></div>
+        <div class="stat"><b>2,860</b><span>vetted sitters</span></div>
+      </div>
+      <div id="quick" class="quick-card">
+        <h3>Quick Book</h3>
+        <p class="qsub">Tell us who, when, and what — we'll match you in seconds.</p>
+        <div class="qb-field">
+          <label for="qb-pet">Pet</label>
+          <select id="qb-pet">
+            <option>Biscuit — Golden Retriever</option>
+            <option>Miso — Tabby Cat</option>
+          </select>
+        </div>
+        <div class="qb-row">
+          <div class="qb-field">
+            <label for="qb-date">Date</label>
+            <input type="date" id="qb-date">
+          </div>
+          <div class="qb-field">
+            <label for="qb-time">Time window</label>
+            <select id="qb-time">
+              <option>Morning · 8–11 AM</option>
+              <option>Afternoon · 12–3 PM</option>
+              <option>Evening · 5–8 PM</option>
+              <option>Full day</option>
+            </select>
+          </div>
+        </div>
+        <div class="qb-field">
+          <label>Service</label>
+          <div class="qb-services" id="qb-services">
+            <button class="chip active" type="button">Walk</button>
+            <button class="chip" type="button">Drop-in</button>
+            <button class="chip" type="button">Overnight</button>
+            <button class="chip" type="button">Playdate</button>
+            <button class="chip" type="button">Pet sitting</button>
+          </div>
+        </div>
+        <div class="qb-foot">
+          <span class="qb-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C6B43" stroke-width="2.5"><path d="M12 2l7 4v6c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-4z"/></svg>
+            Free cancellation up to 24h before
+          </span>
+        </div>
+        <button class="btn btn-primary" id="qb-btn">Find available sitters →</button>
+      </div>
+    </div>
+
+    <div class="hero-art">
+      <div class="blob">
+        <!-- dog illustration -->
+        <svg viewBox="0 0 200 200" fill="none">
+          <ellipse cx="100" cy="178" rx="62" ry="10" fill="#33281F" opacity=".08"/>
+          <path d="M62 60 C52 34 62 20 76 22 C84 24 86 34 86 42 Z" fill="#A34229"/>
+          <path d="M138 60 C148 34 138 20 124 22 C116 24 114 34 114 42 Z" fill="#A34229"/>
+          <circle cx="100" cy="66" r="42" fill="#C4593A"/>
+          <circle cx="84" cy="60" r="4.5" fill="#33281F"/>
+          <circle cx="116" cy="60" r="4.5" fill="#33281F"/>
+          <circle cx="85.5" cy="58.5" r="1.5" fill="#fff"/>
+          <circle cx="117.5" cy="58.5" r="1.5" fill="#fff"/>
+          <ellipse cx="100" cy="78" rx="15" ry="11" fill="#F3DED4"/>
+          <ellipse cx="100" cy="73" rx="6" ry="4.5" fill="#33281F"/>
+          <path d="M100 78 v6 M100 84 c-3 4 -8 4 -10 1 M100 84 c3 4 8 4 10 1" stroke="#33281F" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M58 96 C40 110 36 136 44 152 C54 172 78 182 100 182 C122 182 146 172 156 152 C164 136 160 110 142 96 Z" fill="#7C8B5F"/>
+          <path d="M100 108 C88 118 84 136 92 150 C96 157 104 157 108 150 C116 136 112 118 100 108Z" fill="#FBF5EC"/>
+          <rect x="86" y="118" width="28" height="24" rx="12" fill="#FBF5EC"/>
+          <circle cx="100" cy="130" r="5" fill="#C4593A"/>
+          <path d="M60 44 l-10 -6 M140 44 l10 -6" stroke="#A34229" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="66" cy="78" r="6" fill="#F3DED4" opacity=".7"/>
+          <circle cx="134" cy="78" r="6" fill="#F3DED4" opacity=".7"/>
+        </svg>
+      </div>
+      <div class="float-badge fb1">
+        <div class="fb-icon moss">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5C6B43" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div>Walk complete<small>Photo + GPS route shared</small></div>
+      </div>
+      <div class="float-badge fb2">
+        <div class="fb-icon terra">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#C4593A"><path d="M12 21C7 16.5 3 13 3 8.8 3 5.6 5.5 3 8.6 3c1.8 0 3.3.9 3.4 1.6C12.1 3.9 13.6 3 15.4 3 18.5 3 21 5.6 21 8.8 21 13 17 16.5 12 21z"/></svg>
+        </div>
+        <div>Sitter matched<small>Rosa M. · 25 min away</small></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ TRUST STRIP ============ -->
+<div class="trust-strip">
+  <div class="container trust-inner">
+    <div class="trust-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FBF5EC" stroke-width="2"><path d="M12 2l7 4v6c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6l7-4z"/><path d="M9 12l2 2 4-4"/></svg>
+      <div><b>Background-checked sitters</b><span>Identity, reference & vet visits verified</span></div>
+    </div>
+    <div class="trust-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FBF5EC" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      <div><b>Live trip tracking</b><span>GPS + photo updates every visit</span></div>
+    </div>
+    <div class="trust-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FBF5EC" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg>
+      <div><b>Insurance included</b><span>Up to $1M liability on every booking</span></div>
+    </div>
+    <div class="trust-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FBF5EC" stroke-width="2"><path d="M12 21s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.5-7 10-7 10z"/></svg>
+      <div><b>24/7 care concierge</b><span>Real humans, 3-min avg response</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PET PROFILE + UPCOMING ============ -->
+<section id="bookings">
+  <div class="container">
+    <div class="sec-head">
+      <div class="kicker">Your dashboard</div>
+      <h2>Everyone at home, in one place</h2>
+      <p>Profiles, preferences and upcoming visits — so your sitter never has to guess.</p>
+    </div>
+    <div class="dash">
+      <!-- pet profile -->
+      <div class="panel">
+        <div class="panel-head">
+          <h3>My pets <span class="tag">2 profiles</span></h3>
+        </div>
+        <div class="pet-tabs" id="pet-tabs">
+          <button class="pet-tab active" data-pet="0" type="button">
+            <div class="pet-avatar terra">
+              <svg width="30" height="30" viewBox="0 0 60 60"><circle cx="30" cy="22" r="14" fill="#C4593A"/><path d="M18 14 C14 6 18 2 24 4 C27 5 28 9 27 12Z M42 14 C46 6 42 2 36 4 C33 5 32 9 33 12Z" fill="#A34229"/><circle cx="25" cy="20" r="2" fill="#33281F"/><circle cx="35" cy="20" r="2" fill="#33281F"/><ellipse cx="30" cy="27" rx="4" ry="3" fill="#33281F"/></svg>
+            </div>
+            <div><b>Biscuit</b><small>Golden Retriever · 4 yrs</small></div>
+          </button>
+          <button class="pet-tab" data-pet="1" type="button">
+            <div class="pet-avatar moss">
+              <svg width="30" height="30" viewBox="0 0 60 60"><circle cx="30" cy="26" r="14" fill="#7C8B5F"/><path d="M18 16 L14 4 L26 12Z M42 16 L46 4 L34 12Z" fill="#5C6B43"/><circle cx="25" cy="24" r="2" fill="#33281F"/><circle cx="35" cy="24" r="2" fill="#33281F"/><ellipse cx="30" cy="30" rx="3" ry="2" fill="#FBF5EC"/></svg>
+            </div>
+            <div><b>Miso</b><small>Tabby cat · 2 yrs</small></div>
+          </button>
+        </div>
+        <div class="pet-body">
+          <div id="pet-body" data-index="0"></div>
+        </div>
+      </div>
+
+      <!-- upcoming booking -->
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Upcoming <span class="tag">In 2 days</span></h3>
+        </div>
+        <div class="booking-card">
+          <div class="bc-top">
+            <div class="bc-avatar">
+              <svg width="34" height="34" viewBox="0 0 40 40"><circle cx="20" cy="14" r="8" fill="#C4593A"/><path d="M8 34 C8 26 13 23 20 23 C27 23 32 26 32 34 Z" fill="#7C8B5F"/></svg>
+            </div>
+            <div>
+              <b>Rosa Martínez</b>
+              <small>Pet sitting & play · 4.98★ (214)</small>
+            </div>
+            <span class="bc-status">Confirmed</span>
+          </div>
+          <div class="bc-grid">
+            <div class="bc-cell"><span>When</span><b>Sat, Jun 14 · 9 AM</b></div>
+            <div class="bc-cell"><span>Where</span><b>Your home · Elm Park</b></div>
+            <div class="bc-cell"><span>Pet</span><b>Biscuit 🦴</b></div>
+          </div>
+          <div class="bc-progress">
+            <div class="bar"><i></i></div>
+            <p>Met & matched 21 days ago · 2 previous walks together · Meet &amp; greet completed May 24</p>
+          </div>
+        </div>
+        <div style="padding:0 26px 26px">
+          <div class="pet-actions">
+            <button class="btn btn-ghost" type="button" onclick="toast('Reschedule options opening…')">Reschedule</button>
+            <button class="btn btn-primary" type="button" onclick="toast('Message sent to Rosa ✓')">Message Rosa</button>
+          </div>
+        </div>
+        <div class="panel-head" style="padding:0 26px 12px">
+          <h3 style="font-size:1.05rem">Recent trips</h3>
+        </div>
+        <div style="padding:0 26px 26px">
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--line);font-size:.88rem">
+            <span><span class="avail-dot"></span>Evening walk · Jun 11</span><b style="color:var(--moss-deep)">Complete</b>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--line);font-size:.88rem">
+            <span><span class="avail-dot"></span>Drop-in visit · Jun 8</span><b style="color:var(--moss-deep)">Complete</b>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:10px 0 0;font-size:.88rem">
+            <span><span class="avail-dot"></span>Full day care · Jun 5</span><b style="color:var(--moss-deep)">Complete</b>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SITTER SEARCH ============ -->
+<section class="sitters" id="sitters">
+  <div class="container">
+    <div class="sec-head">
+      <div class="kicker">Sitter search</div>
+      <h2>Top-rated sitters near Elm Park</h2>
+      <p>Every sitter passes an in-home interview, first-aid training and a reference call before their first booking.</p>
+    </div>
+    <div class="search-bar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input type="text" id="sitter-search" placeholder="Search by name, service or street… e.g. “overnight”">
+      <button class="btn btn-moss" type="button" onclick="toast('Showing 2,860 sitters in 42 neighborhoods')">Search</button>
+    </div>
+    <div class="filter-row" id="filter-row">
+      <button class="chip active" data-filter="all" type="button">All</button>
+      <button class="chip" data-filter="walk" type="button">Walks</button>
+      <button class="chip" data-filter="sitter" type="button">Pet sitting</button>
+      <button class="chip" data-filter="overnight" type="button">Overnight</button>
+      <button class="chip" data-filter="playdate" type="button">Playdates</button>
+      <button class="chip" data-filter="cat" type="button">Cat friendly</button>
+    </div>
+    <div class="sitter-grid" id="sitter-grid"></div>
+  </div>
+</section>
+
+<!-- ============ CARE PLANS ============ -->
+<section id="plans">
+  <div class="container">
+    <div class="sec-head">
+      <div class="kicker">Care plans</div>
+      <h2>Coverage that fits your life</h2>
+      <p>Paid monthly, cancel anytime. Every plan includes insurance, 24/7 concierge and trip reports.</p>
+    </div>
+    <div class="plans-grid">
+      <div class="plan">
+        <div class="p-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4593A" stroke-width="2"><path d="M4 20l6-6m0 0l2-4 3 3 5-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Essential Walks</h3>
+        <p class="p-sub">For busy weekdays and curious dogs.</p>
+        <div class="p-price">$49<small>/month</small></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C8B5F" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>3 walks per month, 30 min each</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C8B5F" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>GPS route + photos after every walk</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C8B5F" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Standard $500K insurance</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C8B5F" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Weekend add-ons available</li>
+        </ul>
+        <button class="btn btn-ghost" type="button" onclick="toast('Essential Walks plan selected ✓')">Choose Essential</button>
+      </div>
+      <div class="plan featured">
+        <span class="ribbon">Most popular</span>
+        <div class="p-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="#FBF5EC"><path d="M12 21C7 16.5 3 13 3 8.8 3 5.6 5.5 3 8.6 3c1.8 0 3.3.9 3.4 1.6C12.1 3.9 13.6 3 15.4 3 18.5 3 21 5.6 21 8.8 21 13 17 16.5 12 21z"/></svg>
+        </div>
+        <h3>Daily Companions</h3>
+        <p class="p-sub">Our signature plan — care without the worry.</p>
+        <div class="p-price">$129<small>/month</small></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBF5EC" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>10 visits per month, mix of walks & drops</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBF5EC" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>2 vet-assisted wellness checks / yr</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBF5EC" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>$1M liability + pet hospital coverage</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBF5EC" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Priority sitter matching & 24/7 concierge</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBF5EC" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Free holiday upgrade (1 day / month)</li>
+        </ul>
+        <button class="btn btn-primary" type="button" onclick="toast('Daily Companions plan selected ✓')">Choose Daily</button>
+      </div>
+      <div class="plan">
+        <div class="p-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5C6B43" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18" opacity=".4"/></svg>
+        </div>
+        <h3>Full Concierge</h3>
+        <p class="p-sub">Multi-pet households & travel frequent.</p>
+        <div class="p-price">$289<small>/month</small></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C8B5F" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Unlimited visits for all pets</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C8B5F" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Dedicated sitter team of 3+</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C8B5F" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>Travel logistics & remote feedings</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7C8B5F" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>$2M coverage + direct vet line</li>
+        </ul>
+        <button class="btn btn-ghost" type="button" onclick="toast('Full Concierge plan selected ✓')">Choose Concierge</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REVIEWS ============ -->
+<section class="reviews" id="reviews">
+  <div class="container">
+    <div class="sec-head">
+      <div class="kicker">From pet parents</div>
+      <h2>Loved by 12,400+ pets — and their people</h2>
+      <p>Verified reviews from completed bookings only. We read every single one.</p>
+    </div>
+    <div class="review-grid">
+      <div class="review">
+        <div class="r-stars">★★★★★</div>
+        <p>“Biscuit used to bark at the door for every delivery. Now she sprints to greet Rosa and gets a photo report by the time I've made coffee. The GPS route on the evening walk is a small detail I didn't know I needed.”</p>
+        <div class="r-who">
+          <div class="r-avatar a">JT</div>
+          <div><b>Jordan T.</b><small>Biscuit's dad · Elm Park</small></div>
+          <span class="verify">✓ Verified</span>
+        </div>
+      </div>
+      <div class="review">
+        <div class="r-stars">★★★★★</div>
+        <p>“I travel for work three weeks a month. PAWLINE matched Miso with a cat specialist who visits twice a day. The care notes are meticulous — litter, appetite, mood. It genuinely lowered my stress about being away.”</p>
+        <div class="r-who">
+          <div class="r-avatar b">PK</div>
+          <div><b>Priya K.</b><small>Miso's mom · Willow Flats</small></div>
+          <span class="verify">✓ Verified</span>
+        </div>
+      </div>
+      <div class="review">
+        <div class="r-stars">★★★★★</div>
+        <p>“Our dog has separation anxiety and most sitters gave up after a week. PAWLINE's concierge re-matched us, arranged a meet-and-greet, and now Dana is the only person Juniper fully trusts. Worth every cent.”</p>
+        <div class="r-who">
+          <div class="r-avatar c">SM</div>
+          <div><b>Sofia &amp; Marcus</b><small>Juniper's parents · Brickfield</small></div>
+          <span class="verify">✓ Verified</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<div class="final-cta">
+  <div class="container">
+    <div class="cta-panel">
+      <div>
+        <h2>Ready for the easy days?</h2>
+        <p>Join thousands of pet parents who book care in under two minutes. First walk is 40% off with code <b>MEETPAW</b>.</p>
+      </div>
+      <form class="cta-form" onsubmit="event.preventDefault(); toast('Welcome to the pack! Check your inbox 🐾'); this.reset();">
+        <input type="email" required placeholder="you@example.com" aria-label="Email address">
+        <button class="btn" type="submit">Get started</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer id="neighborhoods">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#" class="logo">
+          <svg viewBox="0 0 48 48" fill="none">
+            <circle cx="16" cy="13" r="5" fill="#C4593A"/><circle cx="32" cy="13" r="5" fill="#7C8B5F"/>
+            <circle cx="8" cy="24" r="4.4" fill="#7C8B5F"/><circle cx="40" cy="24" r="4.4" fill="#C4593A"/>
+            <path d="M24 24c-7 0-13 6-13 12 0 4 3 7 7 7 2 0 3.4-1 6-1s4 1 6 1c4 0 7-3 7-7 0-6-6-12-13-12z" fill="#C4593A"/>
+          </svg>
+          PAWLINE
+        </a>
+        <p>Premium, verified pet care for neighborhoods that care back. Founded in Elm Park, 2019.</p>
+        <div class="foot-social">
+          <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBF5EC" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#FBF5EC" stroke="none"/></svg></a>
+          <a href="#" aria-label="X"><svg width="16" height="16" viewBox="0 0 24 24" stroke="#FBF5EC" stroke-width="2.5" stroke-linecap="round"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+          <a href="#" aria-label="TikTok"><svg width="16" height="16" viewBox="0 0 24 24" fill="#FBF5EC"><path d="M14 3c.4 2.6 2 4.2 4.8 4.4v3.1c-1.8 0-3.4-.6-4.8-1.6v6.6c0 3.6-2.4 5.5-5.2 5.5C5.7 21 4 19 4 16.5 4 14 6 12 8.6 12.2v3.2c-1.4-.3-2.4.5-2.4 1.7 0 1.2.9 2 2 2 1.4 0 2.4-1 2.4-2.6V3h3.4z"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <a href="#">About us</a>
+        <a href="#">Become a sitter</a>
+        <a href="#">Careers</a>
+        <a href="#">Press &amp; stories</a>
+        <a href="#">Safety standards</a>
+      </div>
+      <div class="foot-col">
+        <h4>Support</h4>
+        <a href="#">Help center</a>
+        <a href="#">Cancellation policy</a>
+        <a href="#">Insurance details</a>
+        <a href="#">Contact concierge</a>
+        <p>Open 24/7 · hello@pawline.co</p>
+      </div>
+      <div class="foot-col">
+        <h4>Neighborhoods we serve</h4>
+        <div class="hood-grid">
+          <a href="#">Elm Park</a>
+          <a href="#">Willow Flats</a>
+          <a href="#">Brickfield</a>
+          <a href="#">Northgate</a>
+          <a href="#">Riverside</a>
+          <a href="#">Old Mill</a>
+          <a href="#">Cedar Heights</a>
+          <a href="#">Sunset Row</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 PAWLINE Care Co. · All tails wagged.</span>
+      <div class="pay">
+        <span>Secure payments:</span>
+        <span class="pay-chip">VISA</span>
+        <span class="pay-chip">MC</span>
+        <span class="pay-chip">AMEX</span>
+        <span class="pay-chip">PAYPAL</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="toast"><span>🐾</span><span id="toast-msg"></span></div>
+
+<script>
+/* ---------- Toast ---------- */
+let toastTimer;
+function toast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+/* ---------- Pet profiles ---------- */
+const pets=[
+  {
+    name:'Biscuit',
+    details:[
+      ['Breed','Golden Retriever'],['Age','4 years'],
+      ['Weight','58 lbs (26 kg)'],['Vet','Dr. Okafor, Elm Vet']
+    ],
+    traits:[['Crate-friendly',0],['High energy',1],['Loves fetch',1],['Flea meds current',0],['Microchipped',0]],
+    notes:'Loves long sniffs on walks. Slight fear of fireworks — muzzles on. Feed 1.5 cups kibble at 7 AM & 5 PM.'
+  },
+  {
+    name:'Miso',
+    details:[
+      ['Breed','Tabby (domestic shorthair)'],['Age','2 years'],
+      ['Weight','8.5 lbs (3.9 kg)'],['Vet','Dr. Lindqvist, Willow Vet']
+    ],
+    traits:[['Indoor only',0],['Litter trained',0],['Shy with strangers',1],['Flea meds current',0],['Microchipped',0]],
+    notes:'Needs litter box cleaned, fresh water, one treat. Hides under the bed for the first 20 minutes — that\u2019s normal.'
+  }
+];
+function renderPet(i){
+  const p=pets[i];
+  document.getElementById('pet-body').innerHTML=`
+    <div class="pet-detail-grid">
+      ${p.details.map(d=>`<div class="pd"><span>${d[0]}</span><b>${d[1]}</b></div>`).join('')}
+    </div>
+    <div class="trait-row">${p.traits.map(t=>`<span class="trait ${t[1]?'love':''}">${t[0]}</span>`).join('')}</div>
+    <div class="pd" style="margin-bottom:20px"><span>Care notes</span><b style="font-weight:500;font-size:.88rem">${p.notes}</b></div>
+    <div class="pet-actions">
+      <button class="btn btn-ghost" type="button" onclick="toast('Editing ${p.name}\u2019s profile…')">Edit profile</button>
+      <button class="btn btn-primary" type="button" onclick="toast('Booking care for ${p.name} — pick a date!')">Book care</button>
+    </div>`;
+}
+renderPet(0);
+document.querySelectorAll('.pet-tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.pet-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    renderPet(+tab.dataset.pet);
+    document.getElementById('qb-pet').selectedIndex=+tab.dataset.pet;
+  });
+});
+
+/* ---------- Quick booking chips ---------- */
+document.getElementById('qb-services').addEventListener('click',e=>{
+  if(!e.target.classList.contains('chip'))return;
+  document.querySelectorAll('#qb-services .chip').forEach(c=>c.classList.remove('active'));
+  e.target.classList.add('active');
+});
+document.getElementById('qb-btn').addEventListener('click',()=>{
+  const pet=document.getElementById('qb-pet').value.split(' — ')[0];
+  const svc=document.querySelector('#qb-services .chip.active').textContent.toLowerCase();
+  toast(`Matching ${svc} sitters for ${pet}… 3 available!`);
+  setTimeout(()=>document.getElementById('sitters').scrollIntoView({behavior:'smooth'}),900);
+});
+document.getElementById('qb-date').min=new Date().toISOString().split('T')[0];
+
+/* ---------- Sitter data + render ---------- */
+const sitters=[
+  {name:'Rosa Martínez',loc:'Elm Park · 0.4 mi',rating:4.98,reviews:214,tags:[['Pet sitting',''],['Overnight','terra'],['Cat friendly','']],price:32,unit:'/visit',cats:'cat sitter',img:'a'},
+  {name:'Dana Whitfield',loc:'Willow Flats · 1.1 mi',rating:4.95,reviews:167,tags:[['Dog walking','terra'],['Playdates','']],price:24,unit:'/walk',cats:'walk playdate',img:'b'},
+  {name:'Kenji Sato',loc:'Brickfield · 1.8 mi',rating:5.0,reviews:98,tags:[['Overnight','terra'],['Vet tech',''],['Multi-pet','']],price:38,unit:'/night',cats:'overnight sitter',img:'c'},
+  {name:'Amara Osei',loc:'Elm Park · 0.7 mi',rating:4.93,reviews:241,tags:[['Drop-ins',''],['Cat friendly','terra'],['Anxiety-trained','']],price:28,unit:'/visit',cats:'cat sitter',img:'b'},
+  {name:'Leo Fontaine',loc:'Northgate · 2.3 mi',rating:4.90,reviews:132,tags:[['Dog walking',''],['Puppy proof','terra']],price:22,unit:'/walk',cats:'walk playdate',img:'a'},
+  {name:'Sofia Ricci',loc:'Riverside · 3.0 mi',rating:4.97,reviews:189,tags:[['Overnight','terra'],['Pet sitting',''],['First-aid cert','']],price:35,unit:'/night',cats:'overnight sitter cat',img:'c'}
+];
+function sitterSVG(i){
+  const cols=[['#C4593A','#7C8B5F'],['#7C8B5F','#C4593A'],['#A34229','#5C6B43']];
+  const c=cols[i%3];
+  return `<svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="14" r="8" fill="${c[0]}"/><path d="M8 34 C8 26 13 23 20 23 C27 23 32 26 32 34 Z" fill="${c[1]}"/></svg>`;
+}
+function renderSitters(list){
+  const grid=document.getElementById('sitter-grid');
+  if(!list.length){
+    grid.innerHTML='<p style="grid-column:1/-1;color:var(--ink-soft);font-size:.95rem;padding:20px 4px">No sitters match that search yet — try another keyword or neighborhood.</p>';
+    return;
+  }
+  grid.innerHTML=list.map((s,i)=>`
+    <div class="sitter-card">
+      <button class="fav" type="button" onclick="this.classList.toggle('on'); toast(this.classList.contains('on')?'Saved ${s.name.split(' ')[0]} to favorites ✓':'Removed from favorites')" aria-label="Save sitter">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#C4593A" stroke-width="2.2"><path d="M12 21C7 16.5 3 13 3 8.8 3 5.6 5.5 3 8.6 3c1.8 0 3.3.9 3.4 1.6C12.1 3.9 13.6 3 15.4 3 18.5 3 21 5.6 21 8.8 21 13 17 16.5 12 21z"/></svg>
+      </button>
+      <div class="s-top">
+        <div class="s-avatar ${s.img}">${sitterSVG(i)}</div>
+        <div>
+          <b>${s.name}</b>
+          <div class="s-loc">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+            ${s.loc}
+          </div>
+        </div>
+      </div>
+      <div class="s-rating"><span class="stars">★</span> ${s.rating} <small>· ${s.reviews} reviews</small></div>
+      <div class="s-tags">${s.tags.map(t=>`<span class="s-tag ${t[1]}">${t[0]}</span>`).join('')}</div>
+      <div class="s-foot">
+        <div class="s-price">$${s.price}<small> ${s.unit} <span class="avail-dot" style="margin:0 0 0 8px"></span>Available today</small></div>
+        <button class="btn btn-primary" type="button" onclick="toast('Booked a meet-and-greet with ${s.name.split(' ')[0]} ✓')">Meet &amp; book</button>
+      </div>
+    </div>`).join('');
+}
+renderSitters(sitters);
+
+/* filter + search */
+let activeFilter='all';
+document.getElementById('filter-row').addEventListener('click',e=>{
+  if(!e.target.classList.contains('chip'))return;
+  document.querySelectorAll('#filter-row .chip').forEach(c=>c.classList.remove('active'));
+  e.target.classList.add('active');
+  activeFilter=e.target.dataset.filter;
+  applySitterFilters();
+});
+function applySitterFilters(){
+  const q=document.getElementById('sitter-search').value.toLowerCase().trim();
+  const list=sitters.filter(s=>{
+    const matchFilter=activeFilter==='all'||s.cats.includes(activeFilter);
+    const matchQ=!q||(s.name.toLowerCase().includes(q)||s.tags.join(' ').toLowerCase().includes(q)||s.loc.toLowerCase().includes(q));
+    return matchFilter&&matchQ;
+  });
+  renderSitters(list);
+}
+document.getElementById('sitter-search').addEventListener('input',applySitterFilters);
+</script>
+</body>
+</html>

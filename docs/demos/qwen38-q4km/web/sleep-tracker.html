@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SLEEP / TRACKER — Tonight's Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0920;
+  --bg2:#120e2c;
+  --panel:#171233;
+  --panel2:#1d1740;
+  --line:rgba(167,148,255,.14);
+  --line2:rgba(167,148,255,.28);
+  --ink:#efeaff;
+  --ink-dim:#a79fd6;
+  --ink-faint:#6f68a0;
+  --amber:#ffb86b;
+  --amber2:#ff9e4a;
+  --violet:#a78bfa;
+  --blue:#5f8dff;
+  --teal:#2fd6c3;
+  --rose:#ff7d9c;
+  --font-d:"Fraunces",serif;
+  --font-b:"Space Grotesk",sans-serif;
+  --font-m:"JetBrains Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-b);
+  font-size:15px;
+  line-height:1.55;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+body::before{
+  content:"";
+  position:fixed;inset:0;z-index:-3;
+  background:
+    radial-gradient(1100px 700px at 85% -10%, rgba(95,72,200,.28), transparent 60%),
+    radial-gradient(900px 600px at -10% 30%, rgba(47,120,110,.14), transparent 55%),
+    radial-gradient(700px 500px at 55% 110%, rgba(255,158,74,.08), transparent 60%),
+    linear-gradient(180deg,#0e0a24 0%, #0c0920 40%, #0a0719 100%);
+}
+#stars{position:fixed;inset:0;z-index:-2;pointer-events:none}
+.moon{
+  position:fixed;top:-140px;right:-90px;width:340px;height:340px;border-radius:50%;
+  z-index:-2;pointer-events:none;
+  background:radial-gradient(circle at 38% 36%, #fdf6e9 0%, #f4e6c4 42%, #d8c193 72%, #a58a5e 100%);
+  box-shadow:0 0 120px 40px rgba(253,240,214,.13), 0 0 260px 120px rgba(253,240,214,.06);
+  animation:moonbreathe 9s ease-in-out infinite;
+}
+.moon::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:
+    radial-gradient(34px 34px at 62% 30%, rgba(160,135,95,.35), transparent 70%),
+    radial-gradient(22px 22px at 30% 58%, rgba(160,135,95,.3), transparent 70%),
+    radial-gradient(16px 16px at 55% 72%, rgba(160,135,95,.28), transparent 70%),
+    radial-gradient(44px 44px at 45% 20%, rgba(160,135,95,.22), transparent 70%);
+}
+@keyframes moonbreathe{0%,100%{filter:brightness(1)}50%{filter:brightness(1.08)}}
+
+.wrap{max-width:1360px;margin:0 auto;padding:0 40px 72px}
+
+/* ---------- Top bar ---------- */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:26px 0 24px;
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-mark{
+  width:42px;height:42px;border-radius:12px;flex:none;
+  background:linear-gradient(145deg,#241b4e,#151033);
+  border:1px solid var(--line2);
+  display:grid;place-items:center;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 8px 24px rgba(0,0,0,.35);
+}
+.brand-name{font-family:var(--font-m);font-size:13px;letter-spacing:.22em;font-weight:600}
+.brand-name em{font-style:normal;color:var(--amber)}
+.brand-sub{font-size:11.5px;color:var(--ink-faint);letter-spacing:.08em;margin-top:1px}
+.topbar-right{display:flex;align-items:center;gap:22px}
+.date-chip{
+  font-family:var(--font-m);font-size:12px;color:var(--ink-dim);
+  border:1px solid var(--line);border-radius:999px;padding:7px 14px;
+  background:rgba(23,18,51,.5);
+}
+.streak{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--ink-dim)}
+.streak b{color:var(--amber);font-family:var(--font-m);font-weight:600}
+.streak .flame{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 70%, rgba(255,158,74,.35), transparent 70%);
+  border:1px solid rgba(255,184,107,.35)}
+.avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(140deg,var(--violet),var(--amber));
+  display:grid;place-items:center;
+  font-family:var(--font-m);font-size:12px;font-weight:600;color:#14102c;
+  border:2px solid rgba(255,255,255,.15);
+  cursor:pointer;transition:transform .2s;
+}
+.avatar:hover{transform:scale(1.06)}
+
+/* ---------- Page head ---------- */
+.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:34px 0 26px;flex-wrap:wrap}
+.pagehead h1{
+  font-family:var(--font-d);font-weight:340;font-style:italic;
+  font-size:44px;line-height:1.05;letter-spacing:-.01em;
+}
+.pagehead h1 span{color:var(--amber)}
+.pagehead p{color:var(--ink-dim);font-size:14.5px;margin-top:8px;max-width:520px}
+.head-meta{display:flex;gap:10px;flex-wrap:wrap}
+.meta-pill{
+  font-family:var(--font-m);font-size:12px;color:var(--ink-dim);
+  border:1px solid var(--line);background:rgba(23,18,51,.5);
+  padding:8px 14px;border-radius:10px;
+}
+.meta-pill b{color:var(--ink);font-weight:600}
+.meta-pill .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:7px;vertical-align:1px}
+
+/* ---------- Cards ---------- */
+.card{
+  background:linear-gradient(180deg, rgba(29,23,64,.72), rgba(20,15,45,.72));
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 20px 50px rgba(4,2,16,.45), inset 0 1px 0 rgba(255,255,255,.045);
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(167,139,250,.4),transparent);
+}
+.card-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:16px}
+.card-h h2{font-family:var(--font-d);font-weight:400;font-size:20px;font-style:italic;letter-spacing:.01em}
+.card-h .hint{font-family:var(--font-m);font-size:11px;color:var(--ink-faint);letter-spacing:.06em}
+
+/* ---------- Hero grid ---------- */
+.hero{display:grid;grid-template-columns:390px 1fr;gap:22px;align-items:stretch}
+
+/* Score card */
+.score-card{display:flex;flex-direction:column}
+.ring-block{position:relative;width:212px;height:212px;margin:6px auto 4px}
+.ring-block svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:rgba(167,148,255,.12);stroke-width:11}
+.ring-val{
+  fill:none;stroke:url(#ringGrad);stroke-width:11;stroke-linecap:round;
+  stroke-dasharray:527.8;stroke-dashoffset:527.8;
+  transition:stroke-dashoffset 1.8s cubic-bezier(.25,.9,.3,1);
+  filter:drop-shadow(0 0 8px rgba(255,184,107,.45));
+}
+.ring-center{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring-center .num{
+  font-family:var(--font-d);font-weight:300;font-size:62px;line-height:1;
+  letter-spacing:-.03em;
+  background:linear-gradient(160deg,#fff8ee 20%,var(--amber) 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.ring-center .lab{font-family:var(--font-m);font-size:10px;letter-spacing:.3em;color:var(--ink-faint);margin-top:6px}
+.score-tag{
+  align-self:center;margin:10px 0 18px;
+  font-family:var(--font-m);font-size:11.5px;letter-spacing:.12em;
+  color:var(--teal);border:1px solid rgba(47,214,195,.3);
+  background:rgba(47,214,195,.07);border-radius:999px;padding:6px 14px;
+}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:auto}
+.stat{
+  border:1px solid var(--line);border-radius:14px;padding:13px 14px;
+  background:rgba(12,9,32,.45);
+}
+.stat .k{font-family:var(--font-m);font-size:10px;letter-spacing:.16em;color:var(--ink-faint);text-transform:uppercase;display:flex;align-items:center;gap:7px}
+.stat .k i{width:8px;height:8px;border-radius:3px;flex:none}
+.stat .v{font-family:var(--font-m);font-size:19px;font-weight:600;margin-top:5px;color:var(--ink)}
+.stat .s{font-size:11px;color:var(--ink-faint);margin-top:1px}
+
+/* Hypnogram card */
+.hypno-card{display:flex;flex-direction:column}
+.legend{display:flex;gap:14px;flex-wrap:wrap}
+.lg{display:flex;align-items:center;gap:7px;font-family:var(--font-m);font-size:11px;color:var(--ink-dim);letter-spacing:.04em}
+.lg i{width:18px;height:4px;border-radius:2px}
+.hypno-wrap{position:relative;flex:1;min-height:300px;margin-top:6px}
+.hypno-wrap svg{width:100%;height:100%;display:block}
+.hgrid{stroke:rgba(167,148,255,.09);stroke-width:1}
+.haxis{font-family:var(--font-m);font-size:10px;fill:var(--ink-faint);letter-spacing:.05em}
+.hstage-name{font-family:var(--font-m);font-size:10px;fill:var(--ink-faint);letter-spacing:.14em}
+.h-line{fill:none;stroke:url(#lineGrad);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 3px 10px rgba(95,141,255,.35))}
+.h-tick{stroke:rgba(255,255,255,.55);stroke-width:1.5}
+#tip{
+  position:absolute;pointer-events:none;opacity:0;transform:translate(-50%,-8px);
+  background:#0d0a24;border:1px solid var(--line2);border-radius:10px;
+  padding:8px 12px;font-family:var(--font-m);font-size:11.5px;white-space:nowrap;
+  transition:opacity .15s;box-shadow:0 12px 30px rgba(0,0,0,.5);z-index:5;
+}
+#tip b{display:block;font-size:12px;margin-bottom:2px}
+#tip span{color:var(--ink-faint)}
+.hypno-foot{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
+  font-family:var(--font-m);font-size:12px;color:var(--ink-dim);flex-wrap:wrap;
+}
+.hypno-foot b{color:var(--ink);font-weight:600}
+.wake-dot{color:var(--amber)}
+.asleep-dot{color:var(--violet)}
+
+/* ---------- Row 2 ---------- */
+.row2{display:grid;grid-template-columns:5fr 3.4fr 3.6fr;gap:22px;margin-top:22px}
+
+/* Trends */
+.trends{display:flex;gap:10px;align-items:flex-end;height:196px;margin-top:4px}
+.tday{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%}
+.tbars{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:0}
+.tcol{width:58%;max-width:34px;display:flex;flex-direction:column-reverse;border-radius:6px 6px 3px 3px;overflow:hidden}
+.tseg{width:100%;transition:height .9s cubic-bezier(.25,.9,.3,1)}
+.tscore{font-family:var(--font-m);font-size:11px;font-weight:600;color:var(--ink-dim)}
+.tname{font-family:var(--font-m);font-size:10px;color:var(--ink-faint);letter-spacing:.1em}
+.tday.today .tscore{color:var(--amber)}
+.tday.today .tname{color:var(--amber)}
+.tday:hover .tcol{filter:brightness(1.25)}
+.trend-note{
+  margin-top:16px;padding:12px 14px;border:1px dashed var(--line2);border-radius:12px;
+  font-size:12.5px;color:var(--ink-dim);display:flex;gap:10px;align-items:center;
+}
+.trend-note .up{color:var(--teal);font-family:var(--font-m);font-weight:600;font-size:13px;flex:none}
+
+/* Routine */
+.routine-bar{height:6px;border-radius:99px;background:rgba(167,148,255,.12);overflow:hidden;margin-bottom:14px}
+.routine-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--violet),var(--amber));transition:width .6s cubic-bezier(.25,.9,.3,1)}
+.routine-meta{display:flex;justify-content:space-between;font-family:var(--font-m);font-size:11px;color:var(--ink-faint);margin-bottom:14px}
+.routine-meta b{color:var(--amber)}
+.rlist{list-style:none;display:flex;flex-direction:column;gap:6px}
+.ritem{
+  display:flex;align-items:center;gap:12px;padding:9px 11px;border-radius:12px;
+  border:1px solid transparent;cursor:pointer;transition:background .2s,border-color .2s;
+  user-select:none;
+}
+.ritem:hover{background:rgba(167,148,255,.06)}
+.ritem .box{
+  width:20px;height:20px;border-radius:7px;flex:none;
+  border:1.5px solid var(--line2);display:grid;place-items:center;
+  transition:all .25s;
+}
+.ritem .box svg{opacity:0;transform:scale(.4);transition:all .25s}
+.ritem.done .box{background:linear-gradient(140deg,var(--violet),#7c5cff);border-color:transparent}
+.ritem.done .box svg{opacity:1;transform:scale(1)}
+.ritem .txt{flex:1;font-size:13.5px}
+.ritem.done .txt{color:var(--ink-faint);text-decoration:line-through;text-decoration-color:rgba(167,148,255,.4)}
+.ritem .time{font-family:var(--font-m);font-size:11px;color:var(--ink-faint)}
+.ritem.missed .time{color:var(--rose)}
+
+/* Sounds */
+.sound-list{display:flex;flex-direction:column;gap:9px}
+.sound{
+  display:flex;align-items:center;gap:14px;padding:11px 13px;border-radius:14px;
+  border:1px solid var(--line);background:rgba(12,9,32,.4);cursor:pointer;
+  transition:border-color .25s,background .25s,transform .15s;text-align:left;width:100%;
+  color:inherit;font-family:var(--font-b);
+}
+.sound:hover{border-color:var(--line2);transform:translateX(2px)}
+.sound.playing{border-color:rgba(255,184,107,.5);background:rgba(255,158,74,.07);box-shadow:0 0 0 1px rgba(255,184,107,.15),0 8px 24px rgba(255,158,74,.08)}
+.s-art{width:42px;height:42px;border-radius:12px;flex:none;display:grid;place-items:center;position:relative;overflow:hidden}
+.s-info{flex:1;min-width:0}
+.s-info .n{font-size:13.5px;font-weight:500}
+.s-info .d{font-size:11px;color:var(--ink-faint);margin-top:1px}
+.eq{display:flex;align-items:flex-end;gap:2.5px;height:16px;width:22px;opacity:0;transition:opacity .3s}
+.sound.playing .eq{opacity:1}
+.eq i{width:3px;border-radius:2px;background:var(--amber);height:30%;animation:eqb 1s ease-in-out infinite}
+.eq i:nth-child(1){animation-delay:0s}.eq i:nth-child(2){animation-delay:.18s}
+.eq i:nth-child(3){animation-delay:.34s}.eq i:nth-child(4){animation-delay:.09s}
+@keyframes eqb{0%,100%{height:25%}50%{height:100%}}
+.s-vol{font-family:var(--font-m);font-size:10px;color:var(--ink-faint)}
+/* sound art bits */
+.art-rain{background:linear-gradient(180deg,#1a2a52,#101833)}
+.art-ocean{background:linear-gradient(180deg,#0f3a4a,#0a1f33)}
+.art-brown{background:linear-gradient(180deg,#332040,#180f26)}
+.art-crick{background:linear-gradient(180deg,#173026,#0c1a14)}
+.art-delta{background:linear-gradient(180deg,#3b2a14,#171026)}
+.art-rain::after,.art-ocean::after,.art-brown::after,.art-crick::after,.art-delta::after{content:"";position:absolute;inset:0}
+.art-rain::after{background:repeating-linear-gradient(100deg,transparent 0 5px,rgba(160,190,255,.25) 5px 6px,transparent 6px 11px)}
+.art-ocean::after{background:repeating-radial-gradient(circle at 50% 130%,rgba(120,220,255,.22) 0 2px,transparent 2px 8px)}
+.art-brown::after{background:radial-gradient(2px 2px at 20% 30%,rgba(255,200,150,.5),transparent 60%),radial-gradient(2px 2px at 60% 55%,rgba(255,200,150,.4),transparent 60%),radial-gradient(2px 2px at 40% 75%,rgba(255,200,150,.45),transparent 60%),radial-gradient(2px 2px at 78% 25%,rgba(255,200,150,.35),transparent 60%)}
+.art-crick::after{background:radial-gradient(3px 3px at 30% 40%,rgba(150,255,180,.5),transparent 70%),radial-gradient(3px 3px at 65% 60%,rgba(150,255,180,.45),transparent 70%),radial-gradient(2px 2px at 50% 30%,rgba(150,255,180,.4),transparent 70%)}
+.art-delta::after{background:repeating-linear-gradient(0deg,transparent 0 6px,rgba(255,184,107,.2) 6px 7px)}
+
+/* ---------- Coach ---------- */
+.coach{margin-top:22px;display:grid;grid-template-columns:auto 1fr auto;gap:26px;align-items:center;padding:30px 34px}
+.coach::before{background:linear-gradient(90deg,transparent,rgba(255,184,107,.45),transparent)}
+.coach-badge{
+  width:64px;height:64px;border-radius:20px;flex:none;
+  background:linear-gradient(150deg,rgba(255,184,107,.18),rgba(167,139,250,.12));
+  border:1px solid rgba(255,184,107,.35);display:grid;place-items:center;
+  box-shadow:0 0 40px rgba(255,158,74,.12);
+}
+.coach .who{font-family:var(--font-m);font-size:11px;letter-spacing:.24em;color:var(--amber);text-transform:uppercase}
+.coach h3{font-family:var(--font-d);font-style:italic;font-weight:380;font-size:26px;line-height:1.25;margin:8px 0 10px;max-width:640px}
+.coach h3 em{color:var(--amber);font-style:italic}
+.coach p{color:var(--ink-dim);font-size:14px;max-width:640px}
+.coach-cta{
+  flex:none;align-self:center;
+  font-family:var(--font-m);font-size:12px;letter-spacing:.08em;font-weight:600;
+  background:linear-gradient(140deg,var(--amber),var(--amber2));color:#241303;
+  border:none;border-radius:12px;padding:14px 20px;cursor:pointer;
+  transition:transform .2s,box-shadow .2s;
+  box-shadow:0 10px 26px rgba(255,158,74,.28);
+}
+.coach-cta:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(255,158,74,.4)}
+.coach-cta.done{background:rgba(47,214,195,.12);color:var(--teal);border:1px solid rgba(47,214,195,.4);box-shadow:none;cursor:default}
+
+footer{
+  margin-top:56px;padding-top:22px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+  font-family:var(--font-m);font-size:11px;color:var(--ink-faint);letter-spacing:.08em;
+}
+
+/* ---------- Reveal ---------- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s cubic-bezier(.25,.9,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- Responsive ---------- */
+@media(max-width:1120px){
+  .wrap{padding:0 24px 60px}
+  .hero{grid-template-columns:1fr}
+  .row2{grid-template-columns:1fr 1fr}
+  .row2 .card:first-child{grid-column:1/-1}
+  .coach{grid-template-columns:auto 1fr;padding:26px}
+  .coach-cta{grid-column:1/-1;justify-self:start}
+  .pagehead h1{font-size:36px}
+}
+@media(max-width:720px){
+  .row2{grid-template-columns:1fr}
+  .pagehead{padding:26px 0 20px}
+  .pagehead h1{font-size:30px}
+  .topbar{flex-wrap:wrap;gap:14px}
+  .date-chip{display:none}
+  .coach{grid-template-columns:1fr;gap:16px}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .hypno-wrap{min-height:230px}
+  .trends{height:150px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<div class="moon"></div>
+
+<div class="wrap">
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M16.5 3.5a9 9 0 1 0 4 14.5A10.5 10.5 0 0 1 16.5 3.5Z" fill="url(#mgrad)"/>
+          <circle cx="6.5" cy="7" r="1.1" fill="#ffb86b" opacity=".9"/>
+          <circle cx="10.5" cy="4.6" r=".7" fill="#a78bfa" opacity=".8"/>
+          <defs><linearGradient id="mgrad" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd9a8"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">SLEEP <em>/</em> TRACKER</div>
+        <div class="brand-sub">night 47 · personal report</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <span class="date-chip">THU · MAR 14, 2024</span>
+      <div class="streak">
+        <span class="flame">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2c1 4-4 6-4 11a4.5 4.5 0 0 0 9 0c0-2-.9-3.4-1.6-4.6-.6 1-1.4 1.6-1.4 1.6C15.8 7.4 14.6 4.6 12 2Z" fill="#ffb86b"/></svg>
+        </span>
+        <span><b>12</b> night streak</span>
+      </div>
+      <div class="avatar" title="Maya K.">MK</div>
+    </div>
+  </header>
+
+  <!-- PAGE HEAD -->
+  <section class="pagehead reveal">
+    <div>
+      <h1>A <span>good night</span>, mostly.</h1>
+      <p>Your last sleep ended at 06:45. Deep sleep was unusually strong this week — see what's driving it below.</p>
+    </div>
+    <div class="head-meta">
+      <span class="meta-pill"><span class="dot" style="background:#a78bfa"></span>Bed <b>23:11</b></span>
+      <span class="meta-pill"><span class="dot" style="background:#ffb86b"></span>Wake <b>06:45</b></span>
+      <span class="meta-pill">Asleep <b>7h 28m</b> of 7h 34m in bed</span>
+    </div>
+  </section>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="card score-card reveal">
+      <div class="card-h"><h2>Sleep score</h2><span class="hint">SCALE 0–100</span></div>
+      <div class="ring-block">
+        <svg viewBox="0 0 180 180">
+          <defs>
+            <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#ffd9a8"/>
+              <stop offset=".55" stop-color="#ffb86b"/>
+              <stop offset="1" stop-color="#a78bfa"/>
+            </linearGradient>
+          </defs>
+          <circle class="ring-track" cx="90" cy="90" r="84"/>
+          <circle class="ring-val" id="ringVal" cx="90" cy="90" r="84"/>
+        </svg>
+        <div class="ring-center">
+          <div class="num" id="scoreNum">0</div>
+          <div class="lab">SCORE</div>
+        </div>
+      </div>
+      <div class="score-tag">▲ GREAT NIGHT · TOP 18% OF YOUR 90 DAYS</div>
+      <div class="stat-grid">
+        <div class="stat"><div class="k"><i style="background:#a78bfa"></i>Duration</div><div class="v">7h 28m</div><div class="s">target 7h–9h</div></div>
+        <div class="stat"><div class="k"><i style="background:#2fd6c3"></i>Deep</div><div class="v">1h 35m</div><div class="s">21% · above avg</div></div>
+        <div class="stat"><div class="k"><i style="background:#8f7bff"></i>REM</div><div class="v">2h 00m</div><div class="s">27% · on track</div></div>
+        <div class="stat"><div class="k"><i style="background:#5f8dff"></i>Light</div><div class="v">3h 53m</div><div class="s">52%</div></div>
+        <div class="stat"><div class="k"><i style="background:#ffb86b"></i>Awake</div><div class="v">12m</div><div class="s">2 wake-ups</div></div>
+        <div class="stat"><div class="k"><i style="background:#efeaff"></i>Efficiency</div><div class="v">97%</div><div class="s">1m to fall asleep</div></div>
+      </div>
+    </div>
+
+    <div class="card hypno-card reveal">
+      <div class="card-h">
+        <h2>Nightly graph</h2>
+        <div class="legend">
+          <span class="lg"><i style="background:#ffb86b"></i>AWAKE</span>
+          <span class="lg"><i style="background:#a78bfa"></i>REM</span>
+          <span class="lg"><i style="background:#5f8dff"></i>LIGHT</span>
+          <span class="lg"><i style="background:#2fd6c3"></i>DEEP</span>
+        </div>
+      </div>
+      <div class="hypno-wrap" id="hypnoWrap">
+        <svg id="hypnoSvg" viewBox="0 0 940 300" preserveAspectRatio="xMidYMid meet"></svg>
+        <div id="tip"></div>
+      </div>
+      <div class="hypno-foot">
+        <span><span class="asleep-dot">●</span> fell asleep <b>23:11</b></span>
+        <span>longest deep block <b>38 min</b> at 00:50</span>
+        <span>restlessness <b>low</b></span>
+        <span><span class="wake-dot">●</span> final wake <b>06:45</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROW 2 -->
+  <section class="row2">
+    <div class="card reveal">
+      <div class="card-h"><h2>Seven-day trends</h2><span class="hint">MAR 08 – MAR 14</span></div>
+      <div class="trends" id="trends"></div>
+      <div class="trend-note"><span class="up">+9</span> Score average this week is 9 points above your monthly mean. The lift lines up with your earlier 10:15 PM screen-off habit.</div>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-h"><h2>Bedtime routine</h2><span class="hint">TONIGHT</span></div>
+      <div class="routine-bar"><div class="routine-fill" id="rFill" style="width:0%"></div></div>
+      <div class="routine-meta"><span>PROGRESS</span><span><b id="rCount">0</b> / 6 COMPLETE</span></div>
+      <ul class="rlist" id="rlist">
+        <li class="ritem done" data-t="9:15 PM"><span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 10 18 20 6" stroke="#14102c" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Dim the lights to 20%</span><span class="time">9:15</span></li>
+        <li class="ritem done" data-t="9:40 PM"><span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 10 18 20 6" stroke="#14102c" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Warm shower (10 min)</span><span class="time">9:40</span></li>
+        <li class="ritem done" data-t="10:00 PM"><span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 10 18 20 6" stroke="#14102c" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Magnesium glycinate</span><span class="time">10:00</span></li>
+        <li class="ritem done" data-t="10:10 PM"><span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 10 18 20 6" stroke="#14102c" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Three lines in the journal</span><span class="time">10:10</span></li>
+        <li class="ritem" data-t="10:15 PM"><span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 10 18 20 6" stroke="#14102c" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">Screens off, phone in drawer</span><span class="time">10:15</span></li>
+        <li class="ritem" data-t="10:30 PM"><span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 12.5 10 18 20 6" stroke="#14102c" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="txt">In bed, lights out</span><span class="time">10:30</span></li>
+      </ul>
+    </div>
+
+    <div class="card reveal">
+      <div class="card-h"><h2>Sleep sounds</h2><span class="hint">TAP TO PREVIEW</span></div>
+      <div class="sound-list" id="soundList">
+        <button class="sound" data-sound="rain"><span class="s-art art-rain"></span><span class="s-info"><span class="n">Rain on a tin roof</span><span class="d">Masking · 43 dB</span></span><span class="eq"><i></i><i></i><i></i><i></i></span><span class="s-vol">-12 dB</span></button>
+        <button class="sound" data-sound="ocean"><span class="s-art art-ocean"></span><span class="s-info"><span class="n">Slow ocean, dusk tide</span><span class="d">Masking · 47 dB</span></span><span class="eq"><i></i><i></i><i></i><i></i></span><span class="s-vol">-10 dB</span></button>
+        <button class="sound" data-sound="brown"><span class="s-art art-brown"></span><span class="s-info"><span class="n">Brown noise, deep hum</span><span class="d">Focus · 50 dB</span></span><span class="eq"><i></i><i></i><i></i><i></i></span><span class="s-vol">-14 dB</span></button>
+        <button class="sound" data-sound="cricket"><span class="s-art art-crick"></span><span class="s-info"><span class="n">Garden crickets, spring</span><span class="d">Ambient · 41 dB</span></span><span class="eq"><i></i><i></i><i></i><i></i></span><span class="s-vol">-16 dB</span></button>
+        <button class="sound" data-sound="delta"><span class="s-art art-delta"></span><span class="s-info"><span class="n">2 Hz delta drone</span><span class="d">Entrainment · 38 dB</span></span><span class="eq"><i></i><i></i><i></i><i></i></span><span class="s-vol">-18 dB</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- COACH -->
+  <section class="card coach reveal">
+    <div class="coach-badge">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2.8 13.9 8.1 19.4 9 15.3 12.7 16.3 18.3 12 15.5 7.7 18.3 8.7 12.7 4.6 9 10.1 8.1 12 2.8Z" fill="#ffb86b" opacity=".9"/>
+        <circle cx="19" cy="19" r="2.4" fill="#a78bfa"/>
+      </svg>
+    </div>
+    <div>
+      <div class="who">Coaching insight · pattern #12</div>
+      <h3>Your deep sleep peaks when dinner ends before <em>8 PM</em>.</h3>
+      <p>Across your last 30 nights, an early-dinner pattern added an average of <b>41 min</b> of deep sleep and cut sleep-onset latency by 6 min. Tonight's calendar is clear until 9:30 — a quiet early dinner is easy to slot in.</p>
+    </div>
+    <button class="coach-cta" id="coachCta">SET 7:45 PM DINNER REMINDER</button>
+  </section>
+
+  <footer>
+    <span>SLEEP / TRACKER — FICTIONAL PRODUCT CONCEPT</span>
+    <span>NIGHT 47 · SYNCED 06:52 · SENSORS: MOVEMENT + HEART RATE</span>
+  </footer>
+</div>
+
+<script>
+/* ---------- Stars canvas ---------- */
+(function(){
+  const c=document.getElementById('stars'),x=c.getContext('2d');
+  function draw(){
+    c.width=innerWidth;c.height=innerHeight;x.clearRect(0,0,c.width,c.height);
+    for(let i=0;i<170;i++){
+      const px=Math.random()*c.width,py=Math.random()*c.height,r=Math.random()*1.3+.2,a=Math.random()*.55+.12;
+      const hue=Math.random()<.16?'255,214,160':(Math.random()<.3?'180,160,255':'230,226,255');
+      x.beginPath();x.arc(px,py,r,0,7);x.fillStyle=`rgba(${hue},${a})`;x.fill();
+    }
+  }
+  draw();addEventListener('resize',draw);
+})();
+
+/* ---------- Reveal ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- Score ring + countup ---------- */
+const TARGET=87, C=2*Math.PI*84;
+requestAnimationFrame(()=>setTimeout(()=>{document.getElementById('ringVal').style.strokeDashoffset=C*(1-TARGET/100)},350));
+(function(){
+  const el=document.getElementById('scoreNum');let t0=null;
+  function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/1600,1),e=1-Math.pow(1-p,3);
+    el.textContent=Math.round(TARGET*e);if(p<1)requestAnimationFrame(step)}
+  setTimeout(()=>requestAnimationFrame(step),400);
+})();
+
+/* ---------- Hypnogram ---------- */
+(function(){
+  const STG={A:{n:'Awake',c:'#ffb86b',lv:4},R:{n:'REM',c:'#a78bfa',lv:3},L:{n:'Light',c:'#5f8dff',lv:2},D:{n:'Deep',c:'#2fd6c3',lv:1}};
+  const SEG=[
+    ['A',0,6],['L',6,40],['D',40,78],['L',78,95],['R',95,125],['L',125,140],
+    ['D',140,172],['L',172,188],['R',188,220],['L',220,235],['D',235,260],['L',260,275],
+    ['R',275,310],['L',310,325],['R',325,348],['L',348,362],['A',362,368],['L',368,395],
+    ['R',395,430],['L',430,448],['A',448,460]
+  ];
+  const TOTAL=460, PL=58,PR=18,PT=34,PB=44,W=940,H=300;
+  const xFor=m=>PL+(m/TOTAL)*(W-PL-PR);
+  const yFor=lv=>PT+(4-lv)*( (H-PT-PB)/3 );
+  let line='',area='';
+  let px=xFor(SEG[0][1]),py=yFor(STG[SEG[0][0]].lv);
+  line=`M${px.toFixed(1)},${py.toFixed(1)}`;
+  SEG.forEach((s,i)=>{
+    const y=yFor(STG[s[0]].lv),x2=xFor(s[2]);
+    if(i>0)line+=` L${px.toFixed(1)},${y.toFixed(1)}`;
+    line+=` L${x2.toFixed(1)},${y.toFixed(1)}`;
+    px=x2;
+  });
+  area=line+` L${xFor(TOTAL).toFixed(1)},${(H-PB).toFixed(1)} L${xFor(0).toFixed(1)},${(H-PB).toFixed(1)} Z`;
+
+  let grid='',labels='';
+  [0,55,110,165,220,275,330,385,440].forEach(m=>{
+    const t=xFor(m);
+    grid+=`<line class="hgrid" x1="${t}" y1="${PT-8}" x2="${t}" y2="${H-PB}"/>`;
+  });
+  const times=[[0,'23:05'],[55,'00:00'],[110,'01:00'],[165,'02:00'],[220,'03:00'],[275,'04:00'],[330,'05:00'],[385,'06:00'],[460,'06:45']];
+  times.forEach(([m,t])=>{labels+=`<text class="haxis" x="${xFor(m)}" y="${H-16}" text-anchor="middle">${t}</text>`});
+  ['AWAKE','REM','LIGHT','DEEP'].forEach((n,i)=>{labels+=`<text class="hstage-name" x="${PL-12}" y="${yFor(4-i)+3.5}" text-anchor="end">${n}</text>`});
+
+  let bands='';
+  SEG.forEach(s=>{
+    const y=yFor(STG[s[0]].lv),x1=xFor(s[1]),x2=xFor(s[2]);
+    bands+=`<rect x="${x1.toFixed(1)}" y="${y.toFixed(1)}" width="${Math.max(x2-x1,0).toFixed(1)}" height="${(H-PB)-y}" fill="${STG[s[0]].c}" opacity="0.08"/>`;
+  });
+
+  let ticks='';
+  SEG.forEach(s=>{
+    const mid=xFor((s[1]+s[2])/2),y=yFor(STG[s[0]].lv);
+    ticks+=`<line class="h-tick" x1="${mid.toFixed(1)}" y1="${(y-5).toFixed(1)}" x2="${mid.toFixed(1)}" y2="${(y+5).toFixed(1)}" stroke="${STG[s[0]].c}"/>`;
+  });
+
+  document.getElementById('hypnoSvg').innerHTML=
+    `<defs>
+      <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#2fd6c3"/><stop offset=".45" stop-color="#5f8dff"/><stop offset=".8" stop-color="#a78bfa"/><stop offset="1" stop-color="#ffb86b"/>
+      </linearGradient>
+      <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#7c6cf0" stop-opacity=".35"/><stop offset="1" stop-color="#7c6cf0" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${grid}
+    ${bands}
+    <path d="${area}" fill="url(#areaGrad)"/>
+    <path class="h-line" d="${line}"/>
+    ${ticks}
+    ${labels}`;
+
+  /* tooltip */
+  const svg=document.getElementById('hypnoSvg'),tip=document.getElementById('tip'),wrap=document.getElementById('hypnoWrap');
+  function fmt(m){m+=23*60+5;const h=Math.floor(m/60)%24,mm=m%60;return String(h).padStart(2,'0')+':'+String(mm).padStart(2,'0')}
+  svg.addEventListener('mousemove',e=>{
+    const r=svg.getBoundingClientRect();
+    const mx=(e.clientX-r.left)/r.width*W;
+    const min=Math.max(0,Math.min(TOTAL,((mx-PL)/(W-PL-PR))*TOTAL));
+    const s=SEG.find(s=>min>=s[1]&&min<s[2])||SEG[SEG.length-1];
+    const st=STG[s[0]];
+    const cx=(e.clientX-r.left)/r.width*100, cy=(e.clientY-r.top)/r.height*100;
+    tip.innerHTML=`<b style="color:${st.c}">${st.n}</b><span>${fmt(s[1])} – ${fmt(s[2])} · ${s[2]-s[1]} min</span>`;
+    tip.style.opacity=1;tip.style.left=cx+'%';tip.style.top=(cy-8)+'%';
+  });
+  svg.addEventListener('mouseleave',()=>tip.style.opacity=0);
+})();
+
+/* ---------- Trends ---------- */
+(function(){
+  const days=[
+    {n:'FRI',d:115,r:100,l:150,s:82},{n:'SAT',d:95,r:88,l:168,s:79},
+    {n:'SUN',d:138,r:122,l:158,s:91},{n:'MON',d:82,r:74,l:198,s:74},
+    {n:'TUE',d:126,r:112,l:152,s:88},{n:'WED',d:118,r:104,l:160,s:85},
+    {n:'THU',d:95,r:120,l:233,s:87,today:true}
+  ];
+  const max=448, box=document.getElementById('trends');
+  days.forEach(d=>{
+    const el=document.createElement('div');el.className='tday'+(d.today?' today':'');
+    el.innerHTML=`<div class="tbars"><div class="tcol">
+      <div class="tseg" style="background:#2fd6c3;height:0" data-h="${(d.d/max*100).toFixed(1)}"></div>
+      <div class="tseg" style="background:#a78bfa;height:0" data-h="${(d.r/max*100).toFixed(1)}"></div>
+      <div class="tseg" style="background:#5f8dff;height:0" data-h="${(d.l/max*100).toFixed(1)}"></div>
+    </div></div><div class="tscore">${d.s}</div><div class="tname">${d.n}</div>`;
+    box.appendChild(el);
+  });
+  setTimeout(()=>document.querySelectorAll('.tseg').forEach(s=>s.style.height=s.dataset.h+'%'),600);
+})();
+
+/* ---------- Routine ---------- */
+(function(){
+  const items=document.querySelectorAll('.ritem'),fill=document.getElementById('rFill'),count=document.getElementById('rCount');
+  function upd(){
+    const done=[...items].filter(i=>i.classList.contains('done')).length;
+    fill.style.width=(done/items.length*100)+'%';count.textContent=done;
+  }
+  items.forEach(i=>i.addEventListener('click',()=>{
+    i.classList.toggle('done');
+    if(!i.classList.contains('done'))i.classList.add('missed');else i.classList.remove('missed');
+    upd();
+  }));
+  setTimeout(upd,500);
+})();
+
+/* ---------- Sounds (WebAudio) ---------- */
+(function(){
+  let ctx=null,current=null;
+  const list=document.getElementById('soundList');
+  function noiseBuffer(type){
+    const len=2*ctx.sampleRate,b=ctx.createBuffer(1,len,ctx.sampleRate),d=b.getChannelData(0);
+    if(type==='brown'){let last=0;for(let i=0;i<len;i++){const w=Math.random()*2-1;last=(last+.02*w)/1.02;d[i]=last*3.5}}
+    else{for(let i=0;i<len;i++)d[i]=Math.random()*2-1}
+    return b;
+  }
+  const build={
+    rain(){const s=ctx.createBufferSource();s.buffer=noiseBuffer('w');s.loop=true;
+      const f=ctx.createBiquadFilter();f.type='lowpass';f.frequency.value=1900;f.Q.value=.4;
+      const g=ctx.createGain();g.gain.value=.10;
+      s.connect(f).connect(g);return[g]},
+    ocean(){const s=ctx.createBufferSource();s.buffer=noiseBuffer('w');s.loop=true;
+      const f=ctx.createBiquadFilter();f.type='lowpass';f.frequency.value=520;
+      const g=ctx.createGain();g.gain.value=.12;
+      const lfo=ctx.createOscillator();lfo.frequency.value=.08;
+      const lg=ctx.createGain();lg.gain.value=.09;
+      lfo.connect(lg).connect(g.gain);lfo.start();
+      s.connect(f).connect(g);return[g,lfo]},
+    brown(){const s=ctx.createBufferSource();s.buffer=noiseBuffer('brown');s.loop=true;
+      const g=ctx.createGain();g.gain.value=.16;
+      s.connect(g);return[g]},
+    cricket(){const o=ctx.createOscillator();o.type='triangle';o.frequency.value=4250;
+      const g=ctx.createGain();g.gain.value=0;
+      const lfo=ctx.createOscillator();lfo.type='square';lfo.frequency.value=6.5;
+      const lg=ctx.createGain();lg.gain.value=.028;
+      lfo.connect(lg).connect(g.gain);
+      const o2=ctx.createOscillator();o2.type='triangle';o2.frequency.value=4520;
+      const g2=ctx.createGain();g2.gain.value=0;
+      const lfo2=ctx.createOscillator();lfo2.type='square';lfo2.frequency.value=5.2;
+      const lg2=ctx.createGain();lg2.gain.value=.02;
+      lfo2.connect(lg2).connect(g2.gain);
+      o.connect(g);o2.connect(g2);lfo.start();lfo2.start();
+      return[g,lfo,g2,lfo2]},
+    delta(){const o=ctx.createOscillator();o.type='sine';o.frequency.value=2.0;
+      const o2=ctx.createOscillator();o2.type='sine';o2.frequency.value=2.03;
+      const g=ctx.createGain();g.gain.value=.07;
+      const lfo=ctx.createOscillator();lfo.frequency.value=.11;
+      const lg=ctx.createGain();lg.gain.value=.045;
+      lfo.connect(lg).connect(g.gain);lfo.start();
+      o.connect(g);o2.connect(g);
+      return[g,lfo,o2]}
+  };
+  function stop(){
+    if(!current)return;
+    const [btn]=current;
+    try{
+      btn.forEach(n=>{if(n.stop)n.stop();});
+    }catch(e){}
+    current=null;
+    document.querySelectorAll('.sound').forEach(b=>b.classList.remove('playing'));
+  }
+  list.addEventListener('click',e=>{
+    const btn=e.target.closest('.sound');if(!btn)return;
+    if(btn.classList.contains('playing')){stop();return}
+    stop();
+    if(!ctx)ctx=new(window.AudioContext||window.webkitAudioContext)();
+    ctx.resume();
+    const nodes=build[btn.dataset.sound]();
+    nodes[0].connect(ctx.destination);
+    nodes.forEach(n=>{if(n.start)n.start()});
+    btn.classList.add('playing');
+    current=[nodes,btn];
+  });
+})();
+
+/* ---------- Coach CTA ---------- */
+document.getElementById('coachCta').addEventListener('click',function(){
+  this.textContent='✓ REMINDER SET — 7:45 PM TONIGHT';
+  this.classList.add('done');
+});
+</script>
+</body>
+</html>

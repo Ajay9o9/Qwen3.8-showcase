@@ -135,7 +135,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--catalog", type=Path, default=Path("catalog.json"))
-    parser.add_argument("--output", type=Path, default=Path("site"))
+    parser.add_argument("--output", type=Path, default=Path("docs"))
     parser.add_argument("--clean", action="store_true")
     args = parser.parse_args()
     manifest = load_json(args.catalog)

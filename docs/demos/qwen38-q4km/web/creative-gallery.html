@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOID/FORM — Generative & Post-Digital Art</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a09;
+  --ink:#f2f0eb;
+  --mut:#7a776f;
+  --line:rgba(242,240,235,.14);
+  --accent:#ff4a00;
+  --disp:'Syne',sans-serif;
+  --body:'Space Grotesk',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  overflow-x:hidden;
+  cursor:none;
+}
+a{color:inherit;text-decoration:none;cursor:none}
+::selection{background:var(--accent);color:#0a0a09}
+
+/* ---------- grain ---------- */
+.grain{
+  position:fixed;inset:-50%;width:200%;height:200%;
+  pointer-events:none;z-index:200;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 7s steps(8) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}
+  25%{transform:translate(-2%,1%)}
+  50%{transform:translate(1%,-2%)}
+  75%{transform:translate(-1%,-1%)}
+}
+
+/* ---------- custom cursor ---------- */
+.cursor-dot,.cursor-ring{
+  position:fixed;top:0;left:0;pointer-events:none;z-index:300;
+  border-radius:50%;transform:translate(-50%,-50%);
+}
+.cursor-dot{width:6px;height:6px;background:var(--accent);transition:opacity .3s}
+.cursor-ring{
+  width:44px;height:44px;border:1px solid rgba(242,240,235,.5);
+  display:flex;align-items:center;justify-content:center;
+  transition:width .35s cubic-bezier(.2,1,.3,1),height .35s cubic-bezier(.2,1,.3,1),border-color .35s,background .35s;
+}
+.cursor-ring span{
+  font-family:var(--mono);font-size:9px;letter-spacing:.15em;
+  color:#0a0a09;opacity:0;transition:opacity .25s;white-space:nowrap;
+}
+body.cur-view .cursor-ring{width:84px;height:84px;background:var(--accent);border-color:var(--accent)}
+body.cur-view .cursor-ring span{opacity:1}
+body.cur-link .cursor-ring{width:64px;height:64px;border-color:var(--accent)}
+@media (hover:none){.cursor-dot,.cursor-ring{display:none}body,a{cursor:auto}}
+
+/* ---------- nav ---------- */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 32px;
+  mix-blend-mode:difference;
+}
+.logo{font-family:var(--disp);font-weight:800;font-size:18px;letter-spacing:.02em}
+.logo em{font-style:normal;color:var(--accent);-webkit-text-fill-color:currentColor}
+.nav-links{display:flex;gap:36px;align-items:center}
+.nav-links a{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  position:relative;padding:4px 0;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:currentColor;transform:scaleX(0);transform-origin:right;
+  transition:transform .4s cubic-bezier(.2,1,.3,1);
+}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-time{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mut)}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:100vh;position:relative;
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:110px 32px 0;overflow:hidden;
+}
+.hero-meta{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mut);max-width:1600px;margin:0 auto;width:100%;
+}
+.hero-meta b{color:var(--ink);font-weight:500}
+.hero-ring{
+  position:absolute;right:-8vw;top:50%;transform:translateY(-50%);
+  width:64vw;height:64vw;opacity:.9;pointer-events:none;
+}
+.hero-ring .spin{transform-origin:center;animation:spin 40s linear infinite}
+.hero-ring .spin2{transform-origin:center;animation:spin 65s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-type{
+  position:relative;z-index:2;width:100%;max-width:1600px;margin:0 auto;
+}
+.hero-type .line{
+  font-family:var(--disp);font-weight:800;line-height:.82;
+  font-size:clamp(5rem,18.5vw,17.5rem);letter-spacing:-.015em;
+  display:flex;align-items:baseline;
+}
+.hero-type .outline{
+  color:transparent;-webkit-text-stroke:1.5px var(--ink);
+  transition:color .5s,-webkit-text-stroke-color .5s;
+}
+.hero-type .line:hover .outline{color:var(--accent);-webkit-text-stroke-color:var(--accent)}
+.hero-type .slash{color:var(--accent);font-size:.62em;margin:0 .04em -0.04em}
+.hero-sub{
+  display:flex;gap:4vw;flex-wrap:wrap;
+  margin-top:4vh;margin-bottom:6vh;max-width:1600px;
+}
+.hero-sub p{max-width:340px;font-size:15px;line-height:1.6;font-weight:300;color:#c9c6be}
+.hero-sub .idx{font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--accent);display:block;margin-bottom:10px}
+
+/* ---------- marquee ---------- */
+.marquee{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  overflow:hidden;white-space:nowrap;padding:16px 0;position:relative;z-index:2;
+  background:var(--bg);
+}
+.marquee-track{display:inline-block;animation:marq 22s linear infinite}
+.marquee span{
+  font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  margin-right:64px;color:var(--ink);
+}
+.marquee span b{color:var(--accent);font-weight:500}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- section scaffold ---------- */
+section{position:relative}
+.sec-head{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  padding:11vh 32px 5vh;max-width:1680px;margin:0 auto;width:100%;
+}
+.sec-label{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--accent)}
+.sec-title{font-family:var(--disp);font-weight:800;font-size:clamp(2.6rem,5.4vw,5rem);line-height:.95;letter-spacing:-.01em}
+.sec-note{font-family:var(--mono);font-size:11px;color:var(--mut);letter-spacing:.1em;text-align:right}
+
+/* ---------- spotlight ---------- */
+.spotlight{padding-bottom:8vh}
+.spot-wrap{
+  position:relative;max-width:1680px;margin:0 auto;padding:0 32px;
+}
+.spot-canvas-frame{
+  position:relative;aspect-ratio:16/9;width:100%;
+  border:1px solid var(--line);overflow:hidden;background:#0d0d0c;
+}
+#flowCanvas{width:100%;height:100%;display:block}
+.spot-title{
+  position:absolute;left:32px;bottom:32px;z-index:3;
+}
+.spot-title h3{
+  font-family:var(--disp);font-weight:800;line-height:.9;
+  font-size:clamp(3rem,7.5vw,7.5rem);letter-spacing:-.01em;
+  mix-blend-mode:difference;color:#fff;
+}
+.spot-title h3 em{font-style:normal;color:var(--accent);-webkit-text-fill-color:var(--accent);mix-blend-mode:normal}
+.spot-tag{
+  position:absolute;top:24px;left:32px;z-index:3;
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--ink);
+  background:var(--bg);padding:8px 14px;border:1px solid var(--line);
+}
+.spot-info{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:32px;
+  padding:36px 32px 0;max-width:1680px;margin:0 auto;
+  border-top:1px solid var(--line);
+}
+.spot-info .cell h4{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--mut);
+  text-transform:uppercase;margin-bottom:12px;
+}
+.spot-info .cell p{font-size:15px;line-height:1.65;font-weight:300;color:#d8d5cd}
+.spot-info .cell p b{font-weight:500;color:var(--ink)}
+.spot-cta{
+  align-self:end;font-family:var(--mono);font-size:11px;letter-spacing:.18em;
+  border:1px solid var(--ink);padding:18px 26px;text-transform:uppercase;
+  position:relative;overflow:hidden;transition:color .4s;
+}
+.spot-cta::before{
+  content:"";position:absolute;inset:0;background:var(--accent);
+  transform:translateY(101%);transition:transform .45s cubic-bezier(.2,1,.3,1);z-index:-1;
+}
+.spot-cta:hover{color:#0a0a09}
+.spot-cta:hover::before{transform:translateY(0)}
+
+/* ---------- works grid ---------- */
+.grid{
+  max-width:1680px;margin:0 auto;padding:0 32px 12vh;
+  display:grid;grid-template-columns:repeat(12,1fr);gap:22px;
+}
+.work{
+  grid-column:span 4;position:relative;
+  border:1px solid var(--line);background:#0d0d0c;overflow:hidden;
+}
+.work:nth-child(1){grid-column:span 5}
+.work:nth-child(2){grid-column:span 7}
+.work:nth-child(5){grid-column:span 7}
+.work:nth-child(6){grid-column:span 5}
+.work .art{position:relative;width:100%;overflow:hidden;
+  transition:transform 1s cubic-bezier(.2,1,.3,1)}
+.work:hover .art{transform:scale(1.025)}
+.work .art canvas,.work .art svg{display:block;width:100%;height:100%}
+.work .corner{
+  position:absolute;top:14px;left:14px;z-index:4;
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:var(--ink);
+  mix-blend-mode:difference;
+}
+.work:hover .corner{color:var(--accent);mix-blend-mode:normal}
+.work .scanline{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:linear-gradient(180deg,transparent 0%,rgba(255,74,0,.08) 100%);
+  opacity:0;transition:opacity .5s;
+}
+.work:hover .scanline{opacity:1}
+.work .cap{
+  display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  padding:14px 16px;border-top:1px solid var(--line);
+  background:var(--bg);
+}
+.work .cap h4{font-family:var(--disp);font-weight:700;font-size:15px;letter-spacing:.01em}
+.work .cap .artist{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+.work .cap .yr{font-family:var(--mono);font-size:10px;color:var(--mut)}
+
+/* individual artwork canvases aspect ratios */
+.work:nth-child(1) .art{aspect-ratio:4/5}
+.work:nth-child(2) .art{aspect-ratio:16/9}
+.work:nth-child(3) .art{aspect-ratio:1/1}
+.work:nth-child(4) .art{aspect-ratio:4/5}
+.work:nth-child(5) .art{aspect-ratio:2/1}
+.work:nth-child(6) .art{aspect-ratio:3/4}
+
+/* generative CSS/SVG artworks */
+.art-static-bloom{
+  aspect-ratio:2/1;
+  background:
+    repeating-conic-gradient(from 0deg at 50% 55%, #141412 0deg 7deg, #26251f 7deg 8deg, #141412 8deg 15deg, rgba(255,74,0,.55) 15deg 15.7deg, #141412 15.7deg 26deg),
+    #101010;
+  animation:bloom 30s linear infinite;
+}
+.art-static-bloom::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 55%, transparent 0 26%, #0d0d0c 78%);
+}
+@keyframes bloom{to{transform:rotate(360deg) scale(1.3)}}
+.art-null{
+  aspect-ratio:3/4;background:#0d0d0c;
+  background-image:
+    radial-gradient(ellipse 60% 45% at 50% 42%, #efece4 0%, #b8b4a8 32%, #4b4a45 55%, transparent 72%),
+    radial-gradient(ellipse 90% 60% at 50% 50%, rgba(255,74,0,.18), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 4px);
+}
+.art-null::after{
+  content:"N U L L";position:absolute;bottom:8%;left:0;right:0;text-align:center;
+  font-family:var(--mono);font-size:10px;letter-spacing:1.4em;color:rgba(10,10,9,.7);
+  mix-blend-mode:multiply;
+}
+
+/* ---------- residents ---------- */
+.residents{border-top:1px solid var(--line)}
+.res-list{max-width:1680px;margin:0 auto;padding:0 32px 10vh}
+.res-row{
+  display:grid;grid-template-columns:80px 1fr 1fr auto;gap:24px;align-items:baseline;
+  padding:30px 8px;border-top:1px solid var(--line);
+  transition:background .4s,padding-left .4s;
+}
+.res-row:last-child{border-bottom:1px solid var(--line)}
+.res-row:hover{background:#101010;padding-left:24px}
+.res-row .n{font-family:var(--mono);font-size:11px;color:var(--mut)}
+.res-row h4{font-family:var(--disp);font-weight:800;font-size:clamp(1.6rem,3.4vw,3rem);letter-spacing:-.01em;transition:color .3s}
+.res-row:hover h4{color:var(--accent)}
+.res-row .m{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
+.res-row .arrow{font-family:var(--mono);font-size:14px;opacity:0;transform:translateX(-10px);transition:.35s}
+.res-row:hover .arrow{opacity:1;transform:translateX(0);color:var(--accent)}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:8vh 32px 40px;max-width:1680px;margin:0 auto}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;margin-bottom:10vh}
+.foot-grid h5{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--mut);text-transform:uppercase;margin-bottom:16px}
+.foot-grid p{font-size:14px;line-height:1.7;font-weight:300;color:#c9c6be}
+.foot-grid a{display:block;font-size:14px;font-weight:300;color:#c9c6be;padding:4px 0;transition:color .3s}
+.foot-grid a:hover{color:var(--accent)}
+.foot-word{
+  font-family:var(--disp);font-weight:800;line-height:.8;
+  font-size:clamp(4rem,15.5vw,15rem);letter-spacing:-.02em;
+  color:transparent;-webkit-text-stroke:1px rgba(242,240,235,.28);
+  user-select:none;
+}
+.foot-word em{font-style:normal;-webkit-text-stroke:0;color:var(--accent)}
+.foot-base{
+  display:flex;justify-content:space-between;margin-top:40px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--mut);text-transform:uppercase;
+}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(44px);transition:opacity 1s cubic-bezier(.2,1,.3,1),transform 1s cubic-bezier(.2,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+
+/* ---------- responsive ---------- */
+@media (max-width:1000px){
+  .work, .work:nth-child(n){grid-column:span 6}
+  .work .art{aspect-ratio:4/5 !important}
+  .spot-info{grid-template-columns:1fr 1fr}
+  .hero-ring{opacity:.35}
+}
+@media (max-width:640px){
+  .work, .work:nth-child(n){grid-column:span 12}
+  .spot-info{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .res-row{grid-template-columns:1fr auto;grid-template-areas:"n arrow" "h4 h4" "m m"}
+  .res-row .n{grid-area:n}.res-row h4{grid-area:h4}.res-row .m{grid-area:m}.res-row .arrow{grid-area:arrow}
+  .foot-grid{grid-template-columns:1fr}
+  nav{padding:18px 20px}
+  .hero,.sec-head,.spot-wrap,.grid,.res-list,footer{padding-left:20px;padding-right:20px}
+  .spot-title{left:20px;bottom:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cursor-dot" id="cDot"></div>
+<div class="cursor-ring" id="cRing"><span>VIEW</span></div>
+
+<nav>
+  <a class="logo" href="#" data-cursor="link">VOID<em>/</em>FORM</a>
+  <div class="nav-links">
+    <a href="#spotlight" data-cursor="link">Spotlight</a>
+    <a href="#works" data-cursor="link">Works</a>
+    <a href="#residents" data-cursor="link">Residents</a>
+    <a href="#visit" data-cursor="link">Visit</a>
+  </div>
+  <span class="nav-time" id="clock">ANT — 00:00:00</span>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-meta">
+    <div>
+      <span class="idx" style="color:var(--accent)">EST. 2019 — GALLERY</span>
+      Generative &amp; Post-Digital Art
+    </div>
+    <div style="text-align:right">
+      <b>51.2194° N, 4.4025° E</b><br>
+      WALENKADE 10 — ANTWERP
+    </div>
+  </div>
+
+  <svg class="hero-ring" viewBox="0 0 800 800" fill="none" aria-hidden="true">
+    <g class="spin">
+      <circle cx="400" cy="400" r="360" stroke="#f2f0eb" stroke-opacity=".25" stroke-dasharray="2 14"/>
+      <circle cx="400" cy="400" r="300" stroke="#ff4a00" stroke-opacity=".7" stroke-dasharray="90 500"/>
+    </g>
+    <g class="spin2">
+      <circle cx="400" cy="400" r="235" stroke="#f2f0eb" stroke-opacity=".18" stroke-dasharray="1 9"/>
+      <circle cx="400" cy="400" r="160" stroke="#f2f0eb" stroke-opacity=".3" stroke-dasharray="40 60"/>
+      <circle cx="400" cy="240" r="5" fill="#ff4a00"/>
+    </g>
+    <circle cx="400" cy="400" r="4" fill="#f2f0eb"/>
+  </svg>
+
+  <div class="hero-type">
+    <div class="line reveal">VOID<span class="slash">/</span><span class="outline">FORM</span></div>
+    <div class="hero-sub">
+      <p class="reveal d1"><span class="idx">001 — MISSION</span>
+        A laboratory for computational material. We exhibit works made from code, noise and accident — rendered in light, ink and plotter line.</p>
+      <p class="reveal d2"><span class="idx">002 — SEASON 25/26</span>
+        Four solo positions. One permanent installation. Everything on these walls was grown, not drawn.</p>
+    </div>
+  </div>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marq">
+      <span>NOW SHOWING — <b>UNREAL GEOMETRY</b></span>
+      <span>MARA VOSS</span>
+      <span>THROUGH 04.12.2025</span>
+      <span>OPEN TUE–SAT 11:00–18:00</span>
+      <span>OPENING NIGHT — <b>12.11.2025, 20:00</b></span>
+      <span>NOW SHOWING — <b>UNREAL GEOMETRY</b></span>
+      <span>MARA VOSS</span>
+      <span>THROUGH 04.12.2025</span>
+      <span>OPEN TUE–SAT 11:00–18:00</span>
+      <span>OPENING NIGHT — <b>12.11.2025, 20:00</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ SPOTLIGHT ============ -->
+<section class="spotlight" id="spotlight">
+  <div class="sec-head">
+    <div class="reveal">
+      <div class="sec-label">SPOTLIGHT — 001 / 004</div>
+      <h2 class="sec-title">In Focus This Season</h2>
+    </div>
+    <div class="sec-note reveal d1">LIVE RENDER<br>60 FPS — NO LOOP</div>
+  </div>
+
+  <div class="spot-wrap reveal">
+    <div class="spot-canvas-frame" data-cursor="view">
+      <span class="spot-tag">◉ LIVE — PROCEDURAL FIELD</span>
+      <canvas id="flowCanvas"></canvas>
+      <div class="spot-title">
+        <h3>UNREAL<br><em>GEOMETRY</em></h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="spot-info">
+    <div class="cell reveal">
+      <h4>About the exhibition</h4>
+      <p><b>Mara Voss</b> feeds a particle field through cascading sine fields and lets it collapse into architecture. The installation re-grows itself every 40 minutes — no two viewings of the room are identical. Commissioned, in part, by the gallery's own render farm.</p>
+    </div>
+    <div class="cell reveal d1">
+      <h4>Artist / Dates</h4>
+      <p>Mara Voss (b. 1991, Berlin)<br>12.11.2025 — 04.01.2026<br>Opening night 20:00, live reseed at 21:00</p>
+    </div>
+    <div class="cell reveal d2">
+      <h4>Medium</h4>
+      <p>Real-time particle system, projection on smoked glass, 8-channel audio, one very tired GPU.</p>
+    </div>
+    <a class="spot-cta reveal d3" href="#" data-cursor="link">Book tickets →</a>
+  </div>
+</section>
+
+<!-- ============ WORKS ============ -->
+<section id="works">
+  <div class="sec-head">
+    <div class="reveal">
+      <div class="sec-label">ARCHIVE — SELECTED WORKS</div>
+      <h2 class="sec-title">Works in Orbit</h2>
+    </div>
+    <div class="sec-note reveal d1">06 PIECES<br>HOVER TO INSPECT</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- 01 SIGNAL DECAY (canvas) -->
+    <article class="work reveal" data-cursor="view">
+      <div class="art" style="aspect-ratio:4/5">
+        <canvas id="decayCanvas"></canvas>
+        <span class="corner">◧ 01</span><div class="scanline"></div>
+      </div>
+      <div class="cap">
+        <div><h4>Signal Decay</h4><div class="artist">Mara Voss — Generative video</div></div>
+        <span class="yr">2025</span>
+      </div>
+    </article>
+
+    <!-- 02 ORBITAL STUDY (svg) -->
+    <article class="work reveal d1" data-cursor="view">
+      <div class="art" style="aspect-ratio:16/9">
+        <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" aria-label="Orbital Study 7">
+          <rect width="800" height="450" fill="#0d0d0c"/>
+          <g fill="none">
+            <circle cx="400" cy="225" r="205" stroke="#f2f0eb" stroke-opacity=".14" stroke-dasharray="1 10"/>
+            <circle cx="400" cy="225" r="165" stroke="#f2f0eb" stroke-opacity=".3" stroke-dasharray="60 30">
+              <animateTransform attributeName="transform" type="rotate" from="0 400 225" to="360 400 225" dur="50s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="400" cy="225" r="120" stroke="#ff4a00" stroke-opacity=".85" stroke-dasharray="140 620">
+              <animateTransform attributeName="transform" type="rotate" from="360 400 225" to="0 400 225" dur="30s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="400" cy="225" r="78" stroke="#f2f0eb" stroke-opacity=".4" stroke-dasharray="3 7">
+              <animateTransform attributeName="transform" type="rotate" from="0 400 225" to="360 400 225" dur="18s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="400" cy="225" r="34" stroke="#f2f0eb" stroke-opacity=".6"/>
+          </g>
+          <circle cx="520" cy="105" r="4" fill="#ff4a00"/>
+          <circle cx="400" cy="225" r="2.5" fill="#f2f0eb"/>
+          <g font-family="monospace" font-size="11" fill="#7a776f">
+            <text x="24" y="430">ORBITAL STUDY Nº7 — SCALE 1:12 000 — 3 BODIES</text>
+          </g>
+        </svg>
+        <span class="corner">◨ 02</span><div class="scanline"></div>
+      </div>
+      <div class="cap">
+        <div><h4>Orbital Study Nº7</h4><div class="artist">Ito Kessler — SVG plot, archival pigment</div></div>
+        <span class="yr">2024</span>
+      </div>
+    </article>
+
+    <!-- 03 MEMBRANE I (svg turbulence) -->
+    <article class="work reveal" data-cursor="view">
+      <div class="art" style="aspect-ratio:1/1">
+        <svg viewBox="0 0 500 500" preserveAspectRatio="xMidYMid slice" aria-label="Membrane I">
+          <defs>
+            <filter id="mem" x="-20%" y="-20%" width="140%" height="140%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="3" seed="7" result="n">
+                <animate attributeName="baseFrequency" dur="14s" values="0.012 0.02;0.017 0.014;0.012 0.02" repeatCount="indefinite"/>
+              </feTurbulence>
+              <feDisplacementMap in="SourceGraphic" in2="n" scale="70"/>
+            </filter>
+          </defs>
+          <rect width="500" height="500" fill="#0d0d0c"/>
+          <g filter="url(#mem)" fill="none" stroke-linecap="round">
+            <circle cx="250" cy="250" r="190" stroke="#f2f0eb" stroke-opacity=".55" stroke-width="1.4"/>
+            <circle cx="250" cy="250" r="150" stroke="#f2f0eb" stroke-opacity=".4"/>
+            <circle cx="250" cy="250" r="112" stroke="#ff4a00" stroke-opacity=".9" stroke-width="2"/>
+            <circle cx="250" cy="250" r="76" stroke="#f2f0eb" stroke-opacity=".5"/>
+            <circle cx="250" cy="250" r="42" stroke="#f2f0eb" stroke-opacity=".65"/>
+          </g>
+          <text x="24" y="478" font-family="monospace" font-size="10" fill="#7a776f">MEMBRANE I — TISSUE / NOISE</text>
+        </svg>
+        <span class="corner">◩ 03</span><div class="scanline"></div>
+      </div>
+      <div class="cap">
+        <div><h4>Membrane I</h4><div class="artist">R. Okafor — Pen plotter on cotton</div></div>
+        <span class="yr">2025</span>
+      </div>
+    </article>
+
+    <!-- 04 PHASE GRID (canvas) -->
+    <article class="work reveal d1" data-cursor="view">
+      <div class="art" style="aspect-ratio:4/5">
+        <canvas id="phaseCanvas"></canvas>
+        <span class="corner">◪ 04</span><div class="scanline"></div>
+      </div>
+      <div class="cap">
+        <div><h4>Phase Grid 12×15</h4><div class="artist">Mara Voss — WebGL study, ed. 5</div></div>
+        <span class="yr">2024</span>
+      </div>
+    </article>
+
+    <!-- 05 STATIC BLOOM (pure CSS) -->
+    <article class="work reveal d2" data-cursor="view">
+      <div class="art art-static-bloom">
+        <span class="corner" style="position:absolute;top:14px;left:14px">◭ 05</span>
+        <div class="scanline"></div>
+      </div>
+      <div class="cap">
+        <div><h4>Static Bloom</h4><div class="artist">Lena Hartwig — Laser etched aluminium</div></div>
+        <span class="yr">2023</span>
+      </div>
+    </article>
+
+    <!-- 06 NULL (CSS) -->
+    <article class="work reveal" data-cursor="view">
+      <div class="art art-null">
+        <span class="corner" style="position:absolute;top:14px;left:14px">◬ 06</span>
+        <div class="scanline"></div>
+      </div>
+      <div class="cap">
+        <div><h4>Null (Portrait of the Server)</h4><div class="artist">R. Okafor — Mixed media, 180×120</div></div>
+        <span class="yr">2025</span>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============ RESIDENTS ============ -->
+<section class="residents" id="residents">
+  <div class="sec-head">
+    <div class="reveal">
+      <div class="sec-label">RESIDENTS — 25/26</div>
+      <h2 class="sec-title">Four Rooms,<br>Four Frequencies</h2>
+    </div>
+    <div class="sec-note reveal d1">STUDIO ACCESS<br>BY APPOINTMENT</div>
+  </div>
+  <div class="res-list">
+    <a class="res-row reveal" href="#" data-cursor="link">
+      <span class="n">R.01</span><h4>Mara Voss</h4>
+      <span class="m">Real-time systems / Berlin</span><span class="arrow">→</span>
+    </a>
+    <a class="res-row reveal d1" href="#" data-cursor="link">
+      <span class="n">R.02</span><h4>Ito Kessler</h4>
+      <span class="m">Plotter &amp; orbital math / Tokyo</span><span class="arrow">→</span>
+    </a>
+    <a class="res-row reveal d2" href="#" data-cursor="link">
+      <span class="n">R.03</span><h4>R. Okafor</h4>
+      <span class="m">Noise as material / Lagos</span><span class="arrow">→</span>
+    </a>
+    <a class="res-row reveal d3" href="#" data-cursor="link">
+      <span class="n">R.04</span><h4>Lena Hartwig</h4>
+      <span class="m">Light etching / Antwerp</span><span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="visit">
+  <div class="foot-grid">
+    <div class="reveal">
+      <h5>Visit — VOID/FORM</h5>
+      <p>Walenkade 10, 2000 Antwerp<br>Tue–Sat 11:00–18:00 · Sun 14:00–18:00<br>Free entry, donation to the render fund.</p>
+    </div>
+    <div class="reveal d1">
+      <h5>Index</h5>
+      <a href="#spotlight" data-cursor="link">Exhibition Spotlight</a>
+      <a href="#works" data-cursor="link">Works in Orbit</a>
+      <a href="#residents" data-cursor="link">Resident Artists</a>
+      <a href="#" data-cursor="link">Press Kit (PDF, 2.1 MB)</a>
+    </div>
+    <div class="reveal d2">
+      <h5>Contact</h5>
+      <a href="mailto:hello@voidform.art" data-cursor="link">hello@voidform.art</a>
+      <a href="#" data-cursor="link">+32 3 555 0119</a>
+      <a href="#" data-cursor="link">@voidform_gallery</a>
+    </div>
+  </div>
+  <div class="foot-word" aria-hidden="true">VOID<em>/</em>FORM</div>
+  <div class="foot-base">
+    <span>© 2025 VOID/FORM — All renderings unique</span>
+    <span id="footClock">SYS 00:00:00 — GPU OK</span>
+  </div>
+</footer>
+
+<script>
+/* ============ clock ============ */
+function tick(){
+  const d=new Date();
+  const s=d.toTimeString().slice(0,8);
+  const c1=document.getElementById('clock');
+  const c2=document.getElementById('footClock');
+  if(c1)c1.textContent='ANT — '+s;
+  if(c2)c2.textContent='SYS '+s+' — GPU OK';
+}
+tick();setInterval(tick,1000);
+
+/* ============ custom cursor ============ */
+const dot=document.getElementById('cDot'),ring=document.getElementById('cRing');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;
+  dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function loop(){
+  rx+=(mx-rx)*.14;ry+=(my-ry)*.14;
+  ring.style.left=rx+'px';ring.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+document.querySelectorAll('[data-cursor="view"]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cur-view'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cur-view'));
+});
+document.querySelectorAll('[data-cursor="link"]').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cur-link'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cur-link'));
+});
+
+/* ============ reveal ============ */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ============ canvas helper ============ */
+function fit(cv){
+  const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);
+  cv.width=r.width*d;cv.height=r.height*d;
+  const ctx=cv.getContext('2d');ctx.setTransform(d,0,0,d,0,0);
+  return {ctx,w:r.width,h:r.height};
+}
+
+/* ============ 01 SIGNAL DECAY ============ */
+(function(){
+  const cv=document.getElementById('decayCanvas');
+  let s=fit(cv),t=0;
+  addEventListener('resize',()=>{s=fit(cv);paintBase(s.ctx,s.w,s.h,0);});
+  function paintBase(ctx,w,h,off){
+    const g=ctx.createLinearGradient(0,0,0,h);
+    g.addColorStop(0,'#171714');g.addColorStop(.55,'#3a3831');g.addColorStop(1,'#0c0c0b');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,h);
+    // figure
+    ctx.fillStyle='#0a0a09';
+    ctx.beginPath();
+    ctx.ellipse(w/2,h*.44,w*.24,h*.34,0,0,Math.PI*2);ctx.fill();
+    ctx.fillRect(w*.28,h*.55,w*.44,h*.4);
+    // scanlines
+    ctx.fillStyle='rgba(0,0,0,.28)';
+    for(let y=0;y<h;y+=3)ctx.fillRect(0,y,w,1);
+    // accent bar
+    ctx.fillStyle='#ff4a00';
+    ctx.fillRect(0,h*.30+off,w,3);
+    ctx.fillRect(w*.62,h*.30+off,w*.38,3);
+  }
+  function frame(){
+    const {ctx,w,h}=s;
+    paintBase(ctx,w,h,Math.sin(t*.05)*4);
+    // glitch slices
+    for(let i=0;i<7;i++){
+      if(Math.random()<.5){
+        const y=Math.random()*h,sh=4+Math.random()*22,off=(Math.random()-.5)*36;
+        ctx.drawImage(cv,0,y*s.width/s.height* (s.width/w) , w*s.width/s.height* (w/w), sh*(s.height/h), off,y,w,sh);
+      }
+    }
+    // random block
+    if(Math.random()<.12){
+      ctx.fillStyle='rgba(255,74,0,'+(.2+Math.random()*.4)+')';
+      ctx.fillRect(Math.random()*w,Math.random()*h,30+Math.random()*90,4+Math.random()*14);
+    }
+    // noise
+    for(let i=0;i<220;i++){
+      ctx.fillStyle='rgba(242,240,235,'+(Math.random()*.14)+')';
+      ctx.fillRect(Math.random()*w,Math.random()*h,1.5,1.5);
+    }
+    t++;requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ============ 04 PHASE GRID ============ */
+(function(){
+  const cv=document.getElementById('phaseCanvas');
+  let s=fit(cv),t=0;
+  addEventListener('resize',()=>{s=fit(cv);});
+  const COLS=12,ROWS=15;
+  function frame(){
+    const {ctx,w,h}=s;
+    ctx.fillStyle='#0d0d0c';ctx.fillRect(0,0,w,h);
+    const cw=w/COLS,ch=h/ROWS;
+    for(let i=0;i<COLS;i++)for(let j=0;j<ROWS;j++){
+      const p=Math.sin(i*.55+j*.55-t*.03);
+      const r=(1+p)*Math.min(cw,ch)*.16+.6;
+      const hot=(p>.93);
+      ctx.fillStyle=hot?'#ff4a00':'rgba(242,240,235,'+(.25+p*.3)+')';
+      ctx.beginPath();
+      ctx.arc(i*cw+cw/2,j*ch+ch/2,r,0,Math.PI*2);ctx.fill();
+    }
+    t++;requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ============ SPOTLIGHT FLOW FIELD ============ */
+(function(){
+  const cv=document.getElementById('flowCanvas');
+  let s=fit(cv),parts=[],t=0;
+  function seed(){
+    parts=[];
+    const N=Math.min(420,Math.floor(s.w*s.h/2600));
+    for(let i=0;i<N;i++)parts.push({
+      x:Math.random()*s.w,y:Math.random()*s.h,
+      a:Math.random()<.16?1:0 // 16% accent
+    });
+  }
+  addEventListener('resize',()=>{s=fit(cv);seed();});
+  seed();
+  s.ctx.fillStyle='#0a0a09';s.ctx.fillRect(0,0,s.w,s.h);
+  function angle(x,y){
+    return (Math.sin(x*.0035+t*.011)+Math.cos(y*.0032-t*.008)+Math.sin((x+y)*.0018+t*.005))*Math.PI;
+  }
+  function frame(){
+    const {ctx,w,h}=s;
+    ctx.fillStyle='rgba(10,10,9,.045)';ctx.fillRect(0,0,w,h);
+    for(const p of parts){
+      const a=angle(p.x,p.y);
+      const nx=p.x+Math.cos(a)*1.6, ny=p.y+Math.sin(a)*1.6;
+      ctx.strokeStyle=p.a?'rgba(255,74,0,.5)':'rgba(242,240,235,.07)';
+      ctx.lineWidth=p.a?1.2:.7;
+      ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(nx,ny);ctx.stroke();
+      p.x=nx;p.y=ny;
+      if(p.x<0||p.x>w||p.y<0||p.y>h||Math.random()<.002){
+        p.x=Math.random()*w;p.y=Math.random()*h;
+        p.a=Math.random()<.16?1:0;
+      }
+    }
+    // occasional bright seed point
+    if(Math.random()<.03){
+      ctx.fillStyle='rgba(255,74,0,.9)';
+      ctx.fillRect(Math.random()*w,Math.random()*h,2,2);
+    }
+    t++;requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AFTERGLOW — The Late-Night Podcast Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0908;
+  --bg-2:#100d0b;
+  --surface:#151110;
+  --surface-2:#1d1815;
+  --line:rgba(244,237,230,.09);
+  --line-soft:rgba(244,237,230,.05);
+  --text:#f4ede6;
+  --muted:#9c9188;
+  --faint:#6b625b;
+  --accent:#f5a83c;
+  --accent-deep:#d97b1f;
+  --accent-soft:rgba(245,168,60,.14);
+  --radius:18px;
+  --font-display:'Sora',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--accent);color:#1a1206}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img{display:block;max-width:100%}
+.wrap{max-width:1220px;margin:0 auto;padding:0 40px}
+
+/* ---------- ambient background ---------- */
+.bg-glow{position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(900px 520px at 78% -8%, rgba(245,168,60,.13), transparent 62%),
+  radial-gradient(700px 500px at -10% 45%, rgba(217,123,31,.07), transparent 60%),
+  var(--bg);}
+.bg-grid{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(var(--line-soft) 1px, transparent 1px),
+  linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(1200px 700px at 50% 0%, black, transparent 75%);
+  -webkit-mask-image:radial-gradient(1200px 700px at 50% 0%, black, transparent 75%);}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+  background:rgba(11,9,8,.72);border-bottom:1px solid var(--line-soft);}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{width:38px;height:38px;border-radius:11px;background:linear-gradient(140deg,var(--accent),var(--accent-deep));
+  display:grid;place-items:center;box-shadow:0 4px 18px rgba(245,168,60,.35)}
+.logo-mark svg{width:20px;height:20px}
+.logo-word{font-family:var(--font-display);font-weight:800;font-size:19px;letter-spacing:.14em}
+.logo-word em{font-style:normal;color:var(--accent)}
+.nav-links{display:flex;gap:34px;font-size:14px;font-weight:500;color:var(--muted)}
+.nav-links a{transition:color .2s;position:relative}
+.nav-links a:hover{color:var(--text)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--accent);transition:width .25s}
+.nav-links a:hover::after{width:100%}
+.nav-cta{display:flex;align-items:center;gap:14px}
+.on-air{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:.12em;color:var(--muted)}
+.on-air .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);
+  box-shadow:0 0 0 0 rgba(245,168,60,.5);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(245,168,60,.5)}70%{box-shadow:0 0 0 9px rgba(245,168,60,0)}100%{box-shadow:0 0 0 0 rgba(245,168,60,0)}}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-display);font-weight:600;font-size:14px;
+  padding:11px 22px;border-radius:999px;transition:transform .18s, box-shadow .18s, background .2s}
+.btn-primary{background:var(--accent);color:#1a1206;box-shadow:0 6px 22px rgba(245,168,60,.3)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(245,168,60,.42)}
+.btn-ghost{border:1px solid var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- hero ---------- */
+.hero{padding:64px 0 40px}
+.hero-grid{display:grid;grid-template-columns:1fr 560px;gap:56px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent)}
+h1{font-family:var(--font-display);font-weight:800;font-size:58px;line-height:1.06;letter-spacing:-.02em;margin-bottom:22px}
+h1 .warm{color:var(--accent)}
+.hero-copy{color:var(--muted);font-size:17px;max-width:480px;margin-bottom:34px}
+.hero-stats{display:flex;gap:0;border-top:1px solid var(--line);padding-top:26px}
+.stat{padding-right:38px;margin-right:38px;border-right:1px solid var(--line)}
+.stat:last-child{border:none;margin:0;padding:0}
+.stat b{display:block;font-family:var(--font-display);font-size:24px;font-weight:700;letter-spacing:-.01em}
+.stat span{font-size:12.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.1em}
+
+/* ---------- player card ---------- */
+.player{background:linear-gradient(160deg,var(--surface-2),var(--surface) 55%);
+  border:1px solid var(--line);border-radius:24px;padding:28px;
+  box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(245,168,60,.05), 0 0 90px rgba(245,168,60,.07)}
+.player-top{display:flex;gap:20px;align-items:center;margin-bottom:24px}
+.cover-frame{position:relative;width:120px;height:120px;border-radius:14px;overflow:hidden;flex:none;
+  box-shadow:0 8px 26px rgba(0,0,0,.5)}
+.cover-frame img{width:100%;height:100%;object-fit:cover}
+.cover-frame::after{content:"";position:absolute;inset:0;border-radius:14px;border:1px solid rgba(255,255,255,.12)}
+.player-meta{flex:1;min-width:0}
+.player-tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;color:var(--accent);margin-bottom:7px}
+.player-title{font-family:var(--font-display);font-weight:700;font-size:19px;line-height:1.3;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player-host{color:var(--muted);font-size:14px;margin-top:5px}
+.player-host b{color:var(--text);font-weight:600}
+.wave-row{margin:6px 0 18px}
+#wave{width:100%;display:block;cursor:pointer}
+#wave rect{transition:fill .2s}
+.times{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;color:var(--faint);margin-bottom:18px}
+.times .cur{color:var(--accent)}
+.player-controls{display:flex;align-items:center;gap:16px}
+.ctrl{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;
+  color:var(--text);transition:all .2s}
+.ctrl:hover{border-color:var(--accent);color:var(--accent)}
+.ctrl svg{width:17px;height:17px}
+.play-btn{width:62px;height:62px;border-radius:50%;background:var(--accent);color:#1a1206;display:grid;place-items:center;
+  box-shadow:0 8px 26px rgba(245,168,60,.4);transition:transform .18s, box-shadow .18s}
+.play-btn:hover{transform:scale(1.06);box-shadow:0 12px 34px rgba(245,168,60,.55)}
+.play-btn svg{width:24px;height:24px}
+.vol{margin-left:auto;display:flex;align-items:center;gap:10px;color:var(--muted)}
+.vol svg{width:19px;height:19px}
+.vol input{width:90px;accent-color:var(--accent);cursor:pointer}
+.eq{display:none;gap:3px;align-items:flex-end;height:20px}
+.eq span{width:3px;background:var(--accent);border-radius:2px;animation:eq 1s ease-in-out infinite}
+.eq span:nth-child(2){animation-delay:.2s}.eq span:nth-child(3){animation-delay:.4s}.eq span:nth-child(4){animation-delay:.1s}
+@keyframes eq{0%,100%{height:5px}50%{height:19px}}
+.playing .eq{display:flex}
+.playing .static-ic{display:none}
+
+/* ---------- section scaffolding ---------- */
+section{padding:72px 0}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:38px}
+.sec-head h2{font-family:var(--font-display);font-weight:700;font-size:32px;letter-spacing:-.015em;margin-top:10px}
+.sec-head .kicker{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent)}
+.sec-link{font-size:14px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:7px;transition:color .2s}
+.sec-link:hover{color:var(--accent)}
+.sec-link svg{width:15px;height:15px;transition:transform .2s}
+.sec-link:hover svg{transform:translateX(4px)}
+
+/* ---------- queue ---------- */
+.queue-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.queue-row{display:grid;grid-template-columns:52px 64px 1fr 120px 92px;gap:18px;align-items:center;
+  padding:18px 26px;border-bottom:1px solid var(--line-soft);transition:background .2s}
+.queue-row:last-child{border:none}
+.queue-row:hover{background:rgba(245,168,60,.04)}
+.q-num{font-family:var(--font-mono);font-size:13px;color:var(--faint)}
+.q-cover{width:64px;height:64px;border-radius:10px;overflow:hidden}
+.q-cover img{width:100%;height:100%;object-fit:cover}
+.q-info .t{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.q-info .s{color:var(--muted);font-size:13px;margin-top:3px}
+.q-dur{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);text-align:right}
+.q-action{font-size:13px;font-weight:600;color:var(--accent);display:flex;align-items:center;justify-content:flex-end;gap:7px}
+.q-action svg{width:14px;height:14px}
+.q-action.queued{color:var(--faint)}
+
+/* ---------- categories ---------- */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;
+  display:flex;gap:18px;align-items:flex-start;transition:all .25s;position:relative;overflow:hidden}
+.cat::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent);opacity:0;transition:opacity .25s}
+.cat:hover{transform:translateY(-4px);border-color:rgba(245,168,60,.35);box-shadow:0 18px 44px rgba(0,0,0,.4)}
+.cat:hover::before{opacity:1}
+.cat-ic{width:46px;height:46px;flex:none;border-radius:12px;background:var(--accent-soft);
+  display:grid;place-items:center;color:var(--accent)}
+.cat-ic svg{width:22px;height:22px}
+.cat h3{font-family:var(--font-display);font-size:16.5px;font-weight:700;margin-bottom:4px}
+.cat p{color:var(--muted);font-size:13.5px;line-height:1.55}
+.cat .count{font-family:var(--font-mono);font-size:11px;color:var(--faint);letter-spacing:.1em;margin-top:9px;display:block}
+
+/* ---------- latest episodes ---------- */
+.ep-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.ep{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;
+  transition:transform .25s, border-color .25s, box-shadow .25s}
+.ep:hover{transform:translateY(-6px);border-color:rgba(245,168,60,.35);box-shadow:0 22px 50px rgba(0,0,0,.45)}
+.ep-cover{position:relative;aspect-ratio:1;overflow:hidden}
+.ep-cover img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.ep:hover .ep-cover img{transform:scale(1.05)}
+.ep-play{position:absolute;inset:0;display:grid;place-items:center;
+  background:linear-gradient(to top, rgba(11,9,8,.75), transparent 55%);opacity:0;transition:opacity .25s}
+.ep:hover .ep-play{opacity:1}
+.ep-play button{width:56px;height:56px;border-radius:50%;background:var(--accent);color:#1a1206;display:grid;place-items:center;
+  box-shadow:0 10px 30px rgba(245,168,60,.5);transform:scale(.85);transition:transform .25s}
+.ep:hover .ep-play button{transform:scale(1)}
+.ep-play svg{width:20px;height:20px}
+.ep-dur{position:absolute;bottom:12px;right:12px;font-family:var(--font-mono);font-size:11.5px;
+  background:rgba(11,9,8,.8);border:1px solid var(--line);padding:3px 9px;border-radius:999px}
+.ep-body{padding:18px 18px 20px}
+.ep-body .show{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.ep-body h3{font-family:var(--font-display);font-size:15.5px;font-weight:600;line-height:1.4;margin-bottom:9px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:43px}
+.ep-body .meta{font-size:12.5px;color:var(--faint)}
+
+/* ---------- hosts ---------- */
+.host-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.host{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:30px 24px 26px;text-align:center;
+  transition:transform .25s, border-color .25s}
+.host:hover{transform:translateY(-5px);border-color:rgba(245,168,60,.35)}
+.host-face{width:110px;height:110px;border-radius:50%;margin:0 auto 20px;overflow:hidden;
+  border:2px solid var(--accent);box-shadow:0 0 0 6px rgba(245,168,60,.1)}
+.host-face img{width:100%;height:100%;object-fit:cover}
+.host h3{font-family:var(--font-display);font-size:17px;font-weight:700}
+.host .role{color:var(--accent);font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin:5px 0 12px}
+.host p{color:var(--muted);font-size:13.5px;line-height:1.6}
+
+/* ---------- membership ---------- */
+.member-panel{position:relative;border-radius:28px;overflow:hidden;padding:70px 64px;
+  background:linear-gradient(120deg,#1c1510,#12100d 55%,#0e0c0a);
+  border:1px solid rgba(245,168,60,.25);
+  display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;
+  box-shadow:0 40px 100px rgba(0,0,0,.5)}
+.member-panel::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 320px at 88% 10%, rgba(245,168,60,.16), transparent 65%)}
+.member-left{position:relative}
+.member-left .kicker{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:16px}
+.member-left h2{font-family:var(--font-display);font-size:38px;font-weight:800;letter-spacing:-.015em;line-height:1.12;margin-bottom:18px}
+.member-left p{color:var(--muted);font-size:16px;max-width:440px}
+.member-right{position:relative;background:rgba(11,9,8,.55);border:1px solid var(--line);border-radius:20px;padding:34px 32px;backdrop-filter:blur(6px)}
+.price-row{display:flex;align-items:baseline;gap:10px;margin-bottom:22px}
+.price-row b{font-family:var(--font-display);font-size:44px;font-weight:800;color:var(--accent)}
+.price-row span{color:var(--muted);font-size:14px}
+.perk{display:flex;gap:13px;align-items:flex-start;padding:10px 0;font-size:14.5px;color:var(--text)}
+.perk svg{width:18px;height:18px;color:var(--accent);flex:none;margin-top:3px}
+.perk small{display:block;color:var(--faint);font-size:12.5px}
+.member-right .btn{width:100%;justify-content:center;margin-top:24px;padding:15px}
+.member-fine{font-size:12px;color:var(--faint);text-align:center;margin-top:14px}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line-soft);padding:56px 0 40px;background:var(--bg-2)}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;margin-bottom:48px}
+.foot-grid h4{font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:18px}
+.foot-grid ul{list-style:none}
+.foot-grid li{margin-bottom:11px}
+.foot-grid a{color:var(--muted);font-size:14px;transition:color .2s}
+.foot-grid a:hover{color:var(--accent)}
+.foot-blurb{color:var(--muted);font-size:14px;max-width:280px;margin-top:16px}
+.foot-bottom{border-top:1px solid var(--line-soft);padding-top:26px;display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;color:var(--faint)}
+.foot-bottom .mono{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.08em}
+
+@media(max-width:1080px){
+  .hero-grid{grid-template-columns:1fr}
+  .ep-grid{grid-template-columns:repeat(2,1fr)}
+  .host-grid{grid-template-columns:repeat(2,1fr)}
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
+  .member-panel{grid-template-columns:1fr;padding:48px 34px}
+  h1{font-size:46px}
+  .nav-links{display:none}
+}
+@media(max-width:640px){
+  .wrap{padding:0 22px}
+  .ep-grid,.host-grid,.cat-grid{grid-template-columns:1fr}
+  .queue-row{grid-template-columns:64px 1fr 72px}
+  .q-num,.q-dur{display:none}
+  .hero-stats{flex-wrap:wrap;gap:18px}
+  .stat{border:none;padding:0;margin:0}
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+
+<!-- ================= NAV ================= -->
+<nav>
+  <div class="wrap nav-inner">
+    <a class="logo" href="#">
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 17c0-6 3-11 8-11s8 5 8 11" stroke="#1a1206" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="17" r="2.4" fill="#1a1206"/><path d="M7 20h10" stroke="#1a1206" stroke-width="2.4" stroke-linecap="round"/></svg>
+      </span>
+      <span class="logo-word">AFTER<em>GLOW</em></span>
+    </a>
+    <div class="nav-links">
+      <a href="#queue">Shows</a>
+      <a href="#episodes">Episodes</a>
+      <a href="#hosts">Hosts</a>
+      <a href="#membership">Membership</a>
+      <a href="#">About the Network</a>
+    </div>
+    <div class="nav-cta">
+      <span class="on-air"><span class="dot"></span>ON AIR</span>
+      <a href="#membership" class="btn btn-primary">Join Afterglow+</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= HERO + PLAYER ================= -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Episode 128 · Now Streaming</span>
+      <h1>Stories recorded<br>after <span class="warm">sunset</span>,<br>for the rest of us.</h1>
+      <p class="hero-copy">AFTERGLOW is an independent network of twelve shows recorded between 8pm and 4am. Long-form interviews, field recordings, and narratives about the hours most of the world misses.</p>
+      <div class="hero-stats">
+        <div class="stat"><b>12</b><span>Weekly shows</span></div>
+        <div class="stat"><b>340+</b><span>Episodes</span></div>
+        <div class="stat"><b>1.2M</b><span>Monthly listeners</span></div>
+        <div class="stat"><b>4.9★</b><span>Avg. rating</span></div>
+      </div>
+    </div>
+
+    <!-- Featured player -->
+    <div class="player" id="player">
+      <div class="player-top">
+        <div class="cover-frame"><img id="playerCover" alt="Episode cover art" width="120" height="120"></div>
+        <div class="player-meta">
+          <div class="player-tag" id="playerShow">MIDNIGHT FREQUENCIES</div>
+          <div class="player-title" id="playerTitle">Ep. 47 — Why Cities Dream</div>
+          <div class="player-host">Hosted by <b id="playerHost">Jonas Vale</b></div>
+        </div>
+      </div>
+      <div class="wave-row">
+        <svg id="wave" viewBox="0 0 720 96" preserveAspectRatio="none" aria-label="Audio waveform"></svg>
+      </div>
+      <div class="times"><span class="cur" id="timeCur">00:00</span><span id="timeDur">42:18</span></div>
+      <div class="player-controls">
+        <button class="ctrl" id="back15" title="Back 15 seconds">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 17l-5-5 5-5"/><path d="M18 17l-5-5 5-5"/></svg>
+        </button>
+        <button class="play-btn" id="playBtn" aria-label="Play episode">
+          <svg class="static-ic" id="playIc" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+          <span class="eq"><span></span><span></span><span></span><span></span></span>
+        </button>
+        <button class="ctrl" id="fwd15" title="Forward 15 seconds">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 7l5 5-5 5"/><path d="M6 7l5 5-5 5"/></svg>
+        </button>
+        <div class="vol">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 010 7"/><path d="M18.5 6a8.5 8.5 0 010 12"/></svg>
+          <input type="range" min="0" max="100" value="72" aria-label="Volume">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= QUEUE ================= -->
+<section id="queue" style="padding-top:36px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">Listening Queue</span>
+        <h2>Up next, in order</h2>
+      </div>
+      <a class="sec-link" href="#">Manage queue
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="queue-panel" id="queueList"></div>
+  </div>
+</section>
+
+<!-- ================= CATEGORIES ================= -->
+<section id="categories" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">Browse the Network</span>
+        <h2>Show categories</h2>
+      </div>
+      <a class="sec-link" href="#">All twelve shows
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="cat-grid">
+      <a class="cat" href="#">
+        <span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+        <div><h3>Nightlife &amp; Culture</h3><p>What happens after dark in bars, clubs, and the cities that keep them open.</p><span class="count">4 SHOWS · 96 EPISODES</span></div>
+      </a>
+      <a class="cat" href="#">
+        <span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3a7 7 0 107 10 8 8 0 01-7-10z"/><path d="M17 4l.7 1.8L19.5 6.5l-1.8.7L17 9l-.7-1.8-1.8-.7 1.8-.7z"/></svg></span>
+        <div><h3>Science of Sleep</h3><p>Neuroscience, chronobiology, and the strange mechanics of the night.</p><span class="count">3 SHOWS · 88 EPISODES</span></div>
+      </a>
+      <a class="cat" href="#">
+        <span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span>
+        <div><h3>Storytelling &amp; Memoir</h3><p>Slow, long-form narratives recorded and edited over months.</p><span class="count">3 SHOWS · 74 EPISODES</span></div>
+      </a>
+      <a class="cat" href="#">
+        <span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg></span>
+        <div><h3>Music &amp; Sound</h3><p>Field recordings, ambient sessions, and conversations with the artists who make them.</p><span class="count">2 SHOWS · 61 EPISODES</span></div>
+      </a>
+      <a class="cat" href="#">
+        <span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20c.6-3.4 3-5.2 5.5-5.2s4.9 1.8 5.5 5.2"/><circle cx="17.5" cy="9" r="2.4"/><path d="M15.5 20c.5-2.7 1.9-4.2 4-4.2"/></svg></span>
+        <div><h3>Society &amp; Work</h3><p>Shift workers, night owls, and the economy that runs on them.</p><span class="count">2 SHOWS · 57 EPISODES</span></div>
+      </a>
+      <a class="cat" href="#">
+        <span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg></span>
+        <div><h3>Technology After Hours</h3><p>Build culture, developer rituals, and the tools we reach for at 3am.</p><span class="count">2 SHOWS · 64 EPISODES</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LATEST EPISODES ================= -->
+<section id="episodes" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">Fresh From the Studio</span>
+        <h2>Latest episodes</h2>
+      </div>
+      <a class="sec-link" href="#">Full archive
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="ep-grid" id="epGrid"></div>
+  </div>
+</section>
+
+<!-- ================= HOSTS ================= -->
+<section id="hosts" style="padding-top:20px">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="kicker">The Voices</span>
+        <h2>Host profiles</h2>
+      </div>
+      <a class="sec-link" href="#">Meet all eight hosts
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+    <div class="host-grid" id="hostGrid"></div>
+  </div>
+</section>
+
+<!-- ================= MEMBERSHIP ================= -->
+<section id="membership" style="padding-top:20px">
+  <div class="wrap">
+    <div class="member-panel">
+      <div class="member-left">
+        <span class="kicker">Afterglow+ Membership</span>
+        <h2>Keep the lights on with us.</h2>
+        <p>Afterglow is listener-owned. Members get early access, extended cuts of every episode, our monthly live listening salons, and a seat at the table that decides which shows we make next.</p>
+      </div>
+      <div class="member-right">
+        <div class="price-row"><b>$7</b><span>per month · cancel anytime</span></div>
+        <div class="perk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+          <span>Unadvertiser audio, in lossless quality<small>Every show, every episode, no interruption</small></span>
+        </div>
+        <div class="perk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+          <span>Extended cuts &amp; the unedited b-roll reels<small>The parts we cut are often the best parts</small></span>
+        </div>
+        <div class="perk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+          <span>Monthly live listening salon with the hosts<small>First Fridays, 10pm — recorded live with you on the call</small></span>
+        </div>
+        <div class="perk">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+          <span>Voting rights on next season's slate<small>Members pick two of the next four greenlit shows</small></span>
+        </div>
+        <a href="#" class="btn btn-primary" onclick="return false">Become a Member
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <div class="member-fine">28,412 members strong · 30-day full refund, no questions</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="#">
+          <span class="logo-mark" style="width:32px;height:32px;border-radius:9px">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 17c0-6 3-11 8-11s8 5 8 11" stroke="#1a1206" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="17" r="2.4" fill="#1a1206"/><path d="M7 20h10" stroke="#1a1206" stroke-width="2.4" stroke-linecap="round"/></svg>
+          </span>
+          <span class="logo-word" style="font-size:16px">AFTER<em>GLOW</em></span>
+        </a>
+        <p class="foot-blurb">An independent podcast network for the hours after sunset. Recorded 8pm–4am, every week since 2021.</p>
+      </div>
+      <div>
+        <h4>Network</h4>
+        <ul><li><a href="#queue">All shows</a></li><li><a href="#episodes">Episodes</a></li><li><a href="#hosts">Hosts</a></li><li><a href="#">Field notes blog</a></li><li><a href="#">Press kit</a></li></ul>
+      </div>
+      <div>
+        <h4>Listen</h4>
+        <ul><li><a href="#">Apple Podcasts</a></li><li><a href="#">Spotify</a></li><li><a href="#">RSS feed</a></li><li><a href="#">Web player</a></li><li><a href="#">Smart speakers</a></li></ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul><li><a href="#">hello@afterglow.fm</a></li><li><a href="#">Submit a story idea</a></li><li><a href="#">Patreon alternative</a></li><li><a href="#">Merch drop</a></li><li><a href="#">@afterglow.fm</a></li></ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 Afterglow Media Collective. Listener-owned, always.</span>
+      <span class="mono">BROADCASTING FROM THE 11:59 STUDIO · 40.7128° N</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ seeded PRNG ============ */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+
+/* ============ locally generated cover art ============ */
+function makeCover(seed, size){
+  size = size || 600;
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const x = c.getContext('2d');
+  const rnd = mulberry32(seed);
+  // deep warm-dark base
+  const base = x.createLinearGradient(0,0,size,size);
+  const h1 = 12 + rnd()*22; // 12–34 : amber range
+  base.addColorStop(0, `hsl(${h1}, ${34+rnd()*14}%, ${9+rnd()*4}%)`);
+  base.addColorStop(1, `hsl(${h1+18}, ${30+rnd()*12}%, ${5+rnd()*3}%)`);
+  x.fillStyle = base; x.fillRect(0,0,size,size);
+  // large radial glow
+  const gx = size*(0.25+rnd()*0.5), gy = size*(0.2+rnd()*0.55);
+  const glow = x.createRadialGradient(gx,gy,0,gx,gy,size*(0.4+rnd()*0.4));
+  glow.addColorStop(0, `hsla(${h1+4}, ${72+rnd()*20}%, ${48+rnd()*14}%, ${0.55+rnd()*0.25})`);
+  glow.addColorStop(0.55, `hsla(${h1}, 60%, 30%, 0.14)`);
+  glow.addColorStop(1, 'transparent');
+  x.fillStyle = glow; x.fillRect(0,0,size,size);
+  // concentric arcs (signal rings)
+  x.lineWidth = size*0.006;
+  const rings = 4 + Math.floor(rnd()*5);
+  for(let i=0;i<rings;i++){
+    x.strokeStyle = `hsla(${h1+6}, 65%, ${55+rnd()*18}%, ${0.1+rnd()*0.32})`;
+    x.beginPath();
+    x.arc(size*0.5, size*(0.35+rnd()*0.3), size*(0.08+i*0.085+rnd()*0.03), rnd()*Math.PI*2, rnd()*Math.PI*2);
+    x.stroke();
+  }
+  // fine horizontal scan lines
+  x.fillStyle = 'rgba(0,0,0,0.22)';
+  for(let y=0;y<size;y+=6) x.fillRect(0,y,size,2);
+  // a few thin signal bars
+  const bars = 5 + Math.floor(rnd()*6);
+  for(let i=0;i<bars;i++){
+    const bx = size*(0.1+rnd()*0.8);
+    const bh = size*(0.08+rnd()*0.3);
+    x.fillStyle = `hsla(${h1}, 70%, ${58+rnd()*14}%, ${0.14+rnd()*0.3})`;
+    x.fillRect(bx, size*0.5-bh/2, size*0.012, bh);
+  }
+  // grain
+  const grain = mulberry32(seed*7+13);
+  for(let i=0;i<2600;i++){
+    const v = grain();
+    x.fillStyle = v>0.5 ? `rgba(245,220,180,${(v-0.5)*0.10})` : `rgba(0,0,0,${(0.5-v)*0.12})`;
+    x.fillRect(grain()*size, grain()*size, 1.6, 1.6);
+  }
+  // vignette
+  const vg = x.createRadialGradient(size/2,size/2,size*0.35,size/2,size/2,size*0.75);
+  vg.addColorStop(0,'transparent'); vg.addColorStop(1,'rgba(0,0,0,0.5)');
+  x.fillStyle = vg; x.fillRect(0,0,size,size);
+  return c.toDataURL('image/png');
+}
+
+/* ============ data ============ */
+const episodes = [
+  {id:1, seed:47, show:'Midnight Frequencies', title:'Ep. 47 — Why Cities Dream', host:'Jonas Vale', dur:'42:18', secs:2538, date:'Nov 14'},
+  {id:2, seed:112, show:'Signal & Noise', title:'The Quiet Economics of Sleep', host:'Mara Ellison', dur:'38:02', secs:2282, date:'Nov 12'},
+  {id:3, seed:8, show:'The Unsent Letter', title:'Letters from the Night Shift', host:'Priya Nair', dur:'51:47', secs:3107, date:'Nov 10'},
+  {id:4, seed:23, show:'Static Gardens', title:'Composing with the Hum of a Fridge', host:'Theo Marchetti', dur:'33:25', secs:2005, date:'Nov 8'}
+];
+const hosts = [
+  {seed:101, name:'Mara Ellison', role:'Signal & Noise', bio:'Former sleep-lab technician. Asks the questions the data doesn\u2019t answer and sits in the silence until it does.'},
+  {seed:202, name:'Jonas Vale', role:'Midnight Frequencies', bio:'Sound engineer by day, city historian by night. Has recorded the same crosswalk in four seasons to catch what changes.'},
+  {seed:303, name:'Priya Nair', role:'The Unsent Letter', bio:'Letters to the dead, to the gone, to the not-yet. A long-form storytelling series written slowly, read slowly, kept.'},
+  {seed:404, name:'Theo Marchetti', role:'Static Gardens', bio:'Collects the unglamorous sounds of the world and turns them into compositions. Bring your headphones and your patience.'}
+];
+
+/* ============ waveform ============ */
+const wave = document.getElementById('wave');
+const W = 720, BARS = 72, BAR_W = 6, GAP = (W - BARS*BAR_W)/(BARS-1);
+let barHeights = [];
+let barEls = [];
+function buildWaveform(seed){
+  const rnd = mulberry32(seed*31+7);
+  wave.innerHTML = ''; barEls = [];
+  barHeights = [];
+  let prev = 0.5;
+  for(let i=0;i<BARS;i++){
+    const env = 0.55 + 0.45*Math.sin((i/BARS)*Math.PI);          // gentle envelope
+    const raw = 0.25 + rnd()*0.55;
+    prev = prev*0.4 + raw*0.6;                                     // smooth
+    const h = Math.max(0.12, Math.min(1, prev*env + 0.08));
+    barHeights.push(h);
+    const rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+    const bh = h*84;
+    rect.setAttribute('x', i*(BAR_W+GAP));
+    rect.setAttribute('y', (96-bh)/2);
+    rect.setAttribute('width', BAR_W);
+    rect.setAttribute('height', bh);
+    rect.setAttribute('rx', 3);
+    rect.setAttribute('fill', 'rgba(244,237,230,0.16)');
+    wave.appendChild(rect);
+    barEls.push(rect);
+  }
+  paintProgress();
+}
+function paintProgress(){
+  const n = Math.floor(progress * BARS);
+  for(let i=0;i<BARS;i++){
+    barEls[i].setAttribute('fill', i<n ? '#f5a83c' : 'rgba(244,237,230,0.16)');
+    barEls[i].setAttribute('opacity', i===n ? 1 : (i<n ? 0.95 : 1));
+  }
+}
+
+/* ============ player state ============ */
+const player = document.getElementById('player');
+const playBtn = document.getElementById('playBtn');
+const playIc = document.getElementById('playIc');
+let current = 0, progress = 0, playing = false, ticker = null;
+const RATE = 10; // demo speed so the waveform is visibly alive
+
+function fmt(s){
+  s = Math.max(0, Math.round(s));
+  const m = Math.floor(s/60), r = s%60;
+  return String(m).padStart(2,'0') + ':' + String(r).padStart(2,'0');
+}
+function loadEpisode(i, autoplay){
+  current = i;
+  const e = episodes[i];
+  progress = 0;
+  document.getElementById('playerShow').textContent = e.show.toUpperCase();
+  document.getElementById('playerTitle').textContent = e.title;
+  document.getElementById('playerHost').textContent = e.host;
+  document.getElementById('playerCover').src = makeCover(e.seed, 360);
+  document.getElementById('timeDur').textContent = e.dur;
+  document.getElementById('timeCur').textContent = '00:00';
+  buildWaveform(e.seed);
+  if(autoplay) setPlaying(true); else setPlaying(false);
+}
+function setPlaying(p){
+  playing = p;
+  player.classList.toggle('playing', p);
+  playIc.style.display = p ? 'none' : 'block';
+  document.querySelector('.eq').style.display = p ? 'flex' : 'none';
+  clearInterval(ticker);
+  if(p){
+    ticker = setInterval(()=>{
+      progress += (0.1*RATE) / episodes[current].secs;
+      if(progress >= 1){ progress = 1; setPlaying(false); setTimeout(()=>loadEpisode((current+1)%episodes.length, true), 1400); }
+      document.getElementById('timeCur').textContent = fmt(progress*episodes[current].secs);
+      paintProgress();
+    }, 100);
+  }
+}
+playBtn.addEventListener('click', ()=>setPlaying(!playing));
+document.getElementById('back15').addEventListener('click', ()=>{progress = Math.max(0, progress - 15/episodes[current].secs); document.getElementById('timeCur').textContent = fmt(progress*episodes[current].secs); paintProgress();});
+document.getElementById('fwd15').addEventListener('click', ()=>{progress = Math.min(1, progress + 15/episodes[current].secs); document.getElementById('timeCur').textContent = fmt(progress*episodes[current].secs); paintProgress();});
+wave.addEventListener('click', e=>{
+  const r = wave.getBoundingClientRect();
+  progress = Math.max(0, Math.min(1, (e.clientX - r.left)/r.width));
+  document.getElementById('timeCur').textContent = fmt(progress*episodes[current].secs);
+  paintProgress();
+});
+
+/* ============ queue ============ */
+const queueData = [
+  {e:episodes[2], q:true}, {e:episodes[1], q:true}, {e:episodes[3], q:false}
+];
+const qList = document.getElementById('queueList');
+queueData.forEach((item, i)=>{
+  const row = document.createElement('div');
+  row.className = 'queue-row';
+  row.innerHTML = `
+    <span class="q-num">0${i+1}</span>
+    <span class="q-cover"><img src="${makeCover(item.e.seed, 200)}" alt="" width="64" height="64"></span>
+    <span class="q-info"><span class="t">${item.e.title}</span><span class="s">${item.e.show} · ${item.e.host}</span></span>
+    <span class="q-dur">${item.e.dur}</span>
+    <button class="q-action ${item.q?'queued':''}">
+      ${item.q
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> In queue'
+        : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg> Add'}
+    </button>`;
+  const btn = row.querySelector('.q-action');
+  btn.addEventListener('click', ()=>{
+    item.q = !item.q;
+    btn.classList.toggle('queued', item.q);
+    btn.innerHTML = item.q
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg> In queue'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg> Add';
+  });
+  qList.appendChild(row);
+});
+
+/* ============ latest episodes grid ============ */
+const epGrid = document.getElementById('epGrid');
+episodes.forEach((e, i)=>{
+  const card = document.createElement('div');
+  card.className = 'ep';
+  card.innerHTML = `
+    <div class="ep-cover">
+      <img src="${makeCover(e.seed, 480)}" alt="Cover art for ${e.title}" width="480" height="480">
+      <div class="ep-play"><button aria-label="Play ${e.title}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></button></div>
+      <span class="ep-dur">${e.dur}</span>
+    </div>
+    <div class="ep-body">
+      <div class="show">${e.show}</div>
+      <h3>${e.title}</h3>
+      <div class="meta">with ${e.host} · ${e.date}</div>
+    </div>`;
+  card.querySelector('button').addEventListener('click', ()=>loadEpisode(i, true));
+  epGrid.appendChild(card);
+});
+
+/* ============ hosts grid ============ */
+const hostGrid = document.getElementById('hostGrid');
+hosts.forEach(h=>{
+  const card = document.createElement('div');
+  card.className = 'host';
+  card.innerHTML = `
+    <div class="host-face"><img src="${makeCover(h.seed, 320)}" alt="Portrait art for ${h.name}" width="110" height="110"></div>
+    <h3>${h.name}</h3>
+    <div class="role">${h.role}</div>
+    <p>${h.bio}</p>`;
+  hostGrid.appendChild(card);
+});
+
+/* ============ init ============ */
+loadEpisode(0, false);
+</script>
+</body>
+</html>

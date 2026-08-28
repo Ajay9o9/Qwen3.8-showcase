@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISOBAR — Atmospheric Instrument Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06090f; --panel:#0b1119; --panel2:#0f1725; --line:#1c2637; --line2:#243349;
+  --txt:#d3dfee; --dim:#5e7089; --faint:#3a4a63;
+  --cyan:#4fc9ff; --cyan-soft:rgba(79,201,255,.14);
+  --warm:#ffb35c; --green:#57e2ae; --amber:#ffd166; --red:#ff6d6d;
+  --mono:'JetBrains Mono',monospace; --disp:'Space Grotesk',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--disp); color:var(--txt); background:var(--bg); overflow-x:hidden;
+  background-image:
+    radial-gradient(900px 600px at 88% -10%, rgba(35,90,140,.20), transparent 60%),
+    radial-gradient(700px 500px at -5% 105%, rgba(20,120,110,.12), transparent 60%),
+    repeating-radial-gradient(circle at 112% -18%, transparent 0 64px, rgba(90,150,210,.035) 64px 66px);
+}
+::selection{background:rgba(79,201,255,.25)}
+
+/* ---------- top bar ---------- */
+.topbar{
+  height:60px; display:flex; align-items:center; gap:18px; padding:0 22px;
+  border-bottom:1px solid var(--line); background:linear-gradient(180deg, rgba(13,20,32,.9), rgba(9,14,22,.6));
+  backdrop-filter:blur(6px);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{display:block}
+.brand .word{font-weight:700;letter-spacing:.34em;font-size:17px}
+.brand .sub{font-family:var(--mono);font-size:9.5px;color:var(--dim);letter-spacing:.22em;margin-top:2px}
+.top-spacer{flex:1}
+.topstat{font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.14em;display:flex;align-items:center;gap:8px;padding:0 14px;border-left:1px solid var(--line)}
+.topstat b{color:var(--txt);font-weight:500}
+.clock{font-family:var(--mono);font-size:20px;font-weight:700;letter-spacing:.12em;color:#eaf4ff;
+  padding:5px 14px;border:1px solid var(--line2);border-radius:6px;background:rgba(12,20,34,.7);
+  box-shadow:inset 0 0 18px rgba(79,201,255,.06)}
+.dotlive{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ---------- layout ---------- */
+.shell{
+  max-width:1440px;margin:0 auto;padding:18px 22px 26px;
+  display:grid;grid-template-columns:252px minmax(0,1fr) 330px;gap:16px;align-items:start;
+}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel{
+  border:1px solid var(--line);border-radius:10px;background:linear-gradient(180deg,var(--panel2),var(--panel));
+  box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);
+  position:relative; overflow:hidden;
+}
+.phead{
+  display:flex;align-items:center;justify-content:space-between;padding:11px 14px 9px;
+  border-bottom:1px solid var(--line);
+}
+.phead .t{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--dim)}
+.phead .t b{color:var(--cyan);font-weight:700;margin-right:8px}
+.phead .r{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.1em}
+.pbody{padding:14px}
+
+/* ---------- sidebar : saved locations ---------- */
+.loclist{list-style:none}
+.loc{
+  display:flex;align-items:center;gap:11px;padding:10px 12px;cursor:pointer;border-left:2px solid transparent;
+  transition:background .18s,border-color .18s;
+}
+.loc:hover{background:rgba(79,201,255,.05)}
+.loc.active{background:linear-gradient(90deg,rgba(79,201,255,.10),transparent);border-left-color:var(--cyan)}
+.loc .ic{width:30px;height:30px;flex:none;display:grid;place-items:center;border:1px solid var(--line2);border-radius:6px;background:rgba(10,17,28,.8)}
+.loc .nm{font-size:13px;font-weight:600;letter-spacing:.04em}
+.loc .ct{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.12em;margin-top:2px}
+.loc .tp{margin-left:auto;text-align:right;font-family:var(--mono)}
+.loc .tp b{font-size:16px;font-weight:700;color:#eef6ff}
+.loc .tp span{display:block;font-size:9px;color:var(--dim);letter-spacing:.1em;margin-top:2px}
+.loc .trend{font-size:11px}
+.trend.up{color:var(--warm)} .trend.dn{color:var(--cyan)}
+
+.station{font-family:var(--mono);font-size:10.5px;color:var(--dim);line-height:2.1;letter-spacing:.06em}
+.station b{color:var(--txt);font-weight:500;float:right}
+.station .row{display:flex}
+
+/* ---------- current conditions ---------- */
+.cur{display:flex;align-items:center;gap:22px}
+.cur .big{display:flex;align-items:baseline;gap:6px}
+.cur .temp{font-size:84px;font-weight:700;line-height:.9;color:#f2f8ff;letter-spacing:-.02em;
+  text-shadow:0 0 40px rgba(79,201,255,.25)}
+.cur .deg{font-size:30px;color:var(--cyan);font-weight:500}
+.cur .cond{margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--cyan)}
+.cur .place{margin-top:6px;font-size:12px;color:var(--dim);letter-spacing:.06em}
+.cur .place b{color:var(--txt);font-weight:600}
+.curmetrics{
+  margin-left:auto;display:grid;grid-template-columns:repeat(3,118px);gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;
+}
+.mcell{background:var(--panel);padding:10px 12px}
+.mcell .k{font-family:var(--mono);font-size:8.5px;letter-spacing:.2em;color:var(--dim)}
+.mcell .v{font-family:var(--mono);font-size:16px;font-weight:700;color:#eaf3ff;margin-top:5px}
+.mcell .v small{font-size:10px;color:var(--dim);font-weight:400}
+.mcell .d{font-family:var(--mono);font-size:9px;color:var(--faint);margin-top:3px;letter-spacing:.08em}
+.curicon{width:74px;height:74px;flex:none}
+
+/* ---------- hourly chart ---------- */
+.chartwrap{position:relative;padding:10px 12px 6px}
+#hourChart{width:100%;height:auto;display:block}
+.tooltip{
+  position:absolute;pointer-events:none;opacity:0;transform:translate(-50%,-115%);
+  background:#0d1626;border:1px solid var(--line2);border-radius:6px;padding:7px 10px;
+  font-family:var(--mono);font-size:10.5px;white-space:nowrap;z-index:5;box-shadow:0 8px 20px rgba(0,0,0,.5);
+  transition:opacity .1s;
+}
+.tooltip b{color:#fff;font-size:13px}
+.tooltip .tt{color:var(--dim);letter-spacing:.1em;display:block;margin-bottom:2px}
+.tooltip .tr{color:var(--cyan);margin-top:3px}
+
+/* ---------- forecast strip ---------- */
+.fcast{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:13px 14px 15px}
+.fc{border:1px solid var(--line);border-radius:8px;padding:9px 10px;background:rgba(10,17,28,.55);text-align:center}
+.fc .d{font-family:var(--mono);font-size:9px;letter-spacing:.2em;color:var(--dim)}
+.fc .w{margin:7px 0 4px;height:22px;display:grid;place-items:center;color:var(--dim)}
+.fc .w svg{opacity:.9}
+.fc .hl{display:flex;justify-content:center;gap:8px;font-family:var(--mono);font-size:12px;font-weight:700}
+.fc .hl .hi{color:#eef6ff}.fc .hl .lo{color:var(--dim);font-weight:400}
+.rangewrap{position:relative;height:4px;border-radius:2px;background:#141d2e;margin-top:8px}
+.range{position:absolute;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--cyan),var(--warm))}
+.fc .pr{font-family:var(--mono);font-size:8.5px;color:var(--cyan);margin-top:6px;letter-spacing:.08em}
+
+/* ---------- right column ---------- */
+.mapwrap{padding:8px}
+#cityMap{width:100%;height:auto;display:block}
+.instrument{padding:12px 14px 14px;text-align:center}
+.instrument .val{font-family:var(--mono);font-size:22px;font-weight:700;color:#f0f7ff}
+.instrument .unit{font-family:var(--mono);font-size:9px;color:var(--dim);letter-spacing:.18em;margin-top:2px}
+.instrument .meta{display:flex;justify-content:space-between;margin-top:10px;font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.1em}
+.instrument .meta b{color:var(--dim);font-weight:500}
+.windrow{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:12px 14px 16px}
+.aqi-badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;color:var(--green);border:1px solid rgba(87,226,174,.35);
+  background:rgba(87,226,174,.08);padding:3px 8px;border-radius:20px;margin-top:8px;display:inline-block}
+.dayrow{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.08em}
+.dayrow b{color:#eaf3ff;font-weight:500;font-size:12px}
+.sunpct{font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.14em}
+
+@media (max-width:1180px){
+  .shell{grid-template-columns:1fr 1fr}
+  .col.side{grid-column:1/-1}
+}
+@media (max-width:760px){.shell{grid-template-columns:1fr}.curmetrics{margin-left:0;grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <div class="brand">
+    <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+      <circle cx="17" cy="17" r="15.5" stroke="#2a3a54" stroke-width="1"/>
+      <circle cx="17" cy="17" r="10" stroke="#4fc9ff" stroke-width="1.2" stroke-dasharray="3 3" opacity=".8"/>
+      <path d="M6 17 H28 M17 6 V28" stroke="#4fc9ff" stroke-width="1" opacity=".5"/>
+      <circle cx="17" cy="17" r="3" fill="#4fc9ff"/>
+    </svg>
+    <div>
+      <div class="word">ISOBAR</div>
+      <div class="sub">ATMOSPHERIC INSTRUMENT PANEL · REV 4.2</div>
+    </div>
+  </div>
+  <div class="top-spacer"></div>
+  <div class="topstat"><span class="dotlive"></span> SIGNAL <b>STRONG</b></div>
+  <div class="topstat">STATION <b>NO-OSL-0714</b></div>
+  <div class="topstat">MODE <b>AUTO</b></div>
+  <div class="clock" id="clock">--:--:--</div>
+</header>
+
+<div class="shell">
+
+  <!-- ============ SIDEBAR ============ -->
+  <div class="col side">
+    <section class="panel">
+      <div class="phead"><span class="t"><b>01</b>SAVED LOCATIONS</span><span class="r">05 / 05</span></div>
+      <ul class="loclist" id="locList"></ul>
+    </section>
+    <section class="panel">
+      <div class="phead"><span class="t"><b>02</b>STATION DATA</span><span class="r">LIVE</span></div>
+      <div class="pbody station">
+        <div class="row"><span>LATITUDE</span><b id="sLat">59.9139° N</b></div>
+        <div class="row"><span>LONGITUDE</span><b id="sLon">10.7522° E</b></div>
+        <div class="row"><span>ELEVATION</span><b id="sAlt">214 m</b></div>
+        <div class="row"><span>PRESSURE REF</span><b id="sPres">1018 hPa</b></div>
+        <div class="row"><span>LAST SYNC</span><b id="sSync">00:00</b></div>
+        <div class="row"><span>FEED</span><b style="color:var(--green)">NOMINAL</b></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ CENTER ============ -->
+  <div class="col center">
+    <section class="panel">
+      <div class="phead"><span class="t"><b>03</b>CURRENT CONDITIONS</span><span class="r" id="obsTime">OBS —</span></div>
+      <div class="pbody cur">
+        <svg class="curicon" id="curIcon" viewBox="0 0 74 74"></svg>
+        <div>
+          <div class="big"><span class="temp" id="curTemp">18</span><span class="deg">°C</span></div>
+          <div class="cond" id="curCond">PARTLY CLOUDY</div>
+          <div class="place"><b id="curCity">OSLO</b> · <span id="curCountry">NORWAY</span></div>
+        </div>
+        <div class="curmetrics">
+          <div class="mcell"><div class="k">FEELS LIKE</div><div class="v" id="mFeels">17°</div><div class="d">WIND CHILL FACTOR</div></div>
+          <div class="mcell"><div class="k">HUMIDITY</div><div class="v" id="mHum">64<small>%</small></div><div class="d" id="mDew">DEW POINT 10°</div></div>
+          <div class="mcell"><div class="k">PRESSURE</div><div class="v" id="mPres">1018</div><div class="d">hPa · <span id="mPresTrend" style="color:var(--warm)">▲ RISING 0.4</span></div></div>
+          <div class="mcell"><div class="k">VISIBILITY</div><div class="v" id="mVis">10.0</div><div class="d">km · CLEAR RANGE</div></div>
+          <div class="mcell"><div class="k">UV INDEX</div><div class="v" id="mUv">3</div><div class="d" style="color:var(--amber)">MODERATE</div></div>
+          <div class="mcell"><div class="k">CEILING</div><div class="v" id="mCeg">2 400</div><div class="d">m AGL · SCATTERED</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="phead"><span class="t"><b>04</b>HOURLY · TEMPERATURE &amp; PRECIP · NEXT 24 H</span><span class="r">Δ1H RESOLUTION</span></div>
+      <div class="chartwrap">
+        <svg id="hourChart" viewBox="0 0 760 240"></svg>
+        <div class="tooltip" id="chartTip"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="phead"><span class="t"><b>05</b>6-DAY OUTLOOK</span><span class="r">MODE ENSEMBLE ×51</span></div>
+      <div class="fcast" id="fcast"></div>
+    </section>
+  </div>
+
+  <!-- ============ RIGHT ============ -->
+  <div class="col right">
+    <section class="panel">
+      <div class="phead"><span class="t"><b>06</b>CITY GRID · ISOBARS</span><span class="r">SCALE 1:25 000</span></div>
+      <div class="mapwrap">
+        <svg id="cityMap" viewBox="0 0 330 250">
+          <defs>
+            <pattern id="grid" width="22" height="22" patternUnits="userSpaceOnUse">
+              <path d="M22 0H0V22" fill="none" stroke="#182338" stroke-width="1"/>
+            </pattern>
+            <radialGradient id="mapGlow" cx="55%" cy="45%" r="70%">
+              <stop offset="0%" stop-color="rgba(79,201,255,.10)"/>
+              <stop offset="100%" stop-color="rgba(79,201,255,0)"/>
+            </radialGradient>
+          </defs>
+          <rect width="330" height="250" fill="#0a101a"/>
+          <rect width="330" height="250" fill="url(#grid)"/>
+          <rect width="330" height="250" fill="url(#mapGlow)"/>
+          <!-- river -->
+          <path d="M-10 170 C 60 150, 90 190, 160 175 S 280 130, 340 150" fill="none" stroke="#15384d" stroke-width="22" stroke-linecap="round" opacity=".85"/>
+          <path d="M-10 170 C 60 150, 90 190, 160 175 S 280 130, 340 150" fill="none" stroke="#1f5878" stroke-width="2" opacity=".6"/>
+          <!-- city blocks -->
+          <g fill="#141f31" stroke="#1f2e46" stroke-width="1">
+            <rect x="30" y="30" width="42" height="28" rx="2"/><rect x="82" y="24" width="30" height="36" rx="2"/>
+            <rect x="122" y="34" width="54" height="22" rx="2"/><rect x="40" y="72" width="58" height="34" rx="2"/>
+            <rect x="112" y="74" width="34" height="34" rx="2"/><rect x="156" y="70" width="46" height="40" rx="2"/>
+            <rect x="214" y="34" width="64" height="30" rx="2"/><rect x="216" y="80" width="40" height="28" rx="2"/>
+            <rect x="266" y="116" width="44" height="22" rx="2"/><rect x="238" y="200" width="52" height="26" rx="2"/>
+            <rect x="160" y="208" width="60" height="20" rx="2"/><rect x="46" y="210" width="44" height="24" rx="2"/>
+          </g>
+          <!-- roads -->
+          <g stroke="#223350" stroke-width="2.5" fill="none">
+            <path d="M0 118 H330"/><path d="M100 0 V250"/><path d="M210 0 V250"/>
+          </g>
+          <!-- isobars -->
+          <g fill="none" stroke="#4fc9ff" stroke-dasharray="4 5" opacity=".35">
+            <path d="M-10 40 C 80 55, 220 20, 340 55" stroke-width="1"/>
+            <path d="M-10 95 C 90 112, 230 70, 340 108" stroke-width="1"/>
+            <path d="M-10 235 C 100 222, 240 250, 340 218" stroke-width="1"/>
+          </g>
+          <g font-family="JetBrains Mono, monospace" font-size="7.5" fill="#4fc9ff" opacity=".6">
+            <text x="284" y="50">1020</text><text x="290" y="102">1016</text><text x="36" y="232">1012</text>
+          </g>
+          <!-- station -->
+          <g>
+            <circle cx="160" cy="128" r="10" fill="none" stroke="#4fc9ff" stroke-width="1">
+              <animate attributeName="r" values="6;20" dur="2.6s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values=".7;0" dur="2.6s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="160" cy="128" r="4.5" fill="#4fc9ff"/>
+            <circle cx="160" cy="128" r="1.6" fill="#06090f"/>
+            <text x="172" y="122" font-family="JetBrains Mono, monospace" font-size="8" fill="#cfe6ff" letter-spacing="1">STN-0714</text>
+          </g>
+          <!-- secondary buoys -->
+          <circle cx="70" cy="60" r="2.5" fill="#57e2ae" opacity=".8"/>
+          <circle cx="250" cy="222" r="2.5" fill="#57e2ae" opacity=".8"/>
+          <!-- compass rose -->
+          <g transform="translate(304,206)" font-family="JetBrains Mono, monospace">
+            <circle r="16" fill="none" stroke="#223350"/>
+            <path d="M0 -12 L4 4 L0 1 L-4 4 Z" fill="#4fc9ff"/>
+            <text y="-20" text-anchor="middle" font-size="8" fill="#5e7089">N</text>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="phead"><span class="t"><b>07</b>WIND VECTOR</span><span class="t"><b>08</b>AIR QUALITY</span></div>
+      <div class="windrow">
+        <div class="instrument">
+          <svg width="112" height="112" viewBox="0 0 112 112" style="margin:2px auto 4px;display:block">
+            <circle cx="56" cy="56" r="52" fill="none" stroke="#1c2637"/>
+            <circle cx="56" cy="56" r="44" fill="none" stroke="#243349" stroke-dasharray="2 4"/>
+            <g stroke="#33455f" stroke-width="1">
+              <line x1="56" y1="6" x2="56" y2="14"/><line x1="56" y1="98" x2="56" y2="106"/>
+              <line x1="6" y1="56" x2="14" y2="56"/><line x1="98" y1="56" x2="106" y2="56"/>
+              <line x1="21" y1="21" x2="27" y2="27"/><line x1="91" y1="21" x2="85" y2="27"/>
+              <line x1="21" y1="91" x2="27" y2="85"/><line x1="91" y1="91" x2="85" y2="85"/>
+            </g>
+            <g font-family="JetBrains Mono, monospace" font-size="8" fill="#5e7089" text-anchor="middle">
+              <text x="56" y="26">N</text><text x="56" y="93">S</text><text x="26" y="59">W</text><text x="86" y="59">E</text>
+            </g>
+            <g id="windNeedle" style="transform-origin:56px 56px;transition:transform 1s cubic-bezier(.3,1.4,.4,1)">
+              <path d="M56 18 L61 60 L56 54 L51 60 Z" fill="#4fc9ff"/>
+              <path d="M56 94 L59 62 L56 66 L53 62 Z" fill="#33455f"/>
+              <circle cx="56" cy="56" r="4" fill="#0b1119" stroke="#4fc9ff" stroke-width="1.5"/>
+            </g>
+          </svg>
+          <div class="val" id="windSpeed">14</div>
+          <div class="unit">M/S · <span id="windDir">WSW 245°</span></div>
+        </div>
+        <div class="instrument">
+          <svg width="112" height="78" viewBox="0 0 112 78" style="display:block;margin:8px auto 0">
+            <path d="M14 70 A42 42 0 0 1 98 70" fill="none" stroke="#1c2637" stroke-width="8" stroke-linecap="round"/>
+            <path id="aqiArc" d="M14 70 A42 42 0 0 1 98 70" fill="none" stroke="var(--green)" stroke-width="8" stroke-linecap="round"
+                  stroke-dasharray="132 200" style="transition:stroke-dasharray 1s ease, stroke .6s"/>
+            <text id="aqiNeedleLbl" x="56" y="46" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="20" font-weight="700" fill="#f0f7ff">42</text>
+            <g font-family="JetBrains Mono, monospace" font-size="7" fill="#3a4a63">
+              <text x="10" y="80">0</text><text x="88" y="80">500</text>
+            </g>
+          </svg>
+          <span class="aqi-badge" id="aqiBadge">AQI · GOOD</span>
+          <div class="meta" style="max-width:110px;margin:10px auto 0"><b>PM2.5</b><b id="aqiPm">6.1 µg/m³</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="phead"><span class="t"><b>09</b>DAYLIGHT ARC</span><span class="r" id="dayLength">12H 35M</span></div>
+      <div class="instrument" style="text-align:left">
+        <svg width="100%" height="96" viewBox="0 0 300 96" style="display:block">
+          <path d="M20 78 A130 130 0 0 1 280 78" fill="none" stroke="#1c2637" stroke-width="1.5" stroke-dasharray="3 4"/>
+          <path id="sunTrack" d="M20 78 A130 130 0 0 1 280 78" fill="none" stroke="#ffb35c" stroke-width="2"
+                stroke-dasharray="200 1000" stroke-linecap="round" opacity=".85"/>
+          <line x1="10" y1="78" x2="290" y2="78" stroke="#223350" stroke-width="1"/>
+          <g id="sunDot" style="transition:transform 1s ease">
+            <circle r="7" fill="#ffd9a0"/>
+            <circle r="12" fill="#ffb35c" opacity=".18"/>
+          </g>
+          <g font-family="JetBrains Mono, monospace" font-size="7" fill="#3a4a63">
+            <circle cx="20" cy="78" r="2" fill="#5e7089"/><circle cx="280" cy="78" r="2" fill="#5e7089"/>
+          </g>
+        </svg>
+        <div class="dayrow">
+          <span>SUNRISE<br><b id="dRise">06:12</b></span>
+          <span class="sunpct">ALTITUDE <b id="dAlt" style="color:var(--warm)">+24°</b><br>DECLINATION +18.4°</span>
+          <span>SUNSET<br><b id="dSet">18:47</b></span>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+/* ================= DATA ================= */
+const LOCS = [
+ { name:'OSLO', country:'NORWAY', lat:'59.9139° N', lon:'10.7522° E', alt:'214 m',
+   temp:18, cond:'PARTLY CLOUDY', icon:'cloudy', feels:17, hum:64, dew:10, pres:1018, presT:'▲ RISING 0.4',
+   vis:'10.0', uv:3, ceg:'2 400', wind:14, dir:245, dirTxt:'WSW 245°', gust:26,
+   aqi:42, aqiTxt:'GOOD', pm:'6.1 µg/m³', rise:'06:12', set:'18:47', day:'12H 35M', dayFrac:.52,
+   temps:[9,8,8,7,7,6,7,8,11,13,15,16,17,18,20,21,19,17,15,13,11,10,10,9],
+   precip:[0,0,0,0,2,4,0,0,0,1,0,0,0,0,0,1,2,4,3,1,0,0,0,0],
+   forecast:[['TUE','cloudy',21,11,10],['WED','rain',17,12,65],['THU','drizzle',16,11,40],['FRI','cloudy',19,10,15],['SAT','sunny',22,12,5],['SUN','cloudy',20,13,20]] },
+ { name:'BERGEN', country:'NORWAY', lat:'60.3913° N', lon:'5.3221° E', alt:'12 m',
+   temp:13, cond:'RAIN', icon:'rain', feels:11, hum:88, dew:11, pres:997, presT:'▼ FALLING 1.2',
+   vis:'6.5', uv:1, ceg:'300', wind:21, dir:280, dirTxt:'W 280°', gust:38,
+   aqi:24, aqiTxt:'EXCELLENT', pm:'3.2 µg/m³', rise:'05:58', set:'18:31', day:'12H 33M', dayFrac:.55,
+   temps:[11,11,10,10,10,10,11,12,12,13,13,14,13,13,12,13,13,12,12,12,12,11,11,11],
+   precip:[10,12,10,14,12,8,10,12,14,12,10,12,14,12,10,12,10,12,14,12,10,12,10,12],
+   forecast:[['TUE','rain',14,10,80],['WED','rain',13,10,90],['THU','drizzle',14,11,55],['FRI','rain',13,10,75],['SAT','cloudy',15,11,30],['SUN','drizzle',14,10,45]] },
+ { name:'TROMSØ', country:'NORWAY', lat:'69.6492° N', lon:'18.9553° E', alt:'41 m',
+   temp:7, cond:'OVERRAST', icon:'cloudy', feels:5, hum:81, dew:5, pres:1009, presT:'— STEADY',
+   vis:'8.0', uv:2, ceg:'1 200', wind:11, dir:220, dirTxt:'SW 220°', gust:22,
+   aqi:18, aqiTxt:'EXCELLENT', pm:'2.1 µg/m³', rise:'03:41', set:'21:02', day:'17H 21M', dayFrac:.63,
+   temps:[5,5,4,4,4,4,5,5,6,6,7,7,7,8,8,8,7,7,6,6,5,5,5,5],
+   precip:[0,0,0,1,2,0,0,1,0,1,2,1,0,1,2,1,0,1,0,1,2,0,0,0],
+   forecast:[['TUE','cloudy',8,4,20],['WED','cloudy',8,5,25],['THU','drizzle',7,4,40],['FRI','cloudy',9,5,15],['SAT','sunny',10,6,10],['SUN','cloudy',9,5,20]] },
+ { name:'REYKJAVÍK', country:'ICELAND', lat:'64.1466° N', lon:'21.9426° W', alt:'29 m',
+   temp:10, cond:'FOG', icon:'fog', feels:8, hum:93, dew:9, pres:988, presT:'▼ FALLING 0.6',
+   vis:'1.8', uv:2, ceg:'150', wind:9, dir:150, dirTxt:'SSE 150°', gust:17,
+   aqi:12, aqiTxt:'EXCELLENT', pm:'1.4 µg/m³', rise:'04:52', set:'20:11', day:'15H 19M', dayFrac:.58,
+   temps:[8,8,7,7,7,7,8,8,9,9,10,10,10,11,11,11,10,10,10,9,9,8,8,8],
+   precip:[0,0,0,0,0,0,0,0,1,1,0,0,1,0,1,0,0,1,0,0,0,0,0,0],
+   forecast:[['TUE','fog',11,8,10],['WED','cloudy',12,8,25],['THU','drizzle',11,9,45],['FRI','cloudy',12,8,20],['SAT','sunny',13,9,5],['SUN','cloudy',12,9,15]] },
+ { name:'STOCKHOLM', country:'SWEDEN', lat:'59.3293° N', lon:'18.0686° E', alt:'25 m',
+   temp:21, cond:'CLEAR', icon:'sunny', feels:21, hum:48, dew:9, pres:1022, presT:'▲ RISING 0.2',
+   vis:'24.0', uv:4, ceg:'—', wind:6, dir:320, dirTxt:'NW 320°', gust:12,
+   aqi:51, aqiTxt:'MODERATE', pm:'9.8 µg/m³', rise:'05:34', set:'19:22', day:'13H 48M', dayFrac:.47,
+   temps:[12,11,11,10,10,10,11,12,14,16,18,19,20,21,23,24,23,22,20,18,16,14,13,13],
+   precip:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+   forecast:[['TUE','sunny',24,13,5],['WED','sunny',25,14,5],['THU','cloudy',22,14,20],['FRI','sunny',26,15,5],['SAT','sunny',27,16,5],['SUN','cloudy',23,15,15]] }
+];
+const NOW = 14; // current hour index
+
+/* ================= HELPERS ================= */
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2,'0');
+
+function icons(t, s=22){
+  const c='stroke-linecap:round;fill:none;stroke:#8fa5c4;stroke-width:1.6';
+  const sun = `<g stroke="#ffb35c" stroke-width="1.6" stroke-linecap="round" fill="none"><circle cx="${11}" cy="11" r="4"/><path d="M11 2.5v2.2M11 17.3v2.2M2.5 11h2.2M17.3 11h2.2M5 5l1.6 1.6M15.4 15.4 17 17M17 5l-1.6 1.6M6.6 15.4 5 17"/></g>`;
+  const cloud = `<path d="M6 16.5a4 4 0 0 1 .6-8 5.5 5.5 0 0 1 10.6-1.4A4.4 4.4 0 0 1 16 16.5Z" ${`style="${c}"`}/>`;
+  const drops = `<g stroke="#4fc9ff" stroke-width="1.6" stroke-linecap="round"><path d="M8 19l-1 2.6M12 19l-1 2.6M16 19l-1 2.6"/></g>`;
+  const drz   = `<g stroke="#4fc9ff" stroke-width="1.4" stroke-linecap="round"><path d="M9 19v2M13 19v2M17 19v2"/></g>`;
+  const fogL  = `<g stroke="#8fa5c4" stroke-width="1.5" stroke-linecap="round"><path d="M5 18h14M7 21h10"/></g>`;
+  const map = {
+    sunny: `<svg width="${s}" height="${s}" viewBox="0 0 22 22">${sun}</svg>`,
+    cloudy: `<svg width="${s}" height="${s}" viewBox="0 0 22 22">${cloud}</svg>`,
+    rain: `<svg width="${s}" height="${s}" viewBox="0 0 22 22">${cloud}${drops}</svg>`,
+    drizzle: `<svg width="${s}" height="${s}" viewBox="0 0 22 22">${cloud}${drz}</svg>`,
+    fog: `<svg width="${s}" height="${s}" viewBox="0 0 22 22">${cloud}${fogL}</svg>`
+  };
+  return map[t]||map.cloudy;
+}
+function bigIcon(t){
+  const sun = `<g stroke="#ffb35c" stroke-width="2.4" stroke-linecap="round" fill="none"><circle cx="37" cy="30" r="9"/><path d="M37 12v4M37 44v4M19 30h4M51 30h4M24 17l3 3M47 40l3 3M50 17l-3 3M27 40l-3 3"/></g>`;
+  const cloud = `<path d="M18 52a9 9 0 0 1 1.4-17.8A12.5 12.5 0 0 1 44 28a10 10 0 0 1 3 24Z" fill="#152238" stroke="#5d748f" stroke-width="2"/>`;
+  const drops = `<g stroke="#4fc9ff" stroke-width="2.4" stroke-linecap="round"><path d="M26 60l-1.6 6M38 60l-1.6 6M50 60l-1.6 6"/></g>`;
+  const fogL = `<g stroke="#5d748f" stroke-width="2.4" stroke-linecap="round"><path d="M20 60h36M26 66h24"/></g>`;
+  const body = {sunny:sun, cloudy:cloud, rain:cloud+drops, drizzle:cloud+drops, fog:cloud+fogL}[t]||cloud;
+  return `<svg width="74" height="74" viewBox="0 0 74 74">${body}</svg>`;
+}
+const compass = deg => ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'][Math.round(deg/22.5)%16];
+
+/* ================= CLOCK ================= */
+function tick(){
+  const d=new Date();
+  $('clock').textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  $('sSync').textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  $('obsTime').textContent = 'OBS '+pad(d.getHours())+':'+pad(d.getMinutes());
+}
+tick(); setInterval(tick,1000);
+
+/* ================= HOURLY CHART ================= */
+const CW=760, CH=240, PL=42, PR=744, PT=20, PB=158; // plot area (precip below)
+function smoothPath(pts){
+  let d=`M${pts[0][0]},${pts[0][1]}`;
+  for(let i=0;i<pts.length-1;i++){
+    const p0=pts[Math.max(0,i-1)],p1=pts[i],p2=pts[i+1],p3=pts[Math.min(pts.length-1,i+2)];
+    d+=`C${(p1[0]+(p2[0]-p0[0])/6).toFixed(1)},${(p1[1]+(p2[1]-p0[1])/6).toFixed(1)} ${(p2[0]-(p3[0]-p1[0])/6).toFixed(1)},${(p2[1]-(p3[1]-p1[1])/6).toFixed(1)} ${p2[0].toFixed(1)},${p2[1].toFixed(1)}`;
+  }
+  return d;
+}
+function drawChart(loc){
+  const t=loc.temps, n=t.length;
+  const mn=Math.min(...t)-2, mx=Math.max(...t)+2;
+  const X=i=>PL+(i/(n-1))*(PR-PL);
+  const Y=v=>PT+(1-(v-mn)/(mx-mn))*(PB-PT);
+  const pts=t.map((v,i)=>[X(i),Y(v)]);
+  let g='';
+  // horizontal gridlines
+  const steps=4;
+  for(let s=0;s<=steps;s++){
+    const val=mn+(mx-mn)*s/steps, y=Y(val);
+    g+=`<line x1="${PL}" y1="${y}" x2="${PR}" y2="${y}" stroke="#16233a" stroke-width="1" ${s===0?'':'stroke-dasharray="2 5"'}/>`;
+    g+=`<text x="${PL-8}" y="${y+3}" text-anchor="end" font-family="JetBrains Mono" font-size="9" fill="#3a4a63">${Math.round(val)}°</text>`;
+  }
+  // x labels every 3h
+  for(let i=0;i<n;i+=3){
+    g+=`<text x="${X(i)}" y="${CH-6}" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#3a4a63">${pad(i)}</text>`;
+    g+=`<line x1="${X(i)}" y1="${PB}" x2="${X(i)}" y2="${PB+5}" stroke="#243349"/>`;
+  }
+  // precip bars
+  const pMax=Math.max(...loc.precip,1);
+  g+=`<line x1="${PL}" y1="${PB+30}" x2="${PR}" y2="${PB+30}" stroke="#16233a"/>`;
+  loc.precip.forEach((p,i)=>{ if(p>0){
+    const h=4+(p/pMax)*22;
+    g+=`<rect x="${X(i)-4}" y="${PB+30-h}" width="8" height="${h}" rx="2" fill="rgba(79,201,255,.55)"/>`;
+  }});
+  g+=`<text x="${PL}" y="${PB+56}" font-family="JetBrains Mono" font-size="8" fill="#3a4a63" letter-spacing="2">PRECIP mm</text>`;
+  // area + line
+  const line=smoothPath(pts);
+  g+=`<defs><linearGradient id="areaG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(79,201,255,.30)"/><stop offset="100%" stop-color="rgba(79,201,255,0)"/></linearGradient></defs>`;
+  g+=`<path d="${line} L${PR},${PB} L${PL},${PB} Z" fill="url(#areaG)"/>`;
+  g+=`<path d="${line}" fill="none" stroke="#4fc9ff" stroke-width="2.2" stroke-linejoin="round"/>`;
+  // dots
+  pts.forEach((p,i)=>{ g+=`<circle cx="${p[0]}" cy="${p[1]}" r="2.4" fill="#0b1119" stroke="#4fc9ff" stroke-width="1.3"/>`;});
+  // now marker
+  const nx=X(NOW), ny=pts[NOW][1];
+  g+=`<line x1="${nx}" y1="${PT-4}" x2="${nx}" y2="${PB}" stroke="#ffb35c" stroke-width="1" stroke-dasharray="3 4"/>`;
+  g+=`<circle cx="${nx}" cy="${ny}" r="5" fill="#ffb35c"/><circle cx="${nx}" cy="${ny}" r="9" fill="none" stroke="#ffb35c" stroke-opacity=".4">
+       <animate attributeName="r" values="6;13" dur="2s" repeatCount="indefinite"/><animate attributeName="stroke-opacity" values=".5;0" dur="2s" repeatCount="indefinite"/></circle>`;
+  g+=`<rect x="${nx-16}" y="${PT-16}" width="32" height="14" rx="3" fill="#0d1626" stroke="#ffb35c" stroke-opacity=".5"/>`;
+  g+=`<text x="${nx}" y="${PT-6}" text-anchor="middle" font-family="JetBrains Mono" font-size="8.5" fill="#ffb35c" letter-spacing="1">NOW</text>`;
+  g+=`<text x="${nx}" y="${ny-16}" text-anchor="middle" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#fff">${t[NOW]}°</text>`;
+  $('hourChart').innerHTML=g;
+  // hover
+  const svg=$('hourChart'), tip=$('chartTip');
+  svg.onmousemove=e=>{
+    const r=svg.getBoundingClientRect();
+    const sx=(e.clientX-r.left)/r.width*CW;
+    const i=Math.max(0,Math.min(n-1,Math.round((sx-PL)/(PR-PL)*(n-1))));
+    tip.innerHTML=`<span class="tt">${pad(i)}:00 LOCAL</span><b>${t[i]}°C</b><span class="tr">☂ ${loc.precip[i]} mm</span>`;
+    tip.style.left=(X(i)/CW*r.width)+'px';
+    tip.style.top=(Y(t[i])/CH*r.height)+'px';
+    tip.style.opacity=1;
+  };
+  svg.onmouseleave=()=>tip.style.opacity=0;
+}
+
+/* ================= FORECAST ================= */
+function drawForecast(loc){
+  const allHi=Math.max(...loc.forecast.map(f=>f[2])), allLo=Math.min(...loc.forecast.map(f=>f[3]));
+  $('fcast').innerHTML=loc.forecast.map(f=>{
+    const l=(f[3]-allLo)/(allHi-allLo)*100, w=(f[2]-f[3])/(allHi-allLo)*100;
+    return `<div class="fc"><div class="d">${f[0]}</div><div class="w">${icons(f[1])}</div>
+      <div class="hl"><span class="hi">${f[2]}°</span><span class="lo">${f[3]}°</span></div>
+      <div class="rangewrap"><div class="range" style="left:${l}%;width:${Math.max(w,4)}%"></div></div>
+      <div class="pr">☂ ${f[4]}%</div></div>`;
+  }).join('');
+}
+
+/* ================= INSTRUMENTS ================= */
+function drawInstruments(loc){
+  $('windSpeed').textContent=loc.wind;
+  $('windDir').textContent=loc.dirTxt;
+  $('windNeedle').style.transform=`rotate(${loc.dir+180}deg)`;
+  const meta=$('.windrow .instrument .meta');
+  if(meta){ meta.innerHTML=`<b>GUST</b><b>${loc.gust} M/S</b><br style="width:100%"><b>BFTS</b><b>${Math.min(9,Math.max(1,Math.round(loc.wind/10+1)))} / 12</b>`; }
+  const v=Math.min(loc.aqi,500);
+  $('aqiArc').style.strokeDasharray = `${(v/500)*132} 200`;
+  $('aqiArc').style.stroke = v<51?'var(--green)':v<101?'var(--amber)':'var(--red)';
+  $('aqiNeedleLbl').textContent=loc.aqi;
+  const b=$('aqiBadge'); b.textContent='AQI · '+loc.aqiTxt;
+  b.style.color=b.style.borderColor=''; b.style.background='';
+  const col=v<51?'#57e2ae':v<101?'#ffd166':'#ff6d6d';
+  b.style.color=col; b.style.borderColor=col+'55'; b.style.background=col+'14';
+  $('aqiPm').textContent=loc.pm;
+  // daylight
+  const a=2*Math.PI*(130/180); // semicircle length approx = π*130 ≈ 408; use path len below
+  // sun along semicircle: angle π→0
+  const frac=loc.dayFrac, ang=Math.PI*(1-frac);
+  const cx=150, cy=78, R=130;
+  const sx=cx+R*Math.cos(ang), sy=cy-R*Math.sin(ang);
+  $('sunDot').style.transform=`translate(${sx}px,${sy}px)`;
+  const trackLen=Math.PI*R;
+  $('sunTrack').style.strokeDasharray=`${frac*trackLen} ${trackLen}`;
+  $('dRise').textContent=loc.rise; $('dSet').textContent=loc.set;
+  $('dayLength').textContent=loc.day;
+  const alt=Math.round(90*Math.sin(ang*(1)*1)*Math.sin(0.5) + 30*frac);
+  $('dAlt').textContent='+'+Math.round(8+34*Math.sin(frac*Math.PI))+'°';
+}
+
+/* ================= RENDER LOCATION ================= */
+let current=0;
+function render(i){
+  current=i; const l=LOCS[i];
+  document.querySelectorAll('.loc').forEach((el,idx)=>el.classList.toggle('active',idx===i));
+  $('curTemp').textContent=l.temp; $('curCond').textContent=l.cond;
+  $('curCity').textContent=l.name; $('curCountry').textContent=l.country;
+  $('curIcon').outerHTML=bigIcon(l.icon).replace('<svg ','<svg id="curIcon" ');
+  $('mFeels').textContent=l.feels+'°'; $('mHum').innerHTML=l.hum+'<small>%</small>';
+  $('mDew').textContent='DEW POINT '+l.dew+'°';
+  $('mPres').textContent=l.pres; $('mPresTrend').textContent=l.presT;
+  $('mVis').textContent=l.vis; $('mUv').textContent=l.uv; $('mCeg').textContent=l.ceg;
+  $('sLat').textContent=l.lat; $('sLon').textContent=l.lon; $('sAlt').textContent=l.alt; $('sPres').textContent=l.pres+' hPa';
+  drawChart(l); drawForecast(l); drawInstruments(l);
+}
+
+/* ================= BUILD LOCATION LIST ================= */
+const list=$('locList');
+LOCS.forEach((l,i)=>{
+  const li=document.createElement('li');
+  li.className='loc'+(i===0?' active':'');
+  const diff=l.temps[NOW]-l.temps[NOW-1];
+  li.innerHTML=`<span class="ic">${icons(l.icon,20)}</span>
+    <div><div class="nm">${l.name}</div><div class="ct">${l.country} · AQI ${l.aqi}</div></div>
+    <div class="tp"><b>${l.temp}°</b><span class="trend ${diff>=0?'up':'dn'}">${diff>=0?'▲':'▼'} ${l.cond.slice(0,6)}</span></div>`;
+  li.onclick=()=>render(i);
+  list.appendChild(li);
+});
+
+render(0);
+</script>
+</body>
+</html>

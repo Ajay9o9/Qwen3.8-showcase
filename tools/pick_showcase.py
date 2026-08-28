@@ -297,7 +297,7 @@ def make_handler(source_root: Path, catalog_path: Path) -> type[BaseHTTPRequestH
                     str(SHOWCASE / "tools" / "export_showcase.py"),
                     "--source-root", str(source_root),
                     "--catalog", str(catalog_path),
-                    "--output", str(SHOWCASE / "site"),
+                    "--output", str(SHOWCASE / "docs"),
                 ]
                 if clean:
                     cmd.append("--clean")

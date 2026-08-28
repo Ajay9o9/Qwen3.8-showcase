@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The North Edit — Long-form travel from the far places</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b1117;
+  --ink2:#0f1720;
+  --panel:#121b24;
+  --line:rgba(233,228,215,.12);
+  --line-soft:rgba(233,228,215,.07);
+  --paper:#ece7db;
+  --muted:#8fa0a3;
+  --glacier:#9fd2de;
+  --aurora:#8fe3bd;
+  --ember:#e0a45c;
+  --serif:"Fraunces",Georgia,serif;
+  --sans:"Manrope",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --wrap:1320px;
+  --pad:clamp(20px,4vw,48px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--aurora);color:var(--ink)}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+
+/* ============ TOP TICKER ============ */
+.topline{
+  border-bottom:1px solid var(--line-soft);
+  overflow:hidden;white-space:nowrap;
+  background:#080d12;
+}
+.ticker{
+  display:inline-block;padding:8px 0;
+  font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);
+  animation:tick 40s linear infinite;
+}
+.ticker span{margin:0 28px}
+.ticker b{color:var(--glacier);font-weight:400}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============ HEADER ============ */
+header{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px var(--pad);
+  border-bottom:1px solid transparent;
+  transition:background .4s,border-color .4s,padding .4s;
+}
+header.scrolled{
+  background:rgba(10,15,20,.86);
+  backdrop-filter:blur(14px);
+  border-bottom-color:var(--line-soft);
+  padding:12px var(--pad);
+}
+.brand{
+  font-family:var(--serif);font-weight:500;
+  font-size:22px;letter-spacing:.01em;
+  display:flex;align-items:baseline;gap:8px;
+}
+.brand em{font-style:italic;font-weight:300;color:var(--glacier)}
+.brand sup{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:.1em}
+nav.mainnav{display:flex;gap:34px}
+nav.mainnav a{
+  font-size:13px;font-weight:600;letter-spacing:.04em;color:var(--muted);
+  position:relative;padding:4px 0;transition:color .3s;
+}
+nav.mainnav a::after{
+  content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:var(--glacier);transform:scaleX(0);transform-origin:right;
+  transition:transform .35s cubic-bezier(.65,0,.35,1);
+}
+nav.mainnav a:hover{color:var(--paper)}
+nav.mainnav a:hover::after{transform:scaleX(1);transform-origin:left}
+.head-right{display:flex;align-items:center;gap:22px}
+.date{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted)}
+.btn-sub{
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  border:1px solid var(--line);padding:9px 18px;border-radius:100px;
+  transition:all .3s;
+}
+.btn-sub:hover{border-color:var(--glacier);color:var(--glacier);background:rgba(159,210,222,.06)}
+
+/* ============ HERO ============ */
+.hero{position:relative;min-height:calc(100vh - 100px);overflow:hidden;display:flex;align-items:flex-end}
+.hero-sky{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 55% at 72% 62%, rgba(70,120,150,.5), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 25% 70%, rgba(30,70,90,.5), transparent 70%),
+    linear-gradient(180deg,#060b13 0%,#0a1626 34%,#123049 55%,#1d4560 66%,#0e2233 72%);
+}
+.hero-stars{position:absolute;inset:0 0 45% 0;opacity:.9}
+.hero-stars circle{fill:#dfe9ee;animation:twinkle 4s ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.15}to{opacity:.9}}
+.band{position:absolute;mix-blend-mode:screen;filter:blur(42px);pointer-events:none;transform-origin:top center}
+.band.b1{
+  top:-12%;left:8%;width:52%;height:75%;
+  background:linear-gradient(178deg,rgba(143,227,189,.5),rgba(95,190,200,.16) 55%,transparent 75%);
+  transform:skewY(-9deg) rotate(-4deg);
+  animation:drift1 22s ease-in-out infinite alternate;
+}
+.band.b2{
+  top:-18%;left:38%;width:44%;height:80%;
+  background:linear-gradient(178deg,rgba(120,210,235,.4),rgba(143,227,189,.12) 55%,transparent 75%);
+  transform:skewY(6deg) rotate(3deg);
+  animation:drift2 28s ease-in-out infinite alternate;
+}
+.band.b3{
+  top:-10%;left:62%;width:38%;height:60%;
+  background:linear-gradient(178deg,rgba(190,235,225,.3),transparent 70%);
+  transform:skewY(-4deg);
+  animation:drift1 34s ease-in-out infinite alternate-reverse;
+}
+@keyframes drift1{from{transform:skewY(-9deg) rotate(-4deg) translateX(0)}to{transform:skewY(-7deg) rotate(-2deg) translateX(50px)}}
+@keyframes drift2{from{transform:skewY(6deg) rotate(3deg) translateX(0)}to{transform:skewY(8deg) rotate(5deg) translateX(-60px)}}
+.hero-svg{position:absolute;inset:0;width:100%;height:100%}
+.hero .layer{will-change:transform}
+.hero-content{
+  position:relative;z-index:5;
+  width:100%;
+  padding-bottom:clamp(48px,7vh,84px);
+}
+.hero-kicker{
+  display:flex;align-items:center;gap:14px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--glacier);margin-bottom:26px;
+}
+.hero-kicker::before{content:"";width:44px;height:1px;background:var(--glacier)}
+.hero h1{
+  font-family:var(--serif);font-weight:340;
+  font-size:clamp(3rem,7.6vw,7.2rem);
+  line-height:1.02;letter-spacing:-.015em;
+  max-width:15ch;margin-bottom:30px;
+  text-shadow:0 2px 40px rgba(6,11,19,.6);
+}
+.hero h1 em{font-style:italic;font-weight:300;color:var(--aurora)}
+.hero-stand{
+  max-width:52ch;font-size:17px;line-height:1.75;color:rgba(236,231,219,.82);
+  margin-bottom:36px;text-shadow:0 1px 24px rgba(6,11,19,.7);
+}
+.hero-meta{display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.hero-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--muted)}
+.hero-meta a{color:var(--paper);border-bottom:1px solid rgba(236,231,219,.3);padding-bottom:2px;transition:border-color .3s,color .3s}
+.hero-meta a:hover{color:var(--glacier);border-color:var(--glacier)}
+.hero-side{
+  position:absolute;right:34px;bottom:clamp(48px,7vh,84px);z-index:5;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.3em;
+  writing-mode:vertical-rl;color:var(--muted);
+}
+.hero-side .rail{width:1px;height:72px;background:var(--line);position:relative;overflow:hidden}
+.hero-side .rail::after{
+  content:"";position:absolute;inset:0;background:var(--glacier);
+  animation:raildrop 2.6s cubic-bezier(.65,0,.35,1) infinite;
+}
+@keyframes raildrop{0%{transform:translateY(-100%)}55%{transform:translateY(0)}100%{transform:translateY(100%)}}
+.hero-coord{
+  position:absolute;top:30px;right:40px;z-index:5;
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;color:rgba(159,210,222,.7);
+}
+
+/* ============ CATEGORY NAV ============ */
+.catnav{
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  background:var(--ink2);
+  display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none;
+}
+.catnav::-webkit-scrollbar{display:none}
+.catnav a{
+  display:flex;align-items:center;gap:10px;
+  padding:22px 30px;border-right:1px solid var(--line-soft);
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);white-space:nowrap;position:relative;
+  transition:color .3s,background .3s;
+}
+.catnav a i{font-style:normal;color:var(--glacier);font-size:9px;opacity:.7}
+.catnav a:hover{color:var(--paper);background:rgba(159,210,222,.05)}
+.catnav a:hover i{opacity:1}
+.catnav a.index{margin-left:auto;color:var(--paper)}
+.catnav a.index span{transition:transform .3s}
+.catnav a.index:hover span{transform:translateX(6px)}
+
+/* ============ SECTION HEADS ============ */
+section{padding:clamp(70px,9vw,110px) 0}
+.sec-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:30px;
+  margin-bottom:clamp(36px,4vw,54px);
+  border-bottom:1px solid var(--line);padding-bottom:26px;
+}
+.sec-head .kicker{
+  font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--glacier);display:block;margin-bottom:14px;
+}
+.sec-head h2{
+  font-family:var(--serif);font-weight:380;
+  font-size:clamp(1.9rem,3.4vw,3rem);line-height:1.1;letter-spacing:-.01em;
+}
+.sec-head h2 em{font-style:italic;font-weight:300;color:var(--muted)}
+.sec-head .count{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--muted);white-space:nowrap;padding-bottom:6px}
+
+/* ============ FEATURED DESTINATIONS ============ */
+.dest-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.dest-card{
+  border:1px solid var(--line);background:var(--panel);
+  transition:transform .45s cubic-bezier(.2,.7,.2,1),border-color .45s,box-shadow .45s;
+}
+.dest-card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(159,210,222,.35);
+  box-shadow:0 30px 60px -20px rgba(0,0,0,.7);
+}
+.dest-scene{
+  position:relative;aspect-ratio:4/5;overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.dest-scene svg{width:100%;height:100%;transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.dest-card:hover .dest-scene svg{transform:scale(1.06)}
+.dest-scene .idx{
+  position:absolute;top:16px;left:18px;
+  font-family:var(--serif);font-style:italic;font-weight:300;font-size:20px;color:rgba(236,231,219,.85);
+  text-shadow:0 1px 12px rgba(0,0,0,.5);
+}
+.dest-scene .arrow{
+  position:absolute;bottom:16px;right:16px;width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(236,231,219,.4);display:grid;place-items:center;
+  background:rgba(10,15,20,.35);backdrop-filter:blur(6px);
+  opacity:0;transform:translateY(8px);transition:all .4s;
+}
+.dest-card:hover .arrow{opacity:1;transform:translateY(0)}
+.dest-body{padding:22px 22px 24px}
+.dest-body h3{font-family:var(--serif);font-weight:450;font-size:1.35rem;letter-spacing:-.01em;margin-bottom:4px}
+.dest-body .country{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--glacier);margin-bottom:12px;display:block}
+.dest-body p{font-size:13.5px;line-height:1.65;color:var(--muted);margin-bottom:16px}
+.dest-body .meta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--muted);border-top:1px solid var(--line-soft);padding-top:14px;text-transform:uppercase}
+
+/* ============ HORIZONTAL STORIES ============ */
+.stories{background:var(--ink2);border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+.story-controls{display:flex;gap:10px}
+.story-controls button{
+  width:46px;height:46px;border-radius:50%;border:1px solid var(--line);
+  background:transparent;color:var(--paper);cursor:pointer;font-size:16px;
+  transition:all .3s;
+}
+.story-controls button:hover{border-color:var(--glacier);color:var(--glacier);background:rgba(159,210,222,.06)}
+.story-track{
+  display:flex;gap:26px;overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding-bottom:10px;
+  scrollbar-width:none;
+  cursor:grab;
+}
+.story-track::-webkit-scrollbar{display:none}
+.story-track.grabbing{cursor:grabbing;scroll-snap-type:none}
+.story{
+  flex:0 0 clamp(300px,26vw,400px);
+  scroll-snap-align:start;
+  border:1px solid var(--line);background:var(--panel);
+  display:flex;flex-direction:column;
+  transition:transform .4s cubic-bezier(.2,.7,.2,1),border-color .4s;
+}
+.story:hover{transform:translateY(-6px);border-color:rgba(224,164,92,.4)}
+.story-band{height:5px;width:100%}
+.story-body{padding:26px 26px 24px;display:flex;flex-direction:column;flex:1}
+.story .cat{font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--ember);margin-bottom:16px}
+.story h3{
+  font-family:var(--serif);font-weight:420;font-size:1.5rem;line-height:1.2;letter-spacing:-.01em;
+  margin-bottom:14px;transition:color .3s;
+}
+.story:hover h3{color:var(--glacier)}
+.story .excerpt{font-size:13.5px;line-height:1.7;color:var(--muted);margin-bottom:22px;flex:1}
+.story .foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line-soft);padding-top:16px}
+.story .author{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600}
+.story .author .av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-family:var(--serif);font-size:11px;font-style:italic}
+.story .rt{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--muted)}
+.progress{height:2px;background:var(--line-soft);margin-top:34px;position:relative;border-radius:2px}
+.progress .fill{position:absolute;inset:0 auto 0 0;width:25%;background:var(--glacier);border-radius:2px;transition:width .2s}
+
+/* ============ PULL QUOTE ============ */
+.quote{position:relative;overflow:hidden;text-align:center}
+.quote::before{
+  content:"”";position:absolute;top:-90px;left:50%;transform:translateX(-50%);
+  font-family:var(--serif);font-size:340px;font-weight:300;color:rgba(159,210,222,.07);
+  line-height:1;pointer-events:none;
+}
+.quote blockquote{
+  font-family:var(--serif);font-style:italic;font-weight:330;
+  font-size:clamp(1.7rem,3.6vw,3rem);line-height:1.35;letter-spacing:-.01em;
+  max-width:24ch;margin:0 auto 34px;
+}
+.quote blockquote strong{font-style:normal;font-weight:450;color:var(--aurora)}
+.quote cite{font-family:var(--mono);font-style:normal;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.quote cite b{color:var(--paper);font-weight:400}
+
+/* ============ DISPATCH ============ */
+.dispatch{background:linear-gradient(180deg,var(--ink2),#0a1016);border-top:1px solid var(--line-soft)}
+.dispatch .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center}
+.dispatch h2{font-family:var(--serif);font-weight:380;font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.15;margin:14px 0 14px}
+.dispatch h2 em{font-style:italic;font-weight:300;color:var(--glacier)}
+.dispatch p{color:var(--muted);font-size:14.5px;max-width:44ch}
+.dispatch .kicker{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--ember)}
+.dispatch-form{display:flex;gap:12px}
+.dispatch-form input{
+  flex:1;background:transparent;border:none;border-bottom:1px solid var(--line);
+  padding:14px 4px;color:var(--paper);font-family:var(--mono);font-size:12px;letter-spacing:.08em;
+  transition:border-color .3s;
+}
+.dispatch-form input::placeholder{color:var(--muted)}
+.dispatch-form input:focus{outline:none;border-color:var(--glacier)}
+.dispatch-form button{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;
+  background:var(--paper);color:var(--ink);border:none;padding:14px 26px;border-radius:100px;
+  cursor:pointer;transition:all .3s;
+}
+.dispatch-form button:hover{background:var(--glacier);transform:translateY(-2px)}
+.dispatch .note{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--muted);margin-top:14px;text-transform:uppercase}
+
+/* ============ FOOTER ============ */
+footer{border-top:1px solid var(--line);background:#080d12}
+.foot-word{
+  font-family:var(--serif);font-weight:330;letter-spacing:-.02em;
+  font-size:clamp(3rem,9.5vw,8.5rem);line-height:1;
+  padding:clamp(50px,7vw,90px) 0 30px;
+  border-bottom:1px solid var(--line-soft);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;
+}
+.foot-word em{font-style:italic;font-weight:300;color:var(--glacier)}
+.foot-word .est{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase;padding-bottom:14px}
+.foot-cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding:56px 0}
+.foot-cols h4{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);margin-bottom:20px;font-weight:400}
+.foot-cols a{display:block;font-size:14px;color:rgba(236,231,219,.75);margin-bottom:12px;transition:color .3s,transform .3s}
+.foot-cols a:hover{color:var(--glacier);transform:translateX(4px)}
+.foot-about p{font-size:13.5px;line-height:1.75;color:var(--muted);max-width:34ch}
+.foot-bottom{
+  border-top:1px solid var(--line-soft);padding:24px 0;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+}
+.foot-bottom .coord{color:rgba(159,210,222,.7)}
+
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal[data-d="1"]{transition-delay:.08s}
+.reveal[data-d="2"]{transition-delay:.16s}
+.reveal[data-d="3"]{transition-delay:.24s}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1080px){
+  .dest-grid{grid-template-columns:repeat(2,1fr)}
+  .foot-cols{grid-template-columns:1fr 1fr}
+  .dispatch .wrap{grid-template-columns:1fr;gap:36px}
+}
+@media(max-width:720px){
+  nav.mainnav,.date{display:none}
+  .hero h1{font-size:clamp(2.6rem,11vw,3.6rem)}
+  .dest-grid{grid-template-columns:1fr}
+  .hero-side{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TICKER ===== -->
+<div class="topline" aria-hidden="true">
+  <div class="ticker" id="ticker">
+    <span>Issue N°47 — <b>The Arctic Winter</b></span><span>Lofoten 3°C, snowing</span><span>Faroe 8°C, wind 42km/h</span><span>Svalbard −14°C, clear</span><span>Midnight sun returns in <b>51 days</b></span><span>12 new stories this week</span>
+    <span>Issue N°47 — <b>The Arctic Winter</b></span><span>Lofoten 3°C, snowing</span><span>Faroe 8°C, wind 42km/h</span><span>Svalbard −14°C, clear</span><span>Midnight sun returns in <b>51 days</b></span><span>12 new stories this week</span>
+  </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<header id="siteHeader">
+  <a href="#" class="brand">The North <em>Edit</em><sup>EST. 61°N</sup></a>
+  <nav class="mainnav" aria-label="Primary">
+    <a href="#destinations">Destinations</a>
+    <a href="#stories">Stories</a>
+    <a href="#">Routes</a>
+    <a href="#">Field Notes</a>
+    <a href="#">Archive</a>
+  </nav>
+  <div class="head-right">
+    <span class="date" id="today">— — —</span>
+    <a href="#dispatch" class="btn-sub">Subscribe</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <div class="hero-sky"></div>
+  <svg class="hero-stars" id="stars" viewBox="0 0 1440 400" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+  <div class="band b1"></div>
+  <div class="band b2"></div>
+  <div class="band b3"></div>
+
+  <svg class="hero-svg" viewBox="0 0 1440 810" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="waterG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#16374f"/>
+        <stop offset=".5" stop-color="#0c1f30"/>
+        <stop offset="1" stop-color="#070f16"/>
+      </linearGradient>
+      <linearGradient id="farG" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#33566f"/><stop offset="1" stop-color="#1a3247"/>
+      </linearGradient>
+    </defs>
+    <rect class="layer" data-p="0.06" x="0" y="545" width="1440" height="265" fill="url(#waterG)"/>
+    <ellipse cx="1010" cy="565" rx="230" ry="10" fill="rgba(159,210,222,.14)"/>
+    <path class="layer" data-p="0.10" fill="url(#farG)" opacity=".85"
+      d="M0,545 L0,462 L90,402 L170,452 L262,382 L352,442 L432,372 L542,452 L632,392 L742,462 L832,402 L942,452 L1032,382 L1132,452 L1232,402 L1332,452 L1440,412 L1440,545 Z"/>
+    <path class="layer" data-p="0.10" fill="#e6f1f5" opacity=".22"
+      d="M262,382 L242,398 L262,394 L282,402 Z M432,372 L412,390 L434,386 L456,394 Z M1032,382 L1012,398 L1034,394 L1056,402 Z"/>
+    <path class="layer" data-p="0.16" fill="#132838"
+      d="M0,545 L0,478 L140,418 L240,470 L340,404 L470,480 L570,424 L700,492 L820,428 L950,494 L1060,438 L1180,500 L1300,448 L1440,492 L1440,545 Z"/>
+    <path class="layer" data-p="0.24" fill="#0a141d"
+      d="M0,545 L0,500 L110,458 L210,506 L320,452 L430,510 L540,468 L660,518 L790,470 L900,520 L1010,478 L1130,524 L1250,486 L1360,522 L1440,496 L1440,545 Z"/>
+    <g class="layer" data-p="0.24" fill="#0a141d">
+      <path d="M78,520 L96,462 L114,520 Z M96,462 L88,486 L96,482 L104,486 Z"/>
+      <path d="M130,524 L146,474 L162,524 Z"/>
+      <path d="M1160,522 L1178,458 L1196,522 Z M1178,458 L1168,486 L1178,481 L1188,486 Z"/>
+      <path d="M1214,526 L1230,470 L1246,526 Z"/>
+    </g>
+    <line x1="0" y1="545" x2="1440" y2="545" stroke="rgba(159,210,222,.25)" stroke-width="1"/>
+    <g stroke="rgba(159,210,222,.1)" stroke-width="1">
+      <line x1="720" y1="580" x2="980" y2="580"/><line x1="800" y1="620" x2="1080" y2="620"/><line x1="640" y1="670" x2="920" y2="670"/>
+    </g>
+  </svg>
+
+  <span class="hero-coord">68°07′ N — 13°34′ E</span>
+
+  <div class="hero-content wrap">
+    <p class="hero-kicker">Destination 069 — Vesteraalen, Norway</p>
+    <h1>The light <em>refuses</em> to set</h1>
+    <p class="hero-stand">For six weeks each winter, the Lofoten archipelago lives inside a slow green dusk. We spent a month with reindeer herders, fish-cure crews and stargazers on the ridge — and learned that the darkest hour up here is the most luminous of any we've recorded.</p>
+    <div class="hero-meta">
+      <a href="#">By Ingrid Solheim</a>
+      <span class="dot"></span><span>14 min read</span>
+      <span class="dot"></span><span>The Arctic Issue, N°47</span>
+      <span class="dot"></span><span>Published 02 Feb</span>
+    </div>
+  </div>
+
+  <div class="hero-side"><span>Scroll</span><div class="rail"></div></div>
+</section>
+
+<!-- ===== CATEGORY NAV ===== -->
+<nav class="catnav" aria-label="Categories">
+  <a href="#"><i>01</i>Fjords</a>
+  <a href="#"><i>02</i>Highlands</a>
+  <a href="#"><i>03</i>Tundra</a>
+  <a href="#"><i>04</i>Coastlines</a>
+  <a href="#"><i>05</i>Islands</a>
+  <a href="#"><i>06</i>Night Sky</a>
+  <a href="#"><i>07</i>Slow Travel</a>
+  <a href="#"><i>08</i>Field Guides</a>
+  <a class="index" href="#">Full Index <span>→</span></a>
+</nav>
+
+<!-- ===== FEATURED DESTINATIONS ===== -->
+<section id="destinations">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Where the issue lands</span>
+        <h2>Featured <em>destinations</em></h2>
+      </div>
+      <span class="count">N° 01 — 04</span>
+    </div>
+
+    <div class="dest-grid">
+      <!-- 01 Lofoten -->
+      <a href="#" class="dest-card reveal" data-d="0">
+        <div class="dest-scene">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <defs><linearGradient id="d1s" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#0c1a28"/><stop offset=".55" stop-color="#1d4460"/><stop offset=".75" stop-color="#2e6484"/><stop offset="1" stop-color="#123044"/>
+            </linearGradient></defs>
+            <rect width="400" height="500" fill="url(#d1s)"/>
+            <circle cx="300" cy="88" r="26" fill="#e9f4f7" opacity=".9"/><circle cx="300" cy="88" r="52" fill="#cfe6ec" opacity=".12"/>
+            <path fill="#4c7f9c" opacity=".7" d="M0,300 L60,240 L120,295 L180,230 L240,290 L310,240 L400,300 L400,500 L0,500 Z"/>
+            <path fill="#0d1d29" d="M0,500 L0,340 L90,270 L160,345 L250,280 L330,350 L400,305 L400,500 Z"/>
+            <rect y="415" width="400" height="85" fill="#081019"/>
+          </svg>
+          <span class="idx">N°01</span>
+          <span class="arrow">→</span>
+        </div>
+        <div class="dest-body">
+          <span class="country">Norway · 68°12′ N</span>
+          <h3>Lofothen</h3>
+          <p>Red rorbu cabins, glacier-fed water and a polar night that never quite goes black.</p>
+          <div class="meta"><span>3°C · Snow</span><span>12 Stories</span></div>
+        </div>
+      </a>
+
+      <!-- 02 Faroe -->
+      <a href="#" class="dest-card reveal" data-d="1">
+        <div class="dest-scene">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <defs><linearGradient id="d2s" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#4d5b60"/><stop offset=".6" stop-color="#8fa0a0"/><stop offset="1" stop-color="#5d6e6a"/>
+            </linearGradient></defs>
+            <rect width="400" height="500" fill="url(#d2s)"/>
+            <g fill="#c8d2d2" opacity=".8">
+              <ellipse cx="120" cy="90" rx="70" ry="18"/><ellipse cx="250" cy="130" rx="90" ry="22"/><ellipse cx="330" cy="70" rx="55" ry="15"/>
+            </g>
+            <path fill="#2f4a42" opacity=".8" d="M0,320 L70,250 L150,315 L230,255 L320,320 L400,270 L400,500 L0,500 Z"/>
+            <path fill="#1c312b" d="M0,500 L0,330 L120,390 L200,340 L300,400 L400,350 L400,500 Z"/>
+            <rect y="430" width="400" height="70" fill="#24333a"/>
+          </svg>
+          <span class="idx">N°02</span>
+          <span class="arrow">→</span>
+        </div>
+        <div class="dest-body">
+          <span class="country">Faroe Islands · 62°01′ N</span>
+          <h3>Kallur & the Cliffs</h3>
+          <p>Seventeen islands of basalt walls, turf-roofed houses and a wind that edits your sentences.</p>
+          <div class="meta"><span>8°C · Wind</span><span>09 Stories</span></div>
+        </div>
+      </a>
+
+      <!-- 03 Svalbard -->
+      <a href="#" class="dest-card reveal" data-d="2">
+        <div class="dest-scene">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="d3s" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#060b14"/><stop offset=".7" stop-color="#0e1f30"/><stop offset="1" stop-color="#16304a"/>
+              </linearGradient>
+              <linearGradient id="d3a" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#8fe3bd" stop-opacity=".55"/><stop offset="1" stop-color="#8fe3bd" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <rect width="400" height="500" fill="url(#d3s)"/>
+            <path fill="url(#d3a)" transform="rotate(-14 200 0)" d="M40,0 Q200,160 360,0 L300,0 Q190,110 90,0 Z"/>
+            <path fill="url(#d3a)" opacity=".6" transform="rotate(-6 200 0)" d="M120,0 Q230,120 340,0 L280,0 Q210,80 160,0 Z"/>
+            <g fill="#e8f3f8" opacity=".8"><circle cx="60" cy="50" r="1.4"/><circle cx="180" cy="30" r="1.1"/><circle cx="330" cy="60" r="1.4"/><circle cx="250" cy="110" r="1"/><circle cx="90" cy="140" r="1.1"/></g>
+            <path fill="#3a5a74" d="M0,500 L0,330 L100,270 L180,340 L270,285 L400,350 L400,500 Z"/>
+            <path fill="#d9eaf2" d="M0,330 L100,270 L150,306 L60,352 L0,360 Z M180,340 L270,285 L310,318 L220,370 Z"/>
+            <rect y="420" width="400" height="80" fill="#1a2e42"/>
+            <path stroke="#e8f3f8" stroke-width="2" opacity=".5" d="M0,455 L90,448 L170,462 L260,452 L400,460"/>
+          </svg>
+          <span class="idx">N°03</span>
+          <span class="arrow">→</span>
+        </div>
+        <div class="dest-body">
+          <span class="country">Svalbard · 78°13′ N</span>
+          <h3>Longyearbyen</h3>
+          <p>The world's northernmost town: coal-stained walls, polar bears on ice and an aurora that ripples nightly.</p>
+          <div class="meta"><span>−14°C · Clear</span><span>07 Stories</span></div>
+        </div>
+      </a>
+
+      <!-- 04 Lapland -->
+      <a href="#" class="dest-card reveal" data-d="3">
+        <div class="dest-scene">
+          <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+            <defs><linearGradient id="d4s" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#101826"/><stop offset=".55" stop-color="#4a4258"/><stop offset=".78" stop-color="#c07a4a"/><stop offset="1" stop-color="#5d3f38"/>
+            </linearGradient></defs>
+            <rect width="400" height="500" fill="url(#d4s)"/>
+            <circle cx="200" cy="360" r="34" fill="#f2c98a" opacity=".95"/><circle cx="200" cy="360" r="70" fill="#f2c98a" opacity=".18"/>
+            <path fill="#2a3550" d="M0,380 L80,330 L170,375 L260,325 L350,375 L400,350 L400,500 L0,500 Z"/>
+            <g fill="#0a0f16">
+              <path d="M30,470 L60,350 L90,470 Z"/><path d="M70,470 L96,380 L122,470 Z"/>
+              <path d="M280,470 L308,355 L336,470 Z"/><path d="M330,470 L354,395 L378,470 Z"/>
+            </g>
+            <rect y="460" width="400" height="40" fill="#070b10"/>
+          </svg>
+          <span class="idx">N°04</span>
+          <span class="arrow">→</span>
+        </div>
+        <div class="dest-body">
+          <span class="country">Lapland · 68°20′ N</span>
+          <h3>Inari</h3>
+          <p>Birch, snow and the last orange light of the day, held low over the frozen lake for three hours.</p>
+          <div class="meta"><span>−9°C · Dusk</span><span>11 Stories</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HORIZONTAL STORIES ===== -->
+<section class="stories" id="stories">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <span class="kicker">Fresh from the field</span>
+        <h2>Dispatches, <em>in motion</em></h2>
+      </div>
+      <div class="story-controls">
+        <button id="prevBtn" aria-label="Previous stories">←</button>
+        <button id="nextBtn" aria-label="Next stories">→</button>
+      </div>
+    </div>
+
+    <div class="story-track" id="track">
+      <article class="story">
+        <div class="story-band" style="background:linear-gradient(90deg,#8fe3bd,#3f8f7a)"></div>
+        <div class="story-body">
+          <span class="cat">01 — Night Sky</span>
+          <h3>Ninety minutes of green: a field guide to the aurora</h3>
+          <p class="excerpt">Solar wind, magnetic field lines, and the exact ridge in Senja where the display breaks. What our photographer learned over 11 clear nights.</p>
+          <div class="foot">
+            <div class="author"><span class="av" style="background:rgba(143,227,189,.2);color:#8fe3bd">A</span>Aksel Berg</div>
+            <span class="rt">9 MIN</span>
+          </div>
+        </div>
+      </article>
+      <article class="story">
+        <div class="story-band" style="background:linear-gradient(90deg,#e0a45c,#a86a34)"></div>
+        <div class="story-body">
+          <span class="cat">02 — Slow Travel</span>
+          <h3>The rorbu is not a vacation home. It's a way of working.</h3>
+          <p class="excerpt">Inside the fish-cure season on Austvågøya, where the cod still decides the calendar and the red cabins face the water on purpose.</p>
+          <div class="foot">
+            <div class="author"><span class="av" style="background:rgba(224,164,92,.2);color:#e0a45c">M</span>Mara Lindqvist</div>
+            <span class="rt">12 MIN</span>
+          </div>
+        </div>
+      </article>
+      <article class="story">
+        <div class="story-band" style="background:linear-gradient(90deg,#9fd2de,#4a7d92)"></div>
+        <div class="story-body">
+          <span class="cat">03 — Coastlines</span>
+          <h3>Walking the 2,545 islands: day one, and the ferry that didn't come</h3>
+          <p class="excerpt">A two-week island-hopping traverse of the Faroe archipelago, begun in fog so thick the trail marker was a rumour.</p>
+          <div class="foot">
+            <div class="author"><span class="av" style="background:rgba(159,210,222,.2);color:#9fd2de">S</span>Stellan Hoy</div>
+            <span class="rt">7 MIN</span>
+          </div>
+        </div>
+      </article>
+      <article class="story">
+        <div class="story-band" style="background:linear-gradient(90deg,#c7d3e8,#5d7396)"></div>
+        <div class="story-body">
+          <span class="cat">04 — Tundra</span>
+          <h3>Reindeer, radio, and the longest winter on record</h3>
+          <p class="excerpt">Sami herder Áile Jákobsdottir has run her family's herd across the Inari plateau for thirty-one years. This one was different.</p>
+          <div class="foot">
+            <div class="author"><span class="av" style="background:rgba(199,211,232,.2);color:#c7d3e8">I</span>Ingrid Solheim</div>
+            <span class="rt">16 MIN</span>
+          </div>
+        </div>
+      </article>
+      <article class="story">
+        <div class="story-band" style="background:linear-gradient(90deg,#8fa0a3,#4d5b60)"></div>
+        <div class="story-body">
+          <span class="cat">05 — Field Guides</span>
+          <h3>How to read a fjord: eleven things the water tells you</h3>
+          <p class="excerpt">Turbidity, ice chunks, the colour of the tide line — a boatman's quiet grammar, decoded for travellers who plan to stay a while.</p>
+          <div class="foot">
+            <div class="author"><span class="av" style="background:rgba(143,160,163,.2);color:#aebcc0">E</span>Erik Dahl</div>
+            <span class="rt">8 MIN</span>
+          </div>
+        </div>
+      </article>
+      <article class="story">
+        <div class="story-band" style="background:linear-gradient(90deg,#e0c089,#8a6a3f)"></div>
+        <div class="story-body">
+          <span class="cat">06 — Routes</span>
+          <h3>Tromsø to the ice edge by land, sea and stubbornness</h3>
+          <p class="excerpt">Four days, one rented boat with a temper, and a route that isn't on any map — the old whalers' line to Sørkapp.</p>
+          <div class="foot">
+            <div class="author"><span class="av" style="background:rgba(224,192,137,.2);color:#e0c089">N</span>Nina Kaurin</div>
+            <span class="rt">14 MIN</span>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="progress"><div class="fill" id="progFill"></div></div>
+  </div>
+</section>
+
+<!-- ===== PULL QUOTE ===== -->
+<section class="quote">
+  <div class="wrap reveal">
+    <blockquote>Nobody plans a trip to the north around a sunrise. You plan it around <strong>the dark</strong> — and find the light waiting there anyway.</blockquote>
+    <cite><b>Ingrid Solheim</b> — Editor at Large, Issue N°47</cite>
+  </div>
+</section>
+
+<!-- ===== DISPATCH ===== -->
+<section class="dispatch" id="dispatch">
+  <div class="wrap">
+    <div class="reveal">
+      <span class="kicker">The Dispatch — Weekly</span>
+      <h2>One story a week, <em>from farther than last week</em></h2>
+      <p>A short letter with our best long-form piece, a route worth booking, and the weather where our correspondents are. No noise, no itineraries, no ads.</p>
+    </div>
+    <div class="reveal" data-d="1">
+      <form class="dispatch-form" onsubmit="event.preventDefault();this.querySelector('button').textContent='Subscribed ✓';">
+        <input type="email" placeholder="your@address.com" required aria-label="Email address">
+        <button type="submit">Sign up</button>
+      </form>
+      <p class="note">Free forever · 24,118 readers · Unsubscribe anytime</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap">
+    <div class="foot-word">
+      <span>The North <em>Edit</em></span>
+      <span class="est">Issue N°47 — The Arctic Winter — Est. 61°N, 8°W</span>
+    </div>
+    <div class="foot-cols">
+      <div class="foot-about">
+        <h4>The Publication</h4>
+        <p>Long-form travel writing from the far places — fjords, tundra, ice edge and everything the map labels in small print. Published from Bergen, wherever the light is good.</p>
+      </div>
+      <div>
+        <h4>Sections</h4>
+        <a href="#">Destinations</a><a href="#">Stories</a><a href="#">Routes</a><a href="#">Field Notes</a><a href="#">The Archive</a>
+      </div>
+      <div>
+        <h4>Destinations</h4>
+        <a href="#">Lofothen</a><a href="#">Faroe Islands</a><a href="#">Svalbard</a><a href="#">Inari, Lapland</a><a href="#">West Greenland</a>
+      </div>
+      <div>
+        <h4>More</h4>
+        <a href="#">Masthead</a><a href="#">Submit a story</a><a href="#">Print editions</a><a href="#">Stock & licensing</a><a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 The North Edit · All meridians reserved</span>
+      <span class="coord">60°22′40″ N · 5°19′29″ E — Bergen, Norway</span>
+      <span>Set in Fraunces & Manrope</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ---- Header scroll state
+const header = document.getElementById('siteHeader');
+const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
+window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+// ---- Live date
+const d = new Date();
+const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+document.getElementById('today').textContent =
+  String(d.getDate()).padStart(2,'0') + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+
+// ---- Generate stars
+(() => {
+  const svg = document.getElementById('stars');
+  const ns = 'http://www.w3.org/2000/svg';
+  for (let i = 0; i < 90; i++) {
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx', (Math.random() * 1440).toFixed(1));
+    c.setAttribute('cy', (Math.random() * 380).toFixed(1));
+    c.setAttribute('r', (Math.random() * 1.1 + 0.3).toFixed(2));
+    c.style.animationDelay = (Math.random() * 4).toFixed(2) + 's';
+    c.style.animationDuration = (3 + Math.random() * 4).toFixed(2) + 's';
+    svg.appendChild(c);
+  }
+})();
+
+// ---- Hero parallax
+(() => {
+  const layers = [...document.querySelectorAll('.hero .layer')];
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const y = window.scrollY;
+      if (y < window.innerHeight * 1.2) {
+        layers.forEach(el => {
+          const p = parseFloat(el.dataset.p);
+          el.style.transform = 'translateY(' + (y * p) + 'px)';
+        });
+      }
+      ticking = false;
+    });
+  }, {passive:true});
+})();
+
+// ---- Horizontal story scroller: buttons, drag, progress
+(() => {
+  const track = document.getElementById('track');
+  const fill = document.getElementById('progFill');
+  const step = () => {
+    const card = track.querySelector('.story');
+    return card ? card.getBoundingClientRect().width + 26 : 400;
+  };
+  document.getElementById('prevBtn').addEventListener('click', () =>
+    track.scrollBy({left: -step(), behavior: 'smooth'}));
+  document.getElementById('nextBtn').addEventListener('click', () =>
+    track.scrollBy({left: step(), behavior: 'smooth'}));
+  track.addEventListener('scroll', () => {
+    const max = track.scrollWidth - track.clientWidth;
+    fill.style.width = Math.max(12, (track.scrollLeft / max) * 100 + 12) + '%';
+  }, {passive:true});
+  // drag to scroll
+  let down = false, startX = 0, startL = 0;
+  track.addEventListener('pointerdown', e => {
+    down = true; startX = e.clientX; startL = track.scrollLeft;
+    track.classList.add('grabbing');
+  });
+  window.addEventListener('pointermove', e => {
+    if (!down) return;
+    track.scrollLeft = startL - (e.clientX - startX);
+  });
+  window.addEventListener('pointerup', () => { down = false; track.classList.remove('grabbing'); });
+})();
+
+// ---- Reveal on scroll
+(() => {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, {threshold: 0.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>

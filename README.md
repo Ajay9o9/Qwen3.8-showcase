@@ -34,7 +34,7 @@ and screenshots into site/ and regenerates site/catalog.json.
 From this repository:
 
 ~~~bash
-python3 tools/export_showcase.py   --source-root /media/aj-homeserver/windows/krea2-model/qwen-3.8/compare   --catalog catalog.json   --output site   --clean
+python3 tools/export_showcase.py   --source-root /media/aj-homeserver/windows/krea2-model/qwen-3.8/compare   --catalog catalog.json   --output docs   --clean
 ~~~
 
 Edit catalog.json in the picker (preferred) or by hand, then run export and
@@ -44,7 +44,7 @@ screenshots and validates paths before writing.
 Preview locally:
 
 ~~~bash
-python3 -m http.server 8000 --directory site
+python3 -m http.server 8000 --directory docs
 ~~~
 
 Open http://127.0.0.1:8000/. Use the Present button for a minimal,
@@ -52,7 +52,14 @@ screenshot-friendly view with model tabs, a task sidebar, and the live preview.
 
 ## GitHub Pages
 
-Push this repository to GitHub with the main branch, enable Pages using
-GitHub Actions as the source, and the included workflow deploys site/.
-The repository does not assume a remote URL or GitHub username, so add those
-when you are ready.
+GitHub Actions needs a billing account. This repo uses the free **branch**
+publish path instead: the live site is the `docs/` folder on `main`.
+
+1. Push `main` (including `docs/`).
+2. Repo **Settings → Pages**.
+3. **Build and deployment → Source:** Deploy from a branch.
+4. Branch: `main` / folder: `/docs`.
+5. Save. After a minute the gallery is at
+   `https://<user>.github.io/<repo>/`.
+
+Do not select “GitHub Actions” as the Pages source unless billing is fixed.

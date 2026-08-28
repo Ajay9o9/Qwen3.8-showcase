@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLEET / LOGISTICS — Ops Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b1416; --panel:#111f23; --panel2:#15272c; --raise:#1a2f35;
+  --line:rgba(178,208,201,.13); --line2:rgba(178,208,201,.22);
+  --chalk:#e9f1ed; --dim:#8ba39e; --faint:#5d7370;
+  --orange:#ff7a2e; --orange-soft:rgba(255,122,46,.14);
+  --amber:#ffc24b; --amber-soft:rgba(255,194,75,.14);
+  --green:#43d9a3; --green-soft:rgba(67,217,163,.14);
+  --red:#ff5c5c;  --red-soft:rgba(255,92,92,.15);
+  --blue:#6db8ff; --blue-soft:rgba(109,184,255,.14);
+  --disp:'Barlow Condensed',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'IBM Plex Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  font-family:var(--sans); color:var(--chalk); background:var(--ink);
+  background-image:
+    radial-gradient(1100px 600px at 78% -10%, rgba(255,122,46,.07), transparent 60%),
+    radial-gradient(900px 700px at -10% 110%, rgba(67,217,163,.05), transparent 60%),
+    repeating-linear-gradient(0deg, transparent 0 47px, rgba(178,208,201,.028) 47px 48px),
+    repeating-linear-gradient(90deg, transparent 0 47px, rgba(178,208,201,.028) 47px 48px);
+  font-size:14px; line-height:1.45;
+}
+.app{max-width:1440px;margin:0 auto;padding:14px 24px 20px;display:flex;flex-direction:column;gap:14px;min-height:100vh}
+
+/* ---------- header ---------- */
+.topbar{display:flex;align-items:center;gap:22px;height:64px;padding:0 18px;
+  background:linear-gradient(180deg,var(--panel2),var(--panel));
+  border:1px solid var(--line);border-radius:10px;position:relative;overflow:hidden}
+.topbar::after{content:"";position:absolute;inset:0 0 auto 0;height:2px;
+  background:linear-gradient(90deg,var(--orange) 0%,var(--orange) 26%,transparent 26.5%)}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.mark{width:40px;height:40px;flex:none}
+.brand-name{font-family:var(--disp);font-weight:700;font-size:24px;letter-spacing:.04em;line-height:1}
+.brand-name em{font-style:normal;color:var(--orange)}
+.brand-sub{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase;margin-top:3px}
+.top-status{display:flex;align-items:center;gap:8px;margin-left:auto}
+.pill{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;
+  padding:6px 11px;border:1px solid var(--line);border-radius:6px;background:var(--raise);color:var(--dim);white-space:nowrap}
+.pill b{color:var(--chalk);font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;flex:none}
+.dot.live{background:var(--green);box-shadow:0 0 0 0 rgba(67,217,163,.5);animation:beat 2.2s infinite}
+@keyframes beat{0%{box-shadow:0 0 0 0 rgba(67,217,163,.5)}70%{box-shadow:0 0 0 8px rgba(67,217,163,0)}100%{box-shadow:0 0 0 0 rgba(67,217,163,0)}}
+.clock{font-family:var(--mono);font-size:15px;font-weight:600;letter-spacing:.06em;color:var(--chalk)}
+.clock small{display:block;font-size:9px;letter-spacing:.18em;color:var(--faint);font-weight:400}
+.user{display:flex;align-items:center;gap:9px;padding-left:16px;border-left:1px solid var(--line)}
+.user-av{width:34px;height:34px;border-radius:8px;background:linear-gradient(135deg,#2a4a52,#173036);
+  border:1px solid var(--line2);display:grid;place-items:center;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--amber)}
+.user small{display:block;font-size:10px;color:var(--faint);letter-spacing:.05em}
+.btn{font-family:var(--disp);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:14px;
+  border-radius:7px;cursor:pointer;border:1px solid transparent;padding:9px 18px;transition:.18s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:linear-gradient(180deg,#ff8a42,var(--orange));color:#1a0e05;box-shadow:0 4px 14px rgba(255,122,46,.28)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 7px 20px rgba(255,122,46,.4)}
+.btn-ghost{background:transparent;border-color:var(--line2);color:var(--chalk)}
+.btn-ghost:hover{background:var(--raise);border-color:var(--orange);color:var(--orange)}
+.btn-sm{padding:5px 11px;font-size:12px;border-radius:6px}
+
+/* ---------- kpi strip ---------- */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--kc,var(--orange))}
+.kpi .k-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.kpi .k-val{font-family:var(--disp);font-weight:700;font-size:30px;line-height:1.05;margin-top:3px;display:flex;align-items:baseline;gap:8px}
+.kpi .k-val small{font-family:var(--mono);font-size:11px;color:var(--dim);font-weight:400;letter-spacing:.04em}
+.kpi .k-sub{font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:2px}
+.kpi .k-sub .up{color:var(--green)} .kpi .k-sub .dn{color:var(--red)}
+
+/* ---------- main grid ---------- */
+.grid{display:grid;grid-template-columns:minmax(0,1.42fr) minmax(0,1fr) minmax(0,.92fr);gap:14px;flex:1;min-height:0}
+.col{display:flex;flex-direction:column;gap:14px;min-height:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.p-head{display:flex;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--line);flex:none;background:linear-gradient(180deg,rgba(255,255,255,.025),transparent)}
+.p-title{font-family:var(--disp);font-weight:600;font-size:16px;letter-spacing:.1em;text-transform:uppercase}
+.p-title b{color:var(--orange)}
+.p-meta{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--faint);display:flex;align-items:center;gap:8px}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.zoom{display:flex;gap:4px;margin-left:10px}
+.zoom button{width:24px;height:24px;border-radius:5px;border:1px solid var(--line2);background:var(--raise);color:var(--dim);
+  font-family:var(--mono);font-size:13px;cursor:pointer;transition:.15s}
+.zoom button:hover{color:var(--orange);border-color:var(--orange)}
+
+/* ---------- map ---------- */
+.map-panel{flex:1}
+.map-wrap{flex:1;position:relative;min-height:300px}
+.map-wrap svg{position:absolute;inset:0;width:100%;height:100%}
+.route-line{fill:none;stroke-width:2.5;stroke-dasharray:7 7;animation:flow 1.4s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-14}}
+.route-line.dim{opacity:.35;stroke-width:1.5;animation:none;stroke-dasharray:3 5}
+.halo{transform-box:fill-box;transform-origin:center;animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.5);opacity:.9}80%{transform:scale(2.4);opacity:0}100%{transform:scale(2.4);opacity:0}}
+.veh-label{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.05em;fill:var(--chalk)}
+.veh-bg{fill:#0b1416;stroke-width:1;opacity:.92}
+.map-legend{position:absolute;left:12px;bottom:12px;display:flex;flex-direction:column;gap:5px;padding:9px 12px;
+  background:rgba(11,20,22,.82);border:1px solid var(--line);border-radius:8px;backdrop-filter:blur(4px)}
+.map-legend span{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--dim)}
+.map-legend i{width:9px;height:9px;border-radius:50%;flex:none}
+.map-coord{position:absolute;right:12px;bottom:12px;font-family:var(--mono);font-size:10px;color:var(--faint);
+  background:rgba(11,20,22,.82);border:1px solid var(--line);padding:5px 9px;border-radius:6px}
+
+/* ---------- chips ---------- */
+.chip{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border-radius:5px;white-space:nowrap}
+.c-green{background:var(--green-soft);color:var(--green)} .c-amber{background:var(--amber-soft);color:var(--amber)}
+.c-red{background:var(--red-soft);color:var(--red)} .c-blue{background:var(--blue-soft);color:var(--blue)}
+.c-orange{background:var(--orange-soft);color:var(--orange)} .c-dim{background:var(--raise);color:var(--dim)}
+
+/* ---------- routes ---------- */
+.p-body{padding:12px;display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0}
+.route{border:1px solid var(--line);border-radius:9px;padding:11px 13px;background:linear-gradient(180deg,var(--panel2),var(--panel));position:relative}
+.route::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:3px;background:var(--rc,var(--orange))}
+.route .r-top{display:flex;align-items:center;gap:9px}
+.r-id{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--dim);letter-spacing:.05em}
+.r-chip{margin-left:auto}
+.r-od{display:flex;align-items:center;gap:10px;margin:8px 0 4px}
+.r-od b{font-family:var(--disp);font-weight:700;font-size:19px;letter-spacing:.05em}
+.r-od .arrow{flex:1;height:1px;background:linear-gradient(90deg,var(--line2),var(--rc,var(--orange)),var(--line2));position:relative}
+.r-od .arrow::after{content:"";position:absolute;right:-1px;top:-3.5px;border-left:7px solid var(--rc,var(--orange));border-top:4px solid transparent;border-bottom:4px solid transparent}
+.r-od .dist{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.04em;flex:none}
+.r-meta{display:flex;gap:14px;font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:.03em}
+.r-meta b{color:var(--chalk);font-weight:600}
+.r-prog{margin-top:9px;height:5px;border-radius:4px;background:var(--raise);overflow:hidden;position:relative}
+.r-prog i{position:absolute;inset:0 auto 0 0;border-radius:4px;background:linear-gradient(90deg,var(--rc,var(--orange)),color-mix(in srgb,var(--rc) 60%,white));transition:width 1.2s ease}
+.r-prog em{position:absolute;right:6px;top:-16px;font-style:normal;font-family:var(--mono);font-size:9.5px;color:var(--faint)}
+
+/* ---------- drivers ---------- */
+.driver{display:flex;align-items:center;gap:11px;padding:8px 6px;border-bottom:1px dashed var(--line)}
+.driver:last-child{border-bottom:none}
+.d-av{width:36px;height:36px;border-radius:9px;flex:none;display:grid;place-items:center;
+  font-family:var(--disp);font-weight:700;font-size:14px;letter-spacing:.05em;color:#0d1a15;position:relative}
+.d-av::after{content:"";position:absolute;bottom:-2px;right:-2px;width:10px;height:10px;border-radius:50%;border:2px solid var(--panel)}
+.d-info{min-width:0;flex:1}
+.d-info b{font-size:13px;font-weight:600;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.d-info small{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.03em;display:block}
+.d-side{text-align:right;flex:none}
+.d-side .chip{display:inline-block;margin-bottom:3px}
+.d-side small{font-family:var(--mono);font-size:9.5px;color:var(--faint)}
+
+/* ---------- maintenance ---------- */
+.alert{display:flex;gap:11px;padding:10px;border:1px solid var(--line);border-radius:9px;background:var(--panel2);align-items:flex-start}
+.a-ico{width:32px;height:32px;border-radius:8px;flex:none;display:grid;place-items:center}
+.a-body{flex:1;min-width:0}
+.a-body b{font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.a-body b .mono{font-family:var(--mono);font-size:10.5px;font-weight:600;color:var(--dim)}
+.a-body p{font-size:11.5px;color:var(--dim);margin-top:2px;line-height:1.4}
+.a-body .a-foot{display:flex;align-items:center;gap:10px;margin-top:7px}
+.a-due{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.03em}
+.a-btn{margin-left:auto;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.06em;padding:4px 9px;
+  border-radius:5px;cursor:pointer;border:1px solid var(--line2);background:transparent;color:var(--chalk);transition:.15s;white-space:nowrap}
+.a-btn:hover{border-color:var(--orange);color:var(--orange)}
+.a-btn.hot{border-color:var(--red);color:var(--red)} .a-btn.hot:hover{background:var(--red-soft)}
+.bay{margin-top:auto;padding:10px 14px;border-top:1px solid var(--line);flex:none;background:var(--raise)}
+.bay .b-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--faint);text-transform:uppercase;margin-bottom:7px}
+.bay .b-bar{display:flex;gap:4px;height:8px}
+.bay .b-bar i{flex:1;border-radius:2px;background:var(--raise);border:1px solid var(--line)}
+.bay .b-bar i.on{background:linear-gradient(180deg,#ff8a42,var(--orange));border-color:transparent}
+.bay .b-bar i.cool{background:var(--green);opacity:.8;border-color:transparent}
+.bay small{font-family:var(--mono);font-size:9.5px;color:var(--faint);display:block;margin-top:6px;letter-spacing:.05em}
+
+/* ---------- dispatch ---------- */
+.dispatch .d-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:12px}
+.d-create{grid-column:1/-1;font-size:16px;justify-content:center;padding:12px;position:relative}
+.d-create svg{width:16px;height:16px}
+.queue{flex:1;overflow-y:auto;min-height:0;display:flex;flex-direction:column;gap:7px;padding:4px 14px 12px}
+.q-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);transition:.15s}
+.q-item:hover{border-color:var(--line2);transform:translateX(2px)}
+.q-po{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--chalk)}
+.q-to{font-size:11px;color:var(--dim);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.q-time{font-family:var(--mono);font-size:9.5px;color:var(--faint)}
+.handover{flex:none;margin:0 14px 12px;padding:9px 12px;border-radius:8px;background:var(--amber-soft);
+  border:1px dashed color-mix(in srgb,var(--amber) 45%,transparent);display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--chalk)}
+.handover b{font-family:var(--mono);font-size:11px;color:var(--amber)}
+.handover .dot{background:var(--amber);box-shadow:0 0 0 0 rgba(255,194,75,.5);animation:beat 2.2s infinite}
+
+/* ---------- scrollbar ---------- */
+.p-body::-webkit-scrollbar,.queue::-webkit-scrollbar{width:8px}
+.p-body::-webkit-scrollbar-thumb,.queue::-webkit-scrollbar-thumb{background:var(--raise);border-radius:4px;border:2px solid var(--panel)}
+.p-body::-webkit-scrollbar-thumb:hover,.queue::-webkit-scrollbar-thumb:hover{background:#24444d}
+
+/* ---------- toasts ---------- */
+.toasts{position:fixed;right:24px;bottom:24px;display:flex;flex-direction:column;gap:10px;z-index:99}
+.toast{background:var(--panel2);border:1px solid var(--line2);border-left:3px solid var(--orange);border-radius:8px;
+  padding:11px 16px;min-width:260px;box-shadow:0 12px 32px rgba(0,0,0,.5);animation:slideIn .3s ease;
+  font-size:12.5px;display:flex;gap:10px;align-items:center}
+.toast b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--orange);flex:none}
+@keyframes slideIn{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+.toast.out{transition:.3s;opacity:0;transform:translateX(30px)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1180px){
+  .grid{grid-template-columns:1fr 1fr}
+  .map-panel{grid-column:1/-1}
+  .map-wrap{min-height:380px}
+}
+@media (max-width:860px){
+  .app{padding:12px}
+  .grid{grid-template-columns:1fr}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .topbar{flex-wrap:wrap;height:auto;padding:12px 14px;gap:12px}
+  .top-status{order:3;width:100%;overflow-x:auto}
+  .user{display:none}
+  .map-wrap{min-height:320px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= TOPBAR ================= -->
+  <header class="topbar">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+        <defs><linearGradient id="mg" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#ff8a42"/><stop offset="1" stop-color="#e05a12"/></linearGradient></defs>
+        <path d="M20 2 36 11v18L20 38 4 29V11Z" fill="none" stroke="url(#mg)" stroke-width="2.5"/>
+        <path d="M12 26V14h7a4 4 0 1 1 0 8h-4m4 0 5 4" stroke="#e9f1ed" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="brand-name">FLEET<em> / </em>LOGISTICS</div>
+        <div class="brand-sub">Regional Ops Console · Grid 4 North</div>
+      </div>
+    </div>
+    <div class="top-status">
+      <span class="pill"><span class="dot live"></span> LIVE FEED</span>
+      <span class="pill">DEPOTS <b>5 / 5</b> ONLINE</span>
+      <span class="pill">UPLINK <b id="uplink">98.2%</b></span>
+      <div class="clock"><span id="clock">--:--:--</span><small>LOCAL · OPS SHIFT B</small></div>
+    </div>
+    <div class="user">
+      <div class="user-av">RV</div>
+      <div>R. Vasquez<small>Dispatch Supervisor</small></div>
+    </div>
+    <button class="btn btn-primary" data-toast="Dispatch board opened — 3 POs awaiting assignment">Dispatch</button>
+  </header>
+
+  <!-- ================= KPI STRIP ================= -->
+  <section class="kpis" aria-label="Key operating metrics">
+    <div class="kpi" style="--kc:var(--orange)">
+      <div class="k-label">Vehicles In Motion</div>
+      <div class="k-val"><span id="kpiVehicles">47</span><small>/ 62 fleet</small></div>
+      <div class="k-sub"><span class="up">▲ 3</span> vs. 06:00 count</div>
+    </div>
+    <div class="kpi" style="--kc:var(--green)">
+      <div class="k-label">On-Time Performance</div>
+      <div class="k-val"><span id="kpiOnTime">94.2</span><small>% rolling 24h</small></div>
+      <div class="k-sub"><span class="up">▲ 0.6 pts</span> target ≥ 92%</div>
+    </div>
+    <div class="kpi" style="--kc:var(--blue)">
+      <div class="k-label">Loads In Transit</div>
+      <div class="k-val"><span id="kpiLoads">31</span><small>palletized</small></div>
+      <div class="k-sub"><span id="kpiLoadsSub">7 refrigerated</span> · 4 pharma</div>
+    </div>
+    <div class="kpi" style="--kc:var(--amber)">
+      <div class="k-label">Open Alerts</div>
+      <div class="k-val"><span id="kpiAlerts">3</span><small>actionable</small></div>
+      <div class="k-sub"><span class="dn">1 critical</span> · SLA 2.1h</div>
+    </div>
+    <div class="kpi" style="--kc:var(--green)">
+      <div class="k-label">Avg Delay</div>
+      <div class="k-val"><span id="kpiDelay">6</span><small>min / route</small></div>
+      <div class="k-sub"><span class="up">▼ 2 min</span> corridor I-71 clear</div>
+    </div>
+  </section>
+
+  <!-- ================= MAIN GRID ================= -->
+  <main class="grid">
+
+    <!-- ========== LIVE MAP ========== -->
+    <section class="panel map-panel" aria-label="Live vehicle map">
+      <div class="p-head">
+        <span class="p-title">Live <b>Map</b></span>
+        <div class="zoom"><button title="Zoom out" data-toast="Zoom 0.8×">−</button><button title="Zoom in" data-toast="Zoom 1.6×">+</button><button title="Fit grid" data-toast="Grid 4 North fitted to view">⌂</button></div>
+        <div class="p-meta"><span class="sync-dot"></span> LAST SYNC <span id="syncAge">2s</span> AGO</div>
+      </div>
+      <div class="map-wrap">
+        <svg viewBox="0 0 640 480" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Schematic map of Grid 4 North with moving vehicles">
+          <defs>
+            <radialGradient id="landG" cx="45%" cy="40%" r="80%">
+              <stop offset="0" stop-color="#1c3a41"/><stop offset="1" stop-color="#12262b"/>
+            </radialGradient>
+            <linearGradient id="riverG" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#2c5a66" stop-opacity=".7"/><stop offset="1" stop-color="#1a3a44" stop-opacity=".3"/>
+            </linearGradient>
+            <pattern id="mapGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M40 0H0V40" fill="none" stroke="rgba(178,208,201,.06)" stroke-width="1"/>
+            </pattern>
+          </defs>
+
+          <rect width="640" height="480" fill="#0d191c"/>
+          <path d="M40 70 C 90 20 220 30 300 45 C 400 20 520 40 590 90 C 630 150 620 230 600 300
+                   C 580 380 500 430 420 445 C 330 470 200 455 130 410 C 50 365 15 280 25 195 C 30 140 20 110 40 70 Z"
+                fill="url(#landG)" stroke="rgba(178,208,201,.14)" stroke-width="1.5"/>
+          <rect width="640" height="480" fill="url(#mapGrid)"/>
+          <path d="M60 430 C 140 360 120 300 180 250 C 240 200 260 140 340 110 C 420 80 470 60 520 40"
+                fill="none" stroke="url(#riverG)" stroke-width="10" stroke-linecap="round" opacity=".8"/>
+
+          <!-- secondary roads -->
+          <path class="route-line dim" d="M250 200 C 300 260 340 300 380 330" stroke="#8ba39e"/>
+          <path class="route-line dim" d="M380 330 C 450 350 510 340 560 300" stroke="#8ba39e"/>
+          <path class="route-line dim" d="M90 380 C 180 400 280 390 380 330" stroke="#8ba39e"/>
+
+          <!-- primary animated corridors -->
+          <path id="pathRT1" class="route-line" d="M250 200 C 300 140 360 110 430 80" stroke="#ff7a2e"/>
+          <path id="pathRT2" class="route-line" d="M90 380 C 140 330 190 260 250 200" stroke="#ffc24b"/>
+          <path id="pathRT3" class="route-line" d="M430 80 C 500 130 545 210 560 300" stroke="#43d9a3"/>
+
+          <!-- depots -->
+          <g font-family="IBM Plex Mono" font-size="10" letter-spacing="1">
+            <g transform="translate(90,380)"><rect x="-7" y="-7" width="14" height="14" rx="3" fill="#0d191c" stroke="#6db8ff" stroke-width="2"/><text x="12" y="4" fill="#6db8ff">STL-02</text></g>
+            <g transform="translate(250,200)"><rect x="-8" y="-8" width="16" height="16" rx="3" fill="#1a2f35" stroke="#ff7a2e" stroke-width="2.5"/><text x="13" y="-8" fill="#e9f1ed" font-weight="600">CLE-04 HQ</text></g>
+            <g transform="translate(430,80)"><rect x="-7" y="-7" width="14" height="14" rx="3" fill="#0d191c" stroke="#43d9a3" stroke-width="2"/><text x="12" y="-6" fill="#43d9a3">MKE-11</text></g>
+            <g transform="translate(560,300)"><rect x="-7" y="-7" width="14" height="14" rx="3" fill="#0d191c" stroke="#8ba39e" stroke-width="2"/><text x="-70" y="4" fill="#8ba39e">DET-07</text></g>
+            <g transform="translate(380,330)"><rect x="-7" y="-7" width="14" height="14" rx="3" fill="#0d191c" stroke="#ffc24b" stroke-width="2"/><text x="-32" y="22" fill="#ffc24b">PIT-01</text></g>
+          </g>
+
+          <!-- moving vehicles (positions driven by JS) -->
+          <g id="vehTRK214"><circle class="halo" r="11" fill="none" stroke="#ff7a2e" stroke-width="2"/><circle r="5" fill="#ff7a2e" stroke="#0b1416" stroke-width="2"/><rect class="veh-bg" x="11" y="-9" width="60" height="15" rx="4" stroke="#ff7a2e"/><text class="veh-label" x="16" y="2" fill="#ffb287">TRK-214</text></g>
+          <g id="vehTRK118"><circle class="halo" r="11" fill="none" stroke="#ffc24b" stroke-width="2"/><circle r="5" fill="#ffc24b" stroke="#0b1416" stroke-width="2"/><rect class="veh-bg" x="11" y="-9" width="60" height="15" rx="4" stroke="#ffc24b"/><text class="veh-label" x="16" y="2" fill="#ffe0a3">TRK-118</text></g>
+          <g id="vehTRK097"><circle class="halo" r="11" fill="none" stroke="#43d9a3" stroke-width="2"/><circle r="5" fill="#43d9a3" stroke="#0b1416" stroke-width="2"/><rect class="veh-bg" x="11" y="-9" width="60" height="15" rx="4" stroke="#43d9a3"/><text class="veh-label" x="16" y="2" fill="#9df0cf">TRK-097</text></g>
+          <g id="vehTRK231"><circle class="halo" r="11" fill="none" stroke="#6db8ff" stroke-width="2"/><circle r="5" fill="#6db8ff" stroke="#0b1416" stroke-width="2"/><rect class="veh-bg" x="11" y="-9" width="60" height="15" rx="4" stroke="#6db8ff"/><text class="veh-label" x="16" y="2" fill="#b8dcff">TRK-231</text></g>
+        </svg>
+        <div class="map-legend">
+          <span><i style="background:var(--orange)"></i> En route</span>
+          <span><i style="background:var(--amber)"></i> Delayed</span>
+          <span><i style="background:var(--blue)"></i> Break / staged</span>
+          <span><i style="background:transparent;border:2px solid var(--green);border-radius:2px;width:7px;height:7px"></i> Depot / yard</span>
+        </div>
+        <div class="map-coord" id="mapCoord">41.5094°N · 81.6954°W</div>
+      </div>
+    </section>
+
+    <!-- ========== MIDDLE COLUMN: ROUTES + DRIVERS ========== -->
+    <div class="col">
+      <section class="panel" style="flex:1.15" aria-label="Active routes">
+        <div class="p-head"><span class="p-title">Active <b>Routes</b></span><span class="p-meta">4 OPEN · 1 CLOSING TODAY</span></div>
+        <div class="p-body">
+          <article class="route" style="--rc:var(--orange)">
+            <div class="r-top"><span class="r-id">RT-4821</span><span class="r-chip chip c-orange">EN ROUTE</span></div>
+            <div class="r-od"><b>CLE-04</b><span class="arrow"></span><b>MKE-11</b><span class="dist">312 mi · I-71 N</span></div>
+            <div class="r-meta"><span>LOAD <b>14 plts · steel coil</b></span><span>DRIVER <b>M. Okafor</b></span><span>ETA <b>14:32</b></span></div>
+            <div class="r-prog"><i data-prog="68" style="width:68%"></i><em>68% · 48 mi to dock</em></div>
+          </article>
+          <article class="route" style="--rc:var(--amber)">
+            <div class="r-top"><span class="r-id">RT-4827</span><span class="r-chip chip c-amber">DELAYED +18 MIN</span></div>
+            <div class="r-od"><b>STL-02</b><span class="arrow"></span><b>CLE-04</b><span class="dist">248 mi · I-70 E</span></div>
+            <div class="r-meta"><span>LOAD <b>22 plts · poultry, 0–4°C</b></span><span>DRIVER <b>J. Whitfield</b></span><span>ETA <b>15:10</b></span></div>
+            <div class="r-prog"><i data-prog="41" style="width:41%"></i><em>41% · incident lane 2, M-2</em></div>
+          </article>
+          <article class="route" style="--rc:var(--green)">
+            <div class="r-top"><span class="r-id">RT-4830</span><span class="r-chip chip c-green">ON TIME</span></div>
+            <div class="r-od"><b>MKE-11</b><span class="arrow"></span><b>DET-07</b><span class="dist">291 mi · I-94 E</span></div>
+            <div class="r-meta"><span>LOAD <b>9 plts · pharma 2–8°C</b></span><span>DRIVER <b>S. Reyes</b></span><span>ETA <b>16:45</b></span></div>
+            <div class="r-prog"><i data-prog="12" style="width:12%"></i><em>12% · staged dock 3, seal OK</em></div>
+          </article>
+          <article class="route" style="--rc:var(--blue)">
+            <div class="r-top"><span class="r-id">RT-4833</span><span class="r-chip chip c-blue">LOADING 40%</span></div>
+            <div class="r-od"><b>CLE-04</b><span class="arrow"></span><b>PIT-01</b><span class="dist">128 mi · I-77 S</span></div>
+            <div class="r-meta"><span>LOAD <b>16 plts · grain bulk</b></span><span>DRIVER <b>D. Kowalski</b></span><span>ETA <b>18:05</b></span></div>
+            <div class="r-prog"><i data-prog="40" style="width:40%"></i><em>40% · 6 plts remaining</em></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel" style="flex:1" aria-label="Drivers on shift">
+        <div class="p-head"><span class="p-title">Drivers · <b>Shift B</b></span><span class="p-meta">5 ON SHIFT · 2 OFF AT 15:00</span></div>
+        <div class="p-body">
+          <div class="driver">
+            <div class="d-av" style="background:linear-gradient(135deg,#ff9a55,#e0641a)">MO</div>
+            <div class="d-info"><b>Marcus Okafor</b><small>TRK-214 · Volvo VNL · 06:00–14:00</small></div>
+            <div class="d-side"><span class="chip c-green">On duty</span><small>CLE-04 yard A</small></div>
+          </div>
+          <div class="driver">
+            <div class="d-av" style="background:linear-gradient(135deg,#ffc87a,#d99a2e)">JW</div>
+            <div class="d-info"><b>Jordan Whitfield</b><small>TRK-118 · Freightliner Cascadia · 05:30–13:30</small></div>
+            <div class="d-side"><span class="chip c-amber">En route</span><small>I-71 westbound</small></div>
+          </div>
+          <div class="driver">
+            <div class="d-av" style="background:linear-gradient(135deg,#7ee0b5,#31a06f)">SR</div>
+            <div class="d-info"><b>Sofia Reyes</b><small>TRK-097 · Kenworth T680 · 08:00–16:00</small></div>
+            <div class="d-side"><span class="chip c-blue">Loading</span><small>MKE-11 dock 3</small></div>
+          </div>
+          <div class="driver">
+            <div class="d-av" style="background:linear-gradient(135deg,#9fd0ff,#4a8fd0)">DK</div>
+            <div class="d-info"><b>Daniel Kowalski</b><small>TRK-231 · International LT · 07:00–15:00</small></div>
+            <div class="d-side"><span class="chip c-dim">Break · 25 min</span><small>STL-02 lot 2</small></div>
+          </div>
+          <div class="driver">
+            <div class="d-av" style="background:linear-gradient(135deg,#d8c9ff,#8a6fd0)">AC</div>
+            <div class="d-info"><b>Ana Chen</b><small>TRK-045 · Peterbilt 579 · 15:00–23:00</small></div>
+            <div class="d-side"><span class="chip c-dim">Standby</span><small>Yard B, gate 4</small></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ========== RIGHT COLUMN: MAINTENANCE + DISPATCH ========== -->
+    <div class="col">
+      <section class="panel" style="flex:1" aria-label="Maintenance alerts">
+        <div class="p-head"><span class="p-title">Maintenance <b>Alerts</b></span><span class="p-meta"><span class="chip c-red">1 CRIT</span></span></div>
+        <div class="p-body">
+          <div class="alert">
+            <div class="a-ico" style="background:var(--red-soft)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M12 3 2.5 20h19L12 3Z" stroke="#ff5c5c" stroke-width="2" stroke-linejoin="round"/><path d="M12 9.5v5M12 17.2v.1" stroke="#ff5c5c" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <div class="a-body">
+              <b>Brake pad wear 82% <span class="mono">TRK-118</span> <span class="chip c-red">CRITICAL</span></b>
+              <p>Service required within 400 mi. Vehicle currently on RT-4827 — recommend pit stop at STL-02 return.</p>
+              <div class="a-foot"><span class="a-due">DUE 14:20 · TECH: BAY 1</span><button class="a-btn hot" data-toast="TRK-118 routed to Bay 1 — service window booked 14:20">Schedule service</button></div>
+            </div>
+          </div>
+          <div class="alert">
+            <div class="a-ico" style="background:var(--amber-soft)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#ffc24b" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="#ffc24b" stroke-width="2"/></svg>
+            </div>
+            <div class="a-body">
+              <b>Tire pressure low, axle 2R <span class="mono">TRK-097</span> <span class="chip c-amber">WARNING</span></b>
+              <p>Reading 31 PSI (spec 35). Sensor logged 09:42. Verify before RT-4830 departs MKE-11.</p>
+              <div class="a-foot"><span class="a-due">31 PSI · SENSOR OK</span><button class="a-btn" data-toast="Technician T. Marsh assigned to TRK-097">Assign tech</button></div>
+            </div>
+          </div>
+          <div class="alert">
+            <div class="a-ico" style="background:var(--amber-soft)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M8 3h8v3l-2 2v11a3 3 0 0 1-3 3 3 3 0 0 1-3-3V8L6 6V3h2Z" stroke="#ffc24b" stroke-width="2" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="a-body">
+              <b>DEF level 15% <span class="mono">TRK-045</span> <span class="chip c-amber">WARNING</span></b>
+              <p>Top up before next load-out from Yard B. Tank capacity 45 L, est. 7 L remaining.</p>
+              <div class="a-foot"><span class="a-due">7 L · FUEL STATION 2</span><button class="a-btn" data-toast="Top-up task created for TRK-045 at Fuel Station 2">Top up</button></div>
+            </div>
+          </div>
+        </div>
+        <div class="bay">
+          <div class="b-row"><span>Service Bay Utilization</span><span>4 / 6 bays</span></div>
+          <div class="b-bar"><i class="on"></i><i class="on"></i><i class="on"></i><i class="cool"></i><i></i><i></i></div>
+          <small>BAY 1 · BRAKES — TRK-118 PENDING &nbsp;|&nbsp; BAY 2 · OIL — CLEAR</small>
+        </div>
+      </section>
+
+      <section class="panel dispatch" style="flex:1" aria-label="Dispatch actions">
+        <div class="p-head"><span class="p-title">Dispatch <b>Queue</b></span><span class="p-meta">3 PENDING · SLA 30 MIN</span></div>
+        <div class="d-actions">
+          <button class="btn btn-primary d-create" data-toast="New dispatch draft created — PO-99341 assigned to Bay 2">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#1a0e05" stroke-width="2.6" stroke-linecap="round"/></svg>
+            Create Dispatch
+          </button>
+          <button class="btn btn-ghost" data-toast="Driver pool opened — 5 eligible for shift B">Assign Driver</button>
+          <button class="btn btn-ghost" data-toast="Priority hold set on PO-99312 (24 min remaining)">Priority Hold</button>
+        </div>
+        <div class="queue">
+          <div class="q-item"><span class="q-po">PO-99312</span><span class="q-to">→ Bay 2 · awaiting driver</span><span class="chip c-red">24 MIN</span><span class="q-time">Q 09:51</span></div>
+          <div class="q-item"><span class="q-po">PO-99318</span><span class="q-to">→ Dock 5 · loading 40%</span><span class="chip c-amber">31 MIN</span><span class="q-time">Q 09:58</span></div>
+          <div class="q-item"><span class="q-po">PO-99290</span><span class="q-to">→ Yard B · ready to roll</span><span class="chip c-green">42 MIN</span><span class="q-time">Q 10:04</span></div>
+          <div class="q-item"><span class="q-po">PO-99284</span><span class="q-to">→ MKE-11 · seal inspection</span><span class="chip c-dim">HOLD</span><span class="q-time">Q 10:11</span></div>
+        </div>
+        <div class="handover"><span class="dot"></span><div>Shift handover at <b>15:00</b> — 2 drivers off (Whitfield, Kowalski). Confirm relief with on-call.</div></div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<script>
+/* ---------- clock ---------- */
+const clockEl=document.getElementById('clock');
+function tickClock(){const d=new Date();clockEl.textContent=d.toLocaleTimeString('en-GB',{hour12:false});}
+tickClock();setInterval(tickClock,1000);
+
+/* ---------- sync age ---------- */
+let syncAge=2;const syncEl=document.getElementById('syncAge');
+setInterval(()=>{syncAge=Math.random()<.12?1:syncAge+1;syncEl.textContent=syncAge+'s';},1000);
+
+/* ---------- toasts ---------- */
+const toasts=document.getElementById('toasts');
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';
+  t.innerHTML=`<b>OPS</b><span>${msg}</span>`;toasts.appendChild(t);
+  setTimeout(()=>{t.classList.add('out');setTimeout(()=>t.remove(),320);},3400);
+}
+document.querySelectorAll('[data-toast]').forEach(el=>el.addEventListener('click',()=>toast(el.dataset.toast)));
+
+/* ---------- vehicle motion along SVG paths ---------- */
+const vehicles=[
+  {id:'vehTRK214',path:'pathRT1',len:0,offset:0,speed:0.0026,dir:1},
+  {id:'vehTRK118',path:'pathRT2',len:0,offset:.55,speed:0.0019,dir:1},
+  {id:'vehTRK097',path:'pathRT3',len:0,offset:.12,speed:0.0022,dir:1},
+  {id:'vehTRK231',path:'pathRT2',len:0,offset:.18,speed:0.0014,dir:-1}
+];
+vehicles.forEach(v=>{const p=document.getElementById(v.path);v.len=p.getTotalLength();v.el=document.getElementById(v.id);});
+let last=performance.now();
+function frame(now){
+  const dt=Math.min(now-last,64);last=now;
+  vehicles.forEach(v=>{
+    v.offset+=v.speed*dt*v.dir;
+    if(v.offset>1||v.offset<0)v.dir*=-1;
+    v.offset=Math.max(0,Math.min(1,v.offset));
+    const path=document.getElementById(v.path);
+    const pt=path.getPointAtLength(v.offset*v.len);
+    const a=path.getPointAtLength(Math.max(0,v.offset*v.len-2));
+    const b=path.getPointAtLength(Math.min(v.len,v.offset*v.len+2));
+    const ang=Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI;
+    v.el.setAttribute('transform',`translate(${pt.x},${pt.y}) rotate(${ang})`);
+  });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ---------- map coordinate drift ---------- */
+const coordEl=document.getElementById('mapCoord');
+let lat=41.5094,lng=-81.6954;
+setInterval(()=>{lat+=(Math.random()-.5)*.002;lng+=(Math.random()-.5)*.002;
+  coordEl.textContent=`${lat.toFixed(4)}°N · ${Math.abs(lng).toFixed(4)}°W`;},4000);
+
+/* ---------- KPI micro-jitter ---------- */
+function jitter(el,base,amp,fixed=0,suffix=''){
+  el.textContent=(base+(Math.random()-.5)*amp).toFixed(fixed)+suffix;
+}
+setInterval(()=>{
+  jitter(document.getElementById('kpiOnTime'),94.2,.3,1);
+  jitter(document.getElementById('kpiDelay'),6,1.4,0);
+  jitter(document.getElementById('uplink'),98.1,.3,1,'%');
+  if(Math.random()<.3){const e=document.getElementById('kpiVehicles');e.textContent=46+Math.floor(Math.random()*3);}
+},5000);
+
+/* ---------- route progress creep ---------- */
+const progEls=[...document.querySelectorAll('.r-prog i[data-prog]')];
+const caps=[68,41,12,40];
+setInterval(()=>{
+  progEls.forEach((el,i)=>{
+    let p=parseFloat(el.dataset.prog)+ (Math.random()<.6? .3:0);
+    p=Math.min(p,caps[i]);el.dataset.prog=p;el.style.width=p+'%';
+  });
+},6000);
+</script>
+</body>
+</html>

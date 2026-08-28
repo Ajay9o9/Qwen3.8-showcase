@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEAL/PLANNER — Week 32</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F3EEE2;
+  --paper-2:#EDE6D5;
+  --card:#FBF8F0;
+  --ink:#221E15;
+  --ink-soft:#5C5646;
+  --line:#D9CFB8;
+  --line-soft:#E4DCC8;
+  --paprika:#E4572E;
+  --paprika-deep:#B93F1D;
+  --olive:#5F6F3D;
+  --olive-deep:#46542B;
+  --butter:#F0BE45;
+  --berry:#8E4A6C;
+  --radius:14px;
+  --shadow:0 1px 2px rgba(34,30,21,.06), 0 8px 24px -12px rgba(34,30,21,.25);
+  --display:"Fraunces", Georgia, serif;
+  --body:"Space Grotesk", "Helvetica Neue", sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--body);
+  background:var(--paper);
+  color:var(--ink);
+  background-image:radial-gradient(rgba(34,30,21,.05) 1px, transparent 1.2px);
+  background-size:22px 22px;
+  min-height:100vh;
+  font-size:15px;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--paprika);color:#fff}
+
+/* ---------- header ---------- */
+header{
+  background:var(--ink);
+  color:var(--paper);
+  padding:0 32px;
+  height:76px;
+  display:flex;align-items:center;gap:28px;
+  position:sticky;top:0;z-index:60;
+  box-shadow:0 4px 18px -8px rgba(34,30,21,.5);
+}
+.logo{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:26px;
+  letter-spacing:-.02em;
+  white-space:nowrap;
+  display:flex;align-items:baseline;
+}
+.logo .slash{color:var(--paprika);font-style:italic;margin:0 1px;transform:translateY(-1px)}
+.logo .thin{font-weight:400;color:var(--butter)}
+.weekbar{
+  display:flex;align-items:center;gap:12px;margin-left:8px;
+  background:rgba(243,238,226,.08);
+  border:1px solid rgba(243,238,226,.16);
+  border-radius:999px;padding:6px 8px;
+}
+.weekbar button{
+  width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;
+  background:transparent;color:var(--paper);font-size:17px;line-height:1;
+  transition:background .15s;
+}
+.weekbar button:hover{background:rgba(243,238,226,.16)}
+.weekbar .wk{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#CBC3AC;white-space:nowrap}
+.weekbar .wk b{color:var(--paper);font-weight:600}
+.ghosting{flex:1}
+.placing-chip{
+  display:none;align-items:center;gap:10px;
+  background:var(--paprika);color:#fff;border-radius:999px;
+  padding:7px 8px 7px 16px;font-size:13px;font-weight:600;
+  animation:pop .25s ease;
+}
+.placing-chip.on{display:flex}
+.placing-chip small{font-weight:400;opacity:.85}
+.placing-chip button{
+  border:none;background:rgba(0,0,0,.22);color:#fff;width:24px;height:24px;
+  border-radius:50%;cursor:pointer;font-size:13px;line-height:1;
+}
+.placing-chip button:hover{background:rgba(0,0,0,.4)}
+.servings{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(243,238,226,.08);
+  border:1px solid rgba(243,238,226,.16);
+  border-radius:999px;padding:6px 8px;
+}
+.servings .label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#CBC3AC}
+.stepper{display:flex;align-items:center;gap:2px}
+.stepper button{
+  width:28px;height:28px;border-radius:50%;border:1px solid rgba(243,238,226,.25);
+  background:transparent;color:var(--paper);font-size:16px;cursor:pointer;
+  transition:all .15s;
+}
+.stepper button:hover:not(:disabled){background:var(--paprika);border-color:var(--paprika)}
+.stepper button:disabled{opacity:.3;cursor:default}
+.stepper .num{width:34px;text-align:center;font-weight:700;font-size:17px}
+.serving-face{
+  width:38px;height:38px;border-radius:50%;
+  background:conic-gradient(var(--butter) 0 25%, var(--paprika) 0 55%, var(--berry) 0 80%, var(--olive) 0);
+  display:grid;place-items:center;border:2px solid rgba(243,238,226,.4);
+}
+.serving-face span{width:16px;height:16px;border-radius:50%;background:var(--ink);display:block}
+
+/* ---------- layout ---------- */
+main{
+  max-width:1440px;margin:0 auto;padding:26px 32px 40px;
+  display:grid;
+  grid-template-columns:minmax(0,1.9fr) 300px 330px;
+  gap:22px;
+  align-items:start;
+}
+.panel{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+.panel-head{
+  display:flex;align-items:center;gap:10px;
+  padding:16px 20px 12px;
+}
+.panel-head h2{
+  font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:-.01em;
+}
+.panel-head .sub{font-size:12.5px;color:var(--ink-soft)}
+.tag{
+  margin-left:auto;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 10px;border-radius:999px;background:var(--paper-2);color:var(--ink-soft);
+  border:1px solid var(--line);
+}
+.tag.live{background:rgba(95,111,61,.12);color:var(--olive-deep);border-color:rgba(95,111,61,.3)}
+
+/* ---------- calendar ---------- */
+.cal-head{
+  display:grid;grid-template-columns:92px 1fr 1fr 1fr;gap:10px;
+  padding:4px 20px 10px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-soft);font-weight:600;
+}
+.cal-head span:first-child{padding-left:2px}
+.days{padding:0 20px 20px;display:flex;flex-direction:column;gap:10px}
+.day{
+  display:grid;grid-template-columns:92px 1fr 1fr 1fr;gap:10px;align-items:stretch;
+}
+.day-label{
+  display:flex;flex-direction:column;justify-content:center;gap:2px;
+  background:var(--paper);border:1px solid var(--line-soft);border-radius:10px;
+  padding:8px 12px;cursor:pointer;transition:all .15s;
+}
+.day-label .dow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+.day-label .date{font-family:var(--display);font-size:19px;font-weight:600}
+.day-label:hover{border-color:var(--olive)}
+.day-label.sel{background:var(--ink);border-color:var(--ink)}
+.day-label.sel .dow{color:#B7AF97}
+.day-label.sel .date{color:var(--butter)}
+.slot{
+  position:relative;border-radius:10px;min-height:78px;
+  border:1px dashed var(--line);
+  background:transparent;
+  padding:10px 12px 10px 30px;
+  cursor:pointer;text-align:left;font-family:var(--body);
+  transition:all .15s;
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+}
+.slot .sname{font-weight:600;font-size:13.5px;letter-spacing:-.01em;color:var(--ink);line-height:1.25}
+.slot .smeta{font-size:11.5px;color:var(--ink-soft)}
+.slot .dot{
+  position:absolute;left:12px;top:14px;width:9px;height:9px;border-radius:50%;
+}
+.slot .add{
+  position:absolute;right:10px;bottom:9px;width:24px;height:24px;border-radius:8px;
+  border:1px solid var(--line);background:var(--card);color:var(--ink-soft);
+  font-size:15px;line-height:1;cursor:pointer;display:grid;place-items:center;
+  opacity:0;transition:all .15s;
+}
+.slot:hover .add{opacity:1}
+.slot .add:hover{background:var(--paprika);color:#fff;border-color:var(--paprika)}
+.slot .x{
+  position:absolute;right:8px;top:8px;width:20px;height:20px;border-radius:6px;
+  border:none;background:transparent;color:var(--ink-soft);font-size:14px;cursor:pointer;
+  opacity:0;transition:all .15s;line-height:1;
+}
+.slot:hover .x{opacity:1}
+.slot .x:hover{background:rgba(228,87,46,.12);color:var(--paprika-deep)}
+.slot.empty .sname{color:var(--ink-soft);font-weight:400;font-style:italic;font-size:12.5px}
+.slot.filled{
+  background:var(--card);border:1px solid var(--line);
+  box-shadow:0 1px 3px rgba(34,30,21,.07);
+}
+.slot.filled:hover{border-color:var(--ink-soft)}
+body.placing .slot{border-color:var(--paprika);background:rgba(228,87,46,.05);animation:pulse 1.4s ease infinite}
+body.placing .slot:hover{background:rgba(228,87,46,.12);border-style:solid;transform:translateY(-1px)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(228,87,46,.28)}50%{box-shadow:0 0 0 5px rgba(228,87,46,0)}}
+@keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.day.just-set .slot.flash{animation:flash .7s ease}
+@keyframes flash{0%{background:rgba(240,190,69,.5)}100%{background:var(--card)}}
+
+/* ---------- popover ---------- */
+.popover{
+  position:fixed;z-index:100;width:264px;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 18px 44px -12px rgba(34,30,21,.4);
+  padding:6px;display:none;
+}
+.popover.on{display:block;animation:pop .16s ease}
+.popover h4{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);padding:8px 10px 4px;font-weight:600}
+.pop-item{
+  display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+  border:none;background:transparent;border-radius:9px;padding:8px 10px;cursor:pointer;
+  font-family:var(--body);transition:background .12s;
+}
+.pop-item:hover{background:var(--paper)}
+.pop-item .sw{width:26px;height:26px;border-radius:8px;flex:none;display:grid;place-items:center}
+.pop-item .sw i{width:12px;height:12px;border-radius:50%;display:block}
+.pop-item .nm{font-weight:600;font-size:13px;line-height:1.2}
+.pop-item .kc{margin-left:auto;font-size:11.5px;color:var(--ink-soft);white-space:nowrap}
+.pop-clear{
+  margin:6px 6px 4px;width:calc(100% - 12px);border:1px dashed var(--line);
+  background:transparent;border-radius:9px;padding:8px;cursor:pointer;
+  font-family:var(--body);font-size:12.5px;font-weight:600;color:var(--paprika-deep);
+}
+.pop-clear:hover{background:rgba(228,87,46,.08);border-color:var(--paprika)}
+
+/* ---------- recipe shelf ---------- */
+.shelf-scroll{padding:2px 14px 14px;display:flex;flex-direction:column;gap:12px;max-height:684px;overflow-y:auto}
+.shelf-scroll::-webkit-scrollbar{width:8px}
+.shelf-scroll::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.recipe{
+  border:1px solid var(--line);border-radius:12px;background:var(--card);
+  padding:12px;cursor:pointer;transition:all .16s;position:relative;
+}
+.recipe:hover{transform:translateY(-2px);border-color:var(--ink-soft);box-shadow:var(--shadow)}
+.recipe.sel{border-color:var(--paprika);box-shadow:0 0 0 2px var(--paprika), var(--shadow)}
+.recipe .art{border-radius:9px;height:110px;overflow:hidden;margin-bottom:10px}
+.recipe .art svg{width:100%;height:100%;display:block}
+.recipe h3{font-family:var(--display);font-size:16.5px;font-weight:600;letter-spacing:-.01em;line-height:1.2}
+.recipe p{font-size:12px;color:var(--ink-soft);margin-top:3px;line-height:1.4;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.recipe .rrow{display:flex;align-items:center;gap:8px;margin-top:10px}
+.recipe .kcal{font-size:12px;font-weight:700;background:var(--paper-2);border:1px solid var(--line);
+  padding:3px 9px;border-radius:999px}
+.recipe .pro{font-size:11.5px;color:var(--ink-soft)}
+.recipe .addbtn{
+  margin-left:auto;width:30px;height:30px;border-radius:50%;border:none;cursor:pointer;
+  background:var(--olive);color:#fff;font-size:17px;line-height:1;transition:all .15s;
+  display:grid;place-items:center;
+}
+.recipe .addbtn:hover{background:var(--paprika);transform:scale(1.08)}
+.shelf-hint{
+  font-size:11.5px;color:var(--ink-soft);padding:2px 4px 6px;line-height:1.4;
+  border-top:1px dashed var(--line);margin-top:2px;
+}
+.shelf-hint b{color:var(--paprika-deep)}
+
+/* ---------- right column ---------- */
+.rightcol{display:flex;flex-direction:column;gap:22px}
+
+/* nutrition */
+.nutri-body{padding:4px 20px 18px}
+.nutri-day{display:flex;align-items:baseline;gap:8px;margin-bottom:14px}
+.nutri-day .big{font-family:var(--display);font-size:40px;font-weight:600;letter-spacing:-.02em;line-height:1}
+.nutri-day .unit{font-size:13px;color:var(--ink-soft)}
+.nutri-day .for{margin-left:auto;font-size:12px;font-weight:600;color:var(--olive-deep);
+  background:rgba(95,111,61,.1);border:1px solid rgba(95,111,61,.25);padding:4px 10px;border-radius:999px}
+.gauge{position:relative;width:120px;height:120px;margin:0 auto 6px}
+.gauge svg{transform:rotate(-90deg)}
+.gauge .gcenter{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.gauge .gcenter b{font-family:var(--display);font-size:22px;font-weight:600}
+.gauge .gcenter small{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+.macro{margin-top:14px;display:flex;flex-direction:column;gap:11px}
+.macro-row{display:grid;grid-template-columns:52px 1fr 62px;gap:10px;align-items:center;font-size:12.5px}
+.macro-row .ml{font-weight:600;color:var(--ink-soft)}
+.mbar{height:9px;border-radius:99px;background:var(--paper-2);overflow:hidden}
+.mbar i{display:block;height:100%;border-radius:99px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.macro-row .mv{text-align:right;font-weight:700;font-size:12px}
+.nutri-foot{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);
+  font-size:12px;color:var(--ink-soft);display:flex;justify-content:space-between}
+.nutri-foot b{color:var(--ink)}
+
+/* grocery */
+.groc-body{padding:2px 20px 16px;max-height:430px;overflow-y:auto}
+.groc-body::-webkit-scrollbar{width:8px}
+.groc-body::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.gcat{margin-bottom:12px}
+.gcat h4{
+  font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--olive-deep);
+  font-weight:700;padding-bottom:6px;border-bottom:1px solid var(--line-soft);margin-bottom:4px;
+  display:flex;justify-content:space-between;
+}
+.gcat h4 span{color:var(--ink-soft);font-weight:500}
+.gitem{
+  display:flex;align-items:center;gap:11px;padding:7px 4px;cursor:pointer;border-radius:8px;
+  transition:background .12s;
+}
+.gitem:hover{background:var(--paper)}
+.ck{
+  width:19px;height:19px;border-radius:6px;border:1.5px solid var(--ink-soft);
+  flex:none;display:grid;place-items:center;transition:all .15s;background:var(--card);
+}
+.ck svg{opacity:0;transform:scale(.5);transition:all .15s}
+.gitem.done .ck{background:var(--olive);border-color:var(--olive)}
+.gitem.done .ck svg{opacity:1;transform:scale(1)}
+.gitem .gn{font-size:13.5px;font-weight:500;transition:color .15s}
+.gitem.done .gn{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:var(--olive)}
+.gitem .gq{margin-left:auto;font-size:12px;color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
+.groc-foot{
+  position:sticky;bottom:0;margin-top:6px;padding-top:12px;
+  border-top:1px solid var(--line);background:linear-gradient(transparent, var(--card) 30%);
+  display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--ink-soft);
+}
+.groc-foot b{color:var(--ink);font-size:13px}
+
+/* toast */
+.toast{
+  position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);
+  background:var(--ink);color:var(--paper);padding:12px 22px;border-radius:999px;
+  font-size:13.5px;font-weight:500;box-shadow:0 14px 34px -8px rgba(34,30,21,.5);
+  opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.2,.8,.2,1);z-index:200;
+  display:flex;align-items:center;gap:10px;
+}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast .tdot{width:8px;height:8px;border-radius:50%;background:var(--butter)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1240px){
+  main{grid-template-columns:minmax(0,1.7fr) 290px}
+  .rightcol{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .groc-body{max-height:340px}
+}
+@media (max-width:880px){
+  header{flex-wrap:wrap;height:auto;padding:14px 20px;gap:14px}
+  main{grid-template-columns:1fr;padding:18px 16px 32px}
+  .rightcol{grid-template-columns:1fr}
+  .day{grid-template-columns:74px 1fr 1fr 1fr}
+  .cal-head{grid-template-columns:74px 1fr 1fr 1fr}
+  .day-label{padding:6px 8px}
+  .day-label .date{font-size:16px}
+  .slot{min-height:64px;padding:8px 10px 8px 26px}
+  .slot .sname{font-size:12px}
+  .shelf-scroll{max-height:none}
+  .ghosting{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">MEAL<span class="slash">/</span><span class="thin">PLANNER</span></div>
+  <div class="weekbar">
+    <button aria-label="Previous week">‹</button>
+    <span class="wk"><b>Week 32</b> &nbsp;·&nbsp; Aug 12 – 18</span>
+    <button aria-label="Next week">›</button>
+  </div>
+  <div class="ghosting"></div>
+  <div class="placing-chip" id="placingChip">
+    <span id="placingText"></span><small>— click a slot</small>
+    <button id="placingCancel" aria-label="Cancel placing">✕</button>
+  </div>
+  <div class="servings">
+    <span class="label">Servings</span>
+    <div class="stepper">
+      <button id="servMinus" aria-label="Fewer servings">−</button>
+      <span class="num" id="servNum">2</span>
+      <button id="servPlus" aria-label="More servings">+</button>
+    </div>
+    <div class="serving-face" title="Household: the Delgado table"><span></span></div>
+  </div>
+</header>
+
+<main>
+  <!-- ================= CALENDAR ================= -->
+  <section class="panel" aria-label="Weekly calendar">
+    <div class="panel-head">
+      <h2>This week at a glance</h2>
+      <span class="sub">3 meals × 7 days</span>
+      <span class="tag live" id="fillTag">— planned</span>
+    </div>
+    <div class="cal-head">
+      <span></span><span>Breakfast</span><span>Lunch</span><span>Dinner</span>
+    </div>
+    <div class="days" id="days"></div>
+  </section>
+
+  <!-- ================= RECIPE SHELF ================= -->
+  <section class="panel" aria-label="Recipe shelf">
+    <div class="panel-head">
+      <h2>The shelf</h2>
+      <span class="sub">8 in rotation</span>
+    </div>
+    <div class="shelf-scroll" id="shelf"></div>
+    <p class="shelf-hint" style="margin:0 16px 14px">
+      <b>Quick-add:</b> tap a card, then tap any slot on the calendar. Or open a slot directly and pick from the list.
+    </p>
+  </section>
+
+  <!-- ================= RIGHT COLUMN ================= -->
+  <div class="rightcol">
+    <section class="panel" aria-label="Nutrition summary">
+      <div class="panel-head">
+        <h2>Daily fuel</h2>
+        <span class="tag" id="nutriDayTag">Mon</span>
+      </div>
+      <div class="nutri-body">
+        <div class="nutri-day">
+          <span class="big" id="kcalBig">0</span>
+          <span class="unit">kcal<br>total</span>
+          <span class="for" id="nutriFor">× 2 servings</span>
+        </div>
+        <div class="gauge">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--paper-2)" stroke-width="11"/>
+            <circle id="gaugeArc" cx="60" cy="60" r="52" fill="none" stroke="var(--paprika)" stroke-width="11"
+              stroke-linecap="round" stroke-dasharray="0 327"/>
+          </svg>
+          <div class="gcenter"><b id="gaugePct">0%</b><small>of 2,000</small></div>
+        </div>
+        <div class="macro">
+          <div class="macro-row">
+            <span class="ml">Protein</span>
+            <div class="mbar"><i id="barP" style="background:var(--paprika)"></i></div>
+            <span class="mv" id="valP">0 g</span>
+          </div>
+          <div class="macro-row">
+            <span class="ml">Carbs</span>
+            <div class="mbar"><i id="barC" style="background:var(--butter)"></i></div>
+            <span class="mv" id="valC">0 g</span>
+          </div>
+          <div class="macro-row">
+            <span class="ml">Fat</span>
+            <div class="mbar"><i id="barF" style="background:var(--olive)"></i></div>
+            <span class="mv" id="valF">0 g</span>
+          </div>
+        </div>
+        <div class="nutri-foot">
+          <span>Per serving: <b id="perServ">0 kcal</b></span>
+          <span><b id="mealCount">0</b> meals set</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" aria-label="Grocery list">
+      <div class="panel-head">
+        <h2>Groceries</h2>
+        <span class="sub">auto-built from plan</span>
+        <span class="tag" id="grocTag">— items</span>
+      </div>
+      <div class="groc-body" id="grocBody"></div>
+      <div class="groc-foot" style="margin:0 20px 16px">
+        <span id="grocProgress">0 of 0 packed</span>
+        <span>Cost est. <b id="grocCost">$0</b></span>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="popover" id="popover"></div>
+<div class="toast" id="toast"><span class="tdot"></span><span id="toastText"></span></div>
+
+<script>
+/* ==================== DATA ==================== */
+const RECIPES = [
+ {id:"corn", name:"Charred Corn & Bean Bowl", desc:"Black beans, sweet charred corn, avocado crema and lime-cilantro salsa over cilantro rice.",
+  kcal:520,p:22,c:68,f:16, color:"#F0BE45", bg:["#FBE8B8","#F6D47E"],
+  ing:[["Black beans (canned)","cup",1.5,"Pantry"],["Sweet corn","cup",1,"Produce"],["Avocado","pc",0.5,"Produce"],["Lime","pc",1,"Produce"],["Cilantro","bunch",0.25,"Produce"],["Cilantro rice","cup",1.5,"Pantry"]]},
+ {id:"salmon", name:"Miso-Glazed Salmon", desc:"Salmon lacquered with white miso and rice vinegar, over jasmine rice with charred bok choy.",
+  kcal:640,p:42,c:30,f:34, color:"#E88A5E", bg:["#FADFC8","#F4B98E"],
+  ing:[["Salmon fillets","pc",2,"Proteins"],["White miso","tbsp",3,"Pantry"],["Rice vinegar","tbsp",1.5,"Pantry"],["Jasmine rice","cup",1,"Pantry"],["Bok choy","pc",2,"Produce"]]},
+ {id:"wraps", name:"Harissa Chicken Wraps", desc:"Spiced grilled chicken, cucumber and pickled red onion in warm tortillas with harissa-yogurt sauce.",
+  kcal:580,p:38,c:45,f:22, color:"#5F6F3D", bg:["#E5E7CC","#CBD29E"],
+  ing:[["Chicken thighs (bone-in)","pc",2,"Proteins"],["Flour tortillas","pc",3,"Breads & Grains"],["Harissa paste","tbsp",2,"Pantry"],["Greek yogurt","tbsp",3,"Dairy & Eggs"],["Red onion","pc",1,"Produce"],["Cucumber","pc",1,"Produce"]]},
+ {id:"risotto", name:"Wild Mushroom Risotto", desc:"Arborio rice folded through sautéed creminis, parmesan and a splash of white wine.",
+  kcal:610,p:14,c:72,f:24, color:"#B79A6B", bg:["#F1E4C8","#E0C89A"],
+  ing:[["Arborio rice","cup",1,"Pantry"],["Cremini mushrooms","oz",8,"Produce"],["Parmesan","oz",4,"Dairy & Eggs"],["Vegetable stock","cups",3,"Pantry"],["White wine","cup",0.5,"Pantry"],["Butter","tbsp",2,"Dairy & Eggs"]]},
+ {id:"toast", name:"Avocado & Radish Toast", desc:"Thick-cut sourdough smashed avocado, shaved radish, lemon and a shake of chili flakes.",
+  kcal:380,p:10,c:30,f:24, color:"#8FA84E", bg:["#EAF0D3","#D4E0A6"],
+  ing:[["Sourdough (thick cut)","slices",2,"Breads & Grains"],["Avocado","pc",1,"Produce"],["Radishes","pc",4,"Produce"],["Lemon","pc",0.5,"Produce"],["Chili flakes","tsp",1,"Pantry"]]},
+ {id:"parfait", name:"Berry Yogurt Parfait", desc:"Thick Greek yogurt, mixed berries, honey and toasted almond granola layered in a glass.",
+  kcal:340,p:16,c:44,f:12, color:"#8E4A6C", bg:["#F3DCE6","#E4B9CD"],
+  ing:[["Greek yogurt (thick)","cup",1,"Dairy & Eggs"],["Mixed berries","cup",1,"Produce"],["Toasted almond granola","cup",0.5,"Pantry"],["Honey","tbsp",1,"Pantry"]]},
+ {id:"spag", name:"Spaghetti Pomodoro", desc:"Slow-simmered San Marzanos, garlic and basil with a generous grating of parmesan.",
+  kcal:560,p:18,c:78,f:18, color:"#D1482C", bg:["#F9D9C9","#F0B49A"],
+  ing:[["Spaghetti","oz",12,"Pantry"],["San Marzano tomatoes (canned)","can",1,"Pantry"],["Garlic","cloves",4,"Produce"],["Fresh basil","bunch",0.5,"Produce"],["Olive oil","tbsp",3,"Pantry"],["Parmesan","oz",2,"Dairy & Eggs"]]},
+ {id:"chicken", name:"Lemon-Herb Roast Chicken", desc:"Whole-roast chicken with charred potatoes, lemon halves and a thyme-olive oil pan jus.",
+  kcal:650,p:45,c:20,f:40, color:"#C98A2E", bg:["#F7E3BF","#EDC98A"],
+  ing:[["Whole chicken","pc",1,"Proteins"],["Yukon potatoes","pc",3,"Produce"],["Lemon","pc",2,"Produce"],["Fresh thyme","sprigs",4,"Produce"],["Olive oil","tbsp",4,"Pantry"]]},
+];
+const R = Object.fromEntries(RECIPES.map(r=>[r.id,r]));
+
+const DAYS = [
+ {dow:"Mon",date:"Aug 12",meals:["parfait","salmon","risotto"]},
+ {dow:"Tue",date:"Aug 13",meals:["toast","wraps","chicken"]},
+ {dow:"Wed",date:"Aug 14",meals:["parfait","corn","spag"]},
+ {dow:"Thu",date:"Aug 15",meals:[null,"salmon","wraps"]},
+ {dow:"Fri",date:"Aug 16",meals:["toast","risotto",null]},
+ {dow:"Sat",date:"Aug 17",meals:["corn",null,"chicken"]},
+ {dow:"Sun",date:"Aug 18",meals:["parfait","spag",null]},
+];
+const SLOT_LABELS=["Breakfast","Lunch","Dinner"];
+
+let plan = DAYS.map(d=>[...d.meals]);
+let servings = 2;
+let selDay = 0;
+let placing = null;          // recipe id while in placement mode
+let openSlot = null;         // [day, slot] popover target
+const checked = new Set();
+
+/* ==================== SVG ART ==================== */
+function art(id){
+  const r=R[id];
+  const g=(c1,c2)=>`<defs><linearGradient id="g${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${r.bg[0]}"/><stop offset="1" stop-color="${r.bg[1]}"/></linearGradient></defs><rect width="300" height="220" fill="url(#g${id})"/>`;
+  let s="";
+  switch(id){
+    case "corn":
+      s=`${g(r.bg[0],r.bg[1])}
+      <ellipse cx="150" cy="168" rx="98" ry="22" fill="rgba(34,30,21,.12)"/>
+      <path d="M52 118 a98 62 0 0 0 196 0 z" fill="#FFF9EC" stroke="#221E15" stroke-width="3"/>
+      <path d="M52 118 a98 26 0 0 0 196 0" fill="none" stroke="#221E15" stroke-width="3"/>
+      <circle cx="112" cy="112" r="13" fill="#F0BE45" stroke="#221E15" stroke-width="2.5"/>
+      <circle cx="140" cy="104" r="13" fill="#F6CE6B" stroke="#221E15" stroke-width="2.5"/>
+      <circle cx="168" cy="110" r="13" fill="#F0BE45" stroke="#221E15" stroke-width="2.5"/>
+      <ellipse cx="128" cy="138" rx="10" ry="7" fill="#4A3A2A" stroke="#221E15" stroke-width="2"/>
+      <ellipse cx="158" cy="142" rx="10" ry="7" fill="#5C4632" stroke="#221E15" stroke-width="2"/>
+      <ellipse cx="142" cy="126" rx="10" ry="7" fill="#4A3A2A" stroke="#221E15" stroke-width="2"/>
+      <path d="M196 118 q16 -34 44 -22 q-4 34 -44 22z" fill="#8FA84E" stroke="#221E15" stroke-width="2.5"/>
+      <circle cx="226" cy="104" r="7" fill="#46542B"/>
+      <path d="M60 84 a22 22 0 0 1 22 22 h-44 a22 22 0 0 1 22 -22z" fill="#F0BE45" stroke="#221E15" stroke-width="2.5"/>`;
+      break;
+    case "salmon":
+      s=`${g(r.bg[0],r.bg[1])}
+      <ellipse cx="150" cy="164" rx="104" ry="24" fill="#FFF9EC" stroke="#221E15" stroke-width="3"/>
+      <ellipse cx="150" cy="160" rx="78" ry="16" fill="#F3EEE2" stroke="#221E15" stroke-width="2"/>
+      <rect x="86" y="104" width="92" height="46" rx="16" fill="#E88A5E" stroke="#221E15" stroke-width="3"/>
+      <path d="M100 112 q14 12 0 24 M120 112 q14 12 0 24 M140 112 q14 12 0 24 M160 112 q10 12 0 24" stroke="#FBD9C2" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <circle cx="204" cy="150" r="4" fill="#F0BE45"/><circle cx="216" cy="140" r="3" fill="#F0BE45"/>
+      <path d="M196 92 q14 -26 40 -18 q-2 26 -40 18z" fill="#7E9B4E" stroke="#221E15" stroke-width="2.5"/>
+      <path d="M206 104 l22 -14" stroke="#46542B" stroke-width="3" stroke-linecap="round"/>`;
+      break;
+    case "wraps":
+      s=`${g(r.bg[0],r.bg[1])}
+      <ellipse cx="150" cy="170" rx="102" ry="22" fill="rgba(34,30,21,.12)"/>
+      <g transform="rotate(-14 150 120)">
+        <rect x="58" y="88" width="184" height="64" rx="32" fill="#F3E4BE" stroke="#221E15" stroke-width="3"/>
+        <path d="M92 88 q-18 32 0 64 M130 88 q-18 32 0 64 M168 88 q-18 32 0 64 M204 88 q-16 30 0 62" stroke="#D9BE82" stroke-width="3" fill="none"/>
+      </g>
+      <path d="M118 138 q34 18 74 6 q-8 22 -38 22 q-26 0 -36 -28z" fill="#D1482C" stroke="#221E15" stroke-width="2.5"/>
+      <circle cx="106" cy="166" r="9" fill="#DFF0C2" stroke="#221E15" stroke-width="2.5"/><circle cx="106" cy="166" r="4" fill="#8FA84E"/>
+      <circle cx="212" cy="102" r="8" fill="#8E4A6C" stroke="#221E15" stroke-width="2.5"/><circle cx="226" cy="112" r="6" fill="#8E4A6C"/>`;
+      break;
+    case "risotto":
+      s=`${g(r.bg[0],r.bg[1])}
+      <ellipse cx="150" cy="168" rx="98" ry="22" fill="rgba(34,30,21,.12)"/>
+      <path d="M52 116 a98 62 0 0 0 196 0 z" fill="#F7EFD9" stroke="#221E15" stroke-width="3"/>
+      <path d="M52 116 a98 26 0 0 0 196 0" fill="none" stroke="#221E15" stroke-width="3"/>
+      <circle cx="150" cy="102" r="24" fill="#EDE0BE" stroke="#221E15" stroke-width="2.5"/>
+      <path d="M108 96 a16 12 0 0 1 32 0z" fill="#B77B4E" stroke="#221E15" stroke-width="2.5"/><rect x="120" y="96" width="8" height="12" rx="3" fill="#B77B4E" stroke="#221E15" stroke-width="2"/>
+      <path d="M182 92 a14 10 0 0 1 28 0z" fill="#C58B5E" stroke="#221E15" stroke-width="2.5"/><rect x="194" y="92" width="7" height="11" rx="3" fill="#C58B5E" stroke="#221E15" stroke-width="2"/>
+      <path d="M140 78 l14 8 M160 70 l12 10" stroke="#F0BE45" stroke-width="4" stroke-linecap="round"/>`;
+      break;
+    case "toast":
+      s=`${g(r.bg[0],r.bg[1])}
+      <ellipse cx="150" cy="170" rx="100" ry="20" fill="rgba(34,30,21,.12)"/>
+      <rect x="72" y="72" width="156" height="96" rx="18" fill="#D99A4B" stroke="#221E15" stroke-width="3"/>
+      <rect x="84" y="84" width="132" height="72" rx="12" fill="#F3D9A4"/>
+      <path d="M98 100 q52 -20 104 0 q6 26 -10 44 q-52 16 -104 0 q-8 -24 10 -44z" fill="#8FA84E" stroke="#221E15" stroke-width="2.5"/>
+      <ellipse cx="150" cy="122" rx="26" ry="20" fill="#6C8A34" opacity=".55"/>
+      <circle cx="150" cy="122" r="9" fill="#8B5A33" stroke="#221E15" stroke-width="2"/>
+      <circle cx="118" cy="142" r="6" fill="#E4567C" stroke="#221E15" stroke-width="2"/><circle cx="184" cy="144" r="5" fill="#E4567C" stroke="#221E15" stroke-width="2"/>
+      <circle cx="158" cy="98" r="3" fill="#D1482C"/><circle cx="136" cy="104" r="2.5" fill="#D1482C"/>`;
+      break;
+    case "parfait":
+      s=`${g(r.bg[0],r.bg[1])}
+      <ellipse cx="150" cy="176" rx="66" ry="16" fill="rgba(34,30,21,.12)"/>
+      <path d="M104 52 h92 l-10 118 a10 10 0 0 1 -10 9 h-52 a10 10 0 0 1 -10 -9 z" fill="#FDFBF6" stroke="#221E15" stroke-width="3"/>
+      <path d="M107 84 h86 l-2 22 h-82z" fill="#F0EBDF"/>
+      <path d="M109 106 h82 l-2 22 h-78z" fill="#8E4A6C"/>
+      <path d="M111 128 h78 l-2 22 h-74z" fill="#D9A44B"/>
+      <circle cx="134" cy="46" r="10" fill="#8E4A6C" stroke="#221E15" stroke-width="2.5"/>
+      <circle cx="156" cy="40" r="10" fill="#C2452E" stroke="#221E15" stroke-width="2.5"/>
+      <circle cx="176" cy="48" r="9" fill="#5B3A8C" stroke="#221E15" stroke-width="2.5"/>
+      <rect x="146" y="12" width="5" height="26" rx="2.5" fill="#8B5A33" transform="rotate(18 148 25)"/>`;
+      break;
+    case "spag":
+      s=`${g(r.bg[0],r.bg[1])}
+      <ellipse cx="150" cy="166" rx="104" ry="24" fill="#FFF9EC" stroke="#221E15" stroke-width="3"/>
+      <path d="M88 140 a62 34 0 1 1 124 0" fill="none" stroke="#E8B14C" stroke-width="7" stroke-linecap="round"/>
+      <path d="M100 148 a52 26 0 1 1 100 0" fill="none" stroke="#D99A2E" stroke-width="7" stroke-linecap="round"/>
+      <path d="M114 154 a40 18 0 1 1 74 0" fill="none" stroke="#E8B14C" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="120" cy="118" r="11" fill="#D1482C" stroke="#221E15" stroke-width="2.5"/>
+      <circle cx="192" cy="120" r="9" fill="#D1482C" stroke="#221E15" stroke-width="2.5"/>
+      <path d="M150 96 q10 -18 26 -14 q-6 20 -26 14z" fill="#5F6F3D" stroke="#221E15" stroke-width="2"/>
+      <path d="M144 102 q-14 -10 -28 -4 q10 14 28 4z" fill="#6E7F47" stroke="#221E15" stroke-width="2"/>
+      <path d="M138 132 l12 6 M166 140 l-10 4" stroke="#F7EFD9" stroke-width="5" stroke-linecap="round"/>`;
+      break;
+    case "chicken":
+      s=`${g(r.bg[0],r.bg[1])}
+      <ellipse cx="150" cy="168" rx="106" ry="24" fill="#FFF6E3" stroke="#221E15" stroke-width="3"/>
+      <ellipse cx="150" cy="160" rx="76" ry="15" fill="#F0E0BE"/>
+      <g transform="rotate(-18 148 118)">
+        <ellipse cx="126" cy="124" rx="44" ry="30" fill="#D98E3B" stroke="#221E15" stroke-width="3"/>
+        <path d="M158 144 l28 16 a13 13 0 1 0 8 -22 l-14 -6z" fill="#E8B14C" stroke="#221E15" stroke-width="3"/>
+        <path d="M104 112 q20 -14 44 -6" stroke="#F3D9A4" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </g>
+      <circle cx="214" cy="142" r="14" fill="#EFD9A0" stroke="#221E15" stroke-width="2.5"/>
+      <circle cx="192" cy="152" r="11" fill="#F3E4BE" stroke="#221E15" stroke-width="2.5"/>
+      <path d="M84 128 a20 20 0 0 1 20 -20 v20z" fill="#F0BE45" stroke="#221E15" stroke-width="2.5"/>
+      <path d="M92 132 l14 -12 M88 138 l12 -8" stroke="#C98A2E" stroke-width="2.5"/>
+      <path d="M132 84 q6 -12 16 -10 M156 80 q4 -10 14 -9" stroke="#5F6F3D" stroke-width="3.5" fill="none" stroke-linecap="round"/>`;
+      break;
+  }
+  return `<svg viewBox="0 0 300 220" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${r.name}">${s}</svg>`;
+}
+
+/* ==================== STATE HELPERS ==================== */
+const fmt = n => {
+  if(Number.isInteger(n)) return n.toLocaleString();
+  const r = Math.round(n*2)/2;
+  return r.toLocaleString(undefined,{maximumFractionDigits:1});
+};
+const slotName = s => SLOT_LABELS[s];
+function toast(msg){
+  const t=document.getElementById("toast");
+  document.getElementById("toastText").textContent=msg;
+  t.classList.add("on");
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("on"),2400);
+}
+
+/* ==================== RENDER: CALENDAR ==================== */
+function renderCalendar(){
+  const el=document.getElementById("days");
+  el.innerHTML=DAYS.map((d,di)=>`
+    <div class="day" data-di="${di}">
+      <button class="day-label ${di===selDay?'sel':''}" data-di="${di}" title="Show nutrition for ${d.dow}">
+        <span class="dow">${d.dow}</span><span class="date">${d.date}</span>
+      </button>
+      ${[0,1,2].map(si=>{
+        const rid=plan[di][si], r=rid?R[rid]:null;
+        return `<button class="slot ${r?'filled':'empty'}" data-di="${di}" data-si="${si}"
+            aria-label="${d.dow} ${slotName(si)}: ${r?r.name:'empty'}">
+          ${r?`<span class="dot" style="background:${r.color}"></span>
+               <span class="sname">${r.name}</span>
+               <span class="smeta">${r.kcal} kcal · ${r.p} g protein</span>
+               <span class="x" data-x="1" title="Clear slot">✕</span>`
+             :`<span class="sname">not planned</span>`}
+          <span class="add" title="Add a recipe">+</span>
+        </button>`;
+      }).join("")}
+    </div>`).join("");
+  // fill tag
+  const filled=plan.flat().filter(Boolean).length;
+  document.getElementById("fillTag").textContent=`${filled}/21 planned`;
+}
+
+/* ==================== RENDER: SHELF ==================== */
+function renderShelf(){
+  document.getElementById("shelf").innerHTML=RECIPES.map(r=>`
+    <article class="recipe ${placing===r.id?'sel':''}" data-rid="${r.id}" tabindex="0">
+      <div class="art">${art(r.id)}</div>
+      <h3>${r.name}</h3>
+      <p>${r.desc}</p>
+      <div class="rrow">
+        <span class="kcal">${r.kcal} kcal</span>
+        <span class="pro">${r.p}g P</span>
+        <button class="addbtn" data-add="${r.id}" title="Quick-add ${r.name}" aria-label="Quick-add ${r.name}">+</button>
+      </div>
+    </article>`).join("");
+}
+
+/* ==================== RENDER: NUTRITION ==================== */
+function renderNutrition(){
+  const meals=plan[selDay].filter(Boolean);
+  const per=meals.reduce((a,rid)=>{
+    const r=R[rid]; return {k:a.k+r.kcal,p:a.p+r.p,c:a.c+r.c,f:a.f+r.f};
+  },{k:0,p:0,c:0,f:0});
+  const tot={k:per.k*servings,p:per.p*servings,c:per.c*servings,f:per.f*servings};
+  document.getElementById("nutriDayTag").textContent=DAYS[selDay].dow;
+  document.getElementById("kcalBig").textContent=fmt(tot.k);
+  document.getElementById("nutriFor").textContent=`× ${servings} serving${servings>1?'s':''}`;
+  document.getElementById("perServ").textContent=fmt(per.k)+" kcal";
+  document.getElementById("mealCount").textContent=meals.length;
+  const pct=Math.min(100, tot.k/20);
+  const C=2*Math.PI*52;
+  document.getElementById("gaugeArc").setAttribute("stroke-dasharray",`${C*pct/100} ${C}`);
+  document.getElementById("gaugeArc").setAttribute("stroke", pct>95?"var(--paprika-deep)": pct>70?"var(--paprika)":"var(--olive)");
+  document.getElementById("gaugePct").textContent=Math.round(pct)+"%";
+  const max=Math.max(tot.p,tot.c,tot.f,1);
+  document.getElementById("barP").style.width=(tot.p/max*100)+"%";
+  document.getElementById("barC").style.width=(tot.c/max*100)+"%";
+  document.getElementById("barF").style.width=(tot.f/max*100)+"%";
+  document.getElementById("valP").textContent=fmt(tot.p)+" g";
+  document.getElementById("valC").textContent=fmt(tot.c)+" g";
+  document.getElementById("valF").textContent=fmt(tot.f)+" g";
+}
+
+/* ==================== RENDER: GROCERY ==================== */
+function buildGrocery(){
+  const map=new Map();
+  plan.flat().forEach(rid=>{
+    if(!rid) return;
+    R[rid].ing.forEach(([name,unit,qty,cat])=>{
+      const key=name+"|"+unit;
+      const cur=map.get(key)||{name,unit,cat,qty:0};
+      cur.qty+=qty*servings;
+      map.set(key,cur);
+    });
+  });
+  const cats=["Produce","Proteins","Dairy & Eggs","Breads & Grains","Pantry"];
+  const body=document.getElementById("grocBody");
+  let total=0;
+  body.innerHTML=cats.map(cat=>{
+    const items=[...map.values()].filter(i=>i.cat===cat).sort((a,b)=>a.name.localeCompare(b.name));
+    if(!items.length) return "";
+    total+=items.length;
+    return `<div class="gcat"><h4>${cat}<span>${items.length}</span></h4>`+
+      items.map(i=>{
+        const key=i.name+"|"+i.unit;
+        const done=checked.has(key);
+        return `<div class="gitem ${done?'done':''}" data-key="${key}">
+          <span class="ck"><svg width="11" height="11" viewBox="0 0 12 12"><path d="M2 6.5 L4.8 9.5 L10 3" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="gn">${i.name}</span>
+          <span class="gq">${fmt(i.qty)} ${i.unit}</span>
+        </div>`;
+      }).join("")+`</div>`;
+  }).join("");
+  document.getElementById("grocTag").textContent=`${total} items`;
+  const packed=[...checked].filter(k=>map.has(k)).length;
+  document.getElementById("grocProgress").innerHTML=`<b>${packed}</b> of ${total} packed`;
+  document.getElementById("grocCost").textContent="$"+fmt(68*servings/2+total*0.9);
+}
+function renderAll(){renderCalendar();renderNutrition();buildGrocery();}
+
+/* ==================== PLACEMENT MODE ==================== */
+function setPlacing(rid){
+  placing = (placing===rid)? null : rid;
+  document.body.classList.toggle("placing", !!placing);
+  const chip=document.getElementById("placingChip");
+  chip.classList.toggle("on", !!placing);
+  if(placing) document.getElementById("placingText").textContent=R[placing].name;
+  renderShelf();
+}
+document.getElementById("placingCancel").addEventListener("click",()=>setPlacing(placing));
+
+/* ==================== POPOVER ==================== */
+const pop=document.getElementById("popover");
+function openPopover(di,si,anchor){
+  openSlot=[di,si];
+  const cur=plan[di][si];
+  pop.innerHTML=`<h4>${DAYS[di].dow} · ${slotName(si)}</h4>`+
+    RECIPES.map(r=>`
+      <button class="pop-item" data-rid="${r.id}">
+        <span class="sw" style="background:${r.bg[1]}"><i style="background:${r.color}"></i></span>
+        <span class="nm">${r.name}</span>
+        <span class="kc">${r.kcal} kcal</span>
+      </button>`).join("")+
+    (cur?`<button class="pop-clear" data-clear="1">Clear this meal</button>`:``);
+  pop.classList.add("on");
+  const pr=pop.getBoundingClientRect();
+  const ar=anchor.getBoundingClientRect();
+  let x=ar.right+10, y=ar.top;
+  if(x+pr.width>window.innerWidth-12) x=ar.left-pr.width-10;
+  if(x<12) x=12;
+  y=Math.min(y, window.innerHeight-pr.height-12);
+  if(y<12) y=12;
+  pop.style.left=x+"px"; pop.style.top=y+"px";
+}
+function closePopover(){pop.classList.remove("on");openSlot=null;}
+pop.addEventListener("click",e=>{
+  const it=e.target.closest("[data-rid]");
+  const cl=e.target.closest("[data-clear]");
+  if(openSlot){
+    const [di,si]=openSlot;
+    if(it){assign(di,si,it.dataset.rid);closePopover();}
+    else if(cl){plan[di][si]=null;closePopover();renderAll();flash(di,si);toast("Slot cleared");}
+  }
+});
+document.addEventListener("click",e=>{
+  if(openSlot && !e.target.closest("#popover") && !e.target.closest(".slot") && !e.target.closest(".add")) closePopover();
+});
+
+/* ==================== ASSIGN ==================== */
+function assign(di,si,rid){
+  plan[di][si]=rid;
+  renderAll();
+  flash(di,si);
+  toast(`${R[rid].name} → ${DAYS[di].dow} · ${slotName(si)}`);
+}
+function flash(di,si){
+  requestAnimationFrame(()=>{
+    const slot=document.querySelector(`.slot[data-di="${di}"][data-si="${si}"]`);
+    if(slot){slot.classList.add("flash");setTimeout(()=>slot.classList.remove("flash"),700);}
+  });
+}
+
+/* ==================== EVENTS: CALENDAR ==================== */
+document.getElementById("days").addEventListener("click",e=>{
+  const xl=e.target.closest("[data-x]");
+  if(xl){
+    e.stopPropagation();
+    const s=xl.closest(".slot");
+    const di=+s.dataset.di, si=+s.dataset.si;
+    plan[di][si]=null; renderAll(); flash(di,si); toast("Slot cleared");
+    return;
+  }
+  const dl=e.target.closest(".day-label");
+  if(dl && !e.target.closest(".slot")){
+    selDay=+dl.dataset.di; renderCalendar(); renderNutrition();
+    return;
+  }
+  const s=e.target.closest(".slot");
+  if(s){
+    e.stopPropagation();
+    const di=+s.dataset.di, si=+s.dataset.si;
+    if(placing){
+      assign(di,si,placing);
+      setPlacing(placing);
+    } else {
+      openPopover(di,si,s);
+    }
+  }
+});
+
+/* ==================== EVENTS: SHELF ==================== */
+document.getElementById("shelf").addEventListener("click",e=>{
+  const add=e.target.closest("[data-add]");
+  const card=e.target.closest("[data-rid]");
+  if(!card) return;
+  const rid=card.dataset.rid;
+  // find first empty slot in current week, else selected day's first slot
+  let target=null;
+  for(let di=0; di<7 && !target; di++)
+    for(let si=0; si<3 && !target; si++)
+      if(!plan[di][si]) target=[di,si];
+  if(add){
+    if(!target) target=[selDay,0];
+    assign(target[0],target[1],rid);
+    return;
+  }
+  e.stopPropagation();
+  setPlacing(rid);
+  if(placing) toast(`Placing “${R[rid].name}” — pick a slot`);
+});
+document.getElementById("shelf").addEventListener("keydown",e=>{
+  const card=e.target.closest("[data-rid]");
+  if(card && e.key==="Enter") setPlacing(card.dataset.rid);
+});
+
+/* ==================== EVENTS: SERVINGS ==================== */
+function setServings(n){
+  servings=Math.max(1,Math.min(8,n));
+  document.getElementById("servNum").textContent=servings;
+  document.getElementById("servMinus").disabled=servings<=1;
+  document.getElementById("servPlus").disabled=servings>=8;
+  renderNutrition(); buildGrocery();
+}
+document.getElementById("servMinus").addEventListener("click",()=>setServings(servings-1));
+document.getElementById("servPlus").addEventListener("click",()=>setServings(servings+1));
+
+/* ==================== EVENTS: GROCERY CHECK ==================== */
+document.getElementById("grocBody").addEventListener("click",e=>{
+  const it=e.target.closest(".gitem");
+  if(!it) return;
+  const k=it.dataset.key;
+  if(checked.has(k)) checked.delete(k); else checked.add(k);
+  buildGrocery();
+  const packed=[...checked].filter(k=>k).length;
+});
+
+/* ==================== INIT ==================== */
+renderShelf();
+renderAll();
+setServings(2);
+</script>
+</body>
+</html>

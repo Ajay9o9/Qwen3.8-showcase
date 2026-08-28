@@ -4,6 +4,15 @@
 Every card links to the original HTML page, so a demo can be opened directly or
 shown in a clean presentation view. Three.js scenes are not part of this repo.
 
+## Prompts
+
+The one-shot prompts are in the git repo, not on the public gallery:
+
+- [`PROMPTS.md`](PROMPTS.md) — readable
+- [`prompts.json`](prompts.json) — machine-readable
+
+Each generated page is a single sample from that user prompt plus the shared system prompt.
+
 ## What is included
 
 The public gallery is a hand-picked subset of local Qwen 3.8 27B runs. Use
